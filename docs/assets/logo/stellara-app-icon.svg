@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-17 -17 134 134" role="img" aria-label="Stellara">
+  <title>Stellara</title>
+  <rect x="-17" y="-17" width="134" height="134" rx="30" fill="#FCE1EA"/>
+  <path d="M50 27.5 Q49 22 50 17" stroke="#2D6537" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M50 18.5 C44 9 35 8.5 30.5 12.5 C34.5 19.5 43.5 21.5 50 18.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M50 16.5 C55 6 65.5 3.5 70.5 7.5 C67.5 15.5 57.5 19.5 50 16.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="3.6" fill="#C23A68" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45.94 32.93Q50.00 27.00 54.06 32.93L58.80 39.84Q61.29 43.47 65.50 44.71L73.54 47.08Q80.43 49.11 76.05 54.81L70.94 61.45Q68.26 64.93 68.38 69.32L68.61 77.70Q68.81 84.89 62.04 82.48L54.14 79.67Q50.00 78.20 45.86 79.67L37.96 82.48Q31.19 84.89 31.39 77.70L31.62 69.32Q31.74 64.93 29.06 61.45L23.95 54.81Q19.57 49.11 26.46 47.08L34.50 44.71Q38.71 43.47 41.20 39.84Z" fill="#F6C445" stroke="#3A2430" stroke-width="2.6" stroke-linejoin="round"/>
+  <ellipse cx="35.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/><ellipse cx="64.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/>
+  <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
+  <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>

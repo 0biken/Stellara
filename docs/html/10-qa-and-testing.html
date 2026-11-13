@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QA and testing · Stellara docs</title>
+<script>try{var t=localStorage.getItem("stellara-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script><meta name="color-scheme" content="light dark">
+<style>
+:root{--bg:#FFF8F1;--surface:#FFFFFF;--surface-2:#FCEFE6;--fg:#3A2430;--muted:#76606A;--line:#F0DCD3;--accent:#C23A68;--accent-ink:#A12E57;--accent-soft:#FCE1EA;--code:#FCEFE6;--honey:#F6C445;--matcha:#86BF7E;--matcha-soft:#E1F2DB;--wordmark:#A12E57;color-scheme:light;--font-display:"Nunito","Inter",system-ui,sans-serif;--font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 var(--font-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;line-height:1.2;letter-spacing:-.01em;text-wrap:balance;scroll-margin-top:72px}
+h1{font-size:36px;margin:0 0 18px} h2{font-size:24px;margin:44px 0 12px;padding-top:20px;border-top:1px solid var(--line)} h3{font-size:18px;font-weight:700;margin:28px 0 8px} h4{font-size:16px;font-weight:700}
+p,ul,ol{margin:0 0 14px;max-width:72ch}
+li{margin:4px 0}
+blockquote{margin:0 0 16px;padding:12px 16px;border-left:4px solid var(--matcha);background:var(--matcha-soft);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+code{font-family:var(--mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:6px}
+pre.code{background:var(--code);padding:14px 16px;border-radius:14px;overflow-x:auto;font-size:13px;line-height:1.5;max-width:100%}
+pre.code code{background:none;padding:0}
+pre.mermaid{background:#FFFFFF;color:#3A2430;border:1px solid var(--line);border-radius:14px;padding:16px;overflow-x:auto;text-align:center}
+.table-wrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+input[type=checkbox]{margin-right:6px}
+.theme{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px}
+.theme button{font:500 12px var(--font-body);border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;cursor:pointer;min-height:30px}
+.theme button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(58,36,48,.2)}
+.wordmark{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;color:var(--wordmark);font-size:21px;line-height:1}
+.brand{display:flex;gap:8px;align-items:center}
+.brand svg{width:30px;height:30px;flex:none}
+.brand small{font:500 13px var(--font-body);color:var(--muted);margin-left:2px}
+.dimmable svg{transition:filter .2s ease}
+:root[data-theme="dark"] .dimmable svg{filter:brightness(.9)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dimmable svg{filter:brightness(.9)}}
+
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:36px;max-width:1200px;margin:0 auto;padding:0 16px}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0;display:grid;align-content:start;gap:2px}
+aside .top{display:grid;gap:10px;margin-bottom:12px}
+aside a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:14px}
+aside a[aria-current]{background:var(--accent-soft);color:var(--accent-ink)}
+main{padding:28px 0 80px;min-width:0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;max-width:720px}
+.gallery figure{margin:0;text-align:center;font-size:13px;color:var(--muted)}.gallery img{width:100%}
+:root[data-theme="dark"] .gallery img{filter:brightness(.9)}
+@media (max-width:820px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}}
+</style></head>
+<body><div class="shell"><aside><div class="top"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+  
+  <path d="M50 27.5 Q49 22 50 17" stroke="#2D6537" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M50 18.5 C44 9 35 8.5 30.5 12.5 C34.5 19.5 43.5 21.5 50 18.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M50 16.5 C55 6 65.5 3.5 70.5 7.5 C67.5 15.5 57.5 19.5 50 16.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="3.6" fill="#C23A68" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45.94 32.93Q50.00 27.00 54.06 32.93L58.80 39.84Q61.29 43.47 65.50 44.71L73.54 47.08Q80.43 49.11 76.05 54.81L70.94 61.45Q68.26 64.93 68.38 69.32L68.61 77.70Q68.81 84.89 62.04 82.48L54.14 79.67Q50.00 78.20 45.86 79.67L37.96 82.48Q31.19 84.89 31.39 77.70L31.62 69.32Q31.74 64.93 29.06 61.45L23.95 54.81Q19.57 49.11 26.46 47.08L34.50 44.71Q38.71 43.47 41.20 39.84Z" fill="#F6C445" stroke="#3A2430" stroke-width="2.6" stroke-linejoin="round"/>
+  <ellipse cx="35.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/><ellipse cx="64.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/>
+  <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
+  <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html" aria-current="page">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a></aside><main><h1 id="10--qa-and-testing">10 · QA and testing</h1>
+<h2 id="1-test-pyramid">1. Test pyramid</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Layer</th>
+<th>Tool</th>
+<th>Scope</th>
+<th>Gate</th>
+</tr>
+</thead><tbody><tr>
+<td>Rules unit tests</td>
+<td>Vitest</td>
+<td><code>packages/rules</code>: every fixture in <a href="02-learning-rules.html#10-fixtures">02 §10</a>, plus property tests</td>
+<td>100% of fixtures pass; branch coverage ≥ 90%</td>
+</tr>
+<tr>
+<td>Schema and RLS</td>
+<td>pgTAP</td>
+<td>Every table policy: allow and deny cases; constraints (consent, append-only, publish checks)</td>
+<td>All pass</td>
+</tr>
+<tr>
+<td>Edge Functions</td>
+<td>Deno test + local Supabase</td>
+<td>Contracts in <a href="06-api-and-events.html">06</a>, idempotency, rate limits</td>
+<td>All pass</td>
+</tr>
+<tr>
+<td>Components</td>
+<td>Storybook + axe + visual snapshots</td>
+<td>Every state in <a href="08-design-system.html#6-components">08 §6</a></td>
+<td>No axe violations</td>
+</tr>
+<tr>
+<td>End to end</td>
+<td>Playwright (mobile viewport, throttled)</td>
+<td>Key journeys (§2)</td>
+<td>All pass on Chromium mobile and WebKit</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Lighthouse CI + bundle check</td>
+<td>Budgets in <a href="09-frontend-guidelines.html#4-performance-budgets">09 §4</a></td>
+<td>Within budget</td>
+</tr>
+<tr>
+<td>Manual</td>
+<td>Device lab, TalkBack, school walkthrough</td>
+<td>Release checklist (§6)</td>
+<td>Signed off</td>
+</tr>
+</tbody></table></div>
+<h2 id="2-key-journeys-playwright">2. Key journeys (Playwright)</h2>
+<ol>
+<li>School admin invites a teacher → the teacher creates a class → gets a join code.</li>
+<li>A parent signs up with an OTP → consents → creates a child with the join code.</li>
+<li>The child sets a PIN → does the placement check → sees the sky.</li>
+<li>The child takes a lesson → practice set → mastery changes appear.</li>
+<li>The child downloads a pack → goes offline → answers 10 items → comes back online → sync → the day is credited.</li>
+<li>The child starts a practice test → loses connection for 3 minutes → keeps answering → reconnects → finishes; the score is correct.</li>
+<li>The child closes the app mid-test twice → resumes → the third resume is refused and the test is finalised.</li>
+<li>A teacher assigns a set → the child sees it first → the teacher sees completion.</li>
+<li>Weekly report generation → the parent opens the report → no forbidden phrases (§4).</li>
+<li>The parent requests export and deletion → requests are fulfilled within the SLA in staging.</li>
+</ol>
+<h2 id="3-offline-and-interruption-matrix">3. Offline and interruption matrix</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Scenario</th>
+<th>Expected</th>
+</tr>
+</thead><tbody><tr>
+<td>Airplane mode mid-practice set</td>
+<td>Answers saved; &quot;Saved, will sync&quot; note; no data lost</td>
+</tr>
+<tr>
+<td>Tab killed by the OS during a set</td>
+<td>Reopening resumes at the next unanswered item</td>
+</tr>
+<tr>
+<td>Device clock 2 hours wrong</td>
+<td>Server receive time used for the learning day</td>
+</tr>
+<tr>
+<td>Sync after 80 hours offline</td>
+<td>Responses stored; the day is not credited for the streak</td>
+</tr>
+<tr>
+<td>Two children on one phone</td>
+<td>No mixing of outboxes or caches</td>
+</tr>
+<tr>
+<td>Duplicate submission (retry)</td>
+<td>One attempt row per <code>client_id</code></td>
+</tr>
+<tr>
+<td>Low storage (&lt; 50 MB free)</td>
+<td>Packs refuse to download, with a clear message</td>
+</tr>
+<tr>
+<td>2G (≈ 50 kbps)</td>
+<td>Shell loads from cache; set starts within 10 s when online</td>
+</tr>
+</tbody></table></div>
+<h2 id="4-content-and-copy-checks">4. Content and copy checks</h2>
+<ul>
+<li>Automatic: publish checks (<a href="03-curriculum-and-content.html#6-workflow">03 §6</a>); maths renders; images have alt text; readability score.</li>
+<li>Forbidden-phrase lint across i18n catalogues, WhatsApp/SMS templates and email templates: <code>weak</code>, <code>failed</code>, <code>ready for</code>, <code>guarantee</code>, <code>don&#39;t lose</code>, <code>hurry</code>, <code>expo</code>, <code>runz</code>, <code>live question</code>, <code>AI</code>, <code>streak</code>, <code>behind</code>, <code>last chance</code>, <code>dear parent</code>, <code>do not reply</code>, <code>(s)</code>, <code>light mode</code>, <code>dark mode</code>.</li>
+<li>Message checks: SMS templates are GSM-7 only and one segment (160 characters) with the longest sample values; email subjects ≤ 45 characters and preheaders ≤ 90 (<code>node docs/tools/emails.mjs</code> warns); every email has a plain-text version.</li>
+<li>Email rendering: each template checked in Gmail (Android and web), Outlook, Apple Mail and Yahoo, in light and dark, before first use.</li>
+<li>Theme check: every Storybook story and every key journey runs axe and a visual snapshot in <strong>both light and dark</strong> (Playwright <code>colorScheme: &#39;light&#39; | &#39;dark&#39;</code>), plus once with <code>data-theme</code> forced against the opposite device setting.</li>
+<li>Sampling: 10% of newly published items each week get a second reviewer; the error rate must stay below 1%.</li>
+</ul>
+<h2 id="5-device-lab-minimum">5. Device lab (minimum)</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Device</th>
+<th>Why</th>
+</tr>
+</thead><tbody><tr>
+<td>Entry Android Go phone (2 GB RAM)</td>
+<td>Worst realistic case</td>
+</tr>
+<tr>
+<td>Mid-range Android (₦100k–150k, 3–4 GB)</td>
+<td>Reference device</td>
+</tr>
+<tr>
+<td>Samsung tablet (school use)</td>
+<td>Class mode</td>
+</tr>
+<tr>
+<td>Older iPhone (iOS 16)</td>
+<td>Parents on iOS</td>
+</tr>
+<tr>
+<td>Shared Windows PC with Chrome</td>
+<td>School computer labs</td>
+</tr>
+</tbody></table></div>
+<h2 id="6-release-checklist">6. Release checklist</h2>
+<ul>
+<li><input disabled="" type="checkbox"> All automated gates green</li>
+<li><input disabled="" type="checkbox"> Rules version bumped if any rule changed; fixtures updated</li>
+<li><input disabled="" type="checkbox"> Migrations reviewed, reversible or with a documented forward-fix</li>
+<li><input disabled="" type="checkbox"> TalkBack pass on the key journeys</li>
+<li><input disabled="" type="checkbox"> Key journeys checked by eye in light and dark on the reference device</li>
+<li><input disabled="" type="checkbox"> <code>node docs/tools/tokens.mjs</code> passes (contrast, both themes)</li>
+<li><input disabled="" type="checkbox"> Manual offline run on the entry device</li>
+<li><input disabled="" type="checkbox"> Forbidden-phrase lint clean</li>
+<li><input disabled="" type="checkbox"> Privacy review if new data or a new processor is involved</li>
+<li><input disabled="" type="checkbox"> Release notes for schools (plain language)</li>
+</ul>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>(function(){var r=document.documentElement,b=[].slice.call(document.querySelectorAll(".theme button"));function cur(){try{return localStorage.getItem("stellara-theme")||"auto"}catch(e){return r.getAttribute("data-theme")||"auto"}}function set(p){if(p==="light"||p==="dark")r.setAttribute("data-theme",p);else r.removeAttribute("data-theme");try{if(p==="auto")localStorage.removeItem("stellara-theme");else localStorage.setItem("stellara-theme",p)}catch(e){}b.forEach(function(x){x.setAttribute("aria-pressed",String(x.dataset.set===p))})}b.forEach(function(x){x.addEventListener("click",function(){set(x.dataset.set)})});set(r.getAttribute("data-theme")||cur())})();if(window.mermaid){mermaid.initialize({startOnLoad:true,theme:"base",themeVariables:{primaryColor:"#FCE1EA",primaryBorderColor:"#C23A68",primaryTextColor:"#3A2430",lineColor:"#A12E57",secondaryColor:"#E1F2DB",tertiaryColor:"#FFF2CC",fontFamily:"Inter, sans-serif"}});}</script>
+</body></html>

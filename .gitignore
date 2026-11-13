@@ -1,0 +1,6 @@
+node_modules/
+graphify-out/cache/
+.env*
+.superpowers/
+# Machine-local Graphify scratch state; share the graph and report instead.
+graphify-out/.graphify*

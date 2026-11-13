@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Frontend guidelines · Stellara docs</title>
+<script>try{var t=localStorage.getItem("stellara-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script><meta name="color-scheme" content="light dark">
+<style>
+:root{--bg:#FFF8F1;--surface:#FFFFFF;--surface-2:#FCEFE6;--fg:#3A2430;--muted:#76606A;--line:#F0DCD3;--accent:#C23A68;--accent-ink:#A12E57;--accent-soft:#FCE1EA;--code:#FCEFE6;--honey:#F6C445;--matcha:#86BF7E;--matcha-soft:#E1F2DB;--wordmark:#A12E57;color-scheme:light;--font-display:"Nunito","Inter",system-ui,sans-serif;--font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 var(--font-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;line-height:1.2;letter-spacing:-.01em;text-wrap:balance;scroll-margin-top:72px}
+h1{font-size:36px;margin:0 0 18px} h2{font-size:24px;margin:44px 0 12px;padding-top:20px;border-top:1px solid var(--line)} h3{font-size:18px;font-weight:700;margin:28px 0 8px} h4{font-size:16px;font-weight:700}
+p,ul,ol{margin:0 0 14px;max-width:72ch}
+li{margin:4px 0}
+blockquote{margin:0 0 16px;padding:12px 16px;border-left:4px solid var(--matcha);background:var(--matcha-soft);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+code{font-family:var(--mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:6px}
+pre.code{background:var(--code);padding:14px 16px;border-radius:14px;overflow-x:auto;font-size:13px;line-height:1.5;max-width:100%}
+pre.code code{background:none;padding:0}
+pre.mermaid{background:#FFFFFF;color:#3A2430;border:1px solid var(--line);border-radius:14px;padding:16px;overflow-x:auto;text-align:center}
+.table-wrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+input[type=checkbox]{margin-right:6px}
+.theme{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px}
+.theme button{font:500 12px var(--font-body);border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;cursor:pointer;min-height:30px}
+.theme button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(58,36,48,.2)}
+.wordmark{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;color:var(--wordmark);font-size:21px;line-height:1}
+.brand{display:flex;gap:8px;align-items:center}
+.brand svg{width:30px;height:30px;flex:none}
+.brand small{font:500 13px var(--font-body);color:var(--muted);margin-left:2px}
+.dimmable svg{transition:filter .2s ease}
+:root[data-theme="dark"] .dimmable svg{filter:brightness(.9)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dimmable svg{filter:brightness(.9)}}
+
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:36px;max-width:1200px;margin:0 auto;padding:0 16px}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0;display:grid;align-content:start;gap:2px}
+aside .top{display:grid;gap:10px;margin-bottom:12px}
+aside a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:14px}
+aside a[aria-current]{background:var(--accent-soft);color:var(--accent-ink)}
+main{padding:28px 0 80px;min-width:0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;max-width:720px}
+.gallery figure{margin:0;text-align:center;font-size:13px;color:var(--muted)}.gallery img{width:100%}
+:root[data-theme="dark"] .gallery img{filter:brightness(.9)}
+@media (max-width:820px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}}
+</style></head>
+<body><div class="shell"><aside><div class="top"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+  
+  <path d="M50 27.5 Q49 22 50 17" stroke="#2D6537" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M50 18.5 C44 9 35 8.5 30.5 12.5 C34.5 19.5 43.5 21.5 50 18.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M50 16.5 C55 6 65.5 3.5 70.5 7.5 C67.5 15.5 57.5 19.5 50 16.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="3.6" fill="#C23A68" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45.94 32.93Q50.00 27.00 54.06 32.93L58.80 39.84Q61.29 43.47 65.50 44.71L73.54 47.08Q80.43 49.11 76.05 54.81L70.94 61.45Q68.26 64.93 68.38 69.32L68.61 77.70Q68.81 84.89 62.04 82.48L54.14 79.67Q50.00 78.20 45.86 79.67L37.96 82.48Q31.19 84.89 31.39 77.70L31.62 69.32Q31.74 64.93 29.06 61.45L23.95 54.81Q19.57 49.11 26.46 47.08L34.50 44.71Q38.71 43.47 41.20 39.84Z" fill="#F6C445" stroke="#3A2430" stroke-width="2.6" stroke-linejoin="round"/>
+  <ellipse cx="35.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/><ellipse cx="64.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/>
+  <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
+  <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html" aria-current="page">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a></aside><main><h1 id="09--frontend-guidelines">09 · Frontend guidelines</h1>
+<h2 id="1-stack">1. Stack</h2>
+<ul>
+<li>Next.js 15 App Router, React Server Components for adult and static surfaces; client components for the child practice runtime.</li>
+<li>TypeScript <code>strict</code>. Zod for every boundary (function responses, IndexedDB records, content).</li>
+<li>Styling: Tailwind with the tokens in <a href="08-design-system.html#11-tokens-in-code">08</a>. No CSS-in-JS runtime.</li>
+<li>Data: <code>@supabase/supabase-js</code> for adult surfaces; a small typed client for Edge Functions; TanStack Query for caching on adult surfaces.</li>
+<li>Offline: Serwist service worker; Dexie for IndexedDB; a custom outbox module (<code>apps/web/lib/outbox</code>).</li>
+</ul>
+<h2 id="2-structure">2. Structure</h2>
+<pre class="code"><code>apps/web/
+  app/
+    (child)/sky/  (child)/learn/[topic]/  (child)/practice/[set]/  (child)/test/[set]/
+    (family)/…   (teach)/…   (school)/…   (studio)/…   (ops)/…   basic/…
+  components/      app-specific composites (screens built from packages/ui)
+  lib/
+    outbox/        queue, retry with backoff, idempotency, clock offset
+    packs/         download, verify signature, evict
+    session/       child session tokens, PIN flow
+    api/           typed Edge Function client
+  sw/              service worker (precache shell, runtime cache for media)</code></pre>
+<h2 id="3-rules-for-the-child-runtime">3. Rules for the child runtime</h2>
+<ol>
+<li>Never compute correctness for online sets on the client. Show &quot;checking&quot; until the server answers (target under 400 ms).</li>
+<li>Offline packs may grade locally. Mark those responses <code>key_on_device: true</code>.</li>
+<li>Save every answer to IndexedDB <strong>before</strong> any network call.</li>
+<li>Never block the UI on the network after the set has loaded.</li>
+<li>Practice-test timer: display <code>ends_at - (Date.now() + serverOffset)</code>; resync the offset every 60 s and on resume.</li>
+<li>Keep one child&#39;s data partitioned by <code>child_id</code>; clear the partition on profile removal.</li>
+<li>No third-party scripts, fonts from our own origin only, no analytics SDKs.</li>
+</ol>
+<h2 id="4-performance-budgets">4. Performance budgets</h2>
+<p>Enforced in CI with Lighthouse CI and a bundle-size check. A failing budget fails the build.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Metric</th>
+<th>Budget</th>
+</tr>
+</thead><tbody><tr>
+<td>First visit, critical path</td>
+<td>≤ 200 KB total, ≤ 130 KB JS (compressed)</td>
+</tr>
+<tr>
+<td>Repeat visit before usable</td>
+<td>≤ 15 KB over the network</td>
+</tr>
+<tr>
+<td>Lesson (text) / lesson with images</td>
+<td>≤ 30 KB / ≤ 120 KB</td>
+</tr>
+<tr>
+<td>Offline practice pack (40 items with images)</td>
+<td>≤ 120 KB</td>
+</tr>
+<tr>
+<td>Practice test payload (no keys)</td>
+<td>≤ 500 KB</td>
+</tr>
+<tr>
+<td>Time to interactive, cold, reference device* at 1.6 Mbps, 150 ms RTT</td>
+<td>&lt; 5 s</td>
+</tr>
+<tr>
+<td>Field LCP / INP / CLS (p75)</td>
+<td>≤ 2.5 s / ≤ 200 ms / ≤ 0.1</td>
+</tr>
+<tr>
+<td>Answer tap to visual response</td>
+<td>&lt; 100 ms</td>
+</tr>
+<tr>
+<td>100-item practice test on a 3 GB RAM device</td>
+<td>No tab reload</td>
+</tr>
+</tbody></table></div>
+<p>*Reference device: an Android Go or entry Android phone costing ₦100,000–150,000 (for example, a current Tecno, Infinix or itel entry model), Chrome stable.</p>
+<h2 id="5-browser-support">5. Browser support</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Browser</th>
+<th>Support</th>
+</tr>
+</thead><tbody><tr>
+<td>Chrome Android 100+, Samsung Internet 20+</td>
+<td>Full</td>
+</tr>
+<tr>
+<td>Opera (full mode), Firefox Android</td>
+<td>Full</td>
+</tr>
+<tr>
+<td>Safari iOS 16+</td>
+<td>Full (PWA install guidance shown)</td>
+</tr>
+<tr>
+<td>Desktop Chrome, Edge, Firefox, Safari (last 2)</td>
+<td>Full (teachers, studio)</td>
+</tr>
+<tr>
+<td>Opera Mini (Extreme)</td>
+<td><code>/basic</code> mode: server-rendered lessons and untimed practice; no practice tests</td>
+</tr>
+</tbody></table></div>
+<p>Measure the Opera Mini share in the pilot before investing further.</p>
+<h2 id="6-internationalisation">6. Internationalisation</h2>
+<ul>
+<li>All strings in <code>packages/i18n</code> catalogues (ICU MessageFormat). No hard-coded copy.</li>
+<li>English (Nigeria) first. Yoruba, Hausa and Igbo catalogues are created with English fallbacks so translation can start in Phase 2.</li>
+<li>Numbers and money: <code>en-NG</code> formatting, ₦.</li>
+<li>Dates: learning-day logic uses the child&#39;s time zone with the 03:00 boundary.</li>
+</ul>
+<h2 id="7-accessibility-in-code">7. Accessibility in code</h2>
+<ul>
+<li>Use semantic HTML first; ARIA only where needed.</li>
+<li>Every component story runs axe in CI.</li>
+<li>Focus is managed on route change and in sheets and dialogs.</li>
+<li>Test with TalkBack on the reference device before each release.</li>
+</ul>
+<h2 id="8-themes-light-and-dark">8. Themes (light and dark)</h2>
+<ul>
+<li><strong>Tokens only.</strong> Components read colour from CSS variables (<code>var(--primary)</code>, Tailwind <code>bg-primary</code>), never hex values. A lint rule (<code>stylelint-declaration-strict-value</code> for colour properties, plus a grep in CI for <code>#[0-9a-f]{6}</code> in <code>apps/*/src</code>) blocks raw colours outside <code>packages/ui/tokens</code>.</li>
+<li><strong>Resolution order:</strong> <code>data-theme</code> on <code>&lt;html&gt;</code> (set from the parent&#39;s per-device choice) wins; otherwise <code>prefers-color-scheme</code>. Absence of the stored key means System.</li>
+<li><strong>No flash on load.</strong> A tiny inline script in <code>&lt;head&gt;</code>, before any CSS paints, reads <code>localStorage[&quot;stellara-theme&quot;]</code> inside <code>try/catch</code> and sets <code>data-theme</code>. Also set <code>&lt;meta name=&quot;color-scheme&quot; content=&quot;light dark&quot;&gt;</code> and <code>&lt;meta name=&quot;theme-color&quot;&gt;</code> for both media queries so the browser UI matches.</li>
+<li><strong>Switching is instant.</strong> Changing theme swaps variables only; nothing transitions. Canvas and 3D scenes re-read the variables on a <code>matchMedia(&quot;(prefers-color-scheme: dark)&quot;)</code> change and on <code>data-theme</code> change.</li>
+<li><strong>Images.</strong> SVG icons use <code>currentColor</code>. Illustrations keep their colours; Auntie Stella and photos get <code>filter: brightness(.9)</code> in dark. Never ship a white-background PNG.</li>
+<li><strong>PWA.</strong> The manifest&#39;s <code>background_color</code> is cream; the splash in dark comes from <code>theme-color</code> with <code>media=&quot;(prefers-color-scheme: dark)&quot;</code>.</li>
+<li><strong>Contrast in CI.</strong> <code>node docs/tools/tokens.mjs</code> runs on every pull request and fails if any text pair drops below 4.5:1 (3:1 for the focus ring) in either theme.</li>
+</ul>
+<h2 id="9-motion-in-code">9. Motion in code</h2>
+<ul>
+<li>Use the tokens <code>--ease-out</code>, <code>--ease-in-out</code>, <code>--motion-press</code>, <code>--motion-ui</code>, <code>--motion-reward</code> (<a href="08-design-system.html#5-space-shape-elevation-motion">08 §5</a>).</li>
+<li>Press feedback: <code>transition: transform var(--motion-press) var(--ease-out)</code> and <code>:active { transform: scale(.97) }</code>.</li>
+<li>Only <code>transform</code> and <code>opacity</code> animate. Never <code>transition: all</code>.</li>
+<li>Prefer CSS transitions (interruptible) over keyframes for UI that can be re-triggered. Enter with <code>@starting-style</code> where supported, a <code>data-mounted</code> attribute otherwise.</li>
+<li>Hover styles go inside <code>@media (hover: hover) and (pointer: fine)</code>.</li>
+<li><code>prefers-reduced-motion: reduce</code> keeps opacity fades and removes movement, scaling and 3D.</li>
+</ul>
+<h2 id="10-code-standards">10. Code standards</h2>
+<ul>
+<li>ESLint (Next, TypeScript, jsx-a11y), Prettier, import order.</li>
+<li>Components: props typed, no default exports in packages, stories required.</li>
+<li>Commit style: Conventional Commits. PRs need one review plus green CI.</li>
+<li>Feature flags (table <code>feature_flags</code>, cached) for anything not ready for every school.</li>
+</ul>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>(function(){var r=document.documentElement,b=[].slice.call(document.querySelectorAll(".theme button"));function cur(){try{return localStorage.getItem("stellara-theme")||"auto"}catch(e){return r.getAttribute("data-theme")||"auto"}}function set(p){if(p==="light"||p==="dark")r.setAttribute("data-theme",p);else r.removeAttribute("data-theme");try{if(p==="auto")localStorage.removeItem("stellara-theme");else localStorage.setItem("stellara-theme",p)}catch(e){}b.forEach(function(x){x.setAttribute("aria-pressed",String(x.dataset.set===p))})}b.forEach(function(x){x.addEventListener("click",function(){set(x.dataset.set)})});set(r.getAttribute("data-theme")||cur())})();if(window.mermaid){mermaid.initialize({startOnLoad:true,theme:"base",themeVariables:{primaryColor:"#FCE1EA",primaryBorderColor:"#C23A68",primaryTextColor:"#3A2430",lineColor:"#A12E57",secondaryColor:"#E1F2DB",tertiaryColor:"#FFF2CC",fontFamily:"Inter, sans-serif"}});}</script>
+</body></html>

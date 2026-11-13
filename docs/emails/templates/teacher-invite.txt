@@ -1,0 +1,12 @@
+Subject: Join {{class_name}} on Stellara
+
+Hello {{teacher_name}}. {{inviter}} has invited you to teach {{class_name}} at {{school_name}} on Stellara.
+
+Accept the invite: {{invite_url}}
+
+This invite expires on {{expires}}.
+
+--
+You're getting this because {{inviter}} at {{school_name}} invited this email address to Stellara.
+Change which emails you get: {{settings_url}}
+Stellara Learning Ltd · {{postal_address}}

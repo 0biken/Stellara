@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Product requirements · Stellara docs</title>
+<script>try{var t=localStorage.getItem("stellara-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script><meta name="color-scheme" content="light dark">
+<style>
+:root{--bg:#FFF8F1;--surface:#FFFFFF;--surface-2:#FCEFE6;--fg:#3A2430;--muted:#76606A;--line:#F0DCD3;--accent:#C23A68;--accent-ink:#A12E57;--accent-soft:#FCE1EA;--code:#FCEFE6;--honey:#F6C445;--matcha:#86BF7E;--matcha-soft:#E1F2DB;--wordmark:#A12E57;color-scheme:light;--font-display:"Nunito","Inter",system-ui,sans-serif;--font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 var(--font-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;line-height:1.2;letter-spacing:-.01em;text-wrap:balance;scroll-margin-top:72px}
+h1{font-size:36px;margin:0 0 18px} h2{font-size:24px;margin:44px 0 12px;padding-top:20px;border-top:1px solid var(--line)} h3{font-size:18px;font-weight:700;margin:28px 0 8px} h4{font-size:16px;font-weight:700}
+p,ul,ol{margin:0 0 14px;max-width:72ch}
+li{margin:4px 0}
+blockquote{margin:0 0 16px;padding:12px 16px;border-left:4px solid var(--matcha);background:var(--matcha-soft);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+code{font-family:var(--mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:6px}
+pre.code{background:var(--code);padding:14px 16px;border-radius:14px;overflow-x:auto;font-size:13px;line-height:1.5;max-width:100%}
+pre.code code{background:none;padding:0}
+pre.mermaid{background:#FFFFFF;color:#3A2430;border:1px solid var(--line);border-radius:14px;padding:16px;overflow-x:auto;text-align:center}
+.table-wrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+input[type=checkbox]{margin-right:6px}
+.theme{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px}
+.theme button{font:500 12px var(--font-body);border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;cursor:pointer;min-height:30px}
+.theme button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(58,36,48,.2)}
+.wordmark{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;color:var(--wordmark);font-size:21px;line-height:1}
+.brand{display:flex;gap:8px;align-items:center}
+.brand svg{width:30px;height:30px;flex:none}
+.brand small{font:500 13px var(--font-body);color:var(--muted);margin-left:2px}
+.dimmable svg{transition:filter .2s ease}
+:root[data-theme="dark"] .dimmable svg{filter:brightness(.9)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dimmable svg{filter:brightness(.9)}}
+
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:36px;max-width:1200px;margin:0 auto;padding:0 16px}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0;display:grid;align-content:start;gap:2px}
+aside .top{display:grid;gap:10px;margin-bottom:12px}
+aside a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:14px}
+aside a[aria-current]{background:var(--accent-soft);color:var(--accent-ink)}
+main{padding:28px 0 80px;min-width:0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;max-width:720px}
+.gallery figure{margin:0;text-align:center;font-size:13px;color:var(--muted)}.gallery img{width:100%}
+:root[data-theme="dark"] .gallery img{filter:brightness(.9)}
+@media (max-width:820px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}}
+</style></head>
+<body><div class="shell"><aside><div class="top"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+  
+  <path d="M50 27.5 Q49 22 50 17" stroke="#2D6537" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M50 18.5 C44 9 35 8.5 30.5 12.5 C34.5 19.5 43.5 21.5 50 18.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M50 16.5 C55 6 65.5 3.5 70.5 7.5 C67.5 15.5 57.5 19.5 50 16.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="3.6" fill="#C23A68" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45.94 32.93Q50.00 27.00 54.06 32.93L58.80 39.84Q61.29 43.47 65.50 44.71L73.54 47.08Q80.43 49.11 76.05 54.81L70.94 61.45Q68.26 64.93 68.38 69.32L68.61 77.70Q68.81 84.89 62.04 82.48L54.14 79.67Q50.00 78.20 45.86 79.67L37.96 82.48Q31.19 84.89 31.39 77.70L31.62 69.32Q31.74 64.93 29.06 61.45L23.95 54.81Q19.57 49.11 26.46 47.08L34.50 44.71Q38.71 43.47 41.20 39.84Z" fill="#F6C445" stroke="#3A2430" stroke-width="2.6" stroke-linejoin="round"/>
+  <ellipse cx="35.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/><ellipse cx="64.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/>
+  <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
+  <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html" aria-current="page">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a></aside><main><h1 id="01--product-requirements">01 · Product requirements</h1>
+<div class="table-wrap"><table><thead><tr>
+<th></th>
+<th></th>
+</tr>
+</thead><tbody><tr>
+<td><strong>Product</strong></td>
+<td>Stellara for Kids (working name, not yet cleared)</td>
+</tr>
+<tr>
+<td><strong>Version</strong></td>
+<td>1.0 draft, 12 November 2026</td>
+</tr>
+<tr>
+<td><strong>Owner</strong></td>
+<td>Founder / Product lead</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>For review. Supersedes the earlier all-ages PRD for the children&#39;s product.</td>
+</tr>
+</tbody></table></div>
+<h2 id="1-vision">1. Vision</h2>
+<p>A personal tutor that knows your child. Stellara teaches in short daily steps, checks what has truly been learned, and shows parents exactly where their child stands, from kindergarten to the Common Entrance examination.</p>
+<p>Learning grows. Every skill a child masters becomes a star, and mastered stars sprout. Over a term the stars join into the child&#39;s own sky: something children are proud of and parents can trust.</p>
+<h2 id="2-why-now-and-for-whom">2. Why now, and for whom</h2>
+<p>Stellara has direct relationships with a number of private primary schools. Those schools report two problems:</p>
+<ol>
+<li><strong>Parents want proof of progress.</strong> Termly report cards and occasional WhatsApp messages from teachers are not enough.</li>
+<li><strong>Schools want better Common Entrance results.</strong> Results are part of how a school markets itself.</li>
+</ol>
+<p>Stellara is therefore sold <strong>to schools first</strong> (business to school to parent). Parents and children are the daily users; the school is the buyer and the channel.</p>
+<h2 id="3-users">3. Users</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>User</th>
+<th>Age</th>
+<th>Needs</th>
+<th>Primary surfaces</th>
+</tr>
+</thead><tbody><tr>
+<td><strong>Child, early years</strong></td>
+<td>2–5</td>
+<td>Play-based early learning with an adult. Very little screen time.</td>
+<td>Phase 3 only: parent- and teacher-led activities</td>
+</tr>
+<tr>
+<td><strong>Child, primary</strong></td>
+<td>6–12</td>
+<td>Short daily practice, clear progress, encouragement</td>
+<td>Child app (phone, tablet, school device)</td>
+</tr>
+<tr>
+<td><strong>Child, Common Entrance candidate</strong></td>
+<td>9–12 (Primary 5–6)</td>
+<td>Exam-format practice, timing, knowing what to work on</td>
+<td>Child app, practice tests</td>
+</tr>
+<tr>
+<td><strong>Parent or guardian</strong></td>
+<td>Adult</td>
+<td>Proof of progress, simple guidance, control over data</td>
+<td>Parent app, weekly report, WhatsApp summary</td>
+</tr>
+<tr>
+<td><strong>Class teacher</strong></td>
+<td>Adult</td>
+<td>See class progress, assign practice, spot who needs help</td>
+<td>Teacher dashboard</td>
+</tr>
+<tr>
+<td><strong>School administrator</strong></td>
+<td>Adult</td>
+<td>Licences, classes, parent onboarding, results overview</td>
+<td>School admin console</td>
+</tr>
+<tr>
+<td><strong>Content author</strong></td>
+<td>Adult</td>
+<td>Write lessons and items in the agreed schema</td>
+<td>Content studio</td>
+</tr>
+<tr>
+<td><strong>Academic reviewer</strong></td>
+<td>Adult</td>
+<td>Approve content, verify answers</td>
+<td>Content studio</td>
+</tr>
+<tr>
+<td><strong>Stellara operations</strong></td>
+<td>Adult</td>
+<td>Support, school onboarding, data requests</td>
+<td>Internal admin</td>
+</tr>
+</tbody></table></div>
+<p>Every user under 18 is a <strong>child</strong> under the Nigeria Data Protection Act. No child creates their own account. See <a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a>.</p>
+<h2 id="4-the-three-sections-and-phasing">4. The three sections and phasing</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Section</th>
+<th>Who</th>
+<th>Content</th>
+<th>Phase</th>
+</tr>
+</thead><tbody><tr>
+<td><strong>Common Entrance prep</strong></td>
+<td>Primary 5–6</td>
+<td>NCEE papers: Mathematics, English, Quantitative Aptitude, Verbal Aptitude, General Paper <em>(verify against the 2027 NECO brochure)</em></td>
+<td><strong>MVP (Phase 1)</strong></td>
+</tr>
+<tr>
+<td><strong>Intermediate</strong></td>
+<td>Primary 1–6</td>
+<td>Mathematics and English Studies first, then Basic Science and Technology</td>
+<td>Phase 2</td>
+</tr>
+<tr>
+<td><strong>Creche and kindergarten</strong></td>
+<td>Ages 2–5</td>
+<td>Early literacy, numeracy, routines, development milestones. Adult-led, minimal screen use</td>
+<td>Phase 3</td>
+</tr>
+</tbody></table></div>
+<p>The data model supports all three from day one (see <a href="05-data-model.html">05 Data model</a>), so later phases add content and screens, not rebuilds.</p>
+<h2 id="5-mvp-scope-phase-1">5. MVP scope (Phase 1)</h2>
+<h3 id="in">In</h3>
+<ol>
+<li><strong>School onboarding.</strong> Stellara staff create a school, the school admin invites teachers, and teachers create classes.</li>
+<li><strong>Parent-led child profiles.</strong> Parents join with a class invite code, give consent, and create the child&#39;s profile.</li>
+<li><strong>Child sign-in without credentials.</strong> On a family phone: a profile picker with a 4-picture PIN. On a school device: a class code plus the picture PIN.</li>
+<li><strong>Placement check.</strong> About 20 items per paper, optional and resumable. Results are reported at strand level only.</li>
+<li><strong>Learning path.</strong> Short lesson cards (5–8 minutes) followed by practice items on each topic.</li>
+<li><strong>Practice and review.</strong> Scored practice, spaced review at +3, +10 and +30 days (capped by the exam date), and topic assessments.</li>
+<li><strong>Practice tests.</strong> Timed, NCEE-style tests on a server-controlled timer. They can be resumed after an interruption.</li>
+<li><strong>Mastery.</strong> Mastery rule v0, five levels per topic, shown as constellation stars. See <a href="02-learning-rules.html">02 Learning rules</a>.</li>
+<li><strong>Motivation.</strong> Stardust (points with a daily cap), days in a row with resting clouds, and calm celebrations.</li>
+<li><strong>Offline practice.</strong> Downloadable practice packs, answers saved on the device first, automatic sync.</li>
+<li><strong>Parent report.</strong> A weekly in-app report plus a monthly WhatsApp or SMS summary, including &quot;a note from Auntie Stella&quot;.</li>
+<li><strong>Teacher dashboard.</strong> Class view by topic and mastery state, pupils who need help, and the ability to assign a practice set.</li>
+<li><strong>School overview.</strong> Licence usage and Common Entrance coverage by class.</li>
+<li><strong>Content studio.</strong> Author, review and publish items and lessons, with provenance and versioning.</li>
+<li><strong>Compliance foundations.</strong> Consent records, a data export or delete request flow, an audit log and a non-affiliation notice.</li>
+</ol>
+<h3 id="out-of-the-mvp-with-the-condition-for-bringing-it-back">Out of the MVP (with the condition for bringing it back)</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Feature</th>
+<th>Return condition</th>
+</tr>
+</thead><tbody><tr>
+<td>Intermediate section (P1–6 full curriculum)</td>
+<td>Phase 2, once the pilot gate is passed</td>
+</tr>
+<tr>
+<td>Creche/KG section</td>
+<td>Phase 3, after an early-years design study with 3 schools</td>
+</tr>
+<tr>
+<td>Leaderboards</td>
+<td>Only if pilot data shows a need; opt-in for ages 10+, aliases only</td>
+</tr>
+<tr>
+<td>Video lessons, YouTube embeds</td>
+<td>After a DPIA update and data-cost review</td>
+</tr>
+<tr>
+<td>AI-generated hints or chat</td>
+<td>Not for children until a DPIA and DPO sign-off</td>
+</tr>
+<tr>
+<td>Direct-to-parent paid subscriptions</td>
+<td>Phase 2. The MVP is sold through school licences</td>
+</tr>
+<tr>
+<td>Native Android app</td>
+<td>When the PWA install rate or offline needs show a gap</td>
+</tr>
+<tr>
+<td>Yoruba, Hausa and Igbo interfaces</td>
+<td>Strings are ready from day one; translation comes in Phase 2</td>
+</tr>
+</tbody></table></div>
+<h2 id="6-principles-that-shape-every-feature">6. Principles that shape every feature</h2>
+<ol>
+<li><strong>Learning is measured by rules, not opinions.</strong> Every status shown to a parent comes from a published rule.</li>
+<li><strong>Nothing is earned by opening a page.</strong> Stardust and mastery come from answering, not viewing.</li>
+<li><strong>No loss-framing.</strong> No broken-streak guilt, no countdowns other than real exam timers, no &quot;hurry&quot;.</li>
+<li><strong>Honest about the exam.</strong> Stellara shows practice coverage and mastery, never a predicted score and never &quot;you are ready&quot;.</li>
+<li><strong>Light on data and kind to cheap phones.</strong> See the budgets in <a href="09-frontend-guidelines.html">09 Frontend guidelines</a>.</li>
+<li><strong>Children&#39;s data is minimal.</strong> Collect a first name, a class, a year of birth and progress. No photos of children, and no free-text input from children in the MVP.</li>
+</ol>
+<h2 id="7-user-stories-and-acceptance-criteria">7. User stories and acceptance criteria</h2>
+<p>The IDs are used in tests (<a href="10-qa-and-testing.html">10 QA and testing</a>).</p>
+<h3 id="71-schools-and-teachers">7.1 Schools and teachers</h3>
+<p><strong>SCH-01</strong> As a Stellara operator, I can create a school with a licence count and term dates.</p>
+<ul>
+<li>AC1: The school cannot invite teachers until a named school admin has accepted the data processing agreement.</li>
+<li>AC2: Licence count and dates are visible to the school admin.</li>
+</ul>
+<p><strong>SCH-02</strong> As a school admin, I can invite teachers by phone number or email.</p>
+<ul>
+<li>AC1: An invite expires after 7 days.</li>
+<li>AC2: A teacher sees only the classes assigned to them (enforced by row-level security, tested in pgTAP).</li>
+</ul>
+<p><strong>SCH-03</strong> As a teacher, I can create a class (for example &quot;Primary 5 Gold&quot;) and get a class invite code for parents.</p>
+<ul>
+<li>AC1: The code is 6 characters, contains no ambiguous characters, and can be regenerated.</li>
+<li>AC2: A child joins a class only after a parent has given consent (see FAM-02).</li>
+</ul>
+<p><strong>SCH-04</strong> As a teacher, I can see a class grid of topics by pupils with mastery states.</p>
+<ul>
+<li>AC1: States use shape as well as colour (outline, half, full, ringed).</li>
+<li>AC2: A &quot;needs help&quot; list shows pupils with 3 or more topics at Foundation after at least 20 scored responses.</li>
+</ul>
+<p><strong>SCH-05</strong> As a teacher, I can assign a practice set (topic or mixed) to a class with a due date.</p>
+<ul>
+<li>AC1: Assigned sets appear first on the child&#39;s home screen.</li>
+<li>AC2: Completion and the median score are shown to the teacher.</li>
+</ul>
+<h3 id="72-families">7.2 Families</h3>
+<p><strong>FAM-01</strong> As a parent, I can sign up with a phone number (OTP by WhatsApp, then SMS) or with email.</p>
+<ul>
+<li>AC1: An OTP expires after 10 minutes. After 5 failed attempts in 15 minutes, sign-in is blocked for 30 minutes.</li>
+</ul>
+<p><strong>FAM-02</strong> As a parent, I give consent before a child profile exists.</p>
+<ul>
+<li>AC1: <strong>No child profile row exists without a consent record</strong> (database constraint plus test).</li>
+<li>AC2: The consent record stores who consented, which child, the notice version, purposes, a timestamp and the verification method.</li>
+<li>AC3: Each purpose is separately selectable: core learning (required), school sharing (required for school accounts), progress messages, product research.</li>
+</ul>
+<p><strong>FAM-03</strong> As a parent, I create a child profile with a first name, year of birth, class code and an avatar chosen from a set.</p>
+<ul>
+<li>AC1: Photo upload is not available.</li>
+<li>AC2: The child chooses a 4-picture PIN on first use, and the parent can reset it.</li>
+</ul>
+<p><strong>FAM-04</strong> As a parent, I receive a weekly report.</p>
+<ul>
+<li>AC1: Every sentence is generated from rules in <a href="02-learning-rules.html#8-parent-report-rules">02 Learning rules §8</a>.</li>
+<li>AC2: The report never shows a predicted score or the phrase &quot;ready for&quot;.</li>
+</ul>
+<p><strong>FAM-05</strong> As a parent, I can export or delete my child&#39;s data.</p>
+<ul>
+<li>AC1: Export is delivered within 7 days as JSON plus a readable PDF.</li>
+<li>AC2: Deletion removes the child&#39;s personal data within 30 days and keeps only anonymised aggregate counts.</li>
+</ul>
+<p><strong>FAM-06</strong> As a parent, I can withdraw consent as easily as I gave it.</p>
+<ul>
+<li>AC1: Withdrawal takes 2 taps from Settings. Processing stops immediately, and deletion follows FAM-05.</li>
+</ul>
+<h3 id="73-children">7.3 Children</h3>
+<p><strong>KID-01</strong> As a child, I pick my profile and enter my picture PIN.</p>
+<ul>
+<li>AC1: After 5 wrong PINs, the profile is locked for 5 minutes and a parent can unlock it.</li>
+</ul>
+<p><strong>KID-02</strong> As a child, I see my sky: today&#39;s suggested set, assigned sets, and my constellation.</p>
+<ul>
+<li>AC1: The first screen is usable within 5 seconds on the reference device (see <a href="09-frontend-guidelines.html#4-performance-budgets">09</a>).</li>
+</ul>
+<p><strong>KID-03</strong> As a child, I take a short lesson and then practise.</p>
+<ul>
+<li>AC1: Practice items are scored on the server. On a correct first attempt, the child sees feedback within 100 ms locally (optimistic), and the server confirms it.</li>
+<li>AC2: A wrong answer shows one hint and then the worked explanation. It never says &quot;wrong&quot;; it says &quot;Not quite&quot;.</li>
+</ul>
+<p><strong>KID-04</strong> As a Common Entrance candidate, I take a timed practice test.</p>
+<ul>
+<li>AC1: The server owns the start time and the end time. A lost connection does not stop the clock, and answers saved locally are accepted up to 15 minutes after the end time if they were recorded before it.</li>
+<li>AC2: A test can be resumed twice, with a total pause time of up to 20 minutes. After that it is scored as it stands.</li>
+<li>AC3: Answer keys are never sent to the device for a practice test.</li>
+</ul>
+<p><strong>KID-05</strong> As a child, I can practise offline with a downloaded pack.</p>
+<ul>
+<li>AC1: A pack of 40 items with images is under 120 KB.</li>
+<li>AC2: Offline responses sync automatically when online. They count towards days in a row if synced within 72 hours.</li>
+</ul>
+<p><strong>KID-06</strong> As a child, I get Stardust and keep my days in a row.</p>
+<ul>
+<li>AC1: The rules are as in <a href="02-learning-rules.html#6-stardust">02 §6–7</a>.</li>
+<li>AC2: A missed day uses a resting cloud automatically. The copy never mentions losing anything.</li>
+</ul>
+<h3 id="74-content-team">7.4 Content team</h3>
+<p><strong>CON-01</strong> As an author, I create items in the schema in <a href="03-curriculum-and-content.html#4-content-schema">03</a>.</p>
+<ul>
+<li>AC1: An item cannot be published without provenance, a verified answer, a reviewer other than the author, alt text for every image, and a curriculum tag.</li>
+</ul>
+<p><strong>CON-02</strong> As a reviewer, I approve, reject or request changes, with comments.</p>
+<ul>
+<li>AC1: Every state change is in the audit log.</li>
+</ul>
+<p><strong>CON-03</strong> As an author, I edit a published item by creating a new version.</p>
+<ul>
+<li>AC1: Responses keep the item version they were answered against.</li>
+</ul>
+<h2 id="8-non-functional-requirements-summary">8. Non-functional requirements (summary)</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Area</th>
+<th>Requirement</th>
+<th>Detail</th>
+</tr>
+</thead><tbody><tr>
+<td>Performance</td>
+<td>First-visit critical path ≤ 200 KB; interactive in under 5 s on the reference phone at 1.6 Mbps</td>
+<td><a href="09-frontend-guidelines.html">09</a></td>
+</tr>
+<tr>
+<td>Offline</td>
+<td>Practice packs and lessons work offline; sync is automatic</td>
+<td><a href="04-technical-architecture.html#offline-and-sync">04</a></td>
+</tr>
+<tr>
+<td>Accessibility</td>
+<td>WCAG 2.2 AA; TalkBack pass on the key flows</td>
+<td><a href="08-design-system.html#9-accessibility">08</a>, <a href="10-qa-and-testing.html">10</a></td>
+</tr>
+<tr>
+<td>Security</td>
+<td>OWASP ASVS Level 2; RLS on every table</td>
+<td><a href="07-privacy-security-compliance.html">07</a></td>
+</tr>
+<tr>
+<td>Privacy</td>
+<td>NDPA; DPIA signed before the pilot; consent before any child data</td>
+<td><a href="07-privacy-security-compliance.html">07</a></td>
+</tr>
+<tr>
+<td>Availability</td>
+<td>99.5% monthly for the child app during term</td>
+<td><a href="11-devops-and-environments.html">11</a></td>
+</tr>
+<tr>
+<td>Browsers</td>
+<td>Chrome Android 100+, Samsung Internet, Opera (full mode), Safari iOS 16+. Opera Mini gets a basic server-rendered mode with no timed tests</td>
+<td><a href="09-frontend-guidelines.html">09</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-success-measures">9. Success measures</h2>
+<p>Targets and the pilot gate are in <a href="12-analytics-and-metrics.html">12 Analytics and metrics</a>. In short: weekly active pupils, the parent report open rate, topics mastered per pupil per month, a measurable gain on delayed retention checks, and school renewal intent.</p>
+<h2 id="10-open-questions">10. Open questions</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>#</th>
+<th>Question</th>
+<th>Owner</th>
+<th>Needed by</th>
+</tr>
+</thead><tbody><tr>
+<td>Q1</td>
+<td>2027 NCEE papers, item counts, durations, and whether it is paper or CBT</td>
+<td>Academic lead</td>
+<td>Before practice-test blueprints are final</td>
+</tr>
+<tr>
+<td>Q2</td>
+<td>Price per pupil per term for schools; is a parent add-on allowed?</td>
+<td>Founder</td>
+<td>Before pilot contracts</td>
+</tr>
+<tr>
+<td>Q3</td>
+<td>Parental verification method that satisfies NDPA s.31</td>
+<td>Lawyer</td>
+<td>Before the pilot</td>
+</tr>
+<tr>
+<td>Q4</td>
+<td>Product name clearance</td>
+<td>Trademark agent</td>
+<td>Before any public launch</td>
+</tr>
+<tr>
+<td>Q5</td>
+<td>Supabase hosting region and the cross-border transfer basis</td>
+<td>DPO, engineering</td>
+<td>Before the pilot</td>
+</tr>
+</tbody></table></div>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>(function(){var r=document.documentElement,b=[].slice.call(document.querySelectorAll(".theme button"));function cur(){try{return localStorage.getItem("stellara-theme")||"auto"}catch(e){return r.getAttribute("data-theme")||"auto"}}function set(p){if(p==="light"||p==="dark")r.setAttribute("data-theme",p);else r.removeAttribute("data-theme");try{if(p==="auto")localStorage.removeItem("stellara-theme");else localStorage.setItem("stellara-theme",p)}catch(e){}b.forEach(function(x){x.setAttribute("aria-pressed",String(x.dataset.set===p))})}b.forEach(function(x){x.addEventListener("click",function(){set(x.dataset.set)})});set(r.getAttribute("data-theme")||cur())})();if(window.mermaid){mermaid.initialize({startOnLoad:true,theme:"base",themeVariables:{primaryColor:"#FCE1EA",primaryBorderColor:"#C23A68",primaryTextColor:"#3A2430",lineColor:"#A12E57",secondaryColor:"#E1F2DB",tertiaryColor:"#FFF2CC",fontFamily:"Inter, sans-serif"}});}</script>
+</body></html>

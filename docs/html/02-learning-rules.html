@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Learning rules · Stellara docs</title>
+<script>try{var t=localStorage.getItem("stellara-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script><meta name="color-scheme" content="light dark">
+<style>
+:root{--bg:#FFF8F1;--surface:#FFFFFF;--surface-2:#FCEFE6;--fg:#3A2430;--muted:#76606A;--line:#F0DCD3;--accent:#C23A68;--accent-ink:#A12E57;--accent-soft:#FCE1EA;--code:#FCEFE6;--honey:#F6C445;--matcha:#86BF7E;--matcha-soft:#E1F2DB;--wordmark:#A12E57;color-scheme:light;--font-display:"Nunito","Inter",system-ui,sans-serif;--font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 var(--font-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;line-height:1.2;letter-spacing:-.01em;text-wrap:balance;scroll-margin-top:72px}
+h1{font-size:36px;margin:0 0 18px} h2{font-size:24px;margin:44px 0 12px;padding-top:20px;border-top:1px solid var(--line)} h3{font-size:18px;font-weight:700;margin:28px 0 8px} h4{font-size:16px;font-weight:700}
+p,ul,ol{margin:0 0 14px;max-width:72ch}
+li{margin:4px 0}
+blockquote{margin:0 0 16px;padding:12px 16px;border-left:4px solid var(--matcha);background:var(--matcha-soft);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+code{font-family:var(--mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:6px}
+pre.code{background:var(--code);padding:14px 16px;border-radius:14px;overflow-x:auto;font-size:13px;line-height:1.5;max-width:100%}
+pre.code code{background:none;padding:0}
+pre.mermaid{background:#FFFFFF;color:#3A2430;border:1px solid var(--line);border-radius:14px;padding:16px;overflow-x:auto;text-align:center}
+.table-wrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+input[type=checkbox]{margin-right:6px}
+.theme{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px}
+.theme button{font:500 12px var(--font-body);border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;cursor:pointer;min-height:30px}
+.theme button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(58,36,48,.2)}
+.wordmark{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;color:var(--wordmark);font-size:21px;line-height:1}
+.brand{display:flex;gap:8px;align-items:center}
+.brand svg{width:30px;height:30px;flex:none}
+.brand small{font:500 13px var(--font-body);color:var(--muted);margin-left:2px}
+.dimmable svg{transition:filter .2s ease}
+:root[data-theme="dark"] .dimmable svg{filter:brightness(.9)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dimmable svg{filter:brightness(.9)}}
+
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:36px;max-width:1200px;margin:0 auto;padding:0 16px}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0;display:grid;align-content:start;gap:2px}
+aside .top{display:grid;gap:10px;margin-bottom:12px}
+aside a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:14px}
+aside a[aria-current]{background:var(--accent-soft);color:var(--accent-ink)}
+main{padding:28px 0 80px;min-width:0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;max-width:720px}
+.gallery figure{margin:0;text-align:center;font-size:13px;color:var(--muted)}.gallery img{width:100%}
+:root[data-theme="dark"] .gallery img{filter:brightness(.9)}
+@media (max-width:820px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}}
+</style></head>
+<body><div class="shell"><aside><div class="top"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+  
+  <path d="M50 27.5 Q49 22 50 17" stroke="#2D6537" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M50 18.5 C44 9 35 8.5 30.5 12.5 C34.5 19.5 43.5 21.5 50 18.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M50 16.5 C55 6 65.5 3.5 70.5 7.5 C67.5 15.5 57.5 19.5 50 16.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="3.6" fill="#C23A68" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45.94 32.93Q50.00 27.00 54.06 32.93L58.80 39.84Q61.29 43.47 65.50 44.71L73.54 47.08Q80.43 49.11 76.05 54.81L70.94 61.45Q68.26 64.93 68.38 69.32L68.61 77.70Q68.81 84.89 62.04 82.48L54.14 79.67Q50.00 78.20 45.86 79.67L37.96 82.48Q31.19 84.89 31.39 77.70L31.62 69.32Q31.74 64.93 29.06 61.45L23.95 54.81Q19.57 49.11 26.46 47.08L34.50 44.71Q38.71 43.47 41.20 39.84Z" fill="#F6C445" stroke="#3A2430" stroke-width="2.6" stroke-linejoin="round"/>
+  <ellipse cx="35.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/><ellipse cx="64.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/>
+  <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
+  <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html" aria-current="page">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a></aside><main><h1 id="02--learning-rules">02 · Learning rules</h1>
+<p>These are the rules the product runs on. Every number here is a <strong>v0 proposal</strong> to be tuned with pilot data. Rule changes need a version bump (<code>rules_version</code>) and new fixtures.</p>
+<p>Implementation: rules live in one pure TypeScript package, <code>packages/rules</code>, used by Edge Functions and tests. The UI never computes a scored outcome on its own. See <a href="04-technical-architecture.html">04</a>.</p>
+<h2 id="1-definitions">1. Definitions</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody><tr>
+<td><strong>Item</strong></td>
+<td>One question (version-pinned). Has a difficulty: <code>easy</code>, <code>standard</code> or <code>hard</code>. May be tagged <code>application</code>.</td>
+</tr>
+<tr>
+<td><strong>Response</strong></td>
+<td>One answer to one item, stored in <code>attempts</code> (immutable).</td>
+</tr>
+<tr>
+<td><strong>Scored response</strong></td>
+<td>A response that counts as evidence of learning (§2).</td>
+</tr>
+<tr>
+<td><strong>Set</strong></td>
+<td>A group of items done in one sitting: practice set, review set, topic assessment, placement check or practice test.</td>
+</tr>
+<tr>
+<td><strong>Topic</strong></td>
+<td>The smallest curriculum node with its own mastery state (for example &quot;Equivalent fractions&quot;).</td>
+</tr>
+<tr>
+<td><strong>Strand</strong></td>
+<td>A group of topics (for example &quot;Fractions, decimals and percentages&quot;).</td>
+</tr>
+<tr>
+<td><strong>Learning day</strong></td>
+<td>A calendar day that ends at 03:00 local time (default <code>Africa/Lagos</code>).</td>
+</tr>
+</tbody></table></div>
+<h2 id="2-scored-response">2. Scored response</h2>
+<p>A response is <strong>scored</strong> when all of these are true:</p>
+<ol>
+<li>It is the <strong>first attempt</strong> on this item by this child, or the child has not seen the item for <strong>30 days</strong>.</li>
+<li>It was given <strong>before</strong> any hint or explanation for this item was shown in this sitting.</li>
+<li>Response time is at least <code>min_response_ms</code> (default <strong>2,500 ms</strong>; 1,500 ms for items flagged <code>quick</code>).</li>
+<li>It was made in a set whose answer key was <strong>not on the device</strong>, or it is an offline response with <code>key_on_device = true</code>, in which case it is scored with <code>confidence = &#39;low&#39;</code> (see §3.4).</li>
+<li>The child profile was in normal mode (not &quot;practice with a grown-up&quot; mode).</li>
+</ol>
+<p>Everything else is stored as practice and never moves mastery.</p>
+<h2 id="3-mastery-rule-v0">3. Mastery (rule v0)</h2>
+<h3 id="31-levels">3.1 Levels</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Level</th>
+<th>Code</th>
+<th>Rule at topic level</th>
+</tr>
+</thead><tbody><tr>
+<td>—</td>
+<td><code>not_assessed</code></td>
+<td>Fewer than 4 scored responses</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>foundation</code></td>
+<td>At least 4 scored responses; Level 2 not met</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>developing</code></td>
+<td>At least 6 scored responses; at least 5 of the last 10 correct</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>proficient</code></td>
+<td>At least 10 scored; 8 of the last 10 correct; 6 of those 8 are <code>standard</code> or <code>hard</code>; across at least 2 sets on 2 different learning days. <strong>Or</strong> a Topic Assessment passed at 8/10 or better</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>advanced</code></td>
+<td>Level 3, plus 4 of the last 5 <code>hard</code> items correct across 2 sets, including at least 2 <code>application</code> items</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>mastered</code></td>
+<td>Level 4, plus a retention check passed at 4/5 on unseen mixed items at least <strong>14 days</strong> after reaching Level 4 (<strong>7 days</strong> if the child&#39;s exam is under 6 weeks away)</td>
+</tr>
+</tbody></table></div>
+<h3 id="32-moving-down">3.2 Moving down</h3>
+<ul>
+<li>A retention check scoring <strong>2/5 or lower</strong> drops the topic <strong>one level</strong>.</li>
+<li>No other event lowers a level. A bad practice set alone never does.</li>
+</ul>
+<h3 id="33-caps">3.3 Caps</h3>
+<ul>
+<li>The placement check can set a topic to <strong>Level 2 at most</strong>.</li>
+<li>Level 3 and above need responses with <code>confidence = &#39;normal&#39;</code>.</li>
+</ul>
+<h3 id="34-offline-evidence">3.4 Offline evidence</h3>
+<p>Offline practice packs may carry answer keys so children get instant feedback. Those responses are scored with <code>confidence = &#39;low&#39;</code>. They count towards Levels 1–2 only. Practice tests never ship keys.</p>
+<h3 id="35-display">3.5 Display</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Level</th>
+<th>Star shape</th>
+<th>Parent wording</th>
+<th>Child wording</th>
+</tr>
+</thead><tbody><tr>
+<td><code>not_assessed</code></td>
+<td>dashed outline</td>
+<td>Not yet measured</td>
+<td>A star waiting for you</td>
+</tr>
+<tr>
+<td><code>foundation</code></td>
+<td>outline</td>
+<td>Getting started</td>
+<td>Started</td>
+</tr>
+<tr>
+<td><code>developing</code></td>
+<td>half filled</td>
+<td>Developing</td>
+<td>Growing</td>
+</tr>
+<tr>
+<td><code>proficient</code></td>
+<td>filled</td>
+<td>Proficient</td>
+<td>Shining</td>
+</tr>
+<tr>
+<td><code>advanced</code></td>
+<td>filled, thicker edge</td>
+<td>Advanced</td>
+<td>Bright</td>
+</tr>
+<tr>
+<td><code>mastered</code></td>
+<td>filled, with a sprout (two leaves and a bud)</td>
+<td>Mastered</td>
+<td>Sprouted</td>
+</tr>
+</tbody></table></div>
+<h2 id="4-spaced-review">4. Spaced review</h2>
+<ul>
+<li>After a topic reaches Level 2, schedule reviews at <strong>+3, +10 and +30 days</strong>.</li>
+<li>A review is 3–5 items from the topic, mixed into the next review set.</li>
+<li>If the exam date is within the interval, the interval shrinks so the last review falls at least 3 days before the exam.</li>
+<li>A missed review stays due and does not pile up. At most 3 due topics are pulled into one review set.</li>
+</ul>
+<h2 id="5-sets">5. Sets</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Set type</th>
+<th>Items</th>
+<th>Timed</th>
+<th>Keys on device</th>
+<th>Feeds mastery</th>
+</tr>
+</thead><tbody><tr>
+<td>Practice set</td>
+<td>8–12</td>
+<td>No</td>
+<td>Online: no. Offline pack: yes</td>
+<td>Yes (§2, §3.4)</td>
+</tr>
+<tr>
+<td>Review set</td>
+<td>6–10</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Topic Assessment</td>
+<td>10</td>
+<td>Soft limit: 15 min, shown as a calm bar</td>
+<td>No</td>
+<td>Yes; can unlock Level 3</td>
+</tr>
+<tr>
+<td>Placement check</td>
+<td>20 per paper</td>
+<td>No</td>
+<td>No</td>
+<td>Up to Level 2</td>
+</tr>
+<tr>
+<td>Practice test</td>
+<td>Blueprint (§5.1)</td>
+<td>Yes, server timer</td>
+<td>Never</td>
+<td>Yes for item-level evidence; the test score is reported separately</td>
+</tr>
+</tbody></table></div>
+<h3 id="51-practice-test-blueprint">5.1 Practice test blueprint</h3>
+<p>The blueprint is configuration, not code: table <code>test_blueprints</code>. <strong>The NCEE values below are placeholders. Verify against NECO&#39;s 2027 brochure.</strong></p>
+<div class="table-wrap"><table><thead><tr>
+<th>Field</th>
+<th>Example (placeholder)</th>
+</tr>
+</thead><tbody><tr>
+<td><code>papers</code></td>
+<td>Mathematics, English, Quantitative Aptitude, Verbal Aptitude, General Paper</td>
+</tr>
+<tr>
+<td><code>items_per_paper</code></td>
+<td>Set per blueprint</td>
+</tr>
+<tr>
+<td><code>duration_minutes</code></td>
+<td>Set per blueprint</td>
+</tr>
+<tr>
+<td><code>navigation</code></td>
+<td>Free movement within a paper, flag for review</td>
+</tr>
+<tr>
+<td><code>calculator</code></td>
+<td>Off unless the blueprint says otherwise</td>
+</tr>
+</tbody></table></div>
+<h3 id="52-timer-and-interruption-rules">5.2 Timer and interruption rules</h3>
+<ul>
+<li>The server sets <code>started_at</code> and <code>ends_at</code> when a session starts.</li>
+<li>The client shows <code>ends_at - server_now</code>, synced each minute, and counts down locally.</li>
+<li>Answers are saved locally first, then sent in batches every 10 answers or every 30 s.</li>
+<li>If the connection drops, the child keeps going. Locally saved answers with <code>answered_at &lt;= ends_at</code> are accepted up to <strong>15 minutes</strong> after <code>ends_at</code>.</li>
+<li><strong>Resume:</strong> at most <strong>2 resumes</strong>, with a total pause of up to <strong>20 minutes</strong> (the app closed or the device switched off). The timer does not stop for a lost connection, only for an app close counted as a pause.</li>
+<li>At <code>ends_at</code> plus the grace period, the server finalises the session and scores what it has.</li>
+<li>A response time below 1,000 ms on more than 30% of items flags the session as <code>suspect_timing</code> (shown to the teacher, not the child).</li>
+</ul>
+<h2 id="6-stardust">6. Stardust</h2>
+<p>Stardust is a motivation currency. <strong>It never enters mastery</strong> and is never sold.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Event</th>
+<th>Stardust</th>
+</tr>
+</thead><tbody><tr>
+<td>Correct scored response</td>
+<td>+10</td>
+</tr>
+<tr>
+<td>Correct response on a due review item</td>
+<td>+5 extra</td>
+</tr>
+<tr>
+<td>Completed review set</td>
+<td>+20</td>
+</tr>
+<tr>
+<td>Completed practice test with at least 80% of items answered</td>
+<td>+30</td>
+</tr>
+<tr>
+<td>Topic reaches a new level</td>
+<td>+25</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><strong>Daily cap:</strong> 200 Stardust per learning day. Above the cap, events are logged with 0 value.</li>
+<li>All awards go to <code>stardust_ledger</code> (append-only), written only by the server.</li>
+<li>No Stardust for opening lessons, watching or logging in.</li>
+</ul>
+<p><strong>Level names</strong> (by total Stardust): Spark 0 · Glow 500 · Beam 1,500 · Comet 3,500 · Nebula 7,000 · Galaxy 12,000. These describe light, not attainment.</p>
+<h2 id="7-days-in-a-row-and-resting-clouds">7. Days in a row and resting clouds</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Rule</th>
+<th>Value</th>
+</tr>
+</thead><tbody><tr>
+<td>Qualifying day</td>
+<td>At least 5 scored responses <strong>or</strong> one completed review set in a learning day</td>
+</tr>
+<tr>
+<td>Day boundary</td>
+<td>03:00 local, default <code>Africa/Lagos</code></td>
+</tr>
+<tr>
+<td>Resting clouds at start</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Earn a cloud</td>
+<td>1 per 5 qualifying days</td>
+</tr>
+<tr>
+<td>Maximum clouds held</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>Automatic on a missed day while the run is above 0</td>
+</tr>
+<tr>
+<td>Rest Mode</td>
+<td>Up to 14 days, twice per school term. Set by a parent or teacher. The run is frozen and no clouds are used</td>
+</tr>
+<tr>
+<td>Repair</td>
+<td>Once per term, within 48 hours of a run ending, by completing a review set</td>
+</tr>
+<tr>
+<td>Platform outage</td>
+<td>If the service is down for more than 2 hours in a learning day, that day is excused for everyone</td>
+</tr>
+<tr>
+<td>Offline</td>
+<td>Work credits its local learning day if synced within 72 hours</td>
+</tr>
+<tr>
+<td>Purchase</td>
+<td>Clouds are never sold</td>
+</tr>
+</tbody></table></div>
+<p>Copy rule: never &quot;lose&quot;, &quot;break&quot; or &quot;don&#39;t miss&quot;. See <a href="08-design-system.html#10-voice-in-the-interface">08 Design system §10</a>.</p>
+<h2 id="8-parent-report-rules">8. Parent report rules</h2>
+<p>The weekly report is generated on Sunday at 18:00 Lagos time for the learning week Monday 03:00 to Monday 03:00.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Block</th>
+<th>Rule</th>
+</tr>
+</thead><tbody><tr>
+<td>Headline stats</td>
+<td>Topics at <code>mastered</code>; topics at <code>developing</code>–<code>advanced</code> (&quot;in progress&quot;); active days this term</td>
+</tr>
+<tr>
+<td>Celebrate</td>
+<td>The topic with the highest level gain this week. If none, the longest days-in-a-row run this week. If none, &quot;Tolu practised on N days&quot; (N ≥ 1). If N = 0, a neutral &quot;No practice this week&quot; with one suggested 10-minute set</td>
+</tr>
+<tr>
+<td>Practise next</td>
+<td>Up to 2 topics: due reviews first, then the lowest-level topic in the current class assignment</td>
+</tr>
+<tr>
+<td>Common Entrance coverage</td>
+<td>Per paper: share of blueprint topics with <code>developing</code> or above. Always labelled &quot;Share of the syllabus practised, not a predicted score&quot;</td>
+</tr>
+<tr>
+<td>Note from Auntie Stella</td>
+<td>Template chosen by rule from the celebrate and practise-next blocks. No free text from staff in the MVP</td>
+</tr>
+<tr>
+<td>Forbidden</td>
+<td>Predicted scores, &quot;ready&quot;, rankings against other children, any comparison with classmates</td>
+</tr>
+</tbody></table></div>
+<h2 id="9-placement-check">9. Placement check</h2>
+<ul>
+<li>20 items per paper, spread evenly across strands. Optional and resumable.</li>
+<li>Result per strand: &quot;Looks secure so far&quot; (≥ 75% correct and at least 4 items), &quot;Check this&quot; (&lt; 50%), otherwise &quot;Not yet measured enough&quot;.</li>
+<li>It never reports topic-level results, never sets a topic above Level 2, and is never called a test.</li>
+</ul>
+<h2 id="10-fixtures">10. Fixtures</h2>
+<p>QA fixtures live in <code>packages/rules/fixtures/*.json</code>. Each fixture is a response sequence plus the expected state. Minimum set:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>ID</th>
+<th>Sequence (C = correct, W = wrong; S/H = standard/hard; one set per day unless noted)</th>
+<th>Expected</th>
+</tr>
+</thead><tbody><tr>
+<td>M-01</td>
+<td>3 scored C</td>
+<td><code>not_assessed</code></td>
+</tr>
+<tr>
+<td>M-02</td>
+<td>4 scored: C W W W</td>
+<td><code>foundation</code></td>
+</tr>
+<tr>
+<td>M-03</td>
+<td>6 scored: C C W C C W</td>
+<td><code>foundation</code> (only 4 correct; Level 2 needs 5 of the last 10)</td>
+</tr>
+<tr>
+<td>M-04</td>
+<td>10 scored, 8 C (6 of them S/H), one set, one day</td>
+<td><code>developing</code> (fails the 2-day gate)</td>
+</tr>
+<tr>
+<td>M-05</td>
+<td>As M-04, split over 2 sets on 2 days</td>
+<td><code>proficient</code></td>
+</tr>
+<tr>
+<td>M-06</td>
+<td>Topic Assessment 8/10, no prior history</td>
+<td><code>proficient</code> (assessment route skips the 2-day gate)</td>
+</tr>
+<tr>
+<td>M-07</td>
+<td>M-05 then 4 of 5 H correct (2 application) over 2 sets</td>
+<td><code>advanced</code></td>
+</tr>
+<tr>
+<td>M-08</td>
+<td>M-07 then retention check 4/5 after 14 days</td>
+<td><code>mastered</code></td>
+</tr>
+<tr>
+<td>M-09</td>
+<td>M-08 then retention check 2/5</td>
+<td><code>advanced</code></td>
+</tr>
+<tr>
+<td>M-10</td>
+<td>10 C, all offline <code>key_on_device</code></td>
+<td><code>developing</code> (low-confidence cap)</td>
+</tr>
+<tr>
+<td>M-11</td>
+<td>Placement: 20/20 correct in a strand</td>
+<td>Topics in it at most <code>developing</code></td>
+</tr>
+<tr>
+<td>M-12</td>
+<td>Same item answered C twice within 30 days</td>
+<td>Second response not scored</td>
+</tr>
+<tr>
+<td>M-13</td>
+<td>Correct after hint shown</td>
+<td>Not scored</td>
+</tr>
+<tr>
+<td>M-14</td>
+<td>Correct in 900 ms</td>
+<td>Not scored</td>
+</tr>
+<tr>
+<td>S-01</td>
+<td>6 qualifying days, miss day 7, qualify day 8</td>
+<td>Run continues at 7 qualifying days; clouds 2 → 3 on day 5 (earned) → 2 on day 7 (used)</td>
+</tr>
+<tr>
+<td>S-02</td>
+<td>Offline day synced after 80 hours</td>
+<td>Day not credited</td>
+</tr>
+<tr>
+<td>S-03</td>
+<td>Outage of 3 hours on a day with 0 responses</td>
+<td>Day excused, run continues</td>
+</tr>
+<tr>
+<td>X-01</td>
+<td>25 correct scored responses in one day</td>
+<td>Stardust 200 (capped)</td>
+</tr>
+</tbody></table></div>
+<p>Run length counts qualifying days only; a cloud day keeps the run alive but does not add to it.</p>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>(function(){var r=document.documentElement,b=[].slice.call(document.querySelectorAll(".theme button"));function cur(){try{return localStorage.getItem("stellara-theme")||"auto"}catch(e){return r.getAttribute("data-theme")||"auto"}}function set(p){if(p==="light"||p==="dark")r.setAttribute("data-theme",p);else r.removeAttribute("data-theme");try{if(p==="auto")localStorage.removeItem("stellara-theme");else localStorage.setItem("stellara-theme",p)}catch(e){}b.forEach(function(x){x.setAttribute("aria-pressed",String(x.dataset.set===p))})}b.forEach(function(x){x.addEventListener("click",function(){set(x.dataset.set)})});set(r.getAttribute("data-theme")||cur())})();if(window.mermaid){mermaid.initialize({startOnLoad:true,theme:"base",themeVariables:{primaryColor:"#FCE1EA",primaryBorderColor:"#C23A68",primaryTextColor:"#3A2430",lineColor:"#A12E57",secondaryColor:"#E1F2DB",tertiaryColor:"#FFF2CC",fontFamily:"Inter, sans-serif"}});}</script>
+</body></html>

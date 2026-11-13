@@ -1,0 +1,18 @@
+Subject: You've given consent for {{child_name}}
+
+Thank you, {{parent_name}}. {{child_name}} can now start learning with Stellara.
+
+What you agreed to on {{consent_date}}:
+- Core learning: answers and progress are used to choose practice and show you how {{child_name}} is doing.
+- Sharing with {{school_name}}: teachers see progress for their class.
+- Progress messages: {{progress_messages}}
+- Product research: {{product_research}}
+
+You can change any of these, download a copy of the data, or withdraw consent at any time in Settings. If you withdraw, we stop using the data straight away and delete it within 30 days.
+
+View consent settings: {{consent_url}}
+
+--
+You're getting this because you gave consent for {{child_name}} to use Stellara. We send it so you have a record.
+Change which emails you get: {{settings_url}}
+Stellara Learning Ltd · {{postal_address}}

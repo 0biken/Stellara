@@ -1,0 +1,13 @@
+Subject: {{school_name}}'s term on Stellara
+
+Hello {{admin_name}}. {{school_name}}'s {{term_name}} on Stellara:
+{{pupils_active}} pupils practised · {{topics_mastered}} topics mastered · {{active_days}} average active days
+
+Licences: {{licences_used}} of {{licences_total}} in use. Renewal date: {{renewal_date}}.
+
+Open the school summary: {{summary_url}}
+
+--
+You're getting this because you're an administrator for {{school_name}} on Stellara.
+Change which emails you get: {{settings_url}}
+Stellara Learning Ltd · {{postal_address}}

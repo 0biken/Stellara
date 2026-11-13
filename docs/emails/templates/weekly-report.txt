@@ -1,0 +1,23 @@
+Subject: {{child_name}}'s week: {{days_phrase}}, {{stars_phrase}}
+
+Hello {{parent_name}}. Here's how {{child_name}}'s week went ({{week_range}}).
+
+{{days}} {{days_label}} · {{mastered_new}} {{mastered_label}} · {{stardust}} Stardust
+
+Something to celebrate: {{celebrate_topic}} mastered. {{celebrate_evidence}}
+
+What to practise next: {{next_topic}} (10 minutes, twice this week); {{review_topic}} (review due).
+
+Common Entrance coverage (share of the syllabus practised, not a predicted score):
+Mathematics {{cov_maths}} · English {{cov_english}} · Quantitative {{cov_quant}} · Verbal {{cov_verbal}}
+
+A note from Auntie Stella: {{stella_note}}
+
+Read the full report: {{report_url}}
+
+Stellara is not affiliated with NECO or any exam body.
+
+--
+You're getting this weekly report because you're {{child_name}}'s parent or guardian on Stellara.
+Change which emails you get: {{settings_url}}
+Stellara Learning Ltd · {{postal_address}}

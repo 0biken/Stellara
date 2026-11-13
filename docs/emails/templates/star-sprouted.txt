@@ -1,0 +1,14 @@
+Subject: {{child_name}} has mastered {{topic}}
+
+{{child_name}} has mastered {{topic}}. {{evidence}}
+
+It's the {{ordinal}} topic {{child_name}} has mastered this term.
+
+A note from Auntie Stella: {{stella_note}}
+
+See {{child_name}}'s sky: {{sky_url}}
+
+--
+You're getting this because you asked to hear when {{child_name}} masters a topic.
+Change which emails you get: {{settings_url}}
+Stellara Learning Ltd · {{postal_address}}

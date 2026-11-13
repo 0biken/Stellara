@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Design system · Stellara docs</title>
+<script>try{var t=localStorage.getItem("stellara-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script><meta name="color-scheme" content="light dark">
+<style>
+:root{--bg:#FFF8F1;--surface:#FFFFFF;--surface-2:#FCEFE6;--fg:#3A2430;--muted:#76606A;--line:#F0DCD3;--accent:#C23A68;--accent-ink:#A12E57;--accent-soft:#FCE1EA;--code:#FCEFE6;--honey:#F6C445;--matcha:#86BF7E;--matcha-soft:#E1F2DB;--wordmark:#A12E57;color-scheme:light;--font-display:"Nunito","Inter",system-ui,sans-serif;--font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 var(--font-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;line-height:1.2;letter-spacing:-.01em;text-wrap:balance;scroll-margin-top:72px}
+h1{font-size:36px;margin:0 0 18px} h2{font-size:24px;margin:44px 0 12px;padding-top:20px;border-top:1px solid var(--line)} h3{font-size:18px;font-weight:700;margin:28px 0 8px} h4{font-size:16px;font-weight:700}
+p,ul,ol{margin:0 0 14px;max-width:72ch}
+li{margin:4px 0}
+blockquote{margin:0 0 16px;padding:12px 16px;border-left:4px solid var(--matcha);background:var(--matcha-soft);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+code{font-family:var(--mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:6px}
+pre.code{background:var(--code);padding:14px 16px;border-radius:14px;overflow-x:auto;font-size:13px;line-height:1.5;max-width:100%}
+pre.code code{background:none;padding:0}
+pre.mermaid{background:#FFFFFF;color:#3A2430;border:1px solid var(--line);border-radius:14px;padding:16px;overflow-x:auto;text-align:center}
+.table-wrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+input[type=checkbox]{margin-right:6px}
+.theme{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px}
+.theme button{font:500 12px var(--font-body);border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;cursor:pointer;min-height:30px}
+.theme button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(58,36,48,.2)}
+.wordmark{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;color:var(--wordmark);font-size:21px;line-height:1}
+.brand{display:flex;gap:8px;align-items:center}
+.brand svg{width:30px;height:30px;flex:none}
+.brand small{font:500 13px var(--font-body);color:var(--muted);margin-left:2px}
+.dimmable svg{transition:filter .2s ease}
+:root[data-theme="dark"] .dimmable svg{filter:brightness(.9)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dimmable svg{filter:brightness(.9)}}
+
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:36px;max-width:1200px;margin:0 auto;padding:0 16px}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0;display:grid;align-content:start;gap:2px}
+aside .top{display:grid;gap:10px;margin-bottom:12px}
+aside a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:14px}
+aside a[aria-current]{background:var(--accent-soft);color:var(--accent-ink)}
+main{padding:28px 0 80px;min-width:0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;max-width:720px}
+.gallery figure{margin:0;text-align:center;font-size:13px;color:var(--muted)}.gallery img{width:100%}
+:root[data-theme="dark"] .gallery img{filter:brightness(.9)}
+@media (max-width:820px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}}
+</style></head>
+<body><div class="shell"><aside><div class="top"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+  
+  <path d="M50 27.5 Q49 22 50 17" stroke="#2D6537" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M50 18.5 C44 9 35 8.5 30.5 12.5 C34.5 19.5 43.5 21.5 50 18.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M50 16.5 C55 6 65.5 3.5 70.5 7.5 C67.5 15.5 57.5 19.5 50 16.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="3.6" fill="#C23A68" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45.94 32.93Q50.00 27.00 54.06 32.93L58.80 39.84Q61.29 43.47 65.50 44.71L73.54 47.08Q80.43 49.11 76.05 54.81L70.94 61.45Q68.26 64.93 68.38 69.32L68.61 77.70Q68.81 84.89 62.04 82.48L54.14 79.67Q50.00 78.20 45.86 79.67L37.96 82.48Q31.19 84.89 31.39 77.70L31.62 69.32Q31.74 64.93 29.06 61.45L23.95 54.81Q19.57 49.11 26.46 47.08L34.50 44.71Q38.71 43.47 41.20 39.84Z" fill="#F6C445" stroke="#3A2430" stroke-width="2.6" stroke-linejoin="round"/>
+  <ellipse cx="35.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/><ellipse cx="64.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/>
+  <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
+  <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html" aria-current="page">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a></aside><main><h1 id="08--design-system">08 · Design system</h1>
+<p>The visual direction is <strong>Sweet garden</strong>: strawberry, honey and matcha on cream, with warm cocoa text. It feels sweet, calm and a little cartoony, in both light and dark. The idea behind it is simple: learning grows. Every topic is a star, and a mastered star sprouts. The full visual kit is published as the <a href="https://claude.ai/artifact/X6QxbuLuGakazbv4qT54ga" target="_blank" rel="noopener">Stellara Brand Kit</a>, with a light/dark switch on every board. This document is the build reference: tokens, components and rules. Tokens live in <code>packages/ui/tokens</code>; the source of truth for colour values is <code>docs/tools/tokens.mjs</code>.</p>
+<h2 id="1-principles">1. Principles</h2>
+<ol>
+<li><strong>Sweet, then calm.</strong> Sweetness lives in colour, round shapes and the logo. Layout, motion and words stay quiet. Nothing flashes, bounces or shakes.</li>
+<li><strong>One thing at a time.</strong> One question per screen, one Strawberry button, plenty of space.</li>
+<li><strong>Shape before colour.</strong> Every state can be read without colour (icons, words, shapes).</li>
+<li><strong>Earned, not given.</strong> Honey (rewards) appears only after real learning.</li>
+<li><strong>Both themes, always.</strong> Every screen, the children&#39;s app included, is designed and tested in Daytime and Starlight.</li>
+<li><strong>Kind to cheap phones.</strong> Light assets, no heavy effects inside lessons.</li>
+</ol>
+<h2 id="2-colour">2. Colour</h2>
+<h3 id="21-roles">2.1 Roles</h3>
+<p>Components use <strong>role tokens</strong>, never raw hex values. Each role has a light and a dark value.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Role token</th>
+<th>Light</th>
+<th>Dark</th>
+<th>Use</th>
+</tr>
+</thead><tbody><tr>
+<td><code>bg</code></td>
+<td><code>#FFF8F1</code> Cream</td>
+<td><code>#1E1518</code> Cocoa</td>
+<td>App background</td>
+</tr>
+<tr>
+<td><code>surface</code></td>
+<td><code>#FFFFFF</code></td>
+<td><code>#291E22</code></td>
+<td>Cards, answer tiles, sheets</td>
+</tr>
+<tr>
+<td><code>sunk</code></td>
+<td><code>#FCEFE6</code> Biscuit</td>
+<td><code>#33262B</code></td>
+<td>Wells, empty progress, segmented controls</td>
+</tr>
+<tr>
+<td><code>line</code></td>
+<td><code>#F0DCD3</code></td>
+<td><code>#47363C</code></td>
+<td>Borders, dividers</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td><code>#3A2430</code> Cocoa</td>
+<td><code>#F7ECE7</code> soft white</td>
+<td>Main text</td>
+</tr>
+<tr>
+<td><code>muted</code></td>
+<td><code>#76606A</code> Mauve</td>
+<td><code>#C9B6BB</code></td>
+<td>Secondary text</td>
+</tr>
+<tr>
+<td><code>primary</code></td>
+<td><code>#C23A68</code> Strawberry</td>
+<td><code>#F39BB9</code></td>
+<td>The one main button per screen, links, selection</td>
+</tr>
+<tr>
+<td><code>on-primary</code></td>
+<td><code>#FFFFFF</code></td>
+<td><code>#3A1123</code></td>
+<td>Text on <code>primary</code></td>
+</tr>
+<tr>
+<td><code>primary-tint</code></td>
+<td><code>#FCE1EA</code> Strawberry Milk</td>
+<td><code>#47222F</code></td>
+<td>Selected answers, app icon background</td>
+</tr>
+<tr>
+<td><code>primary-ink</code></td>
+<td><code>#A12E57</code> Strawberry Ink</td>
+<td><code>#F7B3CA</code></td>
+<td>Text on <code>primary-tint</code>; the wordmark</td>
+</tr>
+<tr>
+<td><code>reward</code></td>
+<td><code>#F6C445</code> Honey</td>
+<td><code>#F2C55C</code></td>
+<td>Stars, Stardust, rewards. <strong>Fill only, never text</strong></td>
+</tr>
+<tr>
+<td><code>reward-edge</code></td>
+<td><code>#D9A22C</code></td>
+<td><code>#C99A33</code></td>
+<td>Star outlines</td>
+</tr>
+<tr>
+<td><code>reward-tint</code></td>
+<td><code>#FFF2CC</code> Honey Cream</td>
+<td><code>#3B2F1C</code></td>
+<td>Stardust chip</td>
+</tr>
+<tr>
+<td><code>reward-ink</code></td>
+<td><code>#845400</code> Honey Ink</td>
+<td><code>#F5D27E</code></td>
+<td>Stardust numbers</td>
+</tr>
+<tr>
+<td><code>success</code></td>
+<td><code>#86BF7E</code> Matcha</td>
+<td><code>#93C98A</code></td>
+<td>Progress bars, sprouts, ticks</td>
+</tr>
+<tr>
+<td><code>success-tint</code></td>
+<td><code>#E1F2DB</code> Matcha Milk</td>
+<td><code>#20352A</code></td>
+<td>Correct-answer tile, mastered rows</td>
+</tr>
+<tr>
+<td><code>success-ink</code></td>
+<td><code>#2D6537</code> Matcha Ink</td>
+<td><code>#A8D99F</code></td>
+<td>Success text</td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>#FCE1EA</code></td>
+<td><code>#47222F</code></td>
+<td>Auntie Stella hint cards and notes</td>
+</tr>
+<tr>
+<td><code>focus</code></td>
+<td><code>#C23A68</code></td>
+<td><code>#F39BB9</code></td>
+<td>Focus ring</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td><code>#B42318</code></td>
+<td><code>#FF8A80</code></td>
+<td>Form errors only, <strong>never</strong> a child&#39;s wrong answer</td>
+</tr>
+</tbody></table></div>
+<p><strong>One job per colour.</strong> Strawberry is action. Honey is reward. Matcha is growth and correctness. Don&#39;t use them for anything else, or they lose their meaning.</p>
+<p><strong>Proportion.</strong> Mostly cream and surface (about two thirds of any screen). Strawberry Milk around 12%. Strawberry, Matcha and Honey are small accents.</p>
+<h3 id="22-contrast-computed-both-themes">2.2 Contrast (computed, both themes)</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Pair</th>
+<th>Light</th>
+<th>Dark</th>
+<th>Needs</th>
+</tr>
+</thead><tbody><tr>
+<td><code>text</code> on <code>bg</code></td>
+<td>13.53</td>
+<td>15.40</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>muted</code> on <code>bg</code></td>
+<td>5.46</td>
+<td>9.26</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>muted</code> on <code>surface</code></td>
+<td>5.75</td>
+<td>8.36</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>on-primary</code> on <code>primary</code></td>
+<td>5.12</td>
+<td>7.94</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>primary</code> on <code>bg</code> (links)</td>
+<td>4.87</td>
+<td>8.68</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>primary-ink</code> on <code>primary-tint</code></td>
+<td>5.62</td>
+<td>7.97</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>text</code> on <code>hint</code></td>
+<td>11.59</td>
+<td>11.77</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>reward-ink</code> on <code>bg</code></td>
+<td>6.14</td>
+<td>12.25</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>reward-ink</code> on <code>reward-tint</code></td>
+<td>5.79</td>
+<td>8.95</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>success-ink</code> on <code>success-tint</code></td>
+<td>5.92</td>
+<td>8.16</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>error</code> on <code>surface</code></td>
+<td>6.57</td>
+<td>7.06</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td><code>focus</code> on <code>bg</code> (non-text)</td>
+<td>4.87</td>
+<td>8.68</td>
+<td>3</td>
+</tr>
+</tbody></table></div>
+<p><code>reward</code> as text fails in light mode (1.55:1), so honey is never used for text. Run <code>node docs/tools/tokens.mjs</code> after any change; it exits with an error if a pair falls below its minimum, and CI runs it on every pull request.</p>
+<h3 id="23-daytime-and-starlight-light-and-dark">2.3 Daytime and Starlight (light and dark)</h3>
+<p>In every user-facing word, the light theme is <strong>Daytime</strong> and the dark theme is <strong>Starlight</strong>; following the device is <strong>Match my phone</strong> (see <a href="16-ux-writing.html#4-daytime-and-starlight-appearance">16 §4</a>). &quot;Light&quot; and &quot;dark&quot; are used only in code.</p>
+<ul>
+<li><strong>Default: follow the device</strong> (<code>prefers-color-scheme</code>). This covers the children&#39;s app, the parent app, teacher and school screens, and the website.</li>
+<li><strong>Override:</strong> parents can choose <em>Settings → How Stellara looks: Match my phone, Daytime, Starlight</em>. It is stored <strong>per device</strong> (localStorage <code>stellara-theme</code>, absent means System), so a shared family tablet keeps its own setting. There is no theme switch on children&#39;s screens. This follows Apple&#39;s guidance (HIG <em>Dark Mode</em>: &quot;Avoid offering an app-specific appearance setting&quot;), while still giving families the control they asked for.</li>
+<li><strong>Dark is warm cocoa,</strong> never pure black or purple. Text is a soft off-white (<code>#F7ECE7</code>), never <code>#FFFFFF</code> on dark.</li>
+<li><strong>Illustrations</strong> keep their colours in dark mode. Auntie Stella and photos are dimmed slightly (<code>filter: brightness(.9)</code>) so they don&#39;t glare.</li>
+<li><strong>The logo</strong> keeps the same honey star and sprout in both themes. Only the wordmark colour changes (<code>primary-ink</code>).</li>
+<li><strong>Switching theme changes colours instantly.</strong> Nothing animates.</li>
+</ul>
+<h2 id="3-logo-the-star-sprout">3. Logo: the star sprout</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Part</th>
+<th>Detail</th>
+</tr>
+</thead><tbody><tr>
+<td>Star</td>
+<td>Five rounded points with plump inner corners (inner radius 0.6 R). Fill <code>reward</code>, with a soft cocoa outline (<code>#3A2430</code>, 2.6 / 100 units)</td>
+</tr>
+<tr>
+<td>Face</td>
+<td>Two dot eyes, a small smile, pink cheeks. Friendly, never a talking mascot</td>
+</tr>
+<tr>
+<td>Sprout</td>
+<td>Two matcha leaves and a strawberry bud on a short stem from the top point</td>
+</tr>
+<tr>
+<td>Wordmark</td>
+<td>&quot;stellara&quot;, lowercase, Nunito 800, tracking −0.02 em, colour <code>primary-ink</code></td>
+</tr>
+<tr>
+<td>Versions</td>
+<td>Horizontal lockup, stacked, wordmark only, one colour (on Strawberry, reversed on cocoa), app icon (mark on <code>primary-tint</code>)</td>
+</tr>
+<tr>
+<td>Minimum size</td>
+<td>Lockup 96 px wide (25 mm in print). Mark 24 px; below that, drop the face</td>
+</tr>
+<tr>
+<td>Clear space</td>
+<td>x on every side, where x is the star&#39;s height without the sprout</td>
+</tr>
+<tr>
+<td>Misuse</td>
+<td>Don&#39;t stretch, recolour, add glows or shadows, set honey text, retype or capitalise the wordmark, or swap in a four-point sparkle</td>
+</tr>
+</tbody></table></div>
+<p>The mark is a working drawing. A designer redraws it once the name is cleared. The SVG source is the <code>logoMark()</code> function in the brand kit.</p>
+<h2 id="4-typography">4. Typography</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Role</th>
+<th>Font</th>
+<th>Weight</th>
+<th>Size / line height</th>
+</tr>
+</thead><tbody><tr>
+<td>Display</td>
+<td>Nunito</td>
+<td>800</td>
+<td>44/50</td>
+</tr>
+<tr>
+<td>Heading</td>
+<td>Nunito</td>
+<td>700</td>
+<td>28/34</td>
+</tr>
+<tr>
+<td>Question stem</td>
+<td>Nunito</td>
+<td>800</td>
+<td>22/30 (children), 20/28 (P5–6)</td>
+</tr>
+<tr>
+<td>Child body</td>
+<td>Inter</td>
+<td>400</td>
+<td>18/28</td>
+</tr>
+<tr>
+<td>Body</td>
+<td>Inter</td>
+<td>400</td>
+<td>15/24</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>Inter</td>
+<td>500</td>
+<td>13/18</td>
+</tr>
+<tr>
+<td>Caption</td>
+<td>Inter</td>
+<td>500</td>
+<td>12/18</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li>Stacks: headings <code>Nunito, Inter, system-ui, sans-serif</code>; body <code>Inter, system-ui, -apple-system, &quot;Segoe UI&quot;, Roboto, sans-serif</code>.</li>
+<li>Nunito is never used below 16 px or for long paragraphs.</li>
+<li>Self-host subsetted WOFF2 (Latin, Latin Extended for Yoruba and Hausa letters, ₦). Run the glyph test (ẹ ọ ṣ ń ɓ ɗ ƙ ị ụ ₦) in CI against the subset files. <strong>Known gap:</strong> the Google Fonts build of Nunito has no <strong>ƙ</strong>, so Inter draws that letter. Before launch, either add ƙ to a custom Nunito subset or accept the fallback after checking Hausa headings on real Android phones.</li>
+<li>Children under 8: body text never below 18 px. Parents: never below 15 px.</li>
+<li>Lesson and test screens may fall back to system fonts if the font budget is exceeded.</li>
+</ul>
+<h2 id="5-space-shape-elevation-motion">5. Space, shape, elevation, motion</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Token</th>
+<th>Values</th>
+</tr>
+</thead><tbody><tr>
+<td><code>space</code></td>
+<td>4, 8, 12, 16, 20, 24, 32, 40, 56, 72</td>
+</tr>
+<tr>
+<td><code>radius</code></td>
+<td><code>sm</code> 10 · <code>md</code> 16 · <code>lg</code> 24 · <code>pill</code> 999 (buttons are pills)</td>
+</tr>
+<tr>
+<td><code>border</code></td>
+<td>1 px <code>line</code>; answer tiles 1.5 px; selected 1.5 px <code>primary</code></td>
+</tr>
+<tr>
+<td><code>elevation</code></td>
+<td>None by default. Phone frame and dialogs only: <code>0 24px 50px -28px</code> with a cocoa shadow (black at 50% in dark)</td>
+</tr>
+<tr>
+<td><code>outline</code></td>
+<td>Illustrations and the logo only: cocoa <code>#3A2430</code>, about 1.5 px at display size. Never on UI controls</td>
+</tr>
+<tr>
+<td><code>ease-out</code></td>
+<td><code>cubic-bezier(.23, 1, .32, 1)</code>: anything entering or responding</td>
+</tr>
+<tr>
+<td><code>ease-in-out</code></td>
+<td><code>cubic-bezier(.77, 0, .175, 1)</code>: things moving across the screen</td>
+</tr>
+<tr>
+<td><code>motion.press</code></td>
+<td>120 ms, <code>scale(.97)</code> on buttons and answer tiles</td>
+</tr>
+<tr>
+<td><code>motion.ui</code></td>
+<td>200–240 ms, fade and settle, <code>ease-out</code></td>
+</tr>
+<tr>
+<td><code>motion.reward</code></td>
+<td>400 ms: a star rises in from <code>scale(.95)</code> with opacity</td>
+</tr>
+<tr>
+<td><code>motion.stagger</code></td>
+<td>40 ms between stars that appear together; never blocks input</td>
+</tr>
+<tr>
+<td><code>motion.milestone</code></td>
+<td>≈ 1,200 ms: line draws, star fills, sprout grows. Once, skippable</td>
+</tr>
+<tr>
+<td>Reduced motion</td>
+<td>Fades stay; all movement, scaling and 3D are removed</td>
+</tr>
+</tbody></table></div>
+<p>Motion rules:</p>
+<ul>
+<li>Never <code>ease-in</code> for interface motion. Never enter from <code>scale(0)</code>.</li>
+<li>Animate only <code>transform</code> and <code>opacity</code>. Use CSS transitions (which can be interrupted) for anything that can be triggered repeatedly; keyframes only for one-off moments.</li>
+<li>Hover effects only under <code>@media (hover: hover) and (pointer: fine)</code>.</li>
+<li>No animation on actions that repeat many times an hour (keyboard shortcuts, tab switches in the teacher grid).</li>
+</ul>
+<h2 id="6-components">6. Components</h2>
+<p>Each component lives in <code>packages/ui</code>, has Storybook stories for every state <strong>in both themes</strong>, and passes axe checks.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Component</th>
+<th>Variants and states</th>
+<th>Rules</th>
+</tr>
+</thead><tbody><tr>
+<td><strong>Button</strong></td>
+<td>primary (Strawberry pill, <code>on-primary</code> text), quiet (outline), text; default, pressed, disabled, loading</td>
+<td>Min height 48 px for children, 44 px for adults. One primary per screen. Press: <code>scale(.97)</code></td>
+</tr>
+<tr>
+<td><strong>Answer tile</strong></td>
+<td>default, selected, correct, not-quite, disabled</td>
+<td>Selected: <code>primary-tint</code> fill, <code>primary</code> border. Correct: <code>success-tint</code> fill, ✓ and &quot;Correct&quot;. Not quite: dashed <code>primary</code> border and &quot;Not quite&quot;. Never red, never a shake</td>
+</tr>
+<tr>
+<td><strong>Question card</strong></td>
+<td>stem, optional stimulus, media</td>
+<td>Nunito stem; stimulus collapsible on small screens</td>
+</tr>
+<tr>
+<td><strong>Hint card</strong></td>
+<td>Auntie Stella avatar (32 px) plus text</td>
+<td><code>hint</code> background; opens on tap; marks the response unscored</td>
+</tr>
+<tr>
+<td><strong>Explanation sheet</strong></td>
+<td>worked steps</td>
+<td>Bottom sheet; steps revealed one by one</td>
+</tr>
+<tr>
+<td><strong>Progress bar</strong></td>
+<td>set progress, coverage</td>
+<td>Set progress in <code>success</code> on <code>sunk</code>; coverage in <code>primary</code>. Always paired with &quot;6 of 10&quot; text</td>
+</tr>
+<tr>
+<td><strong>Star state</strong></td>
+<td>not_assessed, foundation, developing, proficient, advanced, mastered</td>
+<td>Dashed outline, outline, half fill, fill, fill with a thicker cocoa edge, fill with a sprout (see <a href="02-learning-rules.html#35-display">02 §3.5</a>)</td>
+</tr>
+<tr>
+<td><strong>Sky (constellation)</strong></td>
+<td>topic stars plus links</td>
+<td>Lit links in <code>link-on</code> (light <code>#E9A3BB</code>, dark <code>#B05E79</code>); unlit links dashed in <code>link-off</code>. Tap a star for the topic sheet</td>
+</tr>
+<tr>
+<td><strong>Day row</strong></td>
+<td>star, resting cloud, empty</td>
+<td>Week view with day letters; cloud uses <code>cloud</code> (light <code>#F6E7DF</code>, dark <code>#3A2D32</code>)</td>
+</tr>
+<tr>
+<td><strong>Stardust chip</strong></td>
+<td>amount</td>
+<td><code>reward-ink</code> on <code>reward-tint</code>, small honey star</td>
+</tr>
+<tr>
+<td><strong>Timer</strong></td>
+<td>calm bar for topic assessments; numeric for practice tests</td>
+<td>Practice test: mm:ss plus bar; no red; at 5 minutes left, one gentle notice</td>
+</tr>
+<tr>
+<td><strong>Report block</strong></td>
+<td>stat, celebrate, practise-next, coverage, note</td>
+<td>Coverage always labelled &quot;not a predicted score&quot;</td>
+</tr>
+<tr>
+<td><strong>Picture PIN</strong></td>
+<td>4 of 9 pictures</td>
+<td>Pictures have text labels for screen readers</td>
+</tr>
+<tr>
+<td><strong>Profile picker</strong></td>
+<td>avatar plus first name</td>
+<td>Avatars from a fixed set; no photos</td>
+</tr>
+<tr>
+<td><strong>Form fields</strong></td>
+<td>text, phone (+234 default), OTP, select, toggle</td>
+<td>Label above, help text below, errors in <code>error</code> with an icon</td>
+</tr>
+<tr>
+<td><strong>Appearance setting</strong> (&quot;How Stellara looks&quot;)</td>
+<td>Match my phone, Daytime, Starlight</td>
+<td>Parent and teacher Settings only. A list of three options, each with a one-line description; default Match my phone. Confirmation: &quot;Saved on this phone.&quot;</td>
+</tr>
+<tr>
+<td><strong>Dialog / sheet</strong></td>
+<td>confirm, info</td>
+<td>Never for nagging; destructive actions need typed confirmation</td>
+</tr>
+<tr>
+<td><strong>Nav</strong></td>
+<td>child: bottom bar (Sky, Learn, Practice); adults: top bar plus side nav on desktop</td>
+<td>Active tab: <code>primary-ink</code> on <code>primary-tint</code></td>
+</tr>
+<tr>
+<td><strong>Empty state</strong></td>
+<td>with Auntie Stella listening pose</td>
+<td>Says what will appear and how to start</td>
+</tr>
+</tbody></table></div>
+<h2 id="7-auntie-stella">7. Auntie Stella</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Asset</th>
+<th>File</th>
+<th>Use</th>
+</tr>
+</thead><tbody><tr>
+<td>Round avatar</td>
+<td><code>docs/assets/auntie-stella/auntie-stella-avatar-round.svg</code></td>
+<td>Hints (32 px), notes (40 px), empty states</td>
+</tr>
+<tr>
+<td>Smiling</td>
+<td><code>auntie-stella-smiling.svg</code></td>
+<td>Welcome, correct runs, report header</td>
+</tr>
+<tr>
+<td>Listening</td>
+<td><code>auntie-stella-listening.svg</code></td>
+<td>Empty states, waiting, onboarding</td>
+</tr>
+<tr>
+<td>Thinking</td>
+<td><code>auntie-stella-thinking.svg</code></td>
+<td>Hints, worked explanations</td>
+</tr>
+<tr>
+<td>Proud</td>
+<td><code>auntie-stella-proud.svg</code></td>
+<td>Topic mastered, end of term, parent note</td>
+</tr>
+</tbody></table></div>
+<p>Placeholder v2 wears the sweet palette: a strawberry top, Matcha Milk background, a honey star earring, and the same soft cocoa outline as the logo. Regenerate with <code>node docs/tools/avatar.mjs</code>.</p>
+<p>Rules: she never looks disappointed at the child; she never appears next to scores or exam claims; minimum size 24 px. The logo star never becomes a second talking character. Replace the placeholder with a commissioned illustration using the brief on board 3 of the brand kit.</p>
+<h2 id="8-layout">8. Layout</h2>
+<ul>
+<li>Child app: a single column, max width 480 px, 16–20 px side gutters, primary action pinned to the bottom within thumb reach.</li>
+<li>Parent app: a single column on phones; two columns from 768 px.</li>
+<li>Teacher and school: responsive grid; the class grid scrolls horizontally inside its own container.</li>
+<li>Content studio: desktop only (≥ 1024 px).</li>
+</ul>
+<h2 id="9-accessibility">9. Accessibility</h2>
+<ul>
+<li>WCAG 2.2 AA is a release gate <strong>in both themes</strong>.</li>
+<li>Touch targets ≥ 48 × 48 px for children.</li>
+<li>Every interactive element has a visible focus ring (2 px <code>focus</code>, 3 px offset).</li>
+<li>Screen readers: question stems and options read in order; star states have text labels; maths has an accessible MathML alternative.</li>
+<li>Read-aloud (Web Speech API, where available) for children under 8; it is never required to complete a task.</li>
+<li>Never rely on colour alone: correct and not-quite states include an icon and a word.</li>
+<li>Respect <code>prefers-reduced-motion</code> and <code>prefers-contrast: more</code> (in high-contrast mode, <code>muted</code> text switches to <code>text</code> and borders to <code>line-strong</code>).</li>
+</ul>
+<h2 id="10-voice-in-the-interface">10. Voice in the interface</h2>
+<p>The full writing guide, with copy for every screen, WhatsApp, SMS and email, is <a href="16-ux-writing.html">16 UX writing</a>.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Register</th>
+<th>Speaker</th>
+<th>Rules</th>
+<th>Example</th>
+</tr>
+</thead><tbody><tr>
+<td>Ages 4–7</td>
+<td>Auntie Stella</td>
+<td>≤ 8 words, read aloud, concrete</td>
+<td>&quot;Well done! You found it.&quot;</td>
+</tr>
+<tr>
+<td>Ages 8–12</td>
+<td>Auntie Stella</td>
+<td>≤ 15 words, specific</td>
+<td>&quot;Correct. That&#39;s four in a row.&quot;</td>
+</tr>
+<tr>
+<td>Parents</td>
+<td>Stellara</td>
+<td>Plain, warm, evidence first, no exclamation marks</td>
+<td>&quot;Tolu has mastered Fractions: 9 of the last 10 right, including a check two weeks later.&quot;</td>
+</tr>
+</tbody></table></div>
+<p><strong>Word list.</strong> Say: Stardust, days in a row, resting cloud, your sky, sprouted, mastered, needs practice, not yet, practice test, coverage. Never say: weak areas, failed, you are ready, guaranteed score, don&#39;t lose your streak, hurry, expo, runz, live questions, official JAMB/NECO, AI tutor.</p>
+<h2 id="11-tokens-in-code">11. Tokens in code</h2>
+<pre class="code"><code>:root {
+  --bg:#FFF8F1; --surface:#FFFFFF; --sunk:#FCEFE6; --line:#F0DCD3; --line-strong:#E3C7BC;
+  --text:#3A2430; --muted:#76606A;
+  --primary:#C23A68; --on-primary:#FFFFFF; --primary-tint:#FCE1EA; --primary-ink:#A12E57;
+  --reward:#F6C445; --reward-edge:#D9A22C; --reward-tint:#FFF2CC; --reward-ink:#845400;
+  --success:#86BF7E; --success-tint:#E1F2DB; --success-ink:#2D6537;
+  --hint:#FCE1EA; --focus:#C23A68; --error:#B42318;
+  --link-on:#E9A3BB; --link-off:#EAD5CD; --cloud:#F6E7DF; --outline:#3A2430;
+  --font-display:&quot;Nunito&quot;,&quot;Inter&quot;,system-ui,sans-serif;
+  --font-body:&quot;Inter&quot;,system-ui,-apple-system,&quot;Segoe UI&quot;,Roboto,sans-serif;
+  --radius-sm:10px; --radius-md:16px; --radius-lg:24px;
+  --ease-out:cubic-bezier(.23,1,.32,1); --ease-in-out:cubic-bezier(.77,0,.175,1);
+  --motion-press:120ms; --motion-ui:200ms; --motion-reward:400ms;
+  color-scheme: light;
+}
+/* Dark values: applied when the device is dark and no override is set, or when the parent chose Dark */
+@media (prefers-color-scheme: dark) { :root:not([data-theme=&quot;light&quot;]) { /* same block as below */ } }
+:root[data-theme=&quot;dark&quot;] {
+  --bg:#1E1518; --surface:#291E22; --sunk:#33262B; --line:#47363C; --line-strong:#5E4950;
+  --text:#F7ECE7; --muted:#C9B6BB;
+  --primary:#F39BB9; --on-primary:#3A1123; --primary-tint:#47222F; --primary-ink:#F7B3CA;
+  --reward:#F2C55C; --reward-edge:#C99A33; --reward-tint:#3B2F1C; --reward-ink:#F5D27E;
+  --success:#93C98A; --success-tint:#20352A; --success-ink:#A8D99F;
+  --hint:#47222F; --focus:#F39BB9; --error:#FF8A80;
+  --link-on:#B05E79; --link-off:#4D3B41; --cloud:#3A2D32;
+  color-scheme: dark;
+}</code></pre>
+<pre class="code"><code>// tailwind.config.ts (excerpt). Colours point at CSS variables so one class works in both themes.
+const v = (n: string) =&gt; `var(--${n})`;
+export default {
+  darkMode: [&quot;variant&quot;, ['@media (prefers-color-scheme: dark) { :root:not([data-theme=&quot;light&quot;]) &amp; }', '[data-theme=&quot;dark&quot;] &amp;']],
+  theme: {
+    extend: {
+      colors: {
+        bg: v(&quot;bg&quot;), surface: v(&quot;surface&quot;), sunk: v(&quot;sunk&quot;), line: v(&quot;line&quot;),
+        text: v(&quot;text&quot;), muted: v(&quot;muted&quot;),
+        primary: { DEFAULT: v(&quot;primary&quot;), on: v(&quot;on-primary&quot;), tint: v(&quot;primary-tint&quot;), ink: v(&quot;primary-ink&quot;) },
+        reward: { DEFAULT: v(&quot;reward&quot;), edge: v(&quot;reward-edge&quot;), tint: v(&quot;reward-tint&quot;), ink: v(&quot;reward-ink&quot;) },
+        success: { DEFAULT: v(&quot;success&quot;), tint: v(&quot;success-tint&quot;), ink: v(&quot;success-ink&quot;) },
+        hint: v(&quot;hint&quot;), focus: v(&quot;focus&quot;), error: v(&quot;error&quot;),
+      },
+      fontFamily: { display: [&quot;Nunito&quot;, &quot;Inter&quot;, &quot;system-ui&quot;, &quot;sans-serif&quot;], body: [&quot;Inter&quot;, &quot;system-ui&quot;, &quot;sans-serif&quot;] },
+      borderRadius: { sm: &quot;10px&quot;, md: &quot;16px&quot;, lg: &quot;24px&quot; },
+      transitionTimingFunction: { out: &quot;cubic-bezier(.23,1,.32,1)&quot;, &quot;in-out&quot;: &quot;cubic-bezier(.77,0,.175,1)&quot; },
+    },
+  },
+};</code></pre>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>(function(){var r=document.documentElement,b=[].slice.call(document.querySelectorAll(".theme button"));function cur(){try{return localStorage.getItem("stellara-theme")||"auto"}catch(e){return r.getAttribute("data-theme")||"auto"}}function set(p){if(p==="light"||p==="dark")r.setAttribute("data-theme",p);else r.removeAttribute("data-theme");try{if(p==="auto")localStorage.removeItem("stellara-theme");else localStorage.setItem("stellara-theme",p)}catch(e){}b.forEach(function(x){x.setAttribute("aria-pressed",String(x.dataset.set===p))})}b.forEach(function(x){x.addEventListener("click",function(){set(x.dataset.set)})});set(r.getAttribute("data-theme")||cur())})();if(window.mermaid){mermaid.initialize({startOnLoad:true,theme:"base",themeVariables:{primaryColor:"#FCE1EA",primaryBorderColor:"#C23A68",primaryTextColor:"#3A2430",lineColor:"#A12E57",secondaryColor:"#E1F2DB",tertiaryColor:"#FFF2CC",fontFamily:"Inter, sans-serif"}});}</script>
+</body></html>

@@ -1,0 +1,15 @@
+# Generated outputs: their sources (docs/md, brand-kit/src, docs/tools/*.mjs) are graphed instead
+docs/html/
+docs/stellara-docs.html
+brand-kit/stellara-brand-kit.html
+docs/emails/preview/
+docs/emails/index.html
+docs/emails/templates/*.html
+docs/tools/node_modules/
+graphify-out/
+# Generated avatar previews and animation variants (avatar.mjs is the source).
+docs/assets/auntie-stella/preview.html
+docs/assets/auntie-stella/*-animated.svg
+docs/assets/auntie-stella/stellara-avatar-preview.png
+docs/assets/auntie-stella/*.mp4
+docs/assets/auntie-stella/*.webm

@@ -1,0 +1,16 @@
+Subject: Important: a security issue with your account
+
+Hello {{parent_name}}. We are writing to tell you about a security issue that affected some of {{child_name}}'s data.
+
+What happened: {{what_happened}}
+What data was involved: {{data_involved}}
+What we have done: {{actions_taken}}
+What you should do: {{parent_actions}}
+Who to contact: {{dpo_name}}, Data Protection Officer, {{dpo_phone}}, or reply to this email. You can also contact the Nigeria Data Protection Commission.
+
+Full notice: {{notice_url}}
+
+--
+You're getting this because the law requires us to tell you about a security issue that affects your family's data.
+Change which emails you get: {{settings_url}}
+Stellara Learning Ltd · {{postal_address}}

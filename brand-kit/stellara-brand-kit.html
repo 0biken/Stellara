@@ -1,0 +1,1441 @@
+<title>Stellara Brand Kit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>try{var t=localStorage.getItem("stellara-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* "Sweet garden": cream, strawberry, honey and matcha. One set of semantic tokens drives the page AND every brand specimen, so the whole kit previews in light and dark. */
+:root{
+  --bg:#FFF8F1; --surface:#FFFFFF; --sunk:#FCEFE6; --line:#F0DCD3; --line-strong:#E3C7BC;
+  --text:#3A2430; --muted:#76606A;
+  --primary:#C23A68; --on-primary:#FFFFFF; --primary-tint:#FCE1EA; --primary-ink:#A12E57;
+  --reward:#F6C445; --reward-edge:#D9A22C; --reward-tint:#FFF2CC; --reward-ink:#845400;
+  --success:#86BF7E; --success-tint:#E1F2DB; --success-ink:#2D6537;
+  --hint:#FCE1EA; --focus:#C23A68; --error:#B42318; --error-tint:#FDE7E4;
+  --link-on:#E9A3BB; --link-off:#EAD5CD; --cloud:#F6E7DF; --cloud-edge:#D9BFB4;
+  --outline:#3A2430; --cheek:#F4A9C2; --wordmark:#A12E57; --bezel:#2E2026; --shadow:rgba(58,36,48,.28);
+  --font-display:"Nunito","Inter",system-ui,sans-serif;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:16px; --r-lg:24px;
+  --ease-out:cubic-bezier(.23,1,.32,1); --ease-in-out:cubic-bezier(.77,0,.175,1);
+  --t-press:120ms; --t-ui:200ms; --t-reward:400ms;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1E1518; --surface:#291E22; --sunk:#33262B; --line:#47363C; --line-strong:#5E4950;
+  --text:#F7ECE7; --muted:#C9B6BB;
+  --primary:#F39BB9; --on-primary:#3A1123; --primary-tint:#47222F; --primary-ink:#F7B3CA;
+  --reward:#F2C55C; --reward-edge:#C99A33; --reward-tint:#3B2F1C; --reward-ink:#F5D27E;
+  --success:#93C98A; --success-tint:#20352A; --success-ink:#A8D99F;
+  --hint:#47222F; --focus:#F39BB9; --error:#FF8A80; --error-tint:#45201E;
+  --link-on:#B05E79; --link-off:#4D3B41; --cloud:#3A2D32; --cloud-edge:#6A5560;
+  --cheek:#E58AA9; --wordmark:#F7B3CA; --bezel:#120C0E; --shadow:rgba(0,0,0,.5);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1E1518; --surface:#291E22; --sunk:#33262B; --line:#47363C; --line-strong:#5E4950;
+  --text:#F7ECE7; --muted:#C9B6BB;
+  --primary:#F39BB9; --on-primary:#3A1123; --primary-tint:#47222F; --primary-ink:#F7B3CA;
+  --reward:#F2C55C; --reward-edge:#C99A33; --reward-tint:#3B2F1C; --reward-ink:#F5D27E;
+  --success:#93C98A; --success-tint:#20352A; --success-ink:#A8D99F;
+  --hint:#47222F; --focus:#F39BB9; --error:#FF8A80; --error-tint:#45201E;
+  --link-on:#B05E79; --link-off:#4D3B41; --cloud:#3A2D32; --cloud-edge:#6A5560;
+  --cheek:#E58AA9; --wordmark:#F7B3CA; --bezel:#120C0E; --shadow:rgba(0,0,0,.5);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3,h4,h5{font-family:var(--font-display);font-weight:700;line-height:1.15;text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+a{color:var(--primary)}
+code{font-size:12.5px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:16px;padding-block:10px}
+.brandlink{display:flex;align-items:center;gap:6px;text-decoration:none;flex:none}
+.brandlink .lockup{font-size:20px}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:none;text-decoration:none;color:var(--muted);font-size:13px;font-weight:500;padding:7px 11px;border-radius:999px;white-space:nowrap}
+.tabs a[aria-current="page"]{color:var(--primary-ink);background:var(--primary-tint)}
+@media (hover:hover) and (pointer:fine){.tabs a:hover{color:var(--text)}}
+.theme{display:flex;flex:none;background:var(--sunk);border-radius:999px;padding:3px;gap:2px}
+.theme button{font:500 12px var(--font-body);border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;cursor:pointer;min-height:30px}
+.theme button[aria-pressed="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 2px var(--shadow)}
+
+/* board scaffolding */
+.view{padding-block:56px 88px}
+.board-head{display:grid;gap:12px;margin-bottom:40px;max-width:720px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.board-head h2{font-size:clamp(32px,4.6vw,46px);font-weight:800}
+.lede{font-size:17px;color:var(--muted);max-width:62ch}
+.section{margin-top:56px;display:grid;gap:18px}
+.section>h3{font-size:22px}
+.section>.sub{color:var(--muted);max-width:62ch;margin-top:-8px}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
+.item{display:grid;gap:6px;align-content:start;min-width:0;padding-top:16px;border-top:1px solid var(--line)}
+.item h4{font-size:18px}
+.k{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)} .small{font-size:13.5px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;min-width:0}
+.note{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:baseline}
+.note b{color:var(--text);font-weight:600}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:4px 11px;border-radius:999px;background:var(--sunk);color:var(--text)}
+.tag.flag{background:var(--reward-tint);color:var(--reward-ink)}
+.next{display:flex;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap;font-size:14px}
+.next a{text-decoration:none;font-weight:500}
+ul.clean{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+ul.clean li{padding-left:18px;position:relative}
+ul.clean li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--success);}
+.btn{font:600 15px var(--font-body);border:0;border-radius:999px;padding:12px 20px;min-height:44px;cursor:pointer;background:var(--primary);color:var(--on-primary);text-decoration:none;display:inline-flex;align-items:center;transition:transform var(--t-press) var(--ease-out)}
+.btn:active{transform:scale(.97)}
+.btn.quiet{background:transparent;color:var(--primary-ink);box-shadow:inset 0 0 0 1.5px var(--line-strong)}
+
+/* logo */
+.lockup{display:inline-flex;align-items:center;gap:.22em;font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;line-height:1;color:var(--wordmark)}
+.lockup .mark{width:1.15em;height:1.15em;display:inline-block;flex:none}
+.lockup .mark svg{width:100%;height:100%;display:block;overflow:visible}
+.lockup.stack{flex-direction:column;gap:.2em}
+.logo-stage{display:grid;place-items:center;padding:56px 24px;border-radius:var(--r-lg);min-height:220px}
+.on-bg{background:var(--bg);border:1px solid var(--line)}
+.on-tint{background:var(--primary-tint)}
+.on-primary{background:var(--primary);color:var(--on-primary)}
+.on-primary .lockup{color:var(--on-primary)}
+.on-ink{background:var(--text);color:var(--bg)}
+.on-ink .lockup{color:var(--bg)}
+.appicon{width:120px;aspect-ratio:1;border-radius:24%;background:var(--primary-tint);display:grid;place-items:center;overflow:hidden;flex:none}
+.appicon svg{width:66%;height:66%;overflow:visible}
+.icon-sizes{display:flex;gap:24px;align-items:flex-end;flex-wrap:wrap}
+.icon-sizes figure{margin:0;display:grid;gap:8px;justify-items:center;font-size:12px;color:var(--muted)}
+.clearspace{display:grid;place-items:center;padding:44px;border-radius:var(--r-lg);background:var(--bg);border:1px solid var(--line)}
+.clearspace .box{padding:30px;outline:1.5px dashed var(--link-on);position:relative}
+.clearspace .box::before{content:"x";position:absolute;top:7px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--primary-ink)}
+.misuse .tile{height:120px;border-radius:var(--r);display:grid;place-items:center;position:relative;overflow:hidden;font-size:30px;background:var(--bg);border:1px solid var(--line)}
+.misuse .tile::after{content:"✕";position:absolute;top:8px;right:10px;font-size:13px;color:var(--error);font-family:var(--font-body)}
+.misuse p{font-size:13.5px;margin-top:8px;color:var(--muted)}
+.anatomy{display:grid;grid-template-columns:200px minmax(0,1fr);gap:28px;align-items:center}
+.anatomy .big{width:200px;aspect-ratio:1;border-radius:var(--r-lg);background:var(--sunk);display:grid;place-items:center}
+.anatomy .big svg{width:72%;height:72%;overflow:visible}
+.stages{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-end}
+.stages figure{margin:0;display:grid;justify-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.stages svg{width:56px;height:56px;overflow:visible}
+
+/* cover */
+.cover{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:center;padding:48px;border-radius:32px;background:var(--surface);border:1px solid var(--line);position:relative;overflow:hidden}
+.cover h1{font-size:clamp(44px,6.6vw,78px);font-weight:800;letter-spacing:-.025em;color:var(--text)}
+.cover .intro{display:grid;gap:20px}
+.cover .intro p{color:var(--muted);font-size:17px;max-width:42ch}
+.board-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:0 28px;margin-top:40px}
+.board-list a{display:grid;grid-template-columns:28px 1fr;gap:2px 10px;padding:16px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--text)}
+.board-list i{font-style:normal;font-size:13px;color:var(--muted);grid-row:span 2;padding-top:3px;font-variant-numeric:tabular-nums}
+.board-list b{font-family:var(--font-display);font-weight:700;font-size:17px}
+.board-list span{font-size:13px;color:var(--muted)}
+@media (hover:hover) and (pointer:fine){.board-list a:hover b{color:var(--primary)}}
+
+/* stage */
+.stage{position:relative;min-height:380px;border-radius:var(--r-lg);overflow:hidden;height:100%;background:var(--sunk)}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
+.stage .fallback{position:absolute;inset:0;display:grid;place-items:center}
+.stage .fallback svg{width:min(70%,320px);height:auto;overflow:visible}
+.stage.ready .fallback{display:none}
+.stage .hud{position:absolute;left:14px;right:14px;bottom:10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted);pointer-events:none}
+.stage .hud button{pointer-events:auto;font:600 12px var(--font-body);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 11px;color:var(--primary-ink);cursor:pointer}
+#motion-slot .stage{min-height:420px}
+
+/* foundation */
+.promise{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,4vw,42px);line-height:1.15;letter-spacing:-.02em;max-width:22ch}
+.tagline{font-family:var(--font-display);font-weight:700;font-size:24px;line-height:1.2}
+.spectrum{position:relative;height:3px;border-radius:3px;background:var(--line);margin:18px 0 8px}
+.spectrum span{position:absolute;left:55%;top:50%;width:16px;height:16px;transform:translate(-50%,-50%);border-radius:50%;background:var(--reward);box-shadow:0 0 0 4px var(--bg),0 0 0 5.5px var(--reward-edge)}
+.spectrum-labels{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+
+/* auntie stella */
+.stella{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:center}
+.stella .portrait{aspect-ratio:1;border-radius:var(--r-lg);position:relative;overflow:hidden}
+.stella .portrait svg{position:absolute;inset:0;width:100%;height:100%}
+.stella .portrait small{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#2D6537;z-index:1;font-weight:600}
+.stella-ex svg{width:100%;max-width:180px;height:auto;border-radius:20px}
+.stella blockquote{margin:0;font-family:var(--font-display);font-weight:700;font-size:clamp(26px,3.4vw,36px);line-height:1.2;letter-spacing:-.015em}
+.avatar svg{transition:filter var(--t-ui) ease}
+:root[data-theme="dark"] .avatar svg{filter:brightness(.9)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .avatar svg{filter:brightness(.9)}}
+
+/* colour */
+.swatch{display:grid;gap:8px;min-width:0}
+.swatch .pair{display:grid;grid-template-columns:1fr 1fr;height:96px;border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+.swatch .pair div{display:flex;flex-direction:column;justify-content:flex-end;padding:8px 10px;font-size:11px;font-weight:600;gap:1px}
+.swatch .pair div span{font-weight:400;opacity:.85;font-variant-numeric:tabular-nums}
+.swatch b{font-family:var(--font-display);font-weight:700;font-size:16px}
+.swatch code{font-size:12px;color:var(--muted)}
+.swatch .small{color:var(--muted)}
+.ratio-bar{display:flex;height:44px;border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+.ratio-bar div{display:flex;align-items:center;padding:0 10px;font-size:11.5px;font-weight:600;min-width:0;overflow:hidden;white-space:nowrap;color:var(--text)}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.sample{display:inline-block;padding:3px 10px;border-radius:8px;font-weight:600;white-space:nowrap;box-shadow:inset 0 0 0 1px rgba(128,128,128,.25)}
+.res{font-weight:600;font-size:12px;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.res.pass{background:var(--success-tint);color:var(--success-ink)}.res.large{background:var(--reward-tint);color:var(--reward-ink)}.res.fail{background:var(--error-tint);color:var(--error)}
+
+/* type */
+.spec{padding:36px;display:grid;gap:14px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line)}
+.spec .big{font-size:clamp(48px,8vw,92px);line-height:1;letter-spacing:-.025em}
+.spec .abc{font-size:20px;word-break:break-word}
+.scale-row{display:grid;grid-template-columns:180px minmax(0,1fr);gap:16px;align-items:baseline;padding:14px 0;border-top:1px solid var(--line)}
+.scale-row .lbl{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.glyph-cell{font-size:24px;line-height:1.2}
+
+/* icons + motif */
+.icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.icons figure{margin:0;display:grid;justify-items:center;gap:10px;padding:22px 8px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.icons svg{width:30px;height:30px;color:var(--text)}
+.acc{fill:var(--reward);stroke:none}
+.ico-grid{width:144px;height:144px;border-radius:var(--r);flex:none;background:var(--surface) linear-gradient(var(--line) 1px,transparent 1px) 0 0/6px 6px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/6px 6px;color:var(--text)}
+.ico-grid svg{width:100%;height:100%}
+.constellation svg{width:100%;height:auto;display:block;overflow:visible}
+.constellation .cs{opacity:0;transform:translateY(6px) scale(.95);transform-box:fill-box;transform-origin:center;transition:opacity 240ms var(--ease-out),transform 240ms var(--ease-out);transition-delay:calc(var(--i)*40ms)}
+.constellation.in .cs{opacity:1;transform:none}
+.legend{display:flex;flex-wrap:wrap;gap:20px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend svg{width:22px;height:22px;overflow:visible}
+
+/* motion previews */
+.previews{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.pv{display:grid;gap:12px}
+.pv .scr{height:210px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-lg);display:grid;place-items:center;position:relative;overflow:hidden}
+.pv b{font-family:var(--font-display);font-weight:700;font-size:17px}
+.opt{background:var(--surface);border:1.5px solid var(--line-strong);color:var(--text);border-radius:16px;padding:12px 22px;min-height:52px;min-width:72px;font:700 19px var(--font-display);cursor:pointer;transition:transform var(--t-press) var(--ease-out),background-color var(--t-ui) ease,border-color var(--t-ui) ease}
+.opt:active{transform:scale(.97)}
+.opt.ok{background:var(--success-tint);border-color:var(--success);color:var(--success-ink)}
+.opt.no{border-color:var(--primary);border-style:dashed}
+.fadestar{position:absolute;top:20px;width:38px;height:38px;opacity:0;transform:translateY(6px) scale(.95);transition:opacity var(--t-reward) var(--ease-out),transform var(--t-reward) var(--ease-out);overflow:visible}
+.fadestar.show{opacity:1;transform:none}
+.line-out{position:absolute;bottom:16px;left:16px;right:16px;text-align:center;font-size:14px;color:var(--muted);opacity:0;transition:opacity var(--t-ui) var(--ease-out)}
+.line-out.show{opacity:1}
+.nights{display:flex;gap:10px}
+.nights span{width:28px;height:28px;display:grid;place-items:center}
+.nights svg{width:100%;height:100%;overflow:visible}
+.nights .fresh svg{animation:pop var(--t-reward) var(--ease-out)}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.lvl .ln{stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
+.lvl.go .ln{animation:draw 700ms var(--ease-in-out) forwards}
+.lvl .end{opacity:.3;transition:opacity var(--t-reward) var(--ease-out) 650ms}
+.lvl .end .leaf{transform:scale(.6);transform-box:fill-box;transform-origin:50% 100%;opacity:0;transition:transform var(--t-reward) var(--ease-out) 800ms,opacity var(--t-reward) var(--ease-out) 800ms}
+.lvl.go .end{opacity:1}
+.lvl.go .end .leaf{transform:none;opacity:1}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* voice */
+.say{font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1.3}
+.words{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px}
+.words.bad span{text-decoration:line-through;color:var(--muted)}
+
+/* writing board */
+.setting{max-width:440px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px;display:grid;gap:6px}
+.setting-title{font:700 17px var(--font-display);padding:4px 8px 6px}
+.setting button{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;border:1.5px solid transparent;background:transparent;border-radius:16px;padding:12px;cursor:pointer;color:var(--text);font:inherit;min-height:56px;transition:transform var(--t-press) var(--ease-out)}
+.setting button:active{transform:scale(.98)}
+.setting button[aria-pressed="true"]{border-color:var(--primary);background:var(--primary-tint)}
+.setting button b{display:block;font-weight:600}
+.setting button small{display:block;color:var(--muted);font-size:13px;line-height:1.45}
+.setting button[aria-pressed="true"] small{color:var(--primary-ink)}
+.sw-dot{width:22px;height:22px;border-radius:50%;flex:none;margin-top:1px;box-shadow:inset 0 0 0 1.5px var(--line-strong)}
+.setting-foot{font-size:12.5px;color:var(--muted);padding:4px 8px 2px}
+.msgs .k{display:block;margin-bottom:8px}
+.bubble{position:relative;background:var(--success-tint);color:var(--text);border-radius:16px 16px 16px 4px;padding:12px 14px 24px;font-size:14px;line-height:1.5;max-width:320px}
+.bubble.sms{background:var(--sunk);padding-bottom:12px}
+.bubble .time{position:absolute;right:12px;bottom:6px;font-size:11px;color:var(--muted)}
+.inbox{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden}
+.inbox div{display:grid;gap:1px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;min-width:0}
+.inbox div:last-child{border-bottom:0}
+.inbox .subj{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inbox .pre{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* applications: phones follow the theme, so they preview the product in light and dark */
+.apps{display:grid;gap:40px 28px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));align-items:start}
+.app{display:grid;gap:12px;justify-items:center;min-width:0}
+.app h4{font-size:17px}
+.app>p{font-size:13.5px;color:var(--muted);text-align:center;max-width:34ch}
+.phone{width:100%;max-width:280px;aspect-ratio:9/19;border-radius:40px;padding:8px;background:var(--bezel);box-shadow:0 24px 50px -28px var(--shadow)}
+.screen{width:100%;height:100%;border-radius:33px;overflow:hidden;position:relative;display:flex;flex-direction:column;font-size:13px;background:var(--bg);color:var(--text)}
+.statusbar{height:24px;flex:none}
+.s-pad{padding:8px 18px;display:grid;gap:14px;align-content:start;flex:1}
+.prog{height:8px;border-radius:9px;background:var(--sunk);overflow:hidden}
+.prog i{display:block;height:100%;width:60%;background:var(--success);border-radius:9px}
+.s-q{font:800 22px/1.2 var(--font-display);letter-spacing:-.01em}
+.s-ans{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.s-ans div{background:var(--surface);border:1.5px solid var(--line-strong);border-radius:16px;padding:16px 8px;text-align:center;font:800 22px var(--font-display)}
+.s-ans .sel{border-color:var(--primary);background:var(--primary-tint);color:var(--primary-ink)}
+.s-hint{display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start;background:var(--hint);border-radius:16px;padding:10px 12px;font-size:12.5px;line-height:1.45}
+.s-hint .mono{width:32px;height:32px;border-radius:50%;overflow:hidden;display:block}
+.s-hint .mono svg{width:100%;height:100%;display:block}
+.s-cta{margin:0 18px 22px;background:var(--primary);color:var(--on-primary);border-radius:999px;padding:14px;text-align:center;font:800 16px var(--font-display)}
+.s-week{display:flex;justify-content:space-between}
+.s-week div{display:grid;gap:4px;justify-items:center;font-size:10px;color:var(--muted)}
+.s-week svg{width:24px;height:24px;overflow:visible}
+.s-stat{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.s-stat div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:11px;color:var(--muted)}
+.s-stat strong{display:block;font:800 20px var(--font-display);color:var(--text)}
+.s-stat .dust strong{color:var(--reward-ink)}
+.s-report .hd{padding:6px 18px 14px;border-bottom:1px solid var(--line);display:grid;gap:2px}
+.s-report .hd small{color:var(--muted);font-size:10.5px}
+.s-report .hd b{font:800 18px var(--font-display)}
+.s-report .bd{padding:10px 18px;display:grid;gap:9px;font-size:11.5px;overflow:hidden}
+.s-report h6{margin:4px 0 0;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.s-report .topic{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line)}
+.s-report .topic span{display:flex;gap:7px;align-items:center;min-width:0}
+.s-report .topic svg{width:16px;height:16px;flex:none;overflow:visible}
+.s-report .st{font-size:10px;color:var(--muted);white-space:nowrap}
+.s-report .bar{display:grid;grid-template-columns:76px 1fr 28px;gap:6px;align-items:center;font-size:10.5px}
+.s-report .bar i{height:6px;border-radius:9px;background:var(--sunk);overflow:hidden;display:block}
+.s-report .bar i b{display:block;height:100%;background:var(--primary);border-radius:9px}
+.s-report .letter{background:var(--hint);border-radius:14px;padding:9px 11px;font-size:11px;line-height:1.45}
+.store{display:grid;gap:18px;justify-items:center;padding:28px 20px;border:1px solid var(--line);border-radius:var(--r-lg);width:100%;background:var(--surface)}
+.store .row{display:flex;gap:12px;align-items:center}
+.store .row .appicon{width:60px}
+.store .row b{font-weight:600}
+.store .row small{display:block;color:var(--muted);font-size:12px}
+.social{width:100%;max-width:320px;aspect-ratio:1;border-radius:var(--r-lg);background:var(--success-tint);color:var(--text);padding:26px;display:grid;align-content:space-between;overflow:hidden}
+.social h5{font:800 28px/1.12 var(--font-display);letter-spacing:-.02em;margin:0;max-width:12ch}
+.social svg{width:100%;height:auto;overflow:visible}
+.social .foot{font-size:11px;color:var(--muted)}
+.print{width:100%;max-width:320px;border-radius:8px;background:var(--surface);padding:22px;display:grid;gap:10px;box-shadow:0 18px 40px -26px var(--shadow);border:1px solid var(--line)}
+.print b{font:800 17px var(--font-display)}
+.print svg{width:100%;height:auto;overflow:visible}
+
+@media (max-width:820px){
+  .cover,.stella{grid-template-columns:1fr;padding:24px}
+  .stella{padding:0}
+  .stage{min-height:300px}
+  .scale-row,.anatomy{grid-template-columns:1fr;gap:6px}
+}
+@media (max-width:560px){.theme button{padding:6px 8px}.brandlink .lockup span.word{display:none}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important;transition-delay:0ms!important}
+  .constellation .cs,.fadestar{transform:none!important}
+}
+</style>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brandlink" href="#" aria-label="Stellara brand kit, cover"><span class="lockup"><span class="mark" data-logo="mark"></span><span class="word">stellara</span></span></a>
+    <nav class="tabs" aria-label="Boards">
+      <a href="#foundation">Foundation</a><a href="#logo">Logo</a><a href="#stella">Auntie Stella</a><a href="#colour">Colour</a><a href="#type">Type</a><a href="#icons">Icons</a><a href="#motion">Motion &amp; 3D</a><a href="#voice">Writing</a><a href="#applications">Applications</a>
+    </nav>
+    <div class="theme" role="group" aria-label="Appearance">
+      <button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- COVER -->
+<section class="view" data-view="home">
+  <div class="wrap">
+    <div class="cover">
+      <div class="intro">
+        <span class="tag flag" style="justify-self:start">Working name, not yet cleared</span>
+        <h1>Grow your sky.</h1>
+        <p>Brand kit for Stellara, a personal tutor that knows your child, from kindergarten to Common Entrance. Sweet, calm and a little cartoony, in Daytime and Starlight.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="#foundation">Start the review</a><a class="btn quiet" href="#logo">See the new logo</a></div>
+      </div>
+      <div id="hero-slot"></div>
+    </div>
+    <div class="board-list">
+      <a href="#foundation"><i>01</i><b>Foundation</b><span>Mission, promise, personality, taglines</span></a>
+      <a href="#logo"><i>02</i><b>Logo</b><span>The star sprout, lockups, app icon, misuse</span></a>
+      <a href="#stella"><i>03</i><b>Auntie Stella</b><span>The tutor's character and voice</span></a>
+      <a href="#colour"><i>04</i><b>Colour</b><span>Strawberry, honey, matcha · Daytime and Starlight</span></a>
+      <a href="#type"><i>05</i><b>Typography</b><span>Nunito and Inter, Nigerian-language test</span></a>
+      <a href="#icons"><i>06</i><b>Icons &amp; illustration</b><span>Icon set and the growing-sky motif</span></a>
+      <a href="#motion"><i>07</i><b>Motion &amp; 3D</b><span>Curves, timings and the Babylon.js scene</span></a>
+      <a href="#voice"><i>08</i><b>Voice &amp; writing</b><span>Three voices, names, errors, WhatsApp, email</span></a>
+      <a href="#applications"><i>09</i><b>Applications</b><span>Screens, report, icon, social, print</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 1 FOUNDATION -->
+<section class="view" data-view="foundation" hidden>
+  <div class="wrap">
+    <div class="board-head"><span class="eyebrow">Board 1 of 9</span><h2>Brand foundation</h2><p class="lede">Why Stellara exists, what it promises, and how it should feel.</p></div>
+
+    <p class="promise">A personal tutor that knows your child.</p>
+    <p class="muted" style="max-width:60ch;margin-top:14px;font-size:16px">Stellara teaches in short daily steps, checks what has truly been learned, and shows parents exactly where their child stands.</p>
+
+    <div class="grid g2 section">
+      <div class="item"><span class="k">Mission</span><h4>Help every child build real understanding, one step at a time, and let their family see it happen.</h4></div>
+      <div class="item"><span class="k">Brand idea</span><h4>Learning grows. Every skill a child masters becomes a star, and mastered stars sprout.</h4><p class="muted small">Over a term the stars join into the child's own sky garden: a sweet, quiet picture of progress that children are proud of and parents can trust.</p></div>
+    </div>
+
+    <div class="section">
+      <h3>Personality</h3>
+      <div class="grid g3">
+        <div class="item"><h4>Sweet</h4><p class="small">Soft colours, rounded shapes, a little smile. Feels like a treat.</p><p class="small muted">Not babyish or sugary-loud.</p></div>
+        <div class="item"><h4>Calm</h4><p class="small">Unhurried. Gives children room to think.</p><p class="small muted">Not loud, flashy or rushed.</p></div>
+        <div class="item"><h4>Warm</h4><p class="small">Kind, patient and close by, like a favourite auntie.</p><p class="small muted">Never nagging or shaming.</p></div>
+        <div class="item"><h4>Honest</h4><p class="small">Shows real progress and names what needs practice, plainly.</p><p class="small muted">No hype, no score guarantees.</p></div>
+        <div class="item"><h4>Curious</h4><p class="small">Loves a good question and makes learning feel like discovery.</p><p class="small muted">Not random or distracting.</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Tagline options</h3>
+      <div class="grid g3">
+        <div class="item"><span class="k">Lead option</span><p class="tagline">Grow your sky.</p><p class="small muted">Stars plus growth: the whole brand idea in three words.</p></div>
+        <div class="item"><span class="k">Parents and schools</span><p class="tagline">Every star, earned.</p><p class="small muted">Says the progress shown is real.</p></div>
+        <div class="item"><span class="k">Creche and KG parents</span><p class="tagline">One gentle step at a time.</p><p class="small muted">The calmest version.</p></div>
+      </div>
+      <p class="small muted">Never place a tagline beside a score or an exam result.</p>
+    </div>
+
+    <div class="section">
+      <h3>Where Stellara sits</h3>
+      <p class="sub">Between a playful daily-habit app and a credible mastery platform. The sweetness lives in colour, shape and the logo; the structure and the reports stay credible. Internal reference only; we never name other brands in marketing.</p>
+      <div>
+        <div class="spectrum"><span></span></div>
+        <div class="spectrum-labels"><span>Playful daily habit</span><span>Credible mastery</span></div>
+      </div>
+      <div class="grid g2">
+        <div class="item"><b>From habit apps</b><ul class="clean small"><li>Short daily sessions on a clear path</li><li>A character children feel close to</li><li>Small rewards that feel earned</li></ul></div>
+        <div class="item"><b>From mastery platforms</b><ul class="clean small"><li>Learn it properly before moving on</li><li>Reports parents and teachers can act on</li><li>Calm, trustworthy layouts</li></ul></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Who we speak to</h3>
+      <div class="grid g4">
+        <div class="item"><span class="k">Ages 4–7</span><p class="small">Creche and kindergarten. Short, spoken, picture-led, with an adult nearby.</p></div>
+        <div class="item"><span class="k">Ages 8–12</span><p class="small">Primary and Common Entrance. Wants challenge and visible progress.</p></div>
+        <div class="item"><span class="k">Parents</span><p class="small">The buyers. Want proof of progress that beats the termly report card.</p></div>
+        <div class="item"><span class="k">Schools</span><p class="small">The channel. Want better Common Entrance results and confident parents.</p></div>
+      </div>
+    </div>
+
+    <div class="note"><span class="tag flag">Name not yet cleared</span><span>A children's brand called Stellara may already exist. Auntie Stella and the star sprout carry the identity, so a rename would cost little.</span></div>
+    <div class="note"><b>Feedback:</b> use the comment button in the artifact toolbar and start with "Board 1".</div>
+    <div class="next"><a href="#">← Cover</a><a href="#logo">Logo →</a></div>
+  </div>
+</section>
+
+<!-- 2 LOGO -->
+<section class="view" data-view="logo" hidden>
+  <div class="wrap">
+    <div class="board-head"><span class="eyebrow">Board 2 of 9</span><h2>Logo: the star sprout</h2><p class="lede">A chubby honey star with a small smile, sprouting two matcha leaves from a strawberry bud. It says what Stellara does: learning grows. A soft cocoa outline gives it a sticker feel, and the five rounded points keep it clear of the four-point sparkle that now signals AI.</p></div>
+
+    <div class="grid g2">
+      <div class="logo-stage on-bg"><div class="lockup" style="font-size:clamp(46px,6.4vw,68px)"><span class="mark" data-logo="mark"></span>stellara</div></div>
+      <div class="logo-stage on-tint"><div class="lockup" style="font-size:clamp(46px,6.4vw,68px)"><span class="mark" data-logo="mark"></span>stellara</div></div>
+    </div>
+    <p class="small muted" style="margin-top:10px">Switch Daytime and Starlight in the top bar: the wordmark moves from Strawberry Ink to a soft pink, and the mark stays the same.</p>
+
+    <div class="section">
+      <h3>Anatomy</h3>
+      <div class="anatomy"><div class="big" data-logo="mark"></div>
+        <ul class="clean small">
+          <li><b>Honey star</b>: five rounded points, plump inner corners. The reward colour, so the logo and the rewards are one family.</li>
+          <li><b>Face</b>: two dot eyes, a small smile and pink cheeks. Just enough to feel friendly; it never talks and never becomes a mascot.</li>
+          <li><b>Sprout</b>: two matcha leaves and a strawberry bud. Growth and mastery, and the three brand colours in one small place.</li>
+          <li><b>Wordmark</b>: lowercase Nunito ExtraBold, tracked slightly tight. Rounded and sweet without being bubbly.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Versions</h3>
+      <div class="grid g4">
+        <div><div class="logo-stage on-bg" style="min-height:160px;padding:30px"><div class="lockup stack" style="font-size:32px"><span class="mark" data-logo="mark" style="width:1.8em;height:1.8em"></span>stellara</div></div><p class="small muted" style="margin-top:8px">Stacked, for square spaces</p></div>
+        <div><div class="logo-stage on-bg" style="min-height:160px;padding:30px"><div class="lockup" style="font-size:38px">stellara</div></div><p class="small muted" style="margin-top:8px">Wordmark only</p></div>
+        <div><div class="logo-stage on-primary" style="min-height:160px;padding:30px"><div class="lockup" style="font-size:34px"><span class="mark" data-logo="mono"></span>stellara</div></div><p class="small muted" style="margin-top:8px">One colour, on Strawberry</p></div>
+        <div><div class="logo-stage on-ink" style="min-height:160px;padding:30px"><div class="lockup" style="font-size:34px"><span class="mark" data-logo="mono"></span>stellara</div></div><p class="small muted" style="margin-top:8px">One colour, reversed (print, stamps)</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>App icon</h3>
+      <p class="sub">The star sprout alone on Strawberry Milk. The dark-appearance icon uses the dark tint automatically.</p>
+      <div class="icon-sizes">
+        <figure><div class="appicon" style="width:160px" data-logo="appicon"></div>160 px</figure>
+        <figure><div class="appicon" style="width:96px" data-logo="appicon"></div>96 px</figure>
+        <figure><div class="appicon" style="width:60px" data-logo="appicon"></div>60 px</figure>
+        <figure><div class="appicon" style="width:40px" data-logo="appicon"></div>40 px</figure>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Clear space and minimum size</h3>
+      <div class="grid g2">
+        <div class="clearspace"><div class="box"><div class="lockup" style="font-size:44px"><span class="mark" data-logo="mark"></span>stellara</div></div></div>
+        <ul class="clean small" style="align-content:center">
+          <li>Clear space: x on every side, where x is the height of the star without the sprout.</li>
+          <li>Lockup minimum: 96 px wide on screen, 25 mm in print.</li>
+          <li>Mark alone: 24 px minimum. Below that, drop the face and keep star plus sprout.</li>
+          <li>Backgrounds: Cream, white, Strawberry Milk or the dark Cocoa. Use a one-colour version anywhere else.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Misuse</h3>
+      <div class="grid g3">
+        <div class="misuse"><div class="tile"><div class="lockup" style="transform:scaleX(1.4)"><span class="mark" data-logo="mark"></span>stellara</div></div><p>Don't stretch it.</p></div>
+        <div class="misuse"><div class="tile"><div class="lockup" style="color:#4B67C9"><span class="mark" data-logo="mark" style="filter:hue-rotate(180deg)"></span>stellara</div></div><p>Don't recolour it.</p></div>
+        <div class="misuse"><div class="tile"><div class="lockup"><span class="mark" data-logo="sparkle"></span>stellara</div></div><p>Don't swap in a four-point sparkle.</p></div>
+        <div class="misuse"><div class="tile"><div class="lockup" style="text-shadow:0 0 12px #F6C445,0 0 2px #F6C445"><span class="mark" data-logo="mark" style="filter:drop-shadow(0 0 8px #F6C445)"></span>stellara</div></div><p>Don't add glows, shadows or effects.</p></div>
+        <div class="misuse"><div class="tile"><div class="lockup" style="color:#F6C445"><span class="mark" data-logo="mark"></span>stellara</div></div><p>Don't set honey-yellow text.</p></div>
+        <div class="misuse"><div class="tile"><div class="lockup" style="font-family:'Comic Sans MS',cursive;font-weight:700;text-transform:capitalize"><span class="mark" data-logo="mark"></span>stellara</div></div><p>Don't retype or capitalise the wordmark.</p></div>
+      </div>
+    </div>
+
+    <div class="note"><b>Feedback:</b> use the comment button and start with "Board 2". The mark is a working drawing; a designer redraws it once the name is cleared.</div>
+    <div class="next"><a href="#foundation">← Foundation</a><a href="#stella">Auntie Stella →</a></div>
+  </div>
+</section>
+
+<!-- 3 AUNTIE STELLA -->
+<section class="view" data-view="stella" hidden>
+  <div class="wrap">
+    <div class="board-head"><span class="eyebrow">Board 3 of 9</span><h2>Auntie Stella</h2><p class="lede">The tutor has a name, a voice and a face from day one. The placeholder avatar (braided bun, round glasses, a honey star earring) now wears the sweet palette and the same soft outline as the logo.</p></div>
+
+    <div class="stella">
+      <div class="portrait avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Auntie Stella smiling">
+  <title>Auntie Stella smiling</title>
+  <clipPath id="as-smiling-square-1"><rect width="240" height="240" rx="28"/></clipPath><rect width="240" height="240" rx="28" fill="#E1F2DB"/>
+  <g opacity=".9"><circle cx="40" cy="52" r="4" fill="#F6C445"/><circle cx="202" cy="70" r="3" fill="#F4A9C2"/><circle cx="196" cy="40" r="2.2" fill="#86BF7E"/><circle cx="30" cy="96" r="2.4" fill="#F4A9C2"/></g>
+  <g clip-path="url(#as-smiling-square-1)">
+  <path d="M38 242 C42 198 76 179 120 179 C164 179 198 198 202 242Z" fill="#F4A9C2" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M60 240 C64 214 80 202 96 198" stroke="#FCE1EA" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect x="104" y="146" width="32" height="44" rx="13" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M102 181 Q120 207 138 181 Q120 190 102 181Z" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M104 156 Q120 168 136 156 L136 162 Q120 172 104 162Z" fill="#76492F" opacity=".7"/>
+  <path d="M100 182 Q120 210 140 182" stroke="#FCE1EA" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(0 0) rotate(0 120 150)">
+    <circle cx="120" cy="49" r="25" fill="#2A1E1B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/><path d="M99 45 Q120 35 141 45" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M97 53 Q120 43 143 53" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 61 Q120 52 140 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="80" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <ellipse cx="160" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <circle cx="80.5" cy="127" r="2.2" fill="#F6C445"/>
+    <ellipse cx="120" cy="112" rx="40" ry="48" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M79 112 C76 72 96 59 120 59 C144 59 164 72 161 112 C156 93 147 82 120 81 C93 82 84 93 79 112Z" fill="#2A1E1B"/>
+    <path d="M86 100 Q90 76 112 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M92 92 Q100 72 116 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 84 Q108 70 119 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M154 100 Q150 76 128 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M148 92 Q140 72 124 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M140 84 Q132 70 121 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="93" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <ellipse cx="147" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <path d="M94 97 Q103 92.5 112 96.5" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M128 96.5 Q137 92.5 146 97" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="103" cy="113" rx="3.3" ry="4.2" fill="#1E1512"/><ellipse cx="137" cy="113" rx="3.3" ry="4.2" fill="#1E1512"/><circle cx="104.2" cy="111.6" r="1.1" fill="#fff"/><circle cx="138.2" cy="111.6" r="1.1" fill="#fff"/>
+    <path d="M118.5 119 Q120 128 124.5 127.5" stroke="#5E3824" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M107.5 135 Q120 149 132.5 135 Q120 140 107.5 135Z" fill="#7A3B33"/><path d="M110.5 136.4 Q120 139.6 129.5 136.4 L128.6 138.4 Q120 141 111.4 138.4Z" fill="#fff"/>
+    <circle cx="103" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <circle cx="137" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <path d="M116.5 111 Q120 107.5 123.5 111" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M89.5 109 L81 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M150.5 109 L159 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M161 126 L161.5 132" stroke="#D9A22C" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M160.84 132.90Q161.50 131.80 162.16 132.90L163.44 135.03Q163.87 135.74 164.68 135.92L167.09 136.48Q168.35 136.78 167.50 137.75L165.88 139.62Q165.33 140.25 165.41 141.07L165.62 143.54Q165.73 144.82 164.55 144.32L162.26 143.35Q161.50 143.03 160.74 143.35L158.45 144.32Q157.27 144.82 157.38 143.54L157.59 141.07Q157.67 140.25 157.12 139.62L155.50 137.75Q154.65 136.78 155.91 136.48L158.32 135.92Q159.13 135.74 159.56 135.03Z" fill="#F6C445" stroke="#D9A22C" stroke-width="1.2"/>
+  </g></g>
+</svg><small>Placeholder avatar v2</small></div>
+      <div style="display:grid;gap:22px">
+        <blockquote>"Not quite, my dear. Let's look at it together."</blockquote>
+        <p class="muted" style="max-width:52ch">Every Nigerian child knows an Auntie Stella: the patient one who sits with you over homework, tells you the truth kindly, and is quietly proud when you get it. She believes you can do it, so you start to believe it too.</p>
+        <ul class="clean small">
+          <li><b>Warm, not soft on standards.</b> She praises effort and still asks you to try again.</li>
+          <li><b>Calm.</b> She never rushes, scolds or nags.</li>
+          <li><b>Proud of you, out loud.</b> She notices real progress and names it.</li>
+          <li><b>Respectful.</b> She speaks to parents as equals, never as a salesperson.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Expressions</h3>
+      <p class="sub">Four calm expressions. She is never shown disappointed in the child.</p>
+      <div class="grid g4">
+        <div class="item stella-ex avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Auntie Stella smiling">
+  <title>Auntie Stella smiling</title>
+  <clipPath id="as-smiling-square-2"><rect width="240" height="240" rx="28"/></clipPath><rect width="240" height="240" rx="28" fill="#E1F2DB"/>
+  <g opacity=".9"><circle cx="40" cy="52" r="4" fill="#F6C445"/><circle cx="202" cy="70" r="3" fill="#F4A9C2"/><circle cx="196" cy="40" r="2.2" fill="#86BF7E"/><circle cx="30" cy="96" r="2.4" fill="#F4A9C2"/></g>
+  <g clip-path="url(#as-smiling-square-2)">
+  <path d="M38 242 C42 198 76 179 120 179 C164 179 198 198 202 242Z" fill="#F4A9C2" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M60 240 C64 214 80 202 96 198" stroke="#FCE1EA" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect x="104" y="146" width="32" height="44" rx="13" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M102 181 Q120 207 138 181 Q120 190 102 181Z" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M104 156 Q120 168 136 156 L136 162 Q120 172 104 162Z" fill="#76492F" opacity=".7"/>
+  <path d="M100 182 Q120 210 140 182" stroke="#FCE1EA" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(0 0) rotate(0 120 150)">
+    <circle cx="120" cy="49" r="25" fill="#2A1E1B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/><path d="M99 45 Q120 35 141 45" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M97 53 Q120 43 143 53" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 61 Q120 52 140 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="80" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <ellipse cx="160" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <circle cx="80.5" cy="127" r="2.2" fill="#F6C445"/>
+    <ellipse cx="120" cy="112" rx="40" ry="48" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M79 112 C76 72 96 59 120 59 C144 59 164 72 161 112 C156 93 147 82 120 81 C93 82 84 93 79 112Z" fill="#2A1E1B"/>
+    <path d="M86 100 Q90 76 112 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M92 92 Q100 72 116 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 84 Q108 70 119 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M154 100 Q150 76 128 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M148 92 Q140 72 124 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M140 84 Q132 70 121 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="93" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <ellipse cx="147" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <path d="M94 97 Q103 92.5 112 96.5" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M128 96.5 Q137 92.5 146 97" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="103" cy="113" rx="3.3" ry="4.2" fill="#1E1512"/><ellipse cx="137" cy="113" rx="3.3" ry="4.2" fill="#1E1512"/><circle cx="104.2" cy="111.6" r="1.1" fill="#fff"/><circle cx="138.2" cy="111.6" r="1.1" fill="#fff"/>
+    <path d="M118.5 119 Q120 128 124.5 127.5" stroke="#5E3824" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M107.5 135 Q120 149 132.5 135 Q120 140 107.5 135Z" fill="#7A3B33"/><path d="M110.5 136.4 Q120 139.6 129.5 136.4 L128.6 138.4 Q120 141 111.4 138.4Z" fill="#fff"/>
+    <circle cx="103" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <circle cx="137" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <path d="M116.5 111 Q120 107.5 123.5 111" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M89.5 109 L81 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M150.5 109 L159 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M161 126 L161.5 132" stroke="#D9A22C" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M160.84 132.90Q161.50 131.80 162.16 132.90L163.44 135.03Q163.87 135.74 164.68 135.92L167.09 136.48Q168.35 136.78 167.50 137.75L165.88 139.62Q165.33 140.25 165.41 141.07L165.62 143.54Q165.73 144.82 164.55 144.32L162.26 143.35Q161.50 143.03 160.74 143.35L158.45 144.32Q157.27 144.82 157.38 143.54L157.59 141.07Q157.67 140.25 157.12 139.62L155.50 137.75Q154.65 136.78 155.91 136.48L158.32 135.92Q159.13 135.74 159.56 135.03Z" fill="#F6C445" stroke="#D9A22C" stroke-width="1.2"/>
+  </g></g>
+</svg><b>Smiling</b><p class="small muted">Welcome, good runs, the report header.</p></div>
+        <div class="item stella-ex avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Auntie Stella listening">
+  <title>Auntie Stella listening</title>
+  <clipPath id="as-listening-square-3"><rect width="240" height="240" rx="28"/></clipPath><rect width="240" height="240" rx="28" fill="#E1F2DB"/>
+  <g opacity=".9"><circle cx="40" cy="52" r="4" fill="#F6C445"/><circle cx="202" cy="70" r="3" fill="#F4A9C2"/><circle cx="196" cy="40" r="2.2" fill="#86BF7E"/><circle cx="30" cy="96" r="2.4" fill="#F4A9C2"/></g>
+  <g clip-path="url(#as-listening-square-3)">
+  <path d="M38 242 C42 198 76 179 120 179 C164 179 198 198 202 242Z" fill="#F4A9C2" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M60 240 C64 214 80 202 96 198" stroke="#FCE1EA" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect x="104" y="146" width="32" height="44" rx="13" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M102 181 Q120 207 138 181 Q120 190 102 181Z" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M104 156 Q120 168 136 156 L136 162 Q120 172 104 162Z" fill="#76492F" opacity=".7"/>
+  <path d="M100 182 Q120 210 140 182" stroke="#FCE1EA" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(0 0) rotate(4 120 150)">
+    <circle cx="120" cy="49" r="25" fill="#2A1E1B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/><path d="M99 45 Q120 35 141 45" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M97 53 Q120 43 143 53" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 61 Q120 52 140 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="80" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <ellipse cx="160" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <circle cx="80.5" cy="127" r="2.2" fill="#F6C445"/>
+    <ellipse cx="120" cy="112" rx="40" ry="48" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M79 112 C76 72 96 59 120 59 C144 59 164 72 161 112 C156 93 147 82 120 81 C93 82 84 93 79 112Z" fill="#2A1E1B"/>
+    <path d="M86 100 Q90 76 112 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M92 92 Q100 72 116 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 84 Q108 70 119 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M154 100 Q150 76 128 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M148 92 Q140 72 124 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M140 84 Q132 70 121 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="93" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <ellipse cx="147" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <path d="M94 97 Q103 92.5 112 96.5" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M128 96.5 Q137 92.5 146 97" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="103" cy="113" rx="3.3" ry="4.2" fill="#1E1512"/><ellipse cx="137" cy="113" rx="3.3" ry="4.2" fill="#1E1512"/><circle cx="104.2" cy="111.6" r="1.1" fill="#fff"/><circle cx="138.2" cy="111.6" r="1.1" fill="#fff"/>
+    <path d="M118.5 119 Q120 128 124.5 127.5" stroke="#5E3824" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M110 137 Q120 143.5 130 137" stroke="#7A3B33" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+    <circle cx="103" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <circle cx="137" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <path d="M116.5 111 Q120 107.5 123.5 111" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M89.5 109 L81 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M150.5 109 L159 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M161 126 L161.5 132" stroke="#D9A22C" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M160.84 132.90Q161.50 131.80 162.16 132.90L163.44 135.03Q163.87 135.74 164.68 135.92L167.09 136.48Q168.35 136.78 167.50 137.75L165.88 139.62Q165.33 140.25 165.41 141.07L165.62 143.54Q165.73 144.82 164.55 144.32L162.26 143.35Q161.50 143.03 160.74 143.35L158.45 144.32Q157.27 144.82 157.38 143.54L157.59 141.07Q157.67 140.25 157.12 139.62L155.50 137.75Q154.65 136.78 155.91 136.48L158.32 135.92Q159.13 135.74 159.56 135.03Z" fill="#F6C445" stroke="#D9A22C" stroke-width="1.2"/>
+  </g></g>
+</svg><b>Listening</b><p class="small muted">Empty states, onboarding, waiting.</p></div>
+        <div class="item stella-ex avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Auntie Stella thinking">
+  <title>Auntie Stella thinking</title>
+  <clipPath id="as-thinking-square-4"><rect width="240" height="240" rx="28"/></clipPath><rect width="240" height="240" rx="28" fill="#E1F2DB"/>
+  <g opacity=".9"><circle cx="40" cy="52" r="4" fill="#F6C445"/><circle cx="202" cy="70" r="3" fill="#F4A9C2"/><circle cx="196" cy="40" r="2.2" fill="#86BF7E"/><circle cx="30" cy="96" r="2.4" fill="#F4A9C2"/></g>
+  <g clip-path="url(#as-thinking-square-4)">
+  <path d="M38 242 C42 198 76 179 120 179 C164 179 198 198 202 242Z" fill="#F4A9C2" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M60 240 C64 214 80 202 96 198" stroke="#FCE1EA" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect x="104" y="146" width="32" height="44" rx="13" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M102 181 Q120 207 138 181 Q120 190 102 181Z" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M104 156 Q120 168 136 156 L136 162 Q120 172 104 162Z" fill="#76492F" opacity=".7"/>
+  <path d="M100 182 Q120 210 140 182" stroke="#FCE1EA" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(0 0) rotate(-4 120 150)">
+    <circle cx="120" cy="49" r="25" fill="#2A1E1B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/><path d="M99 45 Q120 35 141 45" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M97 53 Q120 43 143 53" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 61 Q120 52 140 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="80" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <ellipse cx="160" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <circle cx="80.5" cy="127" r="2.2" fill="#F6C445"/>
+    <ellipse cx="120" cy="112" rx="40" ry="48" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M79 112 C76 72 96 59 120 59 C144 59 164 72 161 112 C156 93 147 82 120 81 C93 82 84 93 79 112Z" fill="#2A1E1B"/>
+    <path d="M86 100 Q90 76 112 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M92 92 Q100 72 116 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 84 Q108 70 119 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M154 100 Q150 76 128 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M148 92 Q140 72 124 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M140 84 Q132 70 121 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="93" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <ellipse cx="147" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <path d="M94 98 Q103 95 112 97.5" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M128 94.5 Q137 88.5 146 94" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="105.4" cy="110.8" rx="3.3" ry="4.2" fill="#1E1512"/><ellipse cx="139.4" cy="110.8" rx="3.3" ry="4.2" fill="#1E1512"/><circle cx="106.60000000000001" cy="109.39999999999999" r="1.1" fill="#fff"/><circle cx="140.6" cy="109.39999999999999" r="1.1" fill="#fff"/>
+    <path d="M118.5 119 Q120 128 124.5 127.5" stroke="#5E3824" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M111 139.5 Q119 136.5 129 139" stroke="#7A3B33" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+    <circle cx="103" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <circle cx="137" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <path d="M116.5 111 Q120 107.5 123.5 111" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M89.5 109 L81 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M150.5 109 L159 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M161 126 L161.5 132" stroke="#D9A22C" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M160.84 132.90Q161.50 131.80 162.16 132.90L163.44 135.03Q163.87 135.74 164.68 135.92L167.09 136.48Q168.35 136.78 167.50 137.75L165.88 139.62Q165.33 140.25 165.41 141.07L165.62 143.54Q165.73 144.82 164.55 144.32L162.26 143.35Q161.50 143.03 160.74 143.35L158.45 144.32Q157.27 144.82 157.38 143.54L157.59 141.07Q157.67 140.25 157.12 139.62L155.50 137.75Q154.65 136.78 155.91 136.48L158.32 135.92Q159.13 135.74 159.56 135.03Z" fill="#F6C445" stroke="#D9A22C" stroke-width="1.2"/>
+  </g></g>
+</svg><b>Thinking</b><p class="small muted">Hints and worked explanations.</p></div>
+        <div class="item stella-ex avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Auntie Stella looking proud">
+  <title>Auntie Stella looking proud</title>
+  <clipPath id="as-proud-square-5"><rect width="240" height="240" rx="28"/></clipPath><rect width="240" height="240" rx="28" fill="#E1F2DB"/>
+  <g opacity=".9"><circle cx="40" cy="52" r="4" fill="#F6C445"/><circle cx="202" cy="70" r="3" fill="#F4A9C2"/><circle cx="196" cy="40" r="2.2" fill="#86BF7E"/><circle cx="30" cy="96" r="2.4" fill="#F4A9C2"/></g>
+  <g clip-path="url(#as-proud-square-5)">
+  <path d="M38 242 C42 198 76 179 120 179 C164 179 198 198 202 242Z" fill="#F4A9C2" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M60 240 C64 214 80 202 96 198" stroke="#FCE1EA" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect x="104" y="146" width="32" height="44" rx="13" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M102 181 Q120 207 138 181 Q120 190 102 181Z" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M104 156 Q120 168 136 156 L136 162 Q120 172 104 162Z" fill="#76492F" opacity=".7"/>
+  <path d="M100 182 Q120 210 140 182" stroke="#FCE1EA" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(0 -2) rotate(-2 120 150)">
+    <circle cx="120" cy="49" r="25" fill="#2A1E1B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/><path d="M99 45 Q120 35 141 45" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M97 53 Q120 43 143 53" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 61 Q120 52 140 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="80" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <ellipse cx="160" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <circle cx="80.5" cy="127" r="2.2" fill="#F6C445"/>
+    <ellipse cx="120" cy="112" rx="40" ry="48" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M79 112 C76 72 96 59 120 59 C144 59 164 72 161 112 C156 93 147 82 120 81 C93 82 84 93 79 112Z" fill="#2A1E1B"/>
+    <path d="M86 100 Q90 76 112 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M92 92 Q100 72 116 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 84 Q108 70 119 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M154 100 Q150 76 128 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M148 92 Q140 72 124 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M140 84 Q132 70 121 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="93" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <ellipse cx="147" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <path d="M94 97 Q103 92.5 112 96.5" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M128 96.5 Q137 92.5 146 97" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M97 115 Q103 108.5 109 115" stroke="#1E1512" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M131 115 Q137 108.5 143 115" stroke="#1E1512" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M118.5 119 Q120 128 124.5 127.5" stroke="#5E3824" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M106 135.5 Q120 149 134 135.5" stroke="#7A3B33" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+    <circle cx="103" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <circle cx="137" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <path d="M116.5 111 Q120 107.5 123.5 111" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M89.5 109 L81 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M150.5 109 L159 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M161 126 L161.5 132" stroke="#D9A22C" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M160.84 132.90Q161.50 131.80 162.16 132.90L163.44 135.03Q163.87 135.74 164.68 135.92L167.09 136.48Q168.35 136.78 167.50 137.75L165.88 139.62Q165.33 140.25 165.41 141.07L165.62 143.54Q165.73 144.82 164.55 144.32L162.26 143.35Q161.50 143.03 160.74 143.35L158.45 144.32Q157.27 144.82 157.38 143.54L157.59 141.07Q157.67 140.25 157.12 139.62L155.50 137.75Q154.65 136.78 155.91 136.48L158.32 135.92Q159.13 135.74 159.56 135.03Z" fill="#F6C445" stroke="#D9A22C" stroke-width="1.2"/>
+  </g></g>
+</svg><b>Proud</b><p class="small muted">Topic mastered, end of term, the parent note.</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Where she appears</h3>
+      <div class="grid g4">
+        <div class="item"><span class="k">Hints</span><p class="small">"Auntie Stella says: draw both fractions as pizzas."</p></div>
+        <div class="item"><span class="k">After a wrong answer</span><p class="small">One kind line and the next small step.</p></div>
+        <div class="item"><span class="k">Milestones</span><p class="small">A short note when a topic is mastered and its star sprouts.</p></div>
+        <div class="item"><span class="k">Parent report</span><p class="small">"A note from Auntie Stella" with one thing to celebrate and one thing to practise.</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Brief for the illustration, later</h3>
+      <div class="grid g2">
+        <div class="item"><b>Aim for</b><ul class="clean small"><li>A modern Nigerian woman in her thirties or forties, warm and composed</li><li>Soft, flat, slightly cartoony illustration in the sweet palette, with the same gentle cocoa outline as the logo</li><li>A small five-point honey star as her signature detail, such as an earring or brooch</li><li>Expressions kept subtle: listening, smiling, thinking, proud</li></ul></div>
+        <div class="item"><b>Avoid</b><ul class="clean small"><li>Caricature, exaggerated features or stereotypes</li><li>A teacher with a cane, ruler or stern look</li><li>Turning the logo star into a second talking character</li><li>Showing her disappointed in the child</li></ul></div>
+      </div>
+      <p class="small muted">The placeholder files are in <code>docs/assets/auntie-stella/</code>, generated by <code>docs/tools/avatar.mjs</code>. Test the name and the look with pupils and parents in Yoruba, Hausa and Igbo-speaking homes before the final illustration is commissioned.</p>
+    </div>
+
+    <div class="note"><b>Feedback:</b> use the comment button and start with "Board 3".</div>
+    <div class="next"><a href="#logo">← Logo</a><a href="#colour">Colour →</a></div>
+  </div>
+</section>
+
+<!-- 4 COLOUR -->
+<section class="view" data-view="colour" hidden>
+  <div class="wrap">
+    <div class="board-head"><span class="eyebrow">Board 4 of 9</span><h2>Colour</h2><p class="lede">Strawberry, honey and matcha on cream, with warm cocoa for text. Each colour has one job. Every swatch below shows its Daytime value on the left and its Starlight value on the right.</p></div>
+
+    <div class="grid g4" id="sw-core"></div>
+
+    <div class="section">
+      <h3>Surfaces, text and states</h3>
+      <div class="grid g4" id="sw-neutral"></div>
+      <p class="small muted">Right and wrong answers always carry a tick or a word as well as a colour. "Not quite" is a dashed strawberry border, never red.</p>
+    </div>
+
+    <div class="section">
+      <h3>One job per colour</h3>
+      <div class="grid g3">
+        <div class="item"><h4>Strawberry</h4><p class="small muted">The one action on a screen, links, focus, selection. Never more than one Strawberry button per screen.</p></div>
+        <div class="item"><h4>Honey</h4><p class="small muted">Stars, Stardust and rewards only, so it keeps its meaning. A fill, never text.</p></div>
+        <div class="item"><h4>Matcha</h4><p class="small muted">Correct answers, mastery and growth: progress bars, sprouts, ticks.</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Proportion</h3>
+      <div class="ratio-bar">
+        <div style="flex:46;background:var(--bg)">Cream 46%</div>
+        <div style="flex:20;background:var(--surface)">Surface 20%</div>
+        <div style="flex:12;background:var(--primary-tint)">Milk 12%</div>
+        <div style="flex:8;background:var(--primary);color:var(--on-primary)">Strawberry</div>
+        <div style="flex:7;background:var(--success-tint)"></div>
+        <div style="flex:4;background:var(--success)"></div>
+        <div style="flex:3;background:var(--reward)"></div>
+      </div>
+      <p class="small muted">Mostly cream and space. The sweet colours are accents: a little goes a long way, and that keeps the whole thing calm.</p>
+    </div>
+
+    <div class="section">
+      <h3>Daytime and Starlight</h3>
+      <p class="sub">Our two themes are named for the sky the product is built on. <b>Daytime</b> is cream and honey. <b>Starlight</b> is a warm cocoa, never black or purple, with soft off-white text. By default the product matches the phone; parents can choose in Settings → How Stellara looks. Children have no switch. The words for all three options are on board 8.</p>
+    </div>
+
+    <div class="section">
+      <h3>Contrast checks, both themes</h3>
+      <p class="sub">Calculated live on this page (WCAG 2.x). Text needs 4.5:1; the focus ring, as a non-text element, needs 3:1. The same pairs run in CI from <code>docs/tools/tokens.mjs</code>.</p>
+      <div class="table-wrap"><table id="contrast"><thead><tr><th>Pair</th><th>Daytime</th><th>Ratio</th><th>Starlight</th><th>Ratio</th><th>Use</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="note"><b>Feedback:</b> use the comment button and start with "Board 4".</div>
+    <div class="next"><a href="#stella">← Auntie Stella</a><a href="#type">Typography →</a></div>
+  </div>
+</section>
+
+<!-- 5 TYPE -->
+<section class="view" data-view="type" hidden>
+  <div class="wrap">
+    <div class="board-head"><span class="eyebrow">Board 5 of 9</span><h2>Typography</h2><p class="lede">Nunito for headings and the wordmark: rounded terminals make it sweet and a little cartoony, while its even proportions keep it calm and readable. Inter for everything else. Both must set Yoruba and Hausa letters and the naira sign.</p></div>
+
+    <div class="grid g2">
+      <div class="spec"><span class="eyebrow">Display · Nunito 700–800</span><div class="big" style="font-family:Nunito,sans-serif;font-weight:800">Aa Ẹẹ</div><div class="abc" style="font-family:Nunito,sans-serif;font-weight:700">Grow your sky. Ìràwọ̀ · ₦2,499</div></div>
+      <div class="spec"><span class="eyebrow">Body · Inter 400–600</span><div class="big" style="font-family:Inter,sans-serif;font-weight:500">Aa Ẹẹ</div><div class="abc" style="font-family:Inter,sans-serif;font-size:17px">Tolu mastered Fractions this week. Ọmọ ṣe dáadáa. Ɗalibi ya ƙware.</div></div>
+    </div>
+
+    <div class="section">
+      <h3>Type scale</h3>
+      <div>
+        <div class="scale-row"><span class="lbl">Display · 44/50 · Nunito 800</span><span style="font:800 44px/1.1 var(--font-display);letter-spacing:-.02em">Your star sprouted</span></div>
+        <div class="scale-row"><span class="lbl">Heading · 28/34 · Nunito 700</span><span style="font:700 28px/1.2 var(--font-display)">Fractions</span></div>
+        <div class="scale-row"><span class="lbl">Question · 22/30 · Nunito 800</span><span style="font:800 22px/1.3 var(--font-display)">Which fraction is bigger?</span></div>
+        <div class="scale-row"><span class="lbl">Kids body · 18/28 · Inter 400</span><span style="font:400 18px/1.55 var(--font-body)">Look at the top number first. Then compare.</span></div>
+        <div class="scale-row"><span class="lbl">Body · 15/24 · Inter 400</span><span style="font:400 15px/1.6 var(--font-body)">Tolu answered 9 of the last 10 questions correctly, including a check two weeks later.</span></div>
+        <div class="scale-row"><span class="lbl">Caption · 12/18 · Inter 500</span><span style="font:500 12px/1.5 var(--font-body)" class="muted">Updated today at 5:42 pm · Sample data</span></div>
+      </div>
+      <p class="small muted">Children under 8 never get body text below 18 px. Parents never get running text below 15 px. Nunito is never used below 16 px or for long paragraphs.</p>
+    </div>
+
+    <div class="section">
+      <h3>Nigerian-language glyph test</h3>
+      <p class="sub">Run live in your browser. A face missing a letter falls back to another font mid-word, which looks broken.</p>
+      <div class="table-wrap"><table id="glyphs"><thead></thead><tbody></tbody></table></div>
+      <p class="small muted" id="glyph-verdict">Checking fonts…</p>
+    </div>
+
+    <div class="section">
+      <h3>Fallback stack</h3>
+      <code style="font-size:13px;word-break:break-word;color:var(--muted)">headings: "Nunito", "Inter", system-ui, sans-serif<br>body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif</code>
+      <p class="small muted">If Nunito misses a letter, Inter follows it in the stack and must pass. Lesson and test screens may use system fonts to stay inside the data budget. Maths symbols are rendered on the server.</p>
+    </div>
+
+    <div class="note"><b>Feedback:</b> use the comment button and start with "Board 5".</div>
+    <div class="next"><a href="#colour">← Colour</a><a href="#icons">Icons →</a></div>
+  </div>
+</section>
+
+<!-- 6 ICONS -->
+<section class="view" data-view="icons" hidden>
+  <div class="wrap">
+    <div class="board-head"><span class="eyebrow">Board 6 of 9</span><h2>Iconography &amp; illustration</h2><p class="lede">Rounded 1.75 px line icons in the text colour, with at most one small honey detail. Illustrations are where the cartoony sticker style lives.</p></div>
+
+    <div class="icons" id="iconset"></div>
+
+    <div class="section">
+      <h3>Construction</h3>
+      <div style="display:flex;gap:28px;align-items:center;flex-wrap:wrap"><div class="ico-grid" id="ico-construct"></div><ul class="clean small" style="flex:1;min-width:220px">
+        <li>24 × 24 grid, 2 px padding, 1.75 px stroke, round caps and joins</li>
+        <li>Stars are always five-point and rounded, matching the logo</li>
+        <li>One honey accent at most; the rest uses the text colour, so icons flip with the theme</li>
+        <li>Icons sit beside a text label for children under 8</li>
+      </ul></div>
+    </div>
+
+    <div class="section">
+      <h3>The growing sky</h3>
+      <p class="sub">Each topic is a star. Shape shows the mastery state, so it reads without colour: dashed, half-filled, filled, and filled with a sprout once mastered. Lit stars join into the child's own sky garden.</p>
+      <div class="panel constellation" id="constellation-wrap"><svg id="constellation" viewBox="0 0 800 300" role="img" aria-label="Sample Mathematics sky with 10 topic stars"></svg></div>
+      <div class="legend" id="legend"></div>
+    </div>
+
+    <div class="section">
+      <h3>Illustration style</h3>
+      <div class="grid g3">
+        <div class="item"><h4>Sweet stickers</h4><p class="small muted">Rounded shapes, flat fills, a gentle cocoa outline. No gradients, glows or heavy shading.</p></div>
+        <div class="item"><h4>Children like ours</h4><p class="small muted">Nigerian children of different skin tones, hair styles and abilities, at home, in uniform, on the school bus. Never stereotypes.</p></div>
+        <div class="item"><h4>Plenty of air</h4><p class="small muted">One subject per picture, lots of cream around it. In lessons, a picture explains one thing and has alt text.</p></div>
+      </div>
+    </div>
+
+    <div class="note"><b>Feedback:</b> use the comment button and start with "Board 6".</div>
+    <div class="next"><a href="#type">← Typography</a><a href="#motion">Motion &amp; 3D →</a></div>
+  </div>
+</section>
+
+<!-- 7 MOTION -->
+<section class="view" data-view="motion" hidden>
+  <div class="wrap">
+    <div class="board-head"><span class="eyebrow">Board 7 of 9</span><h2>Motion &amp; 3D</h2><p class="lede">Quick to respond, gentle to settle. Presses answer instantly, rewards take a breath, and nothing bounces, flashes or shakes. The scene below is built live with Babylon.js and follows the theme.</p></div>
+
+    <div id="motion-slot"></div>
+    <p class="small muted" style="margin-top:10px">A sweet sky: pink, honey and matcha stars drift slowly and lean toward your pointer. Tap to light a star; lit stars join up.</p>
+
+    <div class="section">
+      <h3>Micro-interactions</h3>
+      <p class="sub">Tap to play.</p>
+      <div class="previews">
+        <div class="pv"><div class="scr" id="pv-answer"><svg class="fadestar" viewBox="-16 -20 32 36"></svg><div style="display:flex;gap:10px"><button class="opt" data-ok="1" type="button">3/4</button><button class="opt" data-ok="0" type="button">2/5</button></div><p class="line-out" aria-live="polite"></p></div><b>Answering</b><p class="small muted">The tile presses to 97%. Right: matcha fill, a tick, and a honey star rises in. Not quite: a dashed strawberry border and a kind line.</p></div>
+        <div class="pv"><div class="scr" id="pv-nights"><div style="display:grid;gap:16px;justify-items:center"><div class="nights"></div><button class="btn quiet" type="button">Finish today's set</button></div></div><b>Days in a row</b><p class="small muted">Each day with 5 or more answers adds a star. A missed day becomes a resting cloud, and the run stays safe.</p></div>
+        <div class="pv lvl" id="pv-level"><div class="scr"><svg viewBox="0 0 260 150" style="width:82%;height:auto;overflow:visible"></svg><button class="btn quiet" type="button" style="position:absolute;bottom:12px;left:12px;padding:6px 14px;min-height:34px;font-size:13px">Master a topic</button></div><b>Topic mastered</b><p class="small muted">A line draws to the star, it fills, then the sprout grows. About 1.2 seconds, once, and it can be skipped.</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Curves</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td><code>ease-out</code></td><td><code>cubic-bezier(.23, 1, .32, 1)</code></td><td>Anything entering or responding: sheets, stars, feedback. Starts fast, so it feels instant.</td></tr>
+          <tr><td><code>ease-in-out</code></td><td><code>cubic-bezier(.77, 0, .175, 1)</code></td><td>Something moving across the screen, such as the mastery line.</td></tr>
+          <tr><td><code>ease</code></td><td>CSS default</td><td>Colour changes only.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small muted">Never <code>ease-in</code> for interface motion: it delays the moment the child is watching. Entrances start at 95% scale with opacity, never from zero.</p>
+    </div>
+
+    <div class="section">
+      <h3>Timing</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Moment</th><th>Duration</th><th>Rule</th></tr></thead>
+        <tbody>
+          <tr><td>Press</td><td class="num">120 ms</td><td>Scale to 0.97 on buttons and answer tiles. Instant, even offline.</td></tr>
+          <tr><td>Screen change, sheet</td><td class="num">200–240 ms</td><td>Fade and settle with ease-out. No sliding carousels.</td></tr>
+          <tr><td>Correct answer</td><td class="num">400 ms</td><td>Colour change, then a honey star rises in.</td></tr>
+          <tr><td>Not quite</td><td class="num">200 ms</td><td>Border turns dashed strawberry. No shake, no red flash.</td></tr>
+          <tr><td>Stars appearing together</td><td class="num">40 ms apart</td><td>A short stagger. Never blocks tapping.</td></tr>
+          <tr><td>Topic mastered</td><td class="num">≈ 1.2 s</td><td>Line draws, star fills, sprout grows. Plays once; skippable.</td></tr>
+          <tr><td>Daytime ↔ Starlight</td><td class="num">0 ms</td><td>Colours switch instantly; nothing animates.</td></tr>
+          <tr><td>Reduced motion</td><td class="num">fade only</td><td>No movement or scaling; fades stay. The 3D scene shows a still image.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small muted">Only <code>transform</code> and <code>opacity</code> animate. Hover effects exist only on devices with a real pointer. The 3D scene is for the website and onboarding, never inside lessons or tests.</p>
+    </div>
+
+    <div class="note"><b>Feedback:</b> use the comment button and start with "Board 7".</div>
+    <div class="next"><a href="#icons">← Icons</a><a href="#voice">Voice →</a></div>
+  </div>
+</section>
+
+<!-- 8 VOICE -->
+<section class="view" data-view="voice" hidden>
+  <div class="wrap">
+    <div class="board-head"><span class="eyebrow">Board 8 of 9</span><h2>Voice &amp; writing</h2><p class="lede">Every word is part of the design. Our rule: <b>sweet in moments, plain in facts</b>. Garden and sky words belong to celebrations and the names of things; consent, money, errors and data use plain words. The full guide is document 16 in the build docs.</p></div>
+
+    <div class="grid g3">
+      <div class="item"><span class="k">Ages 4–7 · Auntie Stella</span><p class="say">"Well done! You found it."</p><p class="small muted">Up to 8 words a line, read aloud by default. One idea at a time.</p></div>
+      <div class="item"><span class="k">Ages 8–12 · Auntie Stella</span><p class="say">"That's four in a row. I see you."</p><p class="small muted">Up to 15 words. Specific about what went right.</p></div>
+      <div class="item"><span class="k">Parents · Stellara</span><p class="say" style="font-family:var(--font-body);font-weight:500;font-size:17px">"Tolu has mastered Fractions. Next: Decimals."</p><p class="small muted">Plain, warm, specific. Evidence first. No exclamation marks.</p></div>
+    </div>
+
+    <div class="section">
+      <h3>The same moment, three ways</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Moment</th><th>Ages 4–7</th><th>Ages 8–12</th><th>Parents</th></tr></thead>
+        <tbody>
+          <tr><td><b>Right answer</b></td><td>"Well done! You found it."</td><td>"Correct. That's four in a row."</td><td>n/a</td></tr>
+          <tr><td><b>Wrong answer</b></td><td>"Not quite, my dear. Let's look again."</td><td>"Not this time. Check the tens column, then try the next one."</td><td>n/a</td></tr>
+          <tr><td><b>Missed a day</b></td><td>"You rested yesterday. Shall we start?"</td><td>"A cloud kept your 6-day run safe."</td><td>"Tolu took a day off. Their 6-day run is still safe."</td></tr>
+          <tr><td><b>Topic mastered</b></td><td>"Your star sprouted!"</td><td>"Fractions: mastered. Your star is growing."</td><td>"Tolu has mastered Fractions: 9 of the last 10 right, including a check two weeks later."</td></tr>
+          <tr><td><b>Reminder</b></td><td>"Auntie Stella has a puzzle for you."</td><td>"Your next star is 6 questions away."</td><td>"Tolu usually practises at 5 pm. Today's set is ready."</td></tr>
+          <tr><td><b>End of term</b></td><td>"Look at your sky!"</td><td>"Your term sky: 7 new stars."</td><td>"This term Tolu mastered 7 topics and is working on 4. Here is what to practise next."</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="section">
+      <h3>Our words</h3>
+      <div class="grid g2">
+        <div class="item"><b>We say</b><div class="words"><span>Stardust (points)</span><span>Days in a row</span><span>Resting cloud</span><span>Your sky</span><span>Sprouted</span><span>Mastered</span><span>Needs practice</span><span>Not yet</span><span>Practice test</span><span>Coverage</span></div></div>
+        <div class="item"><b>We never say</b><div class="words bad"><span>Weak areas</span><span>Failed</span><span>You are ready</span><span>Guaranteed score</span><span>Don't lose your streak</span><span>Hurry</span><span>Expo</span><span>Runz</span><span>Live questions</span><span>Official JAMB or NECO</span><span>AI tutor</span></div></div>
+      </div>
+      <p class="small muted">Exam names appear in plain text only, never with exam-body logos, with a line saying Stellara is not affiliated with any exam body.</p>
+    </div>
+
+    <div class="section">
+      <h3>Six rules</h3>
+      <div class="grid g3">
+        <div class="item"><h4>Kind and true</h4><p class="small muted">Never shame or exaggerate, never hide a problem. "Not quite" is kind and honest.</p></div>
+        <div class="item"><h4>Specific beats general</h4><p class="small muted">"9 of the last 10 right" beats "Great progress!"</p></div>
+        <div class="item"><h4>One idea per line</h4><p class="small muted">Children get one short idea. Parents get the fact first, then the detail.</p></div>
+        <div class="item"><h4>Same thing, same name</h4><p class="small muted">"Start today's set" opens "Today's set". "Send invite" ends in "Invite sent".</p></div>
+        <div class="item"><h4>Sweet in moments, plain in facts</h4><p class="small muted">Sprouts and starlight for celebrations; plain words for consent and errors.</p></div>
+        <div class="item"><h4>Nothing to lose</h4><p class="small muted">Progress only grows. Never lose, break, miss, fail, behind or last chance.</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Names of things</h3>
+      <p class="sub">One name everywhere: app, WhatsApp, email and school letters.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Thing</th><th>Children see</th><th>Parents see</th><th>Never</th></tr></thead>
+        <tbody>
+          <tr><td>Progress map</td><td><b>Your sky</b></td><td>Tolu's sky</td><td class="muted">Dashboard, skill tree</td></tr>
+          <tr><td>Topic mastered</td><td><b>Sprouted</b></td><td>Mastered</td><td class="muted">Completed, passed</td></tr>
+          <tr><td>Points</td><td><b>Stardust</b></td><td>Stardust</td><td class="muted">XP, coins, gems</td></tr>
+          <tr><td>Missed day, covered</td><td><b>Resting cloud</b></td><td>Resting cloud</td><td class="muted">Freeze, lost day</td></tr>
+          <tr><td>Child sign-in</td><td><b>Your picture key</b></td><td>Picture key</td><td class="muted">PIN, password</td></tr>
+          <tr><td>Exam practice</td><td><b>Practice test</b></td><td>Practice test</td><td class="muted">Mock exam, real questions</td></tr>
+          <tr><td>Syllabus practised</td><td>n/a</td><td><b>Coverage</b></td><td class="muted">Readiness, predicted score</td></tr>
+          <tr><td>Light and dark themes</td><td>n/a</td><td><b>Daytime</b> and <b>Starlight</b></td><td class="muted">Light mode, dark mode</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="section">
+      <h3>Daytime, Starlight, Match my phone</h3>
+      <p class="sub">What parents see in Settings. These buttons drive this page too: try them.</p>
+      <div class="setting" role="group" aria-label="How Stellara looks">
+        <p class="setting-title">How Stellara looks</p>
+        <button type="button" data-set="auto"><span class="sw-dot" style="background:linear-gradient(90deg,#FFF8F1 50%,#1E1518 50%)"></span><span><b>Match my phone</b><small>Switches between Daytime and Starlight with your phone's setting.</small></span></button>
+        <button type="button" data-set="light"><span class="sw-dot" style="background:#FFF8F1"></span><span><b>Daytime</b><small>Cream and honey. Bright and clear for daytime.</small></span></button>
+        <button type="button" data-set="dark"><span class="sw-dot" style="background:#1E1518"></span><span><b>Starlight</b><small>Warm cocoa. Gentle on the eyes in the evening.</small></span></button>
+        <p class="setting-foot">Saved on this phone. Other phones keep their own setting.</p>
+      </div>
+      <p class="small muted">The first time a child's app turns to Starlight, Auntie Stella says once: "The stars are out. Let's learn by starlight."</p>
+    </div>
+
+    <div class="section">
+      <h3>Errors: what happened, then what to do</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Instead of</th><th>We write</th></tr></thead>
+        <tbody>
+          <tr><td class="muted">Invalid OTP.</td><td>That code doesn't match. Check the latest message and try again.</td></tr>
+          <tr><td class="muted">Token expired.</td><td>That code has expired. We've sent you a new one.</td></tr>
+          <tr><td class="muted">Network error. Retry?</td><td>Can't connect right now. Your work is saved on this phone.</td></tr>
+          <tr><td class="muted">Invalid join code.</td><td>We can't find that school code. Check it with Tolu's school; it has 6 letters and numbers.</td></tr>
+          <tr><td class="muted">Wrong! Try again.</td><td>Not quite. Look at the bottom numbers first.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="section">
+      <h3>WhatsApp, SMS and email</h3>
+      <p class="sub">WhatsApp is the main channel for parents. SMS is the fallback, so it avoids ₦ and emoji, which would cut a message from 160 characters to 70. Email carries the weekly report for email sign-ups, school messages and anything legal.</p>
+      <div class="grid g3 msgs">
+        <div><span class="k">WhatsApp · weekly</span><div class="bubble">Hello Mummy Tolu. Tolu's weekly report is ready ⭐ This week: practised on 5 days, 1 new topic mastered. Read it: stellara.ng/r/8KD2<span class="time">6:00 pm</span></div></div>
+        <div><span class="k">SMS · fallback</span><div class="bubble sms">Tolu's Stellara report is ready: 5 days practised, 1 new topic mastered. stellara.ng/r/8KD2</div><p class="small muted" style="margin-top:6px">91 of 160 characters · GSM-7</p></div>
+        <div><span class="k">Email · inbox</span>
+          <div class="inbox">
+            <div><b>Stellara</b><span class="subj">Tolu's week: 5 days, 1 new star</span><span class="pre">Fractions sprouted. Next: 10 minutes on Ratios.</span></div>
+            <div><b>Stellara</b><span class="subj">Tolu has mastered Fractions</span><span class="pre">9 of the last 10 right, including a check 2 weeks later.</span></div>
+            <div><b>Stellara</b><span class="subj">You've given consent for Tolu</span><span class="pre">Here's what you agreed to, and how to change it.</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="small muted">Nine email templates, each in Daytime and Starlight with a plain-text version, are in the build docs under <code>docs/emails/</code>. Subjects stay under 45 characters, put the child's name first, and never use emoji or exclamation marks. One button per email, named by its result: "Read Tolu's report".</p>
+    </div>
+
+    <div class="note"><b>Feedback:</b> use the comment button and start with "Board 8".</div>
+    <div class="next"><a href="#motion">← Motion</a><a href="#applications">Applications →</a></div>
+  </div>
+</section>
+
+<!-- 9 APPLICATIONS -->
+<section class="view" data-view="applications" hidden>
+  <div class="wrap">
+    <div class="board-head"><span class="eyebrow">Board 9 of 9</span><h2>Applications</h2><p class="lede">The kit at work. The phones follow the theme switch, so you can see each screen in Daytime and Starlight. Names and numbers are sample data.</p></div>
+
+    <div class="apps">
+      <div class="app"><h4>Lesson screen</h4>
+        <div class="phone"><div class="screen"><div class="statusbar"></div>
+          <div class="s-pad">
+            <div style="display:flex;align-items:center;gap:12px"><span class="muted">✕</span><div class="prog" style="flex:1"><i></i></div><span style="font-size:11px" class="muted">6 of 10</span></div>
+            <span style="font-size:10.5px;letter-spacing:.08em" class="muted">FRACTIONS · PRIMARY 4</span>
+            <p class="s-q">Which fraction is bigger?</p>
+            <div class="s-ans"><div class="sel">3/4</div><div>2/5</div></div>
+            <div class="s-hint"><span class="mono avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Auntie Stella smiling">
+  <title>Auntie Stella smiling</title>
+  <clipPath id="as-smiling-round-6"><circle cx="120" cy="120" r="120"/></clipPath><circle cx="120" cy="120" r="120" fill="#E1F2DB"/>
+  <g opacity=".9"><circle cx="40" cy="52" r="4" fill="#F6C445"/><circle cx="202" cy="70" r="3" fill="#F4A9C2"/><circle cx="196" cy="40" r="2.2" fill="#86BF7E"/><circle cx="30" cy="96" r="2.4" fill="#F4A9C2"/></g>
+  <g clip-path="url(#as-smiling-round-6)">
+  <path d="M38 242 C42 198 76 179 120 179 C164 179 198 198 202 242Z" fill="#F4A9C2" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M60 240 C64 214 80 202 96 198" stroke="#FCE1EA" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect x="104" y="146" width="32" height="44" rx="13" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M102 181 Q120 207 138 181 Q120 190 102 181Z" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M104 156 Q120 168 136 156 L136 162 Q120 172 104 162Z" fill="#76492F" opacity=".7"/>
+  <path d="M100 182 Q120 210 140 182" stroke="#FCE1EA" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(0 0) rotate(0 120 150)">
+    <circle cx="120" cy="49" r="25" fill="#2A1E1B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/><path d="M99 45 Q120 35 141 45" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M97 53 Q120 43 143 53" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 61 Q120 52 140 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="80" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <ellipse cx="160" cy="117" rx="7" ry="10" fill="#76492F" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <circle cx="80.5" cy="127" r="2.2" fill="#F6C445"/>
+    <ellipse cx="120" cy="112" rx="40" ry="48" fill="#8D5A3B" stroke="#3A2430" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M79 112 C76 72 96 59 120 59 C144 59 164 72 161 112 C156 93 147 82 120 81 C93 82 84 93 79 112Z" fill="#2A1E1B"/>
+    <path d="M86 100 Q90 76 112 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M92 92 Q100 72 116 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M100 84 Q108 70 119 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M154 100 Q150 76 128 62" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M148 92 Q140 72 124 61" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M140 84 Q132 70 121 60" stroke="#4A362F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="93" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <ellipse cx="147" cy="128" rx="8.5" ry="5" fill="#C8705A" opacity=".42"/>
+    <path d="M94 97 Q103 92.5 112 96.5" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M128 96.5 Q137 92.5 146 97" stroke="#2A1E1B" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="103" cy="113" rx="3.3" ry="4.2" fill="#1E1512"/><ellipse cx="137" cy="113" rx="3.3" ry="4.2" fill="#1E1512"/><circle cx="104.2" cy="111.6" r="1.1" fill="#fff"/><circle cx="138.2" cy="111.6" r="1.1" fill="#fff"/>
+    <path d="M118.5 119 Q120 128 124.5 127.5" stroke="#5E3824" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M107.5 135 Q120 149 132.5 135 Q120 140 107.5 135Z" fill="#7A3B33"/><path d="M110.5 136.4 Q120 139.6 129.5 136.4 L128.6 138.4 Q120 141 111.4 138.4Z" fill="#fff"/>
+    <circle cx="103" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <circle cx="137" cy="112" r="13.5" fill="#fff" fill-opacity=".14" stroke="#3A2430" stroke-width="2.6"/>
+    <path d="M116.5 111 Q120 107.5 123.5 111" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M89.5 109 L81 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M150.5 109 L159 107" stroke="#3A2430" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M161 126 L161.5 132" stroke="#D9A22C" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M160.84 132.90Q161.50 131.80 162.16 132.90L163.44 135.03Q163.87 135.74 164.68 135.92L167.09 136.48Q168.35 136.78 167.50 137.75L165.88 139.62Q165.33 140.25 165.41 141.07L165.62 143.54Q165.73 144.82 164.55 144.32L162.26 143.35Q161.50 143.03 160.74 143.35L158.45 144.32Q157.27 144.82 157.38 143.54L157.59 141.07Q157.67 140.25 157.12 139.62L155.50 137.75Q154.65 136.78 155.91 136.48L158.32 135.92Q159.13 135.74 159.56 135.03Z" fill="#F6C445" stroke="#D9A22C" stroke-width="1.2"/>
+  </g></g>
+</svg></span><span><b style="font-weight:600">Auntie Stella:</b> draw both as pizzas. Which one has more eaten?</span></div>
+          </div>
+          <div class="s-cta">Check</div>
+        </div></div>
+        <p>One question, lots of space, a hint from Auntie Stella, one clear button.</p>
+      </div>
+
+      <div class="app"><h4>Progress screen</h4>
+        <div class="phone"><div class="screen"><div class="statusbar"></div>
+          <div class="s-pad">
+            <span style="font-size:10.5px;letter-spacing:.08em" class="muted">THIS WEEK</span>
+            <p class="s-q" style="font-size:24px">Six days in a row. Lovely work, Tolu.</p>
+            <div class="s-week" id="week-row"></div>
+            <div class="s-stat"><div class="dust"><strong>+40</strong>Stardust today</div><div><strong>2</strong>stars sprouted</div></div>
+            <div style="padding:10px;border-radius:16px;background:var(--surface);border:1px solid var(--line)"><svg id="mini-sky" viewBox="0 0 240 110" style="width:100%;height:auto;overflow:visible"></svg></div>
+            <p style="font-size:11.5px" class="muted">Thursday was a resting cloud, so your run stayed safe.</p>
+          </div>
+          <div class="s-cta">Keep going</div>
+        </div></div>
+        <p>Celebrates the run quietly. A rest day is part of the sky, not a failure.</p>
+      </div>
+
+      <div class="app"><h4>Parent progress report</h4>
+        <div class="phone"><div class="screen s-report"><div class="statusbar"></div>
+          <div class="hd"><small>Weekly report · Primary 5 · Sample</small><b>Tolu's progress this term</b><small style="margin-top:4px">7 mastered · 4 in progress · 23 active days</small></div>
+          <div class="bd">
+            <h6>Mathematics</h6>
+            <div id="report-topics"></div>
+            <h6>Common Entrance practice coverage</h6>
+            <div class="bar"><span>Maths</span><i><b style="width:64%"></b></i><span>64%</span></div>
+            <div class="bar"><span>English</span><i><b style="width:48%"></b></i><span>48%</span></div>
+            <div class="bar"><span>Quantitative</span><i><b style="width:55%"></b></i><span>55%</span></div>
+            <div class="bar"><span>Verbal</span><i><b style="width:31%"></b></i><span>31%</span></div>
+            <p style="font-size:9.5px" class="muted">Share of the syllabus practised, not a predicted score.</p>
+            <div class="letter"><b style="font-weight:600">A note from Auntie Stella:</b> Tolu worked hard on Fractions and it shows. This week, ten minutes on Ratios on Tuesday and Thursday will help.</div>
+          </div>
+        </div></div>
+        <p>Weekly and topic by topic, each status backed by a rule. Beats the termly report card.</p>
+      </div>
+
+      <div class="app"><h4>App store listing</h4>
+        <div class="store">
+          <div class="row"><div class="appicon" data-logo="appicon"></div><div><b>Stellara</b><small>Education · Ages 4–12</small></div></div>
+          <div class="icon-sizes" style="justify-content:center"><div class="appicon" style="width:84px;border-radius:50%" data-logo="appicon"></div><div class="appicon" style="width:84px;border-radius:30%" data-logo="appicon"></div><div class="appicon" style="width:84px" data-logo="appicon"></div></div>
+          <p class="small muted" style="text-align:center">Checked inside circle, squircle and rounded-square launcher masks.</p>
+        </div>
+      </div>
+
+      <div class="app"><h4>Social post</h4>
+        <div class="social">
+          <span style="font-size:12px" class="muted">For parents</span>
+          <svg id="social-sky" viewBox="0 0 280 110"></svg>
+          <div style="display:grid;gap:8px"><h5>Tolu grew 7 stars this term.</h5><p class="foot">Shared from a Stellara term report</p></div>
+        </div>
+        <p>A report card parents are happy to forward to the family WhatsApp group.</p>
+      </div>
+
+      <div class="app"><h4>Print: wall chart</h4>
+        <div class="print"><b>Tolu's sky · Term 1</b><svg id="wallchart" viewBox="0 0 300 140" aria-label="Wall chart where a star sticker is added for each mastered topic"></svg><span class="small muted">A printed chart for home. The school gives a star sticker for each topic mastered in the app.</span></div>
+        <p>Learning leaves the screen, sweetly.</p>
+      </div>
+    </div>
+
+    <div class="note"><b>Feedback:</b> use the comment button and start with "Board 9".</div>
+    <div class="next"><a href="#voice">← Voice</a><a href="#">Back to cover</a></div>
+  </div>
+</section>
+</main>
+
+<div id="stage-holder" hidden>
+  <div class="stage" id="stage">
+    <div class="fallback" id="stage-fallback"></div>
+    <canvas id="sky3d" aria-label="Interactive 3D scene: a sweet sky around the Stellara star sprout"></canvas>
+    <div class="hud"><span id="hud-hint">Move to lean the stars · tap to light them</span><span>Stars lit: <b id="hud-count">0</b></span></div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const root=document.documentElement;
+let uid=0;
+const css=n=>getComputedStyle(root).getPropertyValue("--"+n).trim();
+
+/* ---------- theme (Auto follows the device; Light/Dark override, remembered per device) ---------- */
+const themeBtns=[...document.querySelectorAll("[data-set]")];
+function currentPref(){try{return localStorage.getItem("stellara-theme")||"auto";}catch(e){return root.getAttribute("data-theme")||"auto";}}
+function applyTheme(p){
+  if(p==="light"||p==="dark")root.setAttribute("data-theme",p);else root.removeAttribute("data-theme");
+  try{if(p==="auto")localStorage.removeItem("stellara-theme");else localStorage.setItem("stellara-theme",p);}catch(e){}
+  themeBtns.forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.set===p)));
+  if(window.__skyTheme)window.__skyTheme();
+}
+themeBtns.forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.set)));
+applyTheme(root.getAttribute("data-theme")||currentPref());
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{if(window.__skyTheme)window.__skyTheme();});
+
+/* ---------- shapes ---------- */
+const f=p=>p[0].toFixed(2)+" "+p[1].toFixed(2);
+function starPath(R,r,t1,t2,cx,cy){
+  cx=cx||0;cy=cy||0;const pts=[];
+  for(let i=0;i<10;i++){const a=(-90+i*36)*Math.PI/180,rad=i%2?r:R;pts.push([cx+Math.cos(a)*rad,cy+Math.sin(a)*rad]);}
+  let d="";
+  for(let i=0;i<10;i++){const p=pts[(i+9)%10],c=pts[i],n=pts[(i+1)%10],t=i%2?t2:t1;
+    const a=[c[0]+(p[0]-c[0])*t,c[1]+(p[1]-c[1])*t],b=[c[0]+(n[0]-c[0])*t,c[1]+(n[1]-c[1])*t];
+    d+=(i?"L":"M")+f(a)+"Q"+f(c)+" "+f(b);}
+  return d+"Z";
+}
+/* chubby star: fatter inner radius and rounder corners than a classic star */
+const chubby=(cx,cy,R)=>starPath(R,R*.6,.36,.22,cx,cy);
+const soft=(cx,cy,R)=>starPath(R,R*.56,.3,.2,cx,cy);
+/* sprout drawn in a 100-unit box where the star's top point sits at (50,27) */
+const LEAF_L="M50 18.5 C44 9 35 8.5 30.5 12.5 C34.5 19.5 43.5 21.5 50 18.5Z";
+const LEAF_R="M50 16.5 C55 6 65.5 3.5 70.5 7.5 C67.5 15.5 57.5 19.5 50 16.5Z";
+function sproutAt(cx,topY,s,outline){
+  const o=outline?`stroke:var(--outline);stroke-width:${(2.4).toFixed(2)};stroke-linejoin:round`:"stroke:none";
+  return `<g class="leaf" transform="translate(${(cx-50*s).toFixed(2)} ${(topY-27*s).toFixed(2)}) scale(${s.toFixed(3)})"><path d="M50 27.5 Q49 22 50 17" style="fill:none;stroke:var(--success-ink);stroke-width:2.6;stroke-linecap:round"/><path d="${LEAF_L}" style="fill:var(--success);${o}"/><path d="${LEAF_R}" style="fill:var(--success);${o}"/><circle cx="50" cy="17" r="3.6" style="fill:var(--primary);${o}"/></g>`;
+}
+
+/* ---------- logo ---------- */
+function logoMark(kind){
+  if(kind==="sparkle")return `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10 C53 42 56 45 88 48 C56 51 53 54 50 86 C47 54 44 51 12 48 C44 45 47 42 50 10Z" style="fill:var(--reward)"/></svg>`;
+  const star=chubby(50,59,32);
+  const face=`<ellipse cx="41.5" cy="58" rx="2.5" ry="3.1"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1"/>`;
+  const smile=`M44.5 65 Q50 70 55.5 65`;
+  if(kind==="mono"){
+    const id="mk"+(uid++);
+    return `<svg viewBox="0 0 100 100" aria-hidden="true"><mask id="${id}"><rect x="-10" y="-10" width="120" height="120" fill="#fff"/><g fill="#000">${face}</g><path d="${smile}" stroke="#000" stroke-width="2.6" fill="none" stroke-linecap="round"/></mask><g mask="url(#${id})" fill="currentColor"><path d="${star}"/><path d="M50 27.5 Q49 22 50 17" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="${LEAF_L}"/><path d="${LEAF_R}"/><circle cx="50" cy="17" r="3.6"/></g></svg>`;
+  }
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">${sproutAt(50,27,1,true)}<path d="${star}" style="fill:var(--reward);stroke:var(--outline);stroke-width:2.6;stroke-linejoin:round"/><ellipse cx="35.5" cy="64" rx="4.2" ry="2.6" style="fill:var(--cheek);opacity:.8"/><ellipse cx="64.5" cy="64" rx="4.2" ry="2.6" style="fill:var(--cheek);opacity:.8"/><g style="fill:#3A2430">${face}</g><path d="${smile}" style="fill:none;stroke:#3A2430;stroke-width:2.6;stroke-linecap:round"/></svg>`;
+}
+document.querySelectorAll("[data-logo]").forEach(el=>{const k=el.dataset.logo;el.innerHTML=logoMark(k==="appicon"?"mark":k);});
+document.getElementById("stage-fallback").innerHTML=`<svg viewBox="0 0 300 220" aria-hidden="true">${[[30,40,"primary"],[70,170,"success"],[120,30,"reward"],[240,50,"primary"],[270,160,"reward"],[200,190,"success"],[60,100,"reward"],[262,104,"success"]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" style="fill:var(--${p[2]});opacity:.7"/>`).join("")}<g transform="translate(80 45) scale(1.4)">${logoMark("mark").replace(/^<svg[^>]*>|<\/svg>$/g,"")}</g></svg>`;
+
+/* ---------- colour ---------- */
+const T={
+  light:{bg:"#FFF8F1",surface:"#FFFFFF",sunk:"#FCEFE6",line:"#F0DCD3",text:"#3A2430",muted:"#76606A",primary:"#C23A68","on-primary":"#FFFFFF","primary-tint":"#FCE1EA","primary-ink":"#A12E57",reward:"#F6C445","reward-edge":"#D9A22C","reward-tint":"#FFF2CC","reward-ink":"#845400",success:"#86BF7E","success-tint":"#E1F2DB","success-ink":"#2D6537",hint:"#FCE1EA",focus:"#C23A68",error:"#B42318"},
+  dark:{bg:"#1E1518",surface:"#291E22",sunk:"#33262B",line:"#47363C",text:"#F7ECE7",muted:"#C9B6BB",primary:"#F39BB9","on-primary":"#3A1123","primary-tint":"#47222F","primary-ink":"#F7B3CA",reward:"#F2C55C","reward-edge":"#C99A33","reward-tint":"#3B2F1C","reward-ink":"#F5D27E",success:"#93C98A","success-tint":"#20352A","success-ink":"#A8D99F",hint:"#47222F",focus:"#F39BB9",error:"#FF8A80"}
+};
+const CORE=[["Strawberry","primary","The one action per screen, links, focus, selection."],["Strawberry Milk","primary-tint","Selected answers, hint cards, the app icon."],["Strawberry Ink","primary-ink","Text on Strawberry Milk; the wordmark."],["Honey","reward","Stars, Stardust and rewards. A fill, never text."],["Honey Cream","reward-tint","Stardust chips and reward notes."],["Honey Ink","reward-ink","Stardust numbers and reward text."],["Matcha","success","Correct answers, progress, sprouts."],["Matcha Milk","success-tint","Correct-answer tiles, mastered rows."],["Matcha Ink","success-ink","Success text."]];
+const NEUTRAL=[["Cream / Cocoa","bg","Main background."],["Surface","surface","Cards and answer tiles."],["Biscuit","sunk","Wells, empty bars, segmented controls."],["Line","line","Borders and dividers."],["Cocoa text","text","Main text. Soft off-white in dark."],["Mauve","muted","Secondary text."],["Error","error","Form errors only, never a child's wrong answer."]];
+const lumOf=h=>{const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255].map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);}).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0);};
+const ratio=(a,b)=>{const x=lumOf(a),y=lumOf(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
+const inkFor=h=>lumOf(h)>.4?"#3A2430":"#FFF8F1";
+const sw=(id,l)=>document.getElementById(id).innerHTML=l.map(s=>{const L=T.light[s[1]],D=T.dark[s[1]];return `<div class="swatch"><div class="pair"><div style="background:${L};color:${inkFor(L)}">Daytime<span>${L}</span></div><div style="background:${D};color:${inkFor(D)}">Starlight<span>${D}</span></div></div><b>${s[0]}</b><code>--${s[1]}</code><span class="small">${s[2]}</span></div>`;}).join("");
+sw("sw-core",CORE);sw("sw-neutral",NEUTRAL);
+const PAIRS=[["text","bg",4.5,"Body text"],["muted","bg",4.5,"Secondary text"],["muted","surface",4.5,"Secondary text on cards"],["on-primary","primary",4.5,"Primary button label"],["primary","bg",4.5,"Links"],["primary-ink","primary-tint",4.5,"Hint and selected text"],["text","hint",4.5,"Body text in hint cards"],["reward-ink","bg",4.5,"Stardust numbers"],["reward-ink","reward-tint",4.5,"Stardust chip"],["success-ink","success-tint",4.5,"Correct-answer label"],["error","surface",4.5,"Form errors"],["focus","bg",3,"Focus ring (non-text)"],["reward","bg",4.5,"Avoid: honey as text"]];
+document.querySelector("#contrast tbody").innerHTML=PAIRS.map(p=>{
+  const cell=th=>{const fg=T[th][p[0]],bg=T[th][p[1]],r=ratio(fg,bg),c=r>=p[2]?"pass":r>=3?"large":"fail";
+    return `<td><span class="sample" style="color:${fg};background:${bg}">Aa 12</span></td><td class="num">${r.toFixed(2)}:1 <span class="res ${c}">${c==="pass"?(p[2]===3?"3:1 pass":"AA pass"):c==="large"?"Large only":"Fail"}</span></td>`;};
+  return `<tr><td><code>${p[0]}</code> on <code>${p[1]}</code></td>${cell("light")}${cell("dark")}<td class="small">${p[3]}</td></tr>`;}).join("");
+
+/* ---------- glyph test ---------- */
+const GLYPHS=["ẹ","ọ","ṣ","ń","ɓ","ɗ","ƙ","ị","ụ","₦"];
+const FACES=["Nunito","Inter"];
+async function glyphTest(){
+  document.querySelector("#glyphs thead").innerHTML="<tr><th>Face</th>"+GLYPHS.map(g=>`<th style="text-transform:none;font-size:15px">${g}</th>`).join("")+"<th>All</th></tr>";
+  const c=document.createElement("canvas").getContext("2d");
+  const has=(face,g)=>{for(const fb of ["monospace","serif"]){c.font=`700 48px ${fb}`;const a=c.measureText(g).width;c.font=`700 48px "${face}", ${fb}`;if(Math.abs(c.measureText(g).width-a)>.01)return true;}return false;};
+  const rows=[],pass=[],gaps={};
+  for(const face of FACES){
+    try{await Promise.all(GLYPHS.map(g=>document.fonts.load(`700 48px "${face}"`,g)));}catch(e){}
+    const res=GLYPHS.map(g=>has(face,g)),all=res.every(Boolean);if(all)pass.push(face);else gaps[face]=GLYPHS.filter((g,i)=>!res[i]).join(" ");
+    rows.push(`<tr><td><b>${face}</b></td>`+res.map((ok,i)=>`<td class="glyph-cell" style="font-family:'${face}',monospace;font-weight:700">${ok?GLYPHS[i]:"<span class='res fail'>✕</span>"}</td>`).join("")+`<td><span class="res ${all?"pass":"fail"}">${all?"Pass":"Gaps"}</span></td></tr>`);
+  }
+  document.querySelector("#glyphs tbody").innerHTML=rows.join("");
+  const g=Object.entries(gaps).map(([k,v])=>`${k} is missing ${v}`).join("; ");
+  document.getElementById("glyph-verdict").textContent=(pass.length?`Every letter present in this browser: ${pass.join(", ")}. `:"No face passed every letter in this browser. ")+(g?`${g}, so the next face in the stack (Inter) draws those letters. Self-host a Nunito subset that adds them, or accept the fallback after checking it on real Android phones.`:"Confirm on real Android phones before launch.");
+}
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(glyphTest);
+
+/* ---------- icons ---------- */
+const ICONS=[
+  ["Home","<path d='M3.5 11 12 4.5l8.5 6.5v8.5a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z'/>",`<path class='acc' d='${soft(18.5,4.6,2.8)}'/>`],
+  ["Lesson","<path d='M4 5.5A2.5 2.5 0 0 1 6.5 3H20v14H6.5A2.5 2.5 0 0 0 4 19.5z'/><path d='M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5'/>","<path class='acc' d='M13.5 3h4v6l-2-1.4-2 1.4z'/>"],
+  ["Practice","<path d='M14.5 4.5l5 5L9 20H4v-5z'/><path d='M12.5 6.5l5 5'/>","<circle class='acc' cx='5.5' cy='5.5' r='1.8'/>"],
+  ["Review","<path d='M19.5 10A8 8 0 0 0 5 7.5'/><path d='M4.5 3.5v4h4'/><path d='M4.5 14A8 8 0 0 0 19 16.5'/><path d='M19.5 20.5v-4h-4'/>","<circle class='acc' cx='12' cy='12' r='2'/>"],
+  ["Days in a row","<rect x='3.5' y='5' width='17' height='15' rx='2.5'/><path d='M3.5 10h17M8 3v4M16 3v4'/>",`<path class='acc' d='${soft(12,15,3.2)}'/>`],
+  ["Stardust",`<path d='${soft(9.5,13,6.5)}'/>`,`<path class='acc' d='${soft(18.5,6,3)}'/>`],
+  ["Mastered",`<path d='${soft(12,14,8)}'/><path d='M12 6V3.5M12 4.5c-1.5-1.8-3.4-1.9-4.4-1.1M12 4c1.5-1.9 3.6-2.2 4.6-1.3'/>`,`<path class='acc' d='${soft(12,14,4.4)}'/>`],
+  ["Report","<path d='M6 3h9l4 4v14H6z'/><path d='M15 3v4h4'/><path d='M9.5 17v-3M12.5 17v-6'/>","<rect class='acc' x='14.5' y='12' width='2.3' height='5.3' rx='1.1'/>"],
+  ["Common Entrance","<path d='M2 9.5 12 5l10 4.5-10 4.5z'/><path d='M6 11.5v4.5c3.5 2.5 8.5 2.5 12 0v-4.5'/><path d='M22 9.5v5'/>",`<path class='acc' d='${soft(12,9.5,2.4)}'/>`],
+  ["Family","<circle cx='8' cy='8' r='3'/><path d='M2.5 20a5.5 5.5 0 0 1 11 0'/><circle cx='17' cy='10' r='2.4'/><path d='M14.5 20a4 4 0 0 1 7-2.5'/>","<circle class='acc' cx='17' cy='10' r='1.1'/>"],
+  ["Offline","<path d='M12 4v11'/><path d='M7 10.5l5 5 5-5'/><path d='M5 20h14'/>","<circle class='acc' cx='19' cy='5' r='1.8'/>"],
+  ["Rest","<path d='M7 19h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6 12.6 3.2 3.2 0 0 0 7 19z'/>","<circle class='acc' cx='18.5' cy='5.5' r='1.8'/>"]
+];
+const ico=i=>`<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>${i[1]}${i[2]}</svg>`;
+document.getElementById("iconset").innerHTML=ICONS.map(i=>`<figure>${ico(i)}<figcaption>${i[0]}</figcaption></figure>`).join("");
+document.getElementById("ico-construct").innerHTML=ico(ICONS[6]);
+
+/* ---------- mastery motif: dashed → half → full → full + sprout ---------- */
+function stateStar(s,cx,cy,R){
+  const d=chubby(cx,cy,R),edge=`stroke:var(--outline);stroke-width:${Math.max(1,R*.09).toFixed(2)};stroke-linejoin:round`;
+  if(s==="none")return `<path d="${d}" style="fill:none;stroke:var(--line-strong);stroke-width:1.6;stroke-dasharray:3 3"/>`;
+  if(s==="dev"){const id="c"+(uid++);return `<clipPath id="${id}"><rect x="${cx-R*1.2}" y="${cy+R*.05}" width="${2.4*R}" height="${R*1.2}"/></clipPath><path d="${d}" style="fill:var(--surface);stroke:var(--reward-edge);stroke-width:1.5"/><path d="${d}" clip-path="url(#${id})" style="fill:var(--reward)"/><path d="${d}" style="fill:none;stroke:var(--reward-edge);stroke-width:1.5"/>`;}
+  if(s==="pro")return `<path d="${d}" style="fill:var(--reward);stroke:var(--reward-edge);stroke-width:1.5;stroke-linejoin:round"/>`;
+  return sproutAt(cx,cy-R,R/32,true)+`<path d="${d}" style="fill:var(--reward);${edge}"/>`;
+}
+const TOPICS=[["Whole numbers",80,200,"mas"],["Place value",170,120,"mas"],["Addition",270,170,"mas"],["Fractions",370,90,"pro"],["Decimals",470,150,"dev"],["Ratios",560,70,"dev"],["Percentages",650,130,"none"],["Measurement",720,220,"none"],["Shapes",300,255,"pro"],["Data",470,255,"none"]];
+const lineSvg=(a,b,on,w)=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" style="stroke:var(${on?"--link-on":"--link-off"});stroke-width:${w||1.6};stroke-linecap:round${on?"":";stroke-dasharray:3 5"}"/>`;
+(function(){
+  let s="";
+  for(let i=0;i<7;i++)s+=lineSvg([TOPICS[i][1],TOPICS[i][2]],[TOPICS[i+1][1],TOPICS[i+1][2]],TOPICS[i+1][3]!=="none");
+  s+=lineSvg([TOPICS[2][1],TOPICS[2][2]],[TOPICS[8][1],TOPICS[8][2]],true)+lineSvg([TOPICS[4][1],TOPICS[4][2]],[TOPICS[9][1],TOPICS[9][2]],false);
+  TOPICS.forEach((t,i)=>{s+=`<g class="cs" style="--i:${i}">${stateStar(t[3],t[1],t[2],17)}<text x="${t[1]}" y="${t[2]+36}" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" style="fill:var(--muted)">${t[0]}</text></g>`;});
+  document.getElementById("constellation").innerHTML=s;
+  const L=[["none","Not yet measured"],["dev","Developing"],["pro","Proficient"],["mas","Mastered (sprouted)"]];
+  document.getElementById("legend").innerHTML=L.map(l=>`<span><svg viewBox="-14 -16 28 30">${stateStar(l[0],0,1,10)}</svg>${l[1]}</span>`).join("");
+  document.getElementById("report-topics").innerHTML=TOPICS.slice(1,7).map(t=>`<div class="topic"><span><svg viewBox="-14 -16 28 30">${stateStar(t[3],0,1,10)}</svg>${t[0]}</span><span class="st">${{mas:"Mastered",pro:"Proficient",dev:"Developing",none:"Not yet"}[t[3]]}</span></div>`).join("");
+  const days=["M","T","W","T","F","S","S"],st=["on","on","on","cloud","on","on","on"];
+  const cloud=`<svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6 11.6 3.2 3.2 0 0 0 7 18z" style="fill:var(--cloud);stroke:var(--cloud-edge);stroke-width:1.3"/></svg>`;
+  const dstar=`<svg viewBox="-12 -12 24 24"><path d="${chubby(0,1,10)}" style="fill:var(--reward);stroke:var(--reward-edge);stroke-width:1.1"/></svg>`;
+  document.getElementById("week-row").innerHTML=days.map((d,i)=>`<div>${st[i]==="cloud"?cloud:dstar}${d}</div>`).join("");
+  const sky=(id,pts,litN,R)=>{let o="";for(let i=0;i<pts.length-1;i++)o+=lineSvg(pts[i],pts[i+1],i<litN-1,1.4);pts.forEach((p,i)=>o+=stateStar(i<litN-2?"mas":i<litN?"pro":"none",p[0],p[1],R));document.getElementById(id).innerHTML=o;};
+  sky("mini-sky",[[20,84],[60,56],[100,72],[140,38],[180,60],[220,32]],4,9);
+  sky("social-sky",[[20,92],[60,64],[100,78],[140,40],[185,62],[225,30],[262,54]],7,10);
+  sky("wallchart",[[25,112],[65,84],[105,98],[150,56],[195,76],[240,40],[278,66]],5,11);
+})();
+
+/* ---------- micro-interactions ---------- */
+(function(){
+  const box=document.getElementById("pv-answer"),star=box.querySelector(".fadestar"),out=box.querySelector(".line-out");
+  star.innerHTML=stateStar("pro",0,2,13);
+  box.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
+    box.querySelectorAll(".opt").forEach(o=>o.classList.remove("ok","no"));box.querySelector("[data-ok='1']").textContent="3/4";
+    star.classList.remove("show");
+    if(b.dataset.ok==="1"){b.classList.add("ok");b.textContent="✓ 3/4";requestAnimationFrame(()=>requestAnimationFrame(()=>star.classList.add("show")));out.textContent="Well done! You found it.";}
+    else{b.classList.add("no");out.textContent="Not quite, my dear. Compare the pieces again.";}
+    out.classList.add("show");
+  }));
+  const nb=document.getElementById("pv-nights"),row=nb.querySelector(".nights");
+  const states=["on","on","cloud","off","off","off","off"];let n=3;
+  const cell=s=>s==="cloud"?`<svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6 11.6 3.2 3.2 0 0 0 7 18z" style="fill:var(--cloud);stroke:var(--cloud-edge);stroke-width:1.3"/></svg>`:`<svg viewBox="-12 -12 24 24">${stateStar(s==="on"?"pro":"none",0,1,10)}</svg>`;
+  const draw=fresh=>row.innerHTML=states.map((s,i)=>`<span class="${i===fresh?"fresh":""}">${cell(s)}</span>`).join("");draw(-1);
+  nb.querySelector("button").addEventListener("click",()=>{if(n>=7){states.fill("off");states[0]="on";n=1;draw(0);return;}states[n]="on";draw(n);n++;});
+  const lv=document.getElementById("pv-level"),svg=lv.querySelector("svg");
+  const P=[[30,112],[80,64],[140,88],[190,44],[235,96]];let s="";
+  for(let i=0;i<P.length-2;i++)s+=lineSvg(P[i],P[i+1],true,1.8);
+  const a=P[P.length-2],b=P[P.length-1],L=Math.hypot(b[0]-a[0],b[1]-a[1]);
+  s+=`<line class="ln" style="--len:${L.toFixed(0)};stroke:var(--link-on);stroke-width:1.8;stroke-linecap:round" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`;
+  P.slice(0,-1).forEach(p=>s+=stateStar("pro",p[0],p[1],12));
+  s+=`<g class="end">${stateStar("mas",b[0],b[1],12)}</g>`;svg.innerHTML=s;
+  lv.querySelector("button").addEventListener("click",()=>{lv.classList.remove("go");void lv.offsetWidth;lv.classList.add("go");});
+})();
+
+/* ---------- router ---------- */
+const views=[...document.querySelectorAll(".view")],stage=document.getElementById("stage");
+const cWrap=document.getElementById("constellation-wrap");
+function route(){
+  const h=(location.hash||"").slice(1)||"home",name=views.some(v=>v.dataset.view===h)?h:"home";
+  views.forEach(v=>v.hidden=v.dataset.view!==name);
+  document.querySelectorAll(".tabs a").forEach(a=>{if(a.getAttribute("href")==="#"+name)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  const slot=document.getElementById(name==="motion"?"motion-slot":"hero-slot");
+  if(stage.parentElement!==slot)slot.appendChild(stage);
+  cWrap.classList.remove("in");if(name==="icons")requestAnimationFrame(()=>requestAnimationFrame(()=>cWrap.classList.add("in")));
+  const cur=document.querySelector(".tabs a[aria-current]");if(cur)cur.scrollIntoView({block:"nearest",inline:"center"});
+  if(window.__skyResize)setTimeout(window.__skyResize,30);
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);route();
+
+/* ---------- Babylon.js: sweet sky ---------- */
+const hint=document.getElementById("hud-hint");
+const loadScript=src=>new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});
+let started=false;
+function playButton(msg){hint.innerHTML=msg+' <button type="button">Play 3D</button>';hint.querySelector("button").addEventListener("click",()=>start(true));}
+async function start(force){
+  if(started)return;if(reduced&&!force){playButton("3D paused for reduced motion.");return;}
+  started=true;hint.textContent="Loading…";
+  try{await loadScript("https://cdn.jsdelivr.net/npm/earcut@2.2.4/dist/earcut.min.js");await loadScript("https://cdn.jsdelivr.net/npm/babylonjs@7.31.0/babylon.js");}
+  catch(e){hint.textContent="3D could not load here. Showing a still image.";return;}
+  if(!window.BABYLON||!BABYLON.Engine.isSupported()){hint.textContent="This device can't show 3D. Showing a still image.";return;}
+  try{build();}catch(e){console.error(e);hint.textContent="3D could not start. Showing a still image.";}
+}
+function build(){
+  const B=BABYLON,canvas=document.getElementById("sky3d");
+  const engine=new B.Engine(canvas,true,{alpha:true,preserveDrawingBuffer:false},true);
+  engine.setHardwareScalingLevel(1/Math.min(window.devicePixelRatio||1,2));
+  const scene=new B.Scene(engine);scene.clearColor=new B.Color4(0,0,0,0);
+  const cam=new B.FreeCamera("cam",new B.Vector3(0,0,-10),scene);cam.setTarget(B.Vector3.Zero());cam.fov=.8;cam.inputs.clear();
+  const fit=()=>{const a=engine.getRenderWidth()/Math.max(1,engine.getRenderHeight());cam.position.z=a<1?-14:a<1.3?-11.5:-10;};
+  const hemi=new B.HemisphericLight("h",new B.Vector3(-.3,1,-1),scene);hemi.intensity=1.05;
+  const dir=new B.DirectionalLight("d",new B.Vector3(.4,-.6,1),scene);dir.intensity=.3;
+  const C3=h=>B.Color3.FromHexString(h.length===7?h.toUpperCase():"#000000");
+  const mat=(name,emis)=>{const m=new B.StandardMaterial(name,scene);m.specularColor=new B.Color3(.08,.07,.07);m.backFaceCulling=false;m.__emis=emis;return m;};
+
+  function shape(R,r,t1,t2,steps){
+    const v=[];for(let i=0;i<10;i++){const a=(90+i*36)*Math.PI/180,rad=i%2?r:R;v.push([Math.cos(a)*rad,Math.sin(a)*rad]);}
+    const out=[];
+    for(let i=0;i<10;i++){const p=v[(i+9)%10],c=v[i],n=v[(i+1)%10],t=i%2?t2:t1;
+      const a=[c[0]+(p[0]-c[0])*t,c[1]+(p[1]-c[1])*t],b=[c[0]+(n[0]-c[0])*t,c[1]+(n[1]-c[1])*t];
+      for(let k=0;k<=steps;k++){const u=k/steps;out.push(new B.Vector3((1-u)*(1-u)*a[0]+2*(1-u)*u*c[0]+u*u*b[0],0,(1-u)*(1-u)*a[1]+2*(1-u)*u*c[1]+u*u*b[1]));}}
+    return out.reverse();
+  }
+  const honey=mat("honey",.22),leaf=mat("leaf",.18),bud=mat("bud",.2),face=mat("face",0),cheek=mat("cheek",.3);
+  const hero=new B.TransformNode("hero",scene);
+  const star=B.MeshBuilder.ExtrudePolygon("star",{shape:shape(1.5,.9,.36,.22,7),depth:.36,sideOrientation:B.Mesh.DOUBLESIDE},scene,window.earcut);
+  star.material=honey;star.rotation.x=-Math.PI/2;star.parent=hero;
+  const mk=(m,pos,sc,rz)=>{const s=B.MeshBuilder.CreateSphere("s",{diameter:1,segments:16},scene);s.position=pos;s.scaling=sc;if(rz)s.rotation.z=rz;s.material=m;s.parent=hero;return s;};
+  mk(leaf,new B.Vector3(-.36,1.82,.02),new B.Vector3(.62,.24,.14),.42);
+  mk(leaf,new B.Vector3(.42,1.9,.02),new B.Vector3(.72,.26,.14),-.5);
+  mk(bud,new B.Vector3(0,1.72,-.02),new B.Vector3(.2,.2,.2));
+  mk(face,new B.Vector3(-.3,.06,-.04),new B.Vector3(.13,.17,.06));
+  mk(face,new B.Vector3(.3,.06,-.04),new B.Vector3(.13,.17,.06));
+  mk(cheek,new B.Vector3(-.58,-.22,-.03),new B.Vector3(.22,.13,.04));
+  mk(cheek,new B.Vector3(.58,-.22,-.03),new B.Vector3(.22,.13,.04));
+  const arc=[];for(let i=0;i<=12;i++){const a=Math.PI*(1.18+.64*i/12);arc.push(new B.Vector3(Math.cos(a)*.26,-.14+Math.sin(a)*.2+.0,-.05));}
+  const smile=B.MeshBuilder.CreateTube("smile",{path:arc,radius:.032,cap:B.Mesh.CAP_ALL},scene);smile.material=face;smile.parent=hero;
+
+  const small=window.innerWidth<700,N=small?45:80;
+  const dotMats=[mat("d0",1),mat("d1",1),mat("d2",1)];dotMats.forEach(m=>m.disableLighting=true);
+  const litMat=mat("lit",1);litMat.disableLighting=true;
+  const bases=dotMats.map((m,i)=>{const b=B.MeshBuilder.CreateSphere("bd"+i,{diameter:.09,segments:6},scene);b.material=m;b.position.y=999;return b;});
+  const baseL=B.MeshBuilder.CreateSphere("bl",{diameter:.17,segments:8},scene);baseL.material=litMat;baseL.position.y=999;
+  let lineCol=new B.Color3(.9,.6,.7);
+  function paint(){
+    const g=n=>C3(css(n));
+    honey.diffuseColor=g("reward");leaf.diffuseColor=g("success");bud.diffuseColor=g("primary");face.diffuseColor=C3("#3A2430");cheek.diffuseColor=g("cheek");
+    const dark=lumOf(css("bg"))<.2;
+    [honey,leaf,bud,cheek].forEach(m=>m.emissiveColor=m.diffuseColor.scale(dark?Math.min(.6,m.__emis+.35):m.__emis));face.emissiveColor=new B.Color3(0,0,0);
+    hemi.intensity=dark?1.2:1.05;hemi.groundColor=dark?new B.Color3(.55,.48,.5):new B.Color3(.9,.85,.84);
+    dotMats[0].emissiveColor=g("primary");dotMats[1].emissiveColor=g("success");dotMats[2].emissiveColor=g("reward-edge");
+    dotMats.forEach(m=>m.alpha=dark?.85:.7);litMat.emissiveColor=g("reward");lineCol=g("link-on");
+  }
+  paint();window.__skyTheme=()=>requestAnimationFrame(paint);
+  const pts=[];
+  for(let i=0;i<N;i++){
+    const home=new B.Vector3((Math.random()*2-1)*8,(Math.random()*2-1)*4.6,1+Math.random()*4);
+    if(Math.abs(home.x)<2.2&&Math.abs(home.y)<2.4)home.x+=home.x<0?-2.3:2.3;
+    const m=bases[i%3].createInstance("p"+i);m.position.copyFrom(home);const sc=.7+Math.random()*.9;m.scaling.setAll(sc);
+    pts.push({home,pos:home.clone(),m,sc,ph:Math.random()*6.28,sp:.3+Math.random()*.6,lit:false});
+  }
+  const lit=[];let lines=null;
+  const target=new B.Vector3(0,0,2),cursor=new B.Vector3(0,0,2);let active=false,last=0;
+  const toWorld=(x,y)=>{const ray=scene.createPickingRay(x,y,B.Matrix.Identity(),cam);const t=(2-ray.origin.z)/ray.direction.z;return ray.origin.add(ray.direction.scale(t));};
+  const evPos=e=>{const r=canvas.getBoundingClientRect(),k=engine.getRenderWidth()/r.width;return toWorld((e.clientX-r.left)*k,(e.clientY-r.top)*k);};
+  canvas.addEventListener("pointermove",e=>{target.copyFrom(evPos(e));active=true;last=performance.now();});
+  canvas.addEventListener("pointerleave",()=>active=false);
+  canvas.addEventListener("pointerdown",e=>{
+    const w=evPos(e);target.copyFrom(w);
+    const c=pts.filter(p=>!p.lit).map(p=>({p,d:Math.hypot(p.pos.x-w.x,p.pos.y-w.y)})).sort((a,b)=>a.d-b.d)[0];
+    if(!c)return;const p=c.p;p.lit=true;const pos=p.m.position.clone();p.m.dispose();p.m=baseL.createInstance("l");p.m.position.copyFrom(pos);lit.push(p);
+    document.getElementById("hud-count").textContent=lit.length;
+  });
+  let t=0;
+  scene.onBeforeRenderObservable.add(()=>{
+    const dt=Math.min(.05,engine.getDeltaTime()/1000);t+=dt;
+    if(!active||performance.now()-last>5000)target.set(Math.sin(t*.18)*3.5,Math.sin(t*.27)*1.8,2);
+    B.Vector3.LerpToRef(cursor,target,Math.min(1,dt*2),cursor);
+    const R=2.8,segs=[],cols=[],near=[];
+    pts.forEach(p=>{
+      const d=Math.hypot(p.home.x-cursor.x,p.home.y-cursor.y),pull=d<R?(1-d/R)*.14:0;
+      const drift=Math.sin(t*p.sp+p.ph)*.05;
+      p.pos.x+=(p.home.x+(cursor.x-p.home.x)*pull-p.pos.x)*Math.min(1,dt*2.5);
+      p.pos.y+=(p.home.y+(cursor.y-p.home.y)*pull+drift-p.pos.y)*Math.min(1,dt*2.5);
+      p.m.position.copyFrom(p.pos);p.m.scaling.setAll(p.lit?1:p.sc*(1+.12*Math.sin(t*p.sp*2+p.ph)));
+      if(d<R)near.push([p,d]);
+    });
+    near.sort((a,b)=>a[1]-b[1]);
+    for(let i=0;i<near.length;i++){let c=0;for(let j=i+1;j<near.length&&c<2;j++){const a=near[i][0].pos,b=near[j][0].pos;if(B.Vector3.Distance(a,b)<1.9){const al=(1-near[i][1]/R)*.6;segs.push([a.clone(),b.clone()]);cols.push([new B.Color4(lineCol.r,lineCol.g,lineCol.b,al),new B.Color4(lineCol.r,lineCol.g,lineCol.b,al)]);c++;}}}
+    for(let i=1;i<lit.length;i++){const lc=litMat.emissiveColor;segs.push([lit[i-1].pos.clone(),lit[i].pos.clone()]);cols.push([new B.Color4(lc.r,lc.g,lc.b,.85),new B.Color4(lc.r,lc.g,lc.b,.85)]);}
+    if(lines){lines.dispose();lines=null;}
+    if(segs.length)lines=B.MeshBuilder.CreateLineSystem("ls",{lines:segs,colors:cols,useVertexAlpha:true},scene);
+    hero.position.y=-.15+Math.sin(t*.8)*.08;
+    hero.rotation.y+=((cursor.x*.05+Math.sin(t*.35)*.18)-hero.rotation.y)*Math.min(1,dt*1.5);
+    hero.rotation.x+=((-cursor.y*.04)-hero.rotation.x)*Math.min(1,dt*1.5);
+  });
+  let visible=true;
+  if("IntersectionObserver" in window)new IntersectionObserver(es=>visible=es[0].isIntersecting).observe(stage);
+  engine.runRenderLoop(()=>{if(visible&&!document.hidden&&stage.offsetParent!==null)scene.render();});
+  window.__skyResize=()=>{engine.resize();fit();};
+  window.addEventListener("resize",window.__skyResize);
+  scene.executeWhenReady(()=>{window.__skyResize();stage.classList.add("ready");hint.textContent="Move to lean the stars · tap to light them";});
+}
+if(document.readyState==="complete")setTimeout(()=>start(false),300);else window.addEventListener("load",()=>setTimeout(()=>start(false),300));
+})();
+</script>

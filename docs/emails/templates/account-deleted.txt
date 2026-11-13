@@ -1,0 +1,12 @@
+Subject: {{child_name}}'s Stellara account has been deleted
+
+Hello {{parent_name}}. As you asked, we have deleted {{child_name}}'s profile, answers and progress. This can't be undone.
+
+What we keep: a record of consent for 6 years (required by law), and anonymous totals that can't be linked to {{child_name}}.
+
+Thank you for learning with us.
+
+--
+You're getting this as a record that the deletion you asked for is finished.
+Change which emails you get: {{settings_url}}
+Stellara Learning Ltd · {{postal_address}}

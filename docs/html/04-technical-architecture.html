@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Technical architecture · Stellara docs</title>
+<script>try{var t=localStorage.getItem("stellara-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script><meta name="color-scheme" content="light dark">
+<style>
+:root{--bg:#FFF8F1;--surface:#FFFFFF;--surface-2:#FCEFE6;--fg:#3A2430;--muted:#76606A;--line:#F0DCD3;--accent:#C23A68;--accent-ink:#A12E57;--accent-soft:#FCE1EA;--code:#FCEFE6;--honey:#F6C445;--matcha:#86BF7E;--matcha-soft:#E1F2DB;--wordmark:#A12E57;color-scheme:light;--font-display:"Nunito","Inter",system-ui,sans-serif;--font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 var(--font-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;line-height:1.2;letter-spacing:-.01em;text-wrap:balance;scroll-margin-top:72px}
+h1{font-size:36px;margin:0 0 18px} h2{font-size:24px;margin:44px 0 12px;padding-top:20px;border-top:1px solid var(--line)} h3{font-size:18px;font-weight:700;margin:28px 0 8px} h4{font-size:16px;font-weight:700}
+p,ul,ol{margin:0 0 14px;max-width:72ch}
+li{margin:4px 0}
+blockquote{margin:0 0 16px;padding:12px 16px;border-left:4px solid var(--matcha);background:var(--matcha-soft);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+code{font-family:var(--mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:6px}
+pre.code{background:var(--code);padding:14px 16px;border-radius:14px;overflow-x:auto;font-size:13px;line-height:1.5;max-width:100%}
+pre.code code{background:none;padding:0}
+pre.mermaid{background:#FFFFFF;color:#3A2430;border:1px solid var(--line);border-radius:14px;padding:16px;overflow-x:auto;text-align:center}
+.table-wrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+input[type=checkbox]{margin-right:6px}
+.theme{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px}
+.theme button{font:500 12px var(--font-body);border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;cursor:pointer;min-height:30px}
+.theme button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(58,36,48,.2)}
+.wordmark{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;color:var(--wordmark);font-size:21px;line-height:1}
+.brand{display:flex;gap:8px;align-items:center}
+.brand svg{width:30px;height:30px;flex:none}
+.brand small{font:500 13px var(--font-body);color:var(--muted);margin-left:2px}
+.dimmable svg{transition:filter .2s ease}
+:root[data-theme="dark"] .dimmable svg{filter:brightness(.9)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dimmable svg{filter:brightness(.9)}}
+
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:36px;max-width:1200px;margin:0 auto;padding:0 16px}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0;display:grid;align-content:start;gap:2px}
+aside .top{display:grid;gap:10px;margin-bottom:12px}
+aside a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:14px}
+aside a[aria-current]{background:var(--accent-soft);color:var(--accent-ink)}
+main{padding:28px 0 80px;min-width:0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;max-width:720px}
+.gallery figure{margin:0;text-align:center;font-size:13px;color:var(--muted)}.gallery img{width:100%}
+:root[data-theme="dark"] .gallery img{filter:brightness(.9)}
+@media (max-width:820px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}}
+</style></head>
+<body><div class="shell"><aside><div class="top"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+  
+  <path d="M50 27.5 Q49 22 50 17" stroke="#2D6537" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M50 18.5 C44 9 35 8.5 30.5 12.5 C34.5 19.5 43.5 21.5 50 18.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M50 16.5 C55 6 65.5 3.5 70.5 7.5 C67.5 15.5 57.5 19.5 50 16.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="3.6" fill="#C23A68" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45.94 32.93Q50.00 27.00 54.06 32.93L58.80 39.84Q61.29 43.47 65.50 44.71L73.54 47.08Q80.43 49.11 76.05 54.81L70.94 61.45Q68.26 64.93 68.38 69.32L68.61 77.70Q68.81 84.89 62.04 82.48L54.14 79.67Q50.00 78.20 45.86 79.67L37.96 82.48Q31.19 84.89 31.39 77.70L31.62 69.32Q31.74 64.93 29.06 61.45L23.95 54.81Q19.57 49.11 26.46 47.08L34.50 44.71Q38.71 43.47 41.20 39.84Z" fill="#F6C445" stroke="#3A2430" stroke-width="2.6" stroke-linejoin="round"/>
+  <ellipse cx="35.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/><ellipse cx="64.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/>
+  <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
+  <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html" aria-current="page">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a></aside><main><h1 id="04--technical-architecture">04 · Technical architecture</h1>
+<h2 id="1-summary">1. Summary</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Layer</th>
+<th>Choice</th>
+<th>Why</th>
+</tr>
+</thead><tbody><tr>
+<td>Client</td>
+<td><strong>Next.js 15 (App Router), TypeScript, React</strong>, installed as a <strong>PWA</strong></td>
+<td>One codebase for child, parent, teacher, school admin and content studio; largest local hiring pool</td>
+</tr>
+<tr>
+<td>Offline</td>
+<td>Service worker (Serwist), <strong>IndexedDB via Dexie</strong>, outbound sync queue</td>
+<td>Interruptions and data costs are normal</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td><strong>Supabase</strong>: Postgres 15+, Row Level Security, Auth, Storage, Edge Functions (Deno), pg_cron, Realtime (teacher dashboard only)</td>
+<td>Fast to start, Postgres underneath, RLS gives per-school isolation</td>
+</tr>
+<tr>
+<td>Rules engine</td>
+<td><code>packages/rules</code>: pure TypeScript, no I/O</td>
+<td>Same code in Edge Functions, the content studio and tests</td>
+</tr>
+<tr>
+<td>Messaging</td>
+<td>WhatsApp Business API through a Nigerian-friendly provider, SMS fallback (registered sender ID)</td>
+<td>Parents live on WhatsApp</td>
+</tr>
+<tr>
+<td>Payments</td>
+<td>School licences invoiced (Paystack invoices or bank transfer). Parent add-on later through Paystack</td>
+<td>B2B first</td>
+</tr>
+<tr>
+<td>Hosting</td>
+<td>Web on Vercel (or Cloudflare Pages); Supabase Pro in the nearest available region</td>
+<td>See §8 on data location</td>
+</tr>
+<tr>
+<td>Observability</td>
+<td>Sentry (web and functions; PII scrubbing on), Supabase logs, uptime monitor</td>
+<td></td>
+</tr>
+<tr>
+<td>Analytics</td>
+<td>First-party <code>events</code> table plus Metabase. No third-party trackers on logged-in screens</td>
+<td>Privacy for children</td>
+</tr>
+</tbody></table></div>
+<h2 id="2-system-diagram">2. System diagram</h2>
+<pre class="mermaid">flowchart LR
+  subgraph Device[Phone, tablet or school PC]
+    UI[Next.js PWA]
+    SW[Service worker]
+    IDB[(IndexedDB: packs, outbox, cache)]
+    UI &lt;--&gt; IDB
+    SW &lt;--&gt; IDB
+  end
+  UI -- HTTPS JWT --&gt; PR[Supabase PostgREST]
+  UI -- HTTPS JWT --&gt; EF[Edge Functions]
+  UI -- OTP / session --&gt; AUTH[Supabase Auth]
+  EF --&gt; DB[(Postgres + RLS)]
+  PR --&gt; DB
+  EF --&gt; ST[(Storage: media, packs, exports)]
+  CRON[pg_cron jobs] --&gt; DB
+  CRON --&gt; EF
+  EF --&gt; MSG[WhatsApp / SMS provider]
+  EF --&gt; PAY[Paystack]
+  PAY -- webhook --&gt; EF
+  DB --&gt; MB[Metabase read replica / views]</pre>
+<h2 id="3-repository-layout">3. Repository layout</h2>
+<pre class="code"><code>stellara/
+  apps/
+    web/                 Next.js app (child, parent, teacher, school, studio route groups)
+  packages/
+    rules/               Mastery, scoring, Stardust, streak, report rules + fixtures
+    ui/                  Design-system components and tokens (see 08)
+    content-schema/      Zod schemas for items, stimuli, lessons, blueprints
+    i18n/                String catalogues (en first; yo, ha, ig ready)
+  supabase/
+    migrations/          SQL migrations (only way to change schema)
+    functions/           Edge Functions (Deno)
+    seed/                Seed data, fixtures, demo school
+    tests/               pgTAP tests for RLS and constraints
+  docs/                  This documentation</code></pre>
+<p>Tooling: pnpm workspaces and Turborepo, ESLint, Prettier, Vitest, Playwright, pgTAP, Lighthouse CI.</p>
+<h2 id="4-apps-and-route-groups">4. Apps and route groups</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Route group</th>
+<th>Users</th>
+<th>Auth</th>
+</tr>
+</thead><tbody><tr>
+<td><code>/(child)</code></td>
+<td>Children</td>
+<td>Child session token issued to a signed-in parent device or a class device (§6)</td>
+</tr>
+<tr>
+<td><code>/(family)</code></td>
+<td>Parents</td>
+<td>Supabase Auth (phone OTP or email)</td>
+</tr>
+<tr>
+<td><code>/(teach)</code></td>
+<td>Teachers</td>
+<td>Supabase Auth plus a school membership</td>
+</tr>
+<tr>
+<td><code>/(school)</code></td>
+<td>School admins</td>
+<td>Supabase Auth plus the <code>school_admin</code> role</td>
+</tr>
+<tr>
+<td><code>/(studio)</code></td>
+<td>Authors and reviewers</td>
+<td>Supabase Auth plus a content role; desktop only</td>
+</tr>
+<tr>
+<td><code>/(ops)</code></td>
+<td>Stellara staff</td>
+<td>Supabase Auth plus the <code>ops</code> role, IP allow-list, MFA</td>
+</tr>
+<tr>
+<td><code>/basic/*</code></td>
+<td>Opera Mini and very old browsers</td>
+<td>Server-rendered lessons and untimed practice only</td>
+</tr>
+</tbody></table></div>
+<h2 id="5-data-flow-for-a-practice-item">5. Data flow for a practice item</h2>
+<pre class="mermaid">sequenceDiagram
+  participant C as Child UI
+  participant L as IndexedDB outbox
+  participant F as Edge Function responses-submit
+  participant D as Postgres
+  C-&gt;&gt;L: save response (client_id, item_version, answer, timings)
+  C-&gt;&gt;C: show neutral &quot;saved&quot; state (online practice: wait for server)
+  L-&gt;&gt;F: batch POST (≤10 responses or every 30 s)
+  F-&gt;&gt;D: insert attempts (idempotent on client_id)
+  F-&gt;&gt;F: rules.scoreResponse + rules.updateMastery
+  F-&gt;&gt;D: update mastery_states, stardust_ledger, activity_days
+  F--&gt;&gt;C: results: correct?, explanation, stardust, level changes</pre>
+<ul>
+<li><strong>Online practice:</strong> the UI waits for the server result (target p95 under 400 ms in Lagos). It shows the answer as &quot;checking&quot; with no correctness hint until then.</li>
+<li><strong>Offline pack with keys:</strong> the UI gives instant feedback locally. The response is sent later with <code>key_on_device=true</code> and scored at low confidence (<a href="02-learning-rules.html#34-offline-evidence">02 §3.4</a>).</li>
+<li><strong>Idempotency:</strong> every response has a client-generated UUID (<code>client_id</code>), so a retry never double-counts.</li>
+</ul>
+<h2 id="6-identity-and-sessions">6. Identity and sessions</h2>
+<ul>
+<li><strong>Adults</strong> use Supabase Auth: phone OTP (WhatsApp first, then SMS), or an email magic link. Staff roles require MFA (TOTP).</li>
+<li><strong>Children have no Supabase Auth user.</strong> A child acts through a <strong>child session</strong>:<ul>
+<li><strong>Family device:</strong> the parent is signed in. The child picks their profile and enters a 4-picture PIN. The Edge Function <code>child-session</code> returns a short-lived JWT (2 h, refreshable on the device for 30 days) with claims <code>{ role: &#39;child&#39;, child_id, guardian_id }</code>.</li>
+<li><strong>School device:</strong> the teacher starts &quot;class mode&quot; with a class code. The child picks their name and enters their picture PIN. The JWT has <code>{ role: &#39;child&#39;, child_id, class_id, school_id, mode: &#39;class&#39; }</code> and expires at the end of the school day.</li>
+</ul>
+</li>
+<li>PINs are stored as salted hashes (argon2id) in <code>child_pins</code>. Five wrong attempts lock the profile for 5 minutes.</li>
+<li>Shared phones: each child profile has its own IndexedDB partition, keyed by <code>child_id</code>.</li>
+</ul>
+<h2 id="7-offline-and-sync">7. Offline and sync</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Concern</th>
+<th>Rule</th>
+</tr>
+</thead><tbody><tr>
+<td>What is cached</td>
+<td>App shell, lesson cards for the current and next topics, up to 3 practice packs, the child&#39;s sky, the last report</td>
+</tr>
+<tr>
+<td>Pack contents</td>
+<td>30–40 items plus explanations. Keys only in &quot;practice packs&quot;, never in practice tests or review sets</td>
+</tr>
+<tr>
+<td>Storage cap</td>
+<td>25 MB per device; least recently used packs are evicted</td>
+</tr>
+<tr>
+<td>Outbox</td>
+<td>Responses, lesson-complete events, set-complete events, each with <code>client_id</code> and <code>recorded_at</code> (device time) plus a <code>monotonic_offset</code></td>
+</tr>
+<tr>
+<td>Sync trigger</td>
+<td>Online event, app foreground, every 30 s while online, and Background Sync where supported</td>
+</tr>
+<tr>
+<td>Conflicts</td>
+<td>The server wins for all scored state. The client never edits mastery, Stardust or streaks; it only shows what the server returns</td>
+</tr>
+<tr>
+<td>Clock trust</td>
+<td>Device time is used only to place a response in a learning day if the sync is within 72 h <strong>and</strong> the device clock differs from server time at sync by less than 10 minutes. Otherwise the server&#39;s receive time is used</td>
+</tr>
+<tr>
+<td>Practice tests</td>
+<td>Need a connection to start (to get the server timer). They then continue offline and follow the grace rules in <a href="02-learning-rules.html#52-timer-and-interruption-rules">02 §5.2</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="8-data-location-and-transfer">8. Data location and transfer</h2>
+<ul>
+<li>Supabase does not currently offer a region in Nigeria (check the current region list before setup). Choose the closest region with good latency to Lagos and Abuja, test from Nigerian networks, and record the choice in the decision log.</li>
+<li>Because children&#39;s data is stored outside Nigeria, the <strong>DPIA must cover the cross-border transfer</strong> and its legal basis (NDPA s.41–43). Parents see this in the consent notice.</li>
+<li>Media and packs are served through a CDN. Media contains no personal data.</li>
+</ul>
+<h2 id="9-edge-functions-overview">9. Edge Functions (overview)</h2>
+<p>Full contracts are in <a href="06-api-and-events.html">06 API and events</a>.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Function</th>
+<th>Purpose</th>
+</tr>
+</thead><tbody><tr>
+<td><code>consent-start</code>, <code>consent-confirm</code></td>
+<td>Record parental consent with verification</td>
+</tr>
+<tr>
+<td><code>child-create</code>, <code>child-session</code></td>
+<td>Create a child profile (after consent) and issue child JWTs</td>
+</tr>
+<tr>
+<td><code>class-join</code></td>
+<td>Link a child to a class with a class code</td>
+</tr>
+<tr>
+<td><code>set-start</code></td>
+<td>Assemble a practice or review set or topic assessment (no keys)</td>
+</tr>
+<tr>
+<td><code>responses-submit</code></td>
+<td>Batch responses → score → update mastery, Stardust and days</td>
+</tr>
+<tr>
+<td><code>test-start</code>, <code>test-resume</code>, <code>test-finish</code></td>
+<td>Practice-test sessions with the server timer</td>
+</tr>
+<tr>
+<td><code>pack-build</code></td>
+<td>Build an offline practice pack for a child</td>
+</tr>
+<tr>
+<td><code>report-weekly</code></td>
+<td>Scheduled: build parent reports and queue messages</td>
+</tr>
+<tr>
+<td><code>messages-dispatch</code></td>
+<td>Send WhatsApp or SMS through the provider, respecting quiet hours</td>
+</tr>
+<tr>
+<td><code>data-export</code>, <code>data-delete</code></td>
+<td>Fulfil data rights requests</td>
+</tr>
+<tr>
+<td><code>paystack-webhook</code></td>
+<td>Payment events (Phase 2 parent add-on; school invoices)</td>
+</tr>
+<tr>
+<td><code>content-publish</code></td>
+<td>Validate and publish items and lessons; render maths</td>
+</tr>
+</tbody></table></div>
+<h2 id="10-scheduled-jobs-pg_cron">10. Scheduled jobs (pg_cron)</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Job</th>
+<th>Schedule (Africa/Lagos)</th>
+</tr>
+</thead><tbody><tr>
+<td>Close learning day: streaks, clouds, outage excuses</td>
+<td>Daily 03:05</td>
+</tr>
+<tr>
+<td>Due-review scheduling</td>
+<td>Daily 03:15</td>
+</tr>
+<tr>
+<td>Item statistics and exposure counts</td>
+<td>Daily 02:00</td>
+</tr>
+<tr>
+<td>Weekly parent reports</td>
+<td>Sunday 18:00</td>
+</tr>
+<tr>
+<td>Finalise abandoned practice tests</td>
+<td>Every 5 minutes</td>
+</tr>
+<tr>
+<td>Retention purge (§<a href="07-privacy-security-compliance.html#5-retention">07</a>)</td>
+<td>Daily 01:00</td>
+</tr>
+</tbody></table></div>
+<h2 id="11-security-model">11. Security model</h2>
+<ul>
+<li>RLS is enabled on <strong>every</strong> table. There are no tables without policies. The service role is used only inside Edge Functions.</li>
+<li>Answer keys live in <code>item_answers</code>, readable only by the service role and content roles.</li>
+<li>Rate limits per child, device and IP on <code>responses-submit</code>, <code>child-session</code> and OTP endpoints.</li>
+<li>See <a href="07-privacy-security-compliance.html">07</a> for the full control list.</li>
+</ul>
+<h2 id="12-scale-assumptions-for-the-pilot">12. Scale assumptions for the pilot</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Metric</th>
+<th>Pilot (Jan–Apr 2027)</th>
+<th>Year 1</th>
+</tr>
+</thead><tbody><tr>
+<td>Schools</td>
+<td>5–10</td>
+<td>50–100</td>
+</tr>
+<tr>
+<td>Active pupils</td>
+<td>1,000–2,000</td>
+<td>15,000–30,000</td>
+</tr>
+<tr>
+<td>Responses per day (peak)</td>
+<td>~60,000</td>
+<td>~1,000,000</td>
+</tr>
+</tbody></table></div>
+<p>A Supabase Pro instance with suitable compute handles the pilot comfortably. <code>attempts</code> is partitioned by month from day one.</p>
+<h2 id="13-decisions-adr-summary">13. Decisions (ADR summary)</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>#</th>
+<th>Decision</th>
+<th>Status</th>
+</tr>
+</thead><tbody><tr>
+<td>ADR-001</td>
+<td>PWA first, no native app in the MVP</td>
+<td>Accepted</td>
+</tr>
+<tr>
+<td>ADR-002</td>
+<td>Supabase-first backend</td>
+<td>Accepted (user decision, 12 Nov 2026)</td>
+</tr>
+<tr>
+<td>ADR-003</td>
+<td>The server is the only authority for score, time, mastery, Stardust and streaks</td>
+<td>Accepted</td>
+</tr>
+<tr>
+<td>ADR-004</td>
+<td>Children have no auth user; child JWT issued by a function</td>
+<td>Proposed</td>
+</tr>
+<tr>
+<td>ADR-005</td>
+<td>First-party analytics only</td>
+<td>Proposed</td>
+</tr>
+<tr>
+<td>ADR-006</td>
+<td>Maths rendered at publish time with KaTeX</td>
+<td>Proposed</td>
+</tr>
+<tr>
+<td>ADR-007</td>
+<td>Hosting region and transfer basis</td>
+<td><strong>Open</strong>: DPO and engineering</td>
+</tr>
+</tbody></table></div>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>(function(){var r=document.documentElement,b=[].slice.call(document.querySelectorAll(".theme button"));function cur(){try{return localStorage.getItem("stellara-theme")||"auto"}catch(e){return r.getAttribute("data-theme")||"auto"}}function set(p){if(p==="light"||p==="dark")r.setAttribute("data-theme",p);else r.removeAttribute("data-theme");try{if(p==="auto")localStorage.removeItem("stellara-theme");else localStorage.setItem("stellara-theme",p)}catch(e){}b.forEach(function(x){x.setAttribute("aria-pressed",String(x.dataset.set===p))})}b.forEach(function(x){x.addEventListener("click",function(){set(x.dataset.set)})});set(r.getAttribute("data-theme")||cur())})();if(window.mermaid){mermaid.initialize({startOnLoad:true,theme:"base",themeVariables:{primaryColor:"#FCE1EA",primaryBorderColor:"#C23A68",primaryTextColor:"#3A2430",lineColor:"#A12E57",secondaryColor:"#E1F2DB",tertiaryColor:"#FFF2CC",fontFamily:"Inter, sans-serif"}});}</script>
+</body></html>

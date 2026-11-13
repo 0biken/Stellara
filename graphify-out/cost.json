@@ -1,0 +1,20 @@
+{
+  "runs": [
+    {
+      "date": "2026-11-12T21:06:58.364409+00:00",
+      "input_tokens": 432717,
+      "output_tokens": 0,
+      "files": 49
+    },
+    {
+      "date": "2026-11-13T04:04:15.502666+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "token_usage_available": false,
+      "files": 19,
+      "note": "Host agent usage not exposed; counters unknown."
+    }
+  ],
+  "total_input_tokens": 432717,
+  "total_output_tokens": 0
+}

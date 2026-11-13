@@ -1,0 +1,11 @@
+Subject: Your copy of {{child_name}}'s data is ready
+
+Hello {{parent_name}}. As you asked on {{request_date}}, here is everything Stellara holds about {{child_name}} (PDF and JSON):
+{{download_url}}
+
+The link works for 7 days and only after you sign in. If you didn't ask for this, reply to this email straight away.
+
+--
+You're getting this because you asked for a copy of {{child_name}}'s data on {{request_date}}.
+Change which emails you get: {{settings_url}}
+Stellara Learning Ltd · {{postal_address}}

@@ -1,0 +1,13 @@
+Subject: Your Stellara sign-in link
+
+Hello {{parent_name}}.
+
+Sign in to Stellara with this link. It works once and expires in 15 minutes:
+{{signin_url}}
+
+If you didn't ask for this, you can ignore this email. Nobody can sign in without the link.
+
+--
+You're getting this because someone asked to sign in to Stellara with this email address.
+Change which emails you get: {{settings_url}}
+Stellara Learning Ltd · {{postal_address}}

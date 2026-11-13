@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en-NG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Auntie Stella avatar motion</title>
+<style>
+:root{color-scheme:light;--bg:#FFF8F1;--surface:#FFFFFF;--ink:#3A2430;--muted:#76606A;--line:#F0DCD3;--accent:#C23A68;--tint:#FCE1EA;--honey:#F6C445}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",system-ui,sans-serif}
+body{min-height:100vh;display:grid;place-items:center;padding:24px}
+main{width:min(1232px,100%)}
+header{display:flex;align-items:end;justify-content:space-between;gap:24px;margin:0 0 18px}
+h1,h2,p{margin:0}
+h1{font-family:Nunito,Inter,system-ui,sans-serif;font-size:34px;line-height:1.05;letter-spacing:-.03em}
+header p{max-width:50ch;color:var(--muted);font-size:14px;line-height:1.45;text-align:right}
+.gallery{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+article{min-width:0;padding:14px;border:1px solid var(--line);border-radius:22px;background:var(--surface)}
+h2{margin:0 0 10px;color:var(--accent);font-size:15px;letter-spacing:.02em;text-align:center}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+figure{min-width:0;margin:0;padding:8px 6px 7px;border-radius:16px;background:var(--tint);text-align:center}
+img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain}
+figcaption{margin-top:6px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.key{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-size:12px;font-weight:700}
+.key::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--honey);box-shadow:0 0 0 4px var(--tint)}
+@media (max-width:900px){body{display:block}.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}header{align-items:start;flex-direction:column}header p{text-align:left}}
+</style>
+</head>
+<body>
+<main>
+  <header><div><div class="key">Six-second motion cycle</div><h1>Auntie Stella, brought gently to life</h1></div><p>Static originals stay available for email and quiet contexts. Your reduced-motion setting removes positional movement.</p></header>
+  <section class="gallery" aria-label="Static and animated avatar comparisons">
+    <article>
+      <h2>Smiling</h2>
+      <div class="pair">
+        <figure><img src="auntie-stella-smiling.svg" alt="Auntie Stella smiling, static"><figcaption>Static</figcaption></figure>
+        <figure><img src="auntie-stella-smiling-animated.svg" alt="Auntie Stella smiling, animated"><figcaption>Animated</figcaption></figure>
+      </div>
+    </article>
+<article>
+      <h2>Listening</h2>
+      <div class="pair">
+        <figure><img src="auntie-stella-listening.svg" alt="Auntie Stella listening, static"><figcaption>Static</figcaption></figure>
+        <figure><img src="auntie-stella-listening-animated.svg" alt="Auntie Stella listening, animated"><figcaption>Animated</figcaption></figure>
+      </div>
+    </article>
+<article>
+      <h2>Thinking</h2>
+      <div class="pair">
+        <figure><img src="auntie-stella-thinking.svg" alt="Auntie Stella thinking, static"><figcaption>Static</figcaption></figure>
+        <figure><img src="auntie-stella-thinking-animated.svg" alt="Auntie Stella thinking, animated"><figcaption>Animated</figcaption></figure>
+      </div>
+    </article>
+<article>
+      <h2>Proud</h2>
+      <div class="pair">
+        <figure><img src="auntie-stella-proud.svg" alt="Auntie Stella proud, static"><figcaption>Static</figcaption></figure>
+        <figure><img src="auntie-stella-proud-animated.svg" alt="Auntie Stella proud, animated"><figcaption>Animated</figcaption></figure>
+      </div>
+    </article>
+<article>
+      <h2>Round</h2>
+      <div class="pair">
+        <figure><img src="auntie-stella-avatar-round.svg" alt="Auntie Stella round, static"><figcaption>Static</figcaption></figure>
+        <figure><img src="auntie-stella-avatar-round-animated.svg" alt="Auntie Stella round, animated"><figcaption>Animated</figcaption></figure>
+      </div>
+    </article>
+  </section>
+</main>
+</body>
+</html>

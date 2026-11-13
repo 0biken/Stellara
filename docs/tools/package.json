@@ -1,0 +1,15 @@
+{
+  "name": "stellara-docs-tools",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "avatar": "node avatar.mjs",
+    "build": "node build.mjs",
+    "test": "node --test avatar.test.mjs build.test.mjs check-generated.test.mjs",
+    "generate": "node avatar.mjs && node build.mjs && node brandkit.mjs",
+    "check:generated": "node check-generated.mjs"
+  },
+  "dependencies": {
+    "marked": "12.0.2"
+  }
+}

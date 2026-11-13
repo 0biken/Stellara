@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UX writing · Stellara docs</title>
+<script>try{var t=localStorage.getItem("stellara-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script><meta name="color-scheme" content="light dark">
+<style>
+:root{--bg:#FFF8F1;--surface:#FFFFFF;--surface-2:#FCEFE6;--fg:#3A2430;--muted:#76606A;--line:#F0DCD3;--accent:#C23A68;--accent-ink:#A12E57;--accent-soft:#FCE1EA;--code:#FCEFE6;--honey:#F6C445;--matcha:#86BF7E;--matcha-soft:#E1F2DB;--wordmark:#A12E57;color-scheme:light;--font-display:"Nunito","Inter",system-ui,sans-serif;--font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 var(--font-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;line-height:1.2;letter-spacing:-.01em;text-wrap:balance;scroll-margin-top:72px}
+h1{font-size:36px;margin:0 0 18px} h2{font-size:24px;margin:44px 0 12px;padding-top:20px;border-top:1px solid var(--line)} h3{font-size:18px;font-weight:700;margin:28px 0 8px} h4{font-size:16px;font-weight:700}
+p,ul,ol{margin:0 0 14px;max-width:72ch}
+li{margin:4px 0}
+blockquote{margin:0 0 16px;padding:12px 16px;border-left:4px solid var(--matcha);background:var(--matcha-soft);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+code{font-family:var(--mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:6px}
+pre.code{background:var(--code);padding:14px 16px;border-radius:14px;overflow-x:auto;font-size:13px;line-height:1.5;max-width:100%}
+pre.code code{background:none;padding:0}
+pre.mermaid{background:#FFFFFF;color:#3A2430;border:1px solid var(--line);border-radius:14px;padding:16px;overflow-x:auto;text-align:center}
+.table-wrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+input[type=checkbox]{margin-right:6px}
+.theme{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px}
+.theme button{font:500 12px var(--font-body);border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;cursor:pointer;min-height:30px}
+.theme button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(58,36,48,.2)}
+.wordmark{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;color:var(--wordmark);font-size:21px;line-height:1}
+.brand{display:flex;gap:8px;align-items:center}
+.brand svg{width:30px;height:30px;flex:none}
+.brand small{font:500 13px var(--font-body);color:var(--muted);margin-left:2px}
+.dimmable svg{transition:filter .2s ease}
+:root[data-theme="dark"] .dimmable svg{filter:brightness(.9)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dimmable svg{filter:brightness(.9)}}
+
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:36px;max-width:1200px;margin:0 auto;padding:0 16px}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0;display:grid;align-content:start;gap:2px}
+aside .top{display:grid;gap:10px;margin-bottom:12px}
+aside a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:14px}
+aside a[aria-current]{background:var(--accent-soft);color:var(--accent-ink)}
+main{padding:28px 0 80px;min-width:0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;max-width:720px}
+.gallery figure{margin:0;text-align:center;font-size:13px;color:var(--muted)}.gallery img{width:100%}
+:root[data-theme="dark"] .gallery img{filter:brightness(.9)}
+@media (max-width:820px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}}
+</style></head>
+<body><div class="shell"><aside><div class="top"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+  
+  <path d="M50 27.5 Q49 22 50 17" stroke="#2D6537" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M50 18.5 C44 9 35 8.5 30.5 12.5 C34.5 19.5 43.5 21.5 50 18.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M50 16.5 C55 6 65.5 3.5 70.5 7.5 C67.5 15.5 57.5 19.5 50 16.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="3.6" fill="#C23A68" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45.94 32.93Q50.00 27.00 54.06 32.93L58.80 39.84Q61.29 43.47 65.50 44.71L73.54 47.08Q80.43 49.11 76.05 54.81L70.94 61.45Q68.26 64.93 68.38 69.32L68.61 77.70Q68.81 84.89 62.04 82.48L54.14 79.67Q50.00 78.20 45.86 79.67L37.96 82.48Q31.19 84.89 31.39 77.70L31.62 69.32Q31.74 64.93 29.06 61.45L23.95 54.81Q19.57 49.11 26.46 47.08L34.50 44.71Q38.71 43.47 41.20 39.84Z" fill="#F6C445" stroke="#3A2430" stroke-width="2.6" stroke-linejoin="round"/>
+  <ellipse cx="35.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/><ellipse cx="64.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/>
+  <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
+  <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html" aria-current="page">16 UX writing</a></aside><main><h1 id="16--ux-writing">16 · UX writing</h1>
+<p>Every word in Stellara is part of the design. This guide covers the app, notifications, WhatsApp, SMS and email. The look is sweet; the words are <strong>sweet in moments and plain in facts</strong>. A child should feel encouraged, and a parent should know exactly what happened and what to do next.</p>
+<p>Strings live in <code>packages/i18n</code> (ICU MessageFormat). Email templates are in <code>docs/emails/</code> and are built by <code>docs/tools/emails.mjs</code>. The voice rules in <a href="08-design-system.html#10-voice-in-the-interface">08 §10</a> are summarised here and extended.</p>
+<h2 id="1-principles">1. Principles</h2>
+<ol>
+<li><strong>Kind and true.</strong> We never shame, nag or exaggerate. We never hide a problem either: &quot;Not quite&quot; is kind <em>and</em> honest.</li>
+<li><strong>Specific beats general.</strong> &quot;9 of the last 10 right&quot; beats &quot;Great progress!&quot;. Praise names what went right.</li>
+<li><strong>One idea per line.</strong> Children read one short idea at a time. Parents get the fact first and the detail second.</li>
+<li><strong>Same thing, same name.</strong> A feature keeps one name everywhere: app, WhatsApp, email, school letters. A button called &quot;Start today&#39;s set&quot; leads to a screen titled &quot;Today&#39;s set&quot;.</li>
+<li><strong>Sweet in moments, plain in facts.</strong> Garden and sky words belong to celebrations, Auntie Stella, and the names of things. Settings, consent, money, errors and data use plain words.</li>
+<li><strong>Nothing to lose.</strong> Progress only grows. We never say lose, break, miss, fail, behind or last chance.</li>
+</ol>
+<h2 id="2-three-voices">2. Three voices</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Voice</th>
+<th>Speaks to</th>
+<th>Sounds like</th>
+<th>Rules</th>
+</tr>
+</thead><tbody><tr>
+<td><strong>Auntie Stella</strong></td>
+<td>Children</td>
+<td>A patient auntie at the kitchen table</td>
+<td>Ages 4–7: ≤ 8 words a line, read aloud. Ages 8–12: ≤ 15 words. One exclamation mark per screen at most. &quot;My dear&quot; no more than once a session</td>
+</tr>
+<tr>
+<td><strong>Stellara</strong></td>
+<td>Parents and guardians</td>
+<td>A trusted class teacher writing a note home</td>
+<td>Evidence first. Full sentences. No exclamation marks, no emoji in the app. Uses the child&#39;s first name, never &quot;your child&quot; when the name is known</td>
+</tr>
+<tr>
+<td><strong>Stellara for schools</strong></td>
+<td>Teachers, heads, proprietors</td>
+<td>A capable colleague</td>
+<td>Short, factual, numbers first. No sweetness beyond the brand names</td>
+</tr>
+</tbody></table></div>
+<h3 id="21-tone-dial">2.1 Tone dial</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Moment</th>
+<th>Warmth</th>
+<th>Detail</th>
+<th>Example</th>
+</tr>
+</thead><tbody><tr>
+<td>Child gets it right</td>
+<td>High</td>
+<td>Low</td>
+<td>&quot;Well done! You found it.&quot;</td>
+</tr>
+<tr>
+<td>Child gets it wrong</td>
+<td>High</td>
+<td>One next step</td>
+<td>&quot;Not quite. Look at the bottom numbers first.&quot;</td>
+</tr>
+<tr>
+<td>Topic mastered</td>
+<td>Highest</td>
+<td>Low</td>
+<td>&quot;Your Fractions star sprouted.&quot;</td>
+</tr>
+<tr>
+<td>Parent report</td>
+<td>Medium</td>
+<td>High</td>
+<td>&quot;Tolu practised on 5 days and mastered Fractions.&quot;</td>
+</tr>
+<tr>
+<td>Consent and privacy</td>
+<td>Low, respectful</td>
+<td>Complete</td>
+<td>&quot;You can withdraw consent at any time in Settings. We then stop using Tolu&#39;s data and delete it within 30 days.&quot;</td>
+</tr>
+<tr>
+<td>Errors</td>
+<td>Calm</td>
+<td>What to do</td>
+<td>&quot;That code has expired. We&#39;ve sent a new one.&quot;</td>
+</tr>
+<tr>
+<td>Security notice</td>
+<td>Serious</td>
+<td>Complete</td>
+<td>No sweetness at all. See §9.9</td>
+</tr>
+</tbody></table></div>
+<h3 id="22-how-we-address-parents">2.2 How we address parents</h3>
+<p>At sign-up we ask <strong>&quot;What should we call you?&quot;</strong> with an example (&quot;Mummy Tolu&quot;, &quot;Mrs Adeyemi&quot;, &quot;Funmi&quot;). Every message uses that name. Respectful address matters to Nigerian families, and a guess (&quot;Hi Olufunmilayo!&quot;) feels like a mass mailing. If no name is set, we use &quot;Hello&quot; alone.</p>
+<h2 id="3-names-of-things">3. Names of things</h2>
+<p>Use these words exactly. The QA lint (<a href="10-qa-and-testing.html#4-content-and-copy-checks">10 §4</a>) checks the &quot;Never&quot; column.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Thing</th>
+<th>Children see</th>
+<th>Parents and schools see</th>
+<th>Never</th>
+</tr>
+</thead><tbody><tr>
+<td>The child&#39;s progress map</td>
+<td><strong>Your sky</strong></td>
+<td>Tolu&#39;s sky</td>
+<td>Dashboard, skill tree, map</td>
+</tr>
+<tr>
+<td>A topic</td>
+<td>A star</td>
+<td>Topic</td>
+<td>Skill node, unit</td>
+</tr>
+<tr>
+<td>Topic at <code>mastered</code></td>
+<td><strong>Sprouted</strong></td>
+<td>Mastered</td>
+<td>Completed, done, passed</td>
+</tr>
+<tr>
+<td>Topic below <code>developing</code></td>
+<td>A star waiting for you</td>
+<td>Not yet / Getting started</td>
+<td>Weak area, failing</td>
+</tr>
+<tr>
+<td>Points</td>
+<td><strong>Stardust</strong></td>
+<td>Stardust</td>
+<td>XP, coins, gems, points</td>
+</tr>
+<tr>
+<td>Daily habit</td>
+<td><strong>Days in a row</strong></td>
+<td>Days in a row</td>
+<td>Streak (in copy), chain</td>
+</tr>
+<tr>
+<td>A missed day covered automatically</td>
+<td><strong>Resting cloud</strong></td>
+<td>Resting cloud</td>
+<td>Freeze, lost day, missed</td>
+</tr>
+<tr>
+<td>Today&#39;s suggested practice</td>
+<td><strong>Today&#39;s set</strong></td>
+<td>Today&#39;s set</td>
+<td>Homework (unless a teacher assigned it), task</td>
+</tr>
+<tr>
+<td>A set a teacher assigned</td>
+<td><strong>From your teacher</strong></td>
+<td>Assigned set</td>
+<td>Homework due, overdue</td>
+</tr>
+<tr>
+<td>Timed exam practice</td>
+<td><strong>Practice test</strong></td>
+<td>Practice test</td>
+<td>Mock exam, exam, real questions</td>
+</tr>
+<tr>
+<td>Share of the syllabus practised</td>
+<td>n/a</td>
+<td>Coverage</td>
+<td>Readiness, predicted score, chance of passing</td>
+</tr>
+<tr>
+<td>Parent&#39;s weekly summary</td>
+<td>n/a</td>
+<td><strong>Weekly report</strong></td>
+<td>Scorecard, results</td>
+</tr>
+<tr>
+<td>Short message in the report</td>
+<td>n/a</td>
+<td><strong>A note from Auntie Stella</strong></td>
+<td>AI summary, insight</td>
+</tr>
+<tr>
+<td>Child sign-in</td>
+<td><strong>Your picture key</strong></td>
+<td>Picture key</td>
+<td>PIN (to children), password</td>
+</tr>
+<tr>
+<td>School&#39;s join code</td>
+<td>n/a</td>
+<td>School code</td>
+<td>Access token, licence key</td>
+</tr>
+<tr>
+<td>Light theme</td>
+<td>n/a</td>
+<td><strong>Daytime</strong></td>
+<td>Light mode</td>
+</tr>
+<tr>
+<td>Dark theme</td>
+<td>n/a</td>
+<td><strong>Starlight</strong></td>
+<td>Dark mode, night mode</td>
+</tr>
+<tr>
+<td>Follow the device</td>
+<td>n/a</td>
+<td><strong>Match my phone</strong></td>
+<td>System, auto</td>
+</tr>
+</tbody></table></div>
+<h2 id="4-daytime-and-starlight-appearance">4. Daytime and Starlight (appearance)</h2>
+<p>The two themes are named for the sky the whole product is built on. Parents choose in <em>Settings → How Stellara looks</em>.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Option</th>
+<th>Label</th>
+<th>Description shown under it</th>
+</tr>
+</thead><tbody><tr>
+<td>Follow the device (default)</td>
+<td><strong>Match my phone</strong></td>
+<td>Switches between Daytime and Starlight with your phone&#39;s setting.</td>
+</tr>
+<tr>
+<td>Light</td>
+<td><strong>Daytime</strong></td>
+<td>Cream and honey. Bright and clear for daytime.</td>
+</tr>
+<tr>
+<td>Dark</td>
+<td><strong>Starlight</strong></td>
+<td>Warm cocoa. Gentle on the eyes in the evening.</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li>On compact toggles (the brand kit, the docs) the labels are <strong>Auto · Daytime · Starlight</strong>.</li>
+<li>The setting is stored on this device only. The confirmation reads: &quot;Saved on this phone. Other phones keep their own setting.&quot;</li>
+<li>Children have no switch. When the device moves to dark, the child&#39;s app simply becomes Starlight. Auntie Stella may say once, the first time: &quot;The stars are out. Let&#39;s learn by starlight.&quot;</li>
+<li>Teachers see the same three options in <em>Account → How Stellara looks</em>.</li>
+</ul>
+<h2 id="5-mechanics">5. Mechanics</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Topic</th>
+<th>Rule</th>
+<th>Example</th>
+</tr>
+</thead><tbody><tr>
+<td>Spelling</td>
+<td>British/Nigerian English. &quot;Practise&quot; is the verb, &quot;practice&quot; the noun</td>
+<td>&quot;Practise Ratios&quot;, &quot;Practice test&quot;</td>
+</tr>
+<tr>
+<td>Case</td>
+<td>Sentence case everywhere: titles, buttons, tabs, email subjects</td>
+<td>&quot;Start today&#39;s set&quot;</td>
+</tr>
+<tr>
+<td>Buttons</td>
+<td>Verb first, and name the result. Two words is ideal, four the maximum</td>
+<td>&quot;Check&quot;, &quot;Next question&quot;, &quot;Send report&quot;</td>
+</tr>
+<tr>
+<td>Same name through a flow</td>
+<td>A button&#39;s verb appears in the confirmation</td>
+<td>&quot;Send invite&quot; → &quot;Invite sent&quot;</td>
+</tr>
+<tr>
+<td>Numbers</td>
+<td>Digits always, even one to nine, so children can scan them</td>
+<td>&quot;3 stars&quot;, &quot;1 day&quot;</td>
+</tr>
+<tr>
+<td>Money</td>
+<td>₦ with commas, no kobo unless needed. In SMS write &quot;NGN&quot; (see §8.2)</td>
+<td>₦25,000</td>
+</tr>
+<tr>
+<td>Dates</td>
+<td>Day, date, short month. Lagos time</td>
+<td>Tue 14 Jan</td>
+</tr>
+<tr>
+<td>Times</td>
+<td>12-hour with &quot;am&quot;/&quot;pm&quot;, no leading zero</td>
+<td>5:00 pm</td>
+</tr>
+<tr>
+<td>Ranges</td>
+<td>En dash, no spaces</td>
+<td>10–15 minutes</td>
+</tr>
+<tr>
+<td>Plurals</td>
+<td>ICU plural rules, never &quot;(s)&quot;</td>
+<td>&quot;1 star&quot; / &quot;2 stars&quot;</td>
+</tr>
+<tr>
+<td>Exclamation marks</td>
+<td>Children: one per screen at most. Adults: none</td>
+<td></td>
+</tr>
+<tr>
+<td>Emoji</td>
+<td>None in the app UI. WhatsApp only, at most one per message, from ⭐ 🌱 ☁️</td>
+<td></td>
+</tr>
+<tr>
+<td>Names</td>
+<td>The child&#39;s first name; never a surname in child-facing copy</td>
+<td>Tolu</td>
+</tr>
+<tr>
+<td>Gender</td>
+<td>&quot;They&quot; for a child when a pronoun is unavoidable; better, repeat the name</td>
+<td>&quot;Tolu practised on 5 days.&quot;</td>
+</tr>
+<tr>
+<td>Exams</td>
+<td>Plain text names only, with &quot;Stellara is not affiliated with NECO or any exam body&quot; wherever a paper is named in marketing or reports</td>
+<td></td>
+</tr>
+</tbody></table></div>
+<h2 id="6-in-the-app">6. In the app</h2>
+<h3 id="61-children-ages-812-shown-ages-47-use-the-shorter-line-in-brackets">6.1 Children (ages 8–12 shown; ages 4–7 use the shorter line in brackets)</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Moment</th>
+<th>Copy</th>
+</tr>
+</thead><tbody><tr>
+<td>Choose profile</td>
+<td>&quot;Who&#39;s learning today?&quot;</td>
+</tr>
+<tr>
+<td>Picture key</td>
+<td>&quot;Tap your 4 pictures.&quot; · Wrong: &quot;Not quite. Try again.&quot; · Locked: &quot;Let&#39;s take a short rest. Ask a grown-up to help.&quot;</td>
+</tr>
+<tr>
+<td>Home, first visit</td>
+<td>&quot;Hello Tolu. This is your sky. Every topic is a star.&quot; (&quot;Hello Tolu! This is your sky.&quot;)</td>
+</tr>
+<tr>
+<td>Home, returning</td>
+<td>&quot;Welcome back, Tolu. Today&#39;s set is ready.&quot; (&quot;Ready, Tolu?&quot;)</td>
+</tr>
+<tr>
+<td>Today&#39;s set card</td>
+<td>Title: &quot;Today&#39;s set&quot; · Detail: &quot;10 questions · about 10 minutes&quot; · Button: &quot;Start today&#39;s set&quot;</td>
+</tr>
+<tr>
+<td>Question header</td>
+<td>&quot;Fractions · 6 of 10&quot;</td>
+</tr>
+<tr>
+<td>Correct (rotate, no repeat within 5)</td>
+<td>&quot;Correct.&quot; · &quot;Yes, that&#39;s it.&quot; · &quot;Well done. That&#39;s 4 in a row.&quot; · &quot;Exactly right.&quot; (&quot;Well done!&quot; · &quot;You found it!&quot; · &quot;Yes!&quot;)</td>
+</tr>
+<tr>
+<td>Not quite (one hint follows)</td>
+<td>&quot;Not quite. Look at the bottom numbers first.&quot; · &quot;Not this time. Check the tens column.&quot; (&quot;Not quite. Let&#39;s look again.&quot;)</td>
+</tr>
+<tr>
+<td>Hint button</td>
+<td>&quot;Ask Auntie Stella&quot;</td>
+</tr>
+<tr>
+<td>After the worked answer</td>
+<td>Button: &quot;Got it&quot;</td>
+</tr>
+<tr>
+<td>Set finished</td>
+<td>&quot;Set done. You answered 8 of 10 correctly and earned 40 Stardust.&quot; (&quot;All done! 40 Stardust for you.&quot;)</td>
+</tr>
+<tr>
+<td>Star sprouted</td>
+<td>&quot;Your Fractions star sprouted.&quot; Second line: &quot;You got 9 of the last 10 right.&quot; (&quot;Your star sprouted!&quot;)</td>
+</tr>
+<tr>
+<td>Resting cloud used</td>
+<td>&quot;Yesterday was a resting day. Your 6 days in a row are safe.&quot; (&quot;You rested yesterday. Shall we start?&quot;)</td>
+</tr>
+<tr>
+<td>Stardust daily cap reached</td>
+<td>&quot;That&#39;s all the Stardust for today. Keep practising if you like; your stars still grow.&quot;</td>
+</tr>
+<tr>
+<td>Offline</td>
+<td>&quot;No internet right now. You can keep practising; we&#39;ll save your answers.&quot;</td>
+</tr>
+<tr>
+<td>Back online, synced</td>
+<td>&quot;All your answers are saved.&quot;</td>
+</tr>
+<tr>
+<td>Practice test intro</td>
+<td>&quot;Practice test: Mathematics. 40 questions · 45 minutes. The timer keeps going if the internet drops.&quot; Button: &quot;Start practice test&quot;</td>
+</tr>
+<tr>
+<td>Practice test, 5 minutes left</td>
+<td>&quot;5 minutes left. Take your time with the last few.&quot;</td>
+</tr>
+<tr>
+<td>Practice test submit</td>
+<td>&quot;Hand in your test?&quot; · &quot;You have 3 unanswered questions.&quot; · Buttons: &quot;Hand in&quot; / &quot;Keep going&quot;</td>
+</tr>
+<tr>
+<td>Practice test result</td>
+<td>&quot;You answered 31 of 40 correctly.&quot; Then by strand. Never a grade, never &quot;pass&quot;</td>
+</tr>
+<tr>
+<td>Empty sky (new child)</td>
+<td>&quot;Your sky is waiting. Start today&#39;s set to light your first star.&quot;</td>
+</tr>
+</tbody></table></div>
+<h3 id="62-parents">6.2 Parents</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Moment</th>
+<th>Copy</th>
+</tr>
+</thead><tbody><tr>
+<td>Welcome</td>
+<td>Title: &quot;A personal tutor that knows your child&quot; · Body: &quot;Short daily practice, real progress you can see, and a weekly report from Stellara.&quot; · Button: &quot;Get started&quot;</td>
+</tr>
+<tr>
+<td>Phone sign-in</td>
+<td>Label: &quot;Your phone number&quot; · Help: &quot;We&#39;ll send a 6-digit code by WhatsApp. If WhatsApp isn&#39;t available, by SMS.&quot; · Button: &quot;Send code&quot;</td>
+</tr>
+<tr>
+<td>Code entry</td>
+<td>&quot;Enter the 6-digit code we sent to 0803 *** 4421.&quot; · Link: &quot;Send a new code&quot; (enabled after 30 seconds: &quot;Send a new code in 0:24&quot;)</td>
+</tr>
+<tr>
+<td>What should we call you</td>
+<td>Label: &quot;What should we call you?&quot; · Help: &quot;For example: Mummy Tolu, Mrs Adeyemi, Funmi.&quot;</td>
+</tr>
+<tr>
+<td>Consent</td>
+<td>Title: &quot;Before Tolu starts&quot; · Body: plain list of what we collect and why (see <a href="07-privacy-security-compliance.html">07</a>) · Toggles named by purpose · Button: &quot;I agree and give consent&quot; · Under it: &quot;You can change this at any time in Settings.&quot;</td>
+</tr>
+<tr>
+<td>Add a child</td>
+<td>&quot;Child&#39;s first name&quot; · &quot;Class&quot; · &quot;School code (from Tolu&#39;s school)&quot; · Button: &quot;Add Tolu&quot; → &quot;Tolu has been added.&quot;</td>
+</tr>
+<tr>
+<td>Picture key set-up</td>
+<td>&quot;Choose 4 pictures for Tolu. Tolu will tap them to sign in, so no password to remember.&quot;</td>
+</tr>
+<tr>
+<td>Weekly report ready (in app)</td>
+<td>Card: &quot;Tolu&#39;s weekly report is ready&quot; · Detail: &quot;Mon 6 – Sun 12 Jan&quot; · Button: &quot;Read report&quot;</td>
+</tr>
+<tr>
+<td>Report headings</td>
+<td>&quot;This week&quot; · &quot;Something to celebrate&quot; · &quot;What to practise next&quot; · &quot;Common Entrance coverage&quot; · &quot;A note from Auntie Stella&quot;</td>
+</tr>
+<tr>
+<td>Coverage label</td>
+<td>&quot;Share of the syllabus practised, not a predicted score.&quot;</td>
+</tr>
+<tr>
+<td>No practice this week</td>
+<td>&quot;Tolu didn&#39;t practise this week. A 10-minute set on Tuesday is a gentle way back in.&quot;</td>
+</tr>
+<tr>
+<td>Rest mode</td>
+<td>Title: &quot;Rest mode&quot; · &quot;Pause days in a row for up to 14 days, for holidays or illness. You can use it twice a term.&quot; · Button: &quot;Start rest mode&quot; → &quot;Rest mode is on until Sun 26 Jan.&quot;</td>
+</tr>
+<tr>
+<td>Withdraw consent</td>
+<td>Title: &quot;Withdraw consent&quot; · Body: &quot;Stellara will stop using Tolu&#39;s data straight away and delete it within 30 days. Tolu won&#39;t be able to sign in.&quot; · Button: &quot;Withdraw consent&quot; → &quot;Consent withdrawn. We&#39;ve stopped using Tolu&#39;s data.&quot;</td>
+</tr>
+<tr>
+<td>Delete account</td>
+<td>Typed confirmation: &quot;Type DELETE to confirm.&quot; · Button: &quot;Delete account&quot;</td>
+</tr>
+</tbody></table></div>
+<h3 id="63-teachers-and-school-admins">6.3 Teachers and school admins</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Moment</th>
+<th>Copy</th>
+</tr>
+</thead><tbody><tr>
+<td>Class home</td>
+<td>&quot;Primary 5 Gold · 28 pupils · 21 practised this week&quot;</td>
+</tr>
+<tr>
+<td>Assign a set</td>
+<td>Button: &quot;Assign set&quot; · Sheet title: &quot;Assign a set to Primary 5 Gold&quot; · Confirmation: &quot;Set assigned to 28 pupils.&quot;</td>
+</tr>
+<tr>
+<td>Class grid legend</td>
+<td>&quot;Mastered · In progress · Not yet · Not started&quot;</td>
+</tr>
+<tr>
+<td>Pupil not practising</td>
+<td>&quot;Kemi hasn&#39;t practised for 7 days.&quot; (fact, no judgement)</td>
+</tr>
+<tr>
+<td>Empty class</td>
+<td>&quot;No pupils yet. Share the school code with parents, or add pupils from a list.&quot;</td>
+</tr>
+<tr>
+<td>Invite a teacher</td>
+<td>Button: &quot;Send invite&quot; → &quot;Invite sent to Mrs Okafor.&quot;</td>
+</tr>
+<tr>
+<td>Licences</td>
+<td>&quot;212 of 250 licences in use.&quot;</td>
+</tr>
+</tbody></table></div>
+<h2 id="7-errors">7. Errors</h2>
+<p><strong>Formula:</strong> what happened, then what to do. Never blame the user, never apologise twice, never show a code without a sentence.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Situation</th>
+<th>Copy</th>
+</tr>
+</thead><tbody><tr>
+<td>Wrong OTP</td>
+<td>&quot;That code doesn&#39;t match. Check the latest message and try again.&quot;</td>
+</tr>
+<tr>
+<td>Expired OTP</td>
+<td>&quot;That code has expired. We&#39;ve sent you a new one.&quot;</td>
+</tr>
+<tr>
+<td>Too many attempts</td>
+<td>&quot;Too many tries. For your security, wait 30 minutes and try again.&quot;</td>
+</tr>
+<tr>
+<td>Invalid school code</td>
+<td>&quot;We can&#39;t find that school code. Check it with Tolu&#39;s school; it has 6 letters and numbers.&quot;</td>
+</tr>
+<tr>
+<td>School out of licences</td>
+<td>Parent: &quot;Tolu&#39;s school has no places left right now. We&#39;ve let the school know.&quot; · School: &quot;A parent couldn&#39;t join: all 250 licences are in use.&quot;</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>&quot;Can&#39;t connect right now. Your work is saved on this phone.&quot;</td>
+</tr>
+<tr>
+<td>Server error</td>
+<td>&quot;Something went wrong on our side. Please try again in a few minutes.&quot; (one apology, in this case only)</td>
+</tr>
+<tr>
+<td>Pack too large for storage</td>
+<td>&quot;There isn&#39;t enough space on this phone for the offline pack. Free up about 5 MB and try again.&quot;</td>
+</tr>
+<tr>
+<td>Form field</td>
+<td>Under the field, specific: &quot;Enter a Nigerian mobile number, like 0803 123 4567.&quot;</td>
+</tr>
+</tbody></table></div>
+<h2 id="8-notifications-whatsapp-and-sms">8. Notifications, WhatsApp and SMS</h2>
+<p>All messages respect quiet hours (20:00–07:00), school hours by default, and at most one message a day (<a href="07-privacy-security-compliance.html">07</a>). WhatsApp templates must be pre-approved by Meta; utility templates are used for reports and sign-in, never marketing.</p>
+<h3 id="81-whatsapp-templates-utility">8.1 WhatsApp templates (utility)</h3>
+<p>Variables ending in <code>_phrase</code> are pluralised with ICU before sending (&quot;1 day&quot; / &quot;5 days&quot;, &quot;1 new topic mastered&quot; / &quot;2 new topics mastered&quot;). Never write &quot;day(s)&quot;.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>ID</th>
+<th>Message</th>
+</tr>
+</thead><tbody><tr>
+<td><code>wa_otp</code></td>
+<td>&quot;Your Stellara code is {{code}}. It expires in 10 minutes. Don&#39;t share it with anyone.&quot;</td>
+</tr>
+<tr>
+<td><code>wa_report_weekly</code></td>
+<td>&quot;Hello {{parent_name}}. Tolu&#39;s weekly report is ready ⭐ This week: practised on {{days_phrase}}, {{mastered_phrase}}. Read it: {{link}}&quot;</td>
+</tr>
+<tr>
+<td><code>wa_star_sprouted</code></td>
+<td>&quot;Hello {{parent_name}}. Tolu has mastered {{topic}} 🌱 {{evidence}}. See Tolu&#39;s sky: {{link}}&quot; (only if the parent chose &quot;Tell me when a topic is mastered&quot;)</td>
+</tr>
+<tr>
+<td><code>wa_monthly</code></td>
+<td>&quot;Hello {{parent_name}}. Tolu&#39;s month on Stellara: {{active_days_phrase}}, {{mastered_phrase}}, working on {{in_progress_phrase}}. Full report: {{link}}&quot;</td>
+</tr>
+<tr>
+<td><code>wa_rest_day</code></td>
+<td>Never sent. A resting cloud is not news.</td>
+</tr>
+<tr>
+<td><code>wa_consent_needed</code></td>
+<td>&quot;Hello {{parent_name}}. {{school}} has invited Tolu to Stellara. Tolu can start once you give consent: {{link}}&quot;</td>
+</tr>
+</tbody></table></div>
+<h3 id="82-sms-fallback">8.2 SMS (fallback)</h3>
+<ul>
+<li>One segment only: 160 GSM-7 characters. <strong>₦, curly quotes and emoji switch SMS to UCS-2 and cut the limit to 70</strong>, so SMS copy uses straight quotes, no emoji and &quot;NGN&quot;.</li>
+<li>Sender ID: <code>Stellara</code> (registered at least 3 weeks before the pilot).</li>
+<li><code>sms_otp</code>: &quot;Stellara code: {{code}}. Expires in 10 mins. Do not share it.&quot; (60 characters)</li>
+<li><code>sms_report</code>: &quot;Tolu&#39;s Stellara report is ready: {{days_phrase}} practised, {{mastered_phrase}}. {{short_link}}&quot;</li>
+</ul>
+<h3 id="83-push-and-in-app-notices">8.3 Push and in-app notices</h3>
+<p>Push is off by default for parents; WhatsApp is the main channel. When on, push uses the WhatsApp wording without emoji. Children never receive push notifications.</p>
+<h2 id="9-email">9. Email</h2>
+<p>Email is for parents who sign up with an email address, for teachers and school admins, and for anything legal (receipts of consent, data exports, deletion). Templates: <code>docs/emails/</code> (HTML and plain text, built by <code>docs/tools/emails.mjs</code>). <strong><a href="../emails/index.html">Open the email gallery</a></strong> to see every template in Daytime and Starlight.</p>
+<h3 id="91-rules-for-every-email">9.1 Rules for every email</h3>
+<ul>
+<li><strong>From:</strong> &quot;Stellara&quot; <code>&lt;hello@…&gt;</code>. Reports add &quot;with a note from Auntie Stella&quot; in the body, never in the From name. Reply-to: the support inbox, which a human reads.</li>
+<li><strong>Subject:</strong> sentence case, ≤ 45 characters, the child&#39;s name first where there is one, no emoji, no &quot;!&quot; and no clickbait. <strong>Preheader:</strong> ≤ 90 characters and adds a fact, never repeats the subject.</li>
+<li><strong>One button</strong>, named by its result (&quot;Read Tolu&#39;s report&quot;). The same link is also written out in the plain-text version.</li>
+<li><strong>Daytime and Starlight:</strong> every template declares <code>color-scheme: light dark</code>, ships a Starlight stylesheet for clients that support it, and is checked in clients that force-invert colours. The logo is a PNG with its own cream rounded tile, so it never sits on an inverted background.</li>
+<li><strong>Accessible:</strong> real text (not images of text), <code>lang=&quot;en-NG&quot;</code>, 16 px body minimum, alt text on the logo, a table layout that reads in order.</li>
+<li><strong>Footer:</strong> why you&#39;re getting this email, how to change it (one link to notification settings), the company&#39;s postal address, and &quot;Stellara is not affiliated with NECO or any exam body&quot; on anything that names an exam.</li>
+<li><strong>Never:</strong> tracking pixels on emails to do with children&#39;s data or consent; &quot;Dear Parent&quot;; &quot;Do not reply&quot;.</li>
+</ul>
+<h3 id="92-template-list">9.2 Template list</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>File</th>
+<th>Sent when</th>
+<th>Subject</th>
+<th>Preheader</th>
+<th>Button</th>
+</tr>
+</thead><tbody><tr>
+<td><code>sign-in</code></td>
+<td>Parent or teacher asks for a link</td>
+<td>Your Stellara sign-in link</td>
+<td>The link works once and expires in 15 minutes.</td>
+<td>Sign in to Stellara</td>
+</tr>
+<tr>
+<td><code>consent-confirmed</code></td>
+<td>Consent given</td>
+<td>You&#39;ve given consent for Tolu</td>
+<td>Here&#39;s what you agreed to, and how to change it.</td>
+<td>View consent settings</td>
+</tr>
+<tr>
+<td><code>weekly-report</code></td>
+<td>Sunday 18:00</td>
+<td>Tolu&#39;s week: 5 days, 1 new star (pluralised)</td>
+<td>Fractions sprouted. Next: 10 minutes on Ratios.</td>
+<td>Read Tolu&#39;s report</td>
+</tr>
+<tr>
+<td><code>star-sprouted</code></td>
+<td>Topic mastered, if chosen</td>
+<td>Tolu has mastered Fractions</td>
+<td>9 of the last 10 right, including a check 2 weeks later.</td>
+<td>See Tolu&#39;s sky</td>
+</tr>
+<tr>
+<td><code>teacher-invite</code></td>
+<td>Admin invites a teacher</td>
+<td>Join Primary 5 Gold on Stellara</td>
+<td>Mrs Bello from Greenfield School invited you.</td>
+<td>Accept invite</td>
+</tr>
+<tr>
+<td><code>school-term-summary</code></td>
+<td>End of term, to admins</td>
+<td>Greenfield School&#39;s term on Stellara</td>
+<td>212 pupils practised; 1,348 topics mastered.</td>
+<td>Open the school summary</td>
+</tr>
+<tr>
+<td><code>data-export-ready</code></td>
+<td>Parent asks for a copy of data</td>
+<td>Your copy of Tolu&#39;s data is ready</td>
+<td>The download link works for 7 days.</td>
+<td>Download Tolu&#39;s data</td>
+</tr>
+<tr>
+<td><code>account-deleted</code></td>
+<td>Deletion finished</td>
+<td>Tolu&#39;s Stellara account has been deleted</td>
+<td>We&#39;ve removed Tolu&#39;s data. Here&#39;s what we keep and why.</td>
+<td>(no button)</td>
+</tr>
+<tr>
+<td><code>security-notice</code></td>
+<td>A personal-data breach that affects the family</td>
+<td>Important: a security issue with your account</td>
+<td>What happened, what it means for you, and what we&#39;re doing.</td>
+<td>Read the full notice</td>
+</tr>
+</tbody></table></div>
+<h3 id="93-security-notice">9.3 Security notice</h3>
+<p>No garden or sky words, no Auntie Stella, no softening. It says, in this order: what happened and when; which data was involved; what we have done; what the parent should do; who to contact (a named person and a phone number); and the regulator&#39;s details. It is reviewed by the DPO and lawyer before it is sent (<a href="07-privacy-security-compliance.html">07</a>).</p>
+<h2 id="10-writing-for-nigerian-families">10. Writing for Nigerian families</h2>
+<ul>
+<li>Write for a reading age of about 9 in child copy and 12 in parent copy. Short words, short sentences.</li>
+<li>Avoid idioms that don&#39;t travel (&quot;knock it out of the park&quot;). Nigerian English is the default; it is not American English.</li>
+<li>Leave 30% extra space for translation. Yoruba, Hausa and Igbo versions come after the MVP; until then, Auntie Stella&#39;s lines may include a short greeting in the child&#39;s home language chosen by the parent (&quot;Ẹ káàbọ̀, Tolu&quot;).</li>
+<li>Read-aloud: every child line must sound right spoken. Test lines out loud before they ship.</li>
+</ul>
+<h2 id="11-checklist-for-any-new-string">11. Checklist for any new string</h2>
+<ul>
+<li><input disabled="" type="checkbox"> Uses the names in §3 exactly</li>
+<li><input disabled="" type="checkbox"> Says what happened and what to do (errors), or what will happen (buttons)</li>
+<li><input disabled="" type="checkbox"> Within the word limit for its voice</li>
+<li><input disabled="" type="checkbox"> Nothing about losing, failing, ranking or readiness</li>
+<li><input disabled="" type="checkbox"> Reads well aloud</li>
+<li><input disabled="" type="checkbox"> Plural forms set up in ICU</li>
+<li><input disabled="" type="checkbox"> Checked in Daytime and Starlight (length, wrapping, contrast)</li>
+<li><input disabled="" type="checkbox"> For SMS: GSM-7 only, one segment</li>
+</ul>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>(function(){var r=document.documentElement,b=[].slice.call(document.querySelectorAll(".theme button"));function cur(){try{return localStorage.getItem("stellara-theme")||"auto"}catch(e){return r.getAttribute("data-theme")||"auto"}}function set(p){if(p==="light"||p==="dark")r.setAttribute("data-theme",p);else r.removeAttribute("data-theme");try{if(p==="auto")localStorage.removeItem("stellara-theme");else localStorage.setItem("stellara-theme",p)}catch(e){}b.forEach(function(x){x.setAttribute("aria-pressed",String(x.dataset.set===p))})}b.forEach(function(x){x.addEventListener("click",function(){set(x.dataset.set)})});set(r.getAttribute("data-theme")||cur())})();if(window.mermaid){mermaid.initialize({startOnLoad:true,theme:"base",themeVariables:{primaryColor:"#FCE1EA",primaryBorderColor:"#C23A68",primaryTextColor:"#3A2430",lineColor:"#A12E57",secondaryColor:"#E1F2DB",tertiaryColor:"#FFF2CC",fontFamily:"Inter, sans-serif"}});}</script>
+</body></html>

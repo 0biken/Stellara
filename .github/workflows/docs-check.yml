@@ -1,0 +1,20 @@
+name: Docs check
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  generated-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: docs/tools/package-lock.json
+      - run: npm ci --prefix docs/tools
+      - run: npm test --prefix docs/tools
+      - run: npm run generate --prefix docs/tools
+      - run: node docs/tools/check-generated.mjs

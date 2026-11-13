@@ -1,0 +1,296 @@
+{
+  "docs/tools/avatar.mjs": {
+    "mtime": 1794528716.4933357,
+    "seen": 1794542655.3260658,
+    "ast_hash": "cf51def0ac0d3915c449d0d8603aeb58",
+    "semantic_hash": "cf51def0ac0d3915c449d0d8603aeb58"
+  },
+  "docs/tools/brandkit.mjs": {
+    "mtime": 1794516776.0592208,
+    "seen": 1794517618.354873,
+    "ast_hash": "41ada1051711490b1d7996a495fdf04e",
+    "semantic_hash": "41ada1051711490b1d7996a495fdf04e"
+  },
+  "docs/tools/build.mjs": {
+    "mtime": 1794542483.3123465,
+    "seen": 1794542655.3260958,
+    "ast_hash": "a159eb7595e5b689defb9eb0165ebc94",
+    "semantic_hash": "a159eb7595e5b689defb9eb0165ebc94"
+  },
+  "docs/tools/package.json": {
+    "mtime": 1794542484.4187067,
+    "seen": 1794542655.3261194,
+    "ast_hash": "93426f5c807a8a26afcf03868c4145c3",
+    "semantic_hash": "93426f5c807a8a26afcf03868c4145c3"
+  },
+  "docs/tools/tokens.mjs": {
+    "mtime": 1794516356.9051077,
+    "seen": 1794517618.3548818,
+    "ast_hash": "c5b4ea126238f807da3b4c9638a9fd87",
+    "semantic_hash": "c5b4ea126238f807da3b4c9638a9fd87"
+  },
+  "docs/md/01-product-requirements.md": {
+    "mtime": 1794516936.5072632,
+    "seen": 1794517618.354886,
+    "ast_hash": "12d9bcdc27c996bb80497499ad4985d2",
+    "semantic_hash": "12d9bcdc27c996bb80497499ad4985d2"
+  },
+  "docs/md/02-learning-rules.md": {
+    "mtime": 1794516936.107741,
+    "seen": 1794517618.354888,
+    "ast_hash": "1e1c5c085227e581c7f20113ea63f3ad",
+    "semantic_hash": "1e1c5c085227e581c7f20113ea63f3ad"
+  },
+  "docs/md/03-curriculum-and-content.md": {
+    "mtime": 1794516936.1768212,
+    "seen": 1794517618.3548896,
+    "ast_hash": "b68c153ee4a9462a8639992b8a29097f",
+    "semantic_hash": "b68c153ee4a9462a8639992b8a29097f"
+  },
+  "docs/md/04-technical-architecture.md": {
+    "mtime": 1794513036.314993,
+    "seen": 1794517618.3548915,
+    "ast_hash": "70f43f5d16c48e9f5f905e12b1f60404",
+    "semantic_hash": "70f43f5d16c48e9f5f905e12b1f60404"
+  },
+  "docs/md/05-data-model.md": {
+    "mtime": 1794513036.8878696,
+    "seen": 1794517618.3548932,
+    "ast_hash": "1de654d6939e67fba43f362985f05a5c",
+    "semantic_hash": "1de654d6939e67fba43f362985f05a5c"
+  },
+  "docs/md/06-api-and-events.md": {
+    "mtime": 1794513037.1888626,
+    "seen": 1794517618.3548954,
+    "ast_hash": "104bf2eaa99c956ed31547872344de87",
+    "semantic_hash": "104bf2eaa99c956ed31547872344de87"
+  },
+  "docs/md/07-privacy-security-compliance.md": {
+    "mtime": 1794513037.4415538,
+    "seen": 1794517618.3548973,
+    "ast_hash": "0bbca581af33f8d33cf6b3a8a50f8669",
+    "semantic_hash": "0bbca581af33f8d33cf6b3a8a50f8669"
+  },
+  "docs/md/09-frontend-guidelines.md": {
+    "mtime": 1794516936.2689958,
+    "seen": 1794517618.3548987,
+    "ast_hash": "9c3a7adadee081379e544a6c88d10ecc",
+    "semantic_hash": "9c3a7adadee081379e544a6c88d10ecc"
+  },
+  "docs/md/11-devops-and-environments.md": {
+    "mtime": 1794513198.9941814,
+    "seen": 1794517618.3549006,
+    "ast_hash": "9ba24cc678847fb8c17b3a9f0bf4a839",
+    "semantic_hash": "9ba24cc678847fb8c17b3a9f0bf4a839"
+  },
+  "docs/md/12-analytics-and-metrics.md": {
+    "mtime": 1794513199.3037963,
+    "seen": 1794517618.354902,
+    "ast_hash": "a240504630c3d63b4fe0d796d3fb53d8",
+    "semantic_hash": "a240504630c3d63b4fe0d796d3fb53d8"
+  },
+  "docs/md/13-school-rollout-and-operations.md": {
+    "mtime": 1794513199.4646332,
+    "seen": 1794517618.3549037,
+    "ast_hash": "401df44b12607dad21582ac03a64d7a1",
+    "semantic_hash": "401df44b12607dad21582ac03a64d7a1"
+  },
+  "docs/md/14-roadmap-and-release-plan.md": {
+    "mtime": 1794513199.6461732,
+    "seen": 1794517618.3549054,
+    "ast_hash": "81a157b332c295bb24d4ddbe78990dd9",
+    "semantic_hash": "81a157b332c295bb24d4ddbe78990dd9"
+  },
+  "docs/assets/auntie-stella/auntie-stella-avatar-round.svg": {
+    "mtime": 1794516952.7329512,
+    "seen": 1794517618.3549068,
+    "ast_hash": "4fe97967d8ccbd54d657bca1c417a36e",
+    "semantic_hash": "4fe97967d8ccbd54d657bca1c417a36e"
+  },
+  "docs/assets/auntie-stella/auntie-stella-listening.svg": {
+    "mtime": 1794516952.731948,
+    "seen": 1794517618.3549087,
+    "ast_hash": "fd349b219e27817920592c2b9b43d535",
+    "semantic_hash": "fd349b219e27817920592c2b9b43d535"
+  },
+  "docs/assets/auntie-stella/auntie-stella-proud.svg": {
+    "mtime": 1794516952.7329512,
+    "seen": 1794517618.3549101,
+    "ast_hash": "ca722072ba2834e2a9a4cc55347d7ff2",
+    "semantic_hash": "ca722072ba2834e2a9a4cc55347d7ff2"
+  },
+  "docs/assets/auntie-stella/auntie-stella-smiling.svg": {
+    "mtime": 1794516952.731948,
+    "seen": 1794517618.354912,
+    "ast_hash": "6f7b1a255f4a97120293e4f27741a96b",
+    "semantic_hash": "6f7b1a255f4a97120293e4f27741a96b"
+  },
+  "docs/assets/auntie-stella/auntie-stella-thinking.svg": {
+    "mtime": 1794516952.7329512,
+    "seen": 1794517618.3549142,
+    "ast_hash": "958002fe459bd19f4a6f6997126a8f23",
+    "semantic_hash": "958002fe459bd19f4a6f6997126a8f23"
+  },
+  "docs/assets/logo/stellara-app-icon.svg": {
+    "mtime": 1794516952.7359488,
+    "seen": 1794517618.354916,
+    "ast_hash": "e6e6108192a1e3fc6280bd49cde85c4e",
+    "semantic_hash": "e6e6108192a1e3fc6280bd49cde85c4e"
+  },
+  "docs/assets/logo/stellara-mark.svg": {
+    "mtime": 1794516952.7359488,
+    "seen": 1794517618.3549175,
+    "ast_hash": "1e5f92aee72915e118975ddc52c2add6",
+    "semantic_hash": "1e5f92aee72915e118975ddc52c2add6"
+  },
+  ".github/workflows/docs-check.yml": {
+    "mtime": 1794541932.8198004,
+    "seen": 1794542655.326045,
+    "ast_hash": "709f0fef2e5aa93f264a149227da645c",
+    "semantic_hash": "709f0fef2e5aa93f264a149227da645c"
+  },
+  "docs/tools/avatar.test.mjs": {
+    "mtime": 1794528678.9201841,
+    "seen": 1794542655.3260753,
+    "ast_hash": "4f973cd3024486facda52fc6400927c9",
+    "semantic_hash": "4f973cd3024486facda52fc6400927c9"
+  },
+  "docs/tools/build.test.mjs": {
+    "mtime": 1794542445.407498,
+    "seen": 1794542655.326101,
+    "ast_hash": "db8ef7ff490e3755cec4f0b961be9497",
+    "semantic_hash": "db8ef7ff490e3755cec4f0b961be9497"
+  },
+  "docs/tools/check-generated.mjs": {
+    "mtime": 1794542173.0038216,
+    "seen": 1794542655.3261058,
+    "ast_hash": "0dbf175790e143077c3648eba97ae3c7",
+    "semantic_hash": "0dbf175790e143077c3648eba97ae3c7"
+  },
+  "docs/tools/check-generated.test.mjs": {
+    "mtime": 1794542151.2513137,
+    "seen": 1794542655.3261101,
+    "ast_hash": "f4f76bc3cb9ddefe586cd9fcab60d617",
+    "semantic_hash": "f4f76bc3cb9ddefe586cd9fcab60d617"
+  },
+  "docs/tools/emails.mjs": {
+    "mtime": 1794517435.1194062,
+    "seen": 1794542655.3261147,
+    "ast_hash": "c3e2958d04ec828b8e44f7260a32b160",
+    "semantic_hash": "c3e2958d04ec828b8e44f7260a32b160"
+  },
+  "README.md": {
+    "mtime": 1794542173.8836846,
+    "seen": 1794542655.326132,
+    "ast_hash": "9fa5058b343770c556eeb78438348cb6",
+    "semantic_hash": "9fa5058b343770c556eeb78438348cb6"
+  },
+  "TASKLIST.md": {
+    "mtime": 1794542693.5934868,
+    "seen": 1794542707.1159112,
+    "ast_hash": "c8bc15ccd564d2ff2fe12beca6ccd342",
+    "semantic_hash": "c8bc15ccd564d2ff2fe12beca6ccd342"
+  },
+  "brand-kit/src/stellara-brand-kit.src.html": {
+    "mtime": 1794517539.528369,
+    "seen": 1794542655.3261409,
+    "ast_hash": "295737618683c5754c0bac90c9a750c6",
+    "semantic_hash": "295737618683c5754c0bac90c9a750c6"
+  },
+  "docs/emails/templates/account-deleted.txt": {
+    "mtime": 1794528994.429607,
+    "seen": 1794542655.3261445,
+    "ast_hash": "bfbd6e5381058f8abee0557390340fed",
+    "semantic_hash": "bfbd6e5381058f8abee0557390340fed"
+  },
+  "docs/emails/templates/consent-confirmed.txt": {
+    "mtime": 1794528994.4097996,
+    "seen": 1794542655.3261483,
+    "ast_hash": "6883b42fa5d781e28ef5be7eba2b4be6",
+    "semantic_hash": "6883b42fa5d781e28ef5be7eba2b4be6"
+  },
+  "docs/emails/templates/data-export-ready.txt": {
+    "mtime": 1794528994.4269857,
+    "seen": 1794542655.3261518,
+    "ast_hash": "4921b91a27c1d158a5960b2a9919a38c",
+    "semantic_hash": "4921b91a27c1d158a5960b2a9919a38c"
+  },
+  "docs/emails/templates/school-term-summary.txt": {
+    "mtime": 1794528994.4249933,
+    "seen": 1794542655.3261557,
+    "ast_hash": "2dd392dc96fb9d2ec79c0efe6fbf824d",
+    "semantic_hash": "2dd392dc96fb9d2ec79c0efe6fbf824d"
+  },
+  "docs/emails/templates/security-notice.txt": {
+    "mtime": 1794528994.4322321,
+    "seen": 1794542655.32616,
+    "ast_hash": "f609932771418ebac7fe67f965b7acc9",
+    "semantic_hash": "f609932771418ebac7fe67f965b7acc9"
+  },
+  "docs/emails/templates/sign-in.txt": {
+    "mtime": 1794528994.4097996,
+    "seen": 1794542655.3261633,
+    "ast_hash": "3429a7b84e65eea5b9de0038427efa00",
+    "semantic_hash": "3429a7b84e65eea5b9de0038427efa00"
+  },
+  "docs/emails/templates/star-sprouted.txt": {
+    "mtime": 1794528994.419975,
+    "seen": 1794542655.3261669,
+    "ast_hash": "db13a47b96c3556d217fd240e9bbe6a7",
+    "semantic_hash": "db13a47b96c3556d217fd240e9bbe6a7"
+  },
+  "docs/emails/templates/teacher-invite.txt": {
+    "mtime": 1794528994.4229863,
+    "seen": 1794542655.3261702,
+    "ast_hash": "9f060fad6fc53ea6cbafbd01151fd8dc",
+    "semantic_hash": "9f060fad6fc53ea6cbafbd01151fd8dc"
+  },
+  "docs/emails/templates/weekly-report.txt": {
+    "mtime": 1794528994.4148512,
+    "seen": 1794542655.326173,
+    "ast_hash": "1f66391f01573da3d43a893468b6392f",
+    "semantic_hash": "1f66391f01573da3d43a893468b6392f"
+  },
+  "docs/md/00-index.md": {
+    "mtime": 1794517562.3859732,
+    "seen": 1794542655.3261771,
+    "ast_hash": "e65eceaa0da716649f9e7b85d302d344",
+    "semantic_hash": "e65eceaa0da716649f9e7b85d302d344"
+  },
+  "docs/md/08-design-system.md": {
+    "mtime": 1794517562.3827248,
+    "seen": 1794542655.3261843,
+    "ast_hash": "7b247165bc15f1569a470df2b6678932",
+    "semantic_hash": "7b247165bc15f1569a470df2b6678932"
+  },
+  "docs/md/10-qa-and-testing.md": {
+    "mtime": 1794517562.3859732,
+    "seen": 1794542655.3261878,
+    "ast_hash": "bae657daaeec0836963b613d5ecc137a",
+    "semantic_hash": "bae657daaeec0836963b613d5ecc137a"
+  },
+  "docs/md/15-glossary.md": {
+    "mtime": 1794517562.3827248,
+    "seen": 1794542655.3261917,
+    "ast_hash": "fc6ac3ddae4d81882aa55640026a0197",
+    "semantic_hash": "fc6ac3ddae4d81882aa55640026a0197"
+  },
+  "docs/md/16-ux-writing.md": {
+    "mtime": 1794517571.435664,
+    "seen": 1794542655.3261952,
+    "ast_hash": "8046c130b87da70be9fa8f851a5cfb99",
+    "semantic_hash": "8046c130b87da70be9fa8f851a5cfb99"
+  },
+  "docs/superpowers/plans/2026-11-13-avatar-animation.md": {
+    "mtime": 1794528491.5352259,
+    "seen": 1794542655.3261986,
+    "ast_hash": "a4a551652fc889ada0ec53d0da942a10",
+    "semantic_hash": "a4a551652fc889ada0ec53d0da942a10"
+  },
+  "docs/superpowers/specs/2026-11-13-avatar-animation-design.md": {
+    "mtime": 1794528491.042691,
+    "seen": 1794542655.3262024,
+    "ast_hash": "987b220bd93a53b1e4bc1349ab03d064",
+    "semantic_hash": "987b220bd93a53b1e4bc1349ab03d064"
+  }
+}
