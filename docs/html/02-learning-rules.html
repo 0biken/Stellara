@@ -60,8 +60,8 @@ main{padding:28px 0 80px;min-width:0}
   <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
   <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
 </svg>
-<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html" aria-current="page">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a></aside><main><h1 id="02--learning-rules">02 · Learning rules</h1>
-<p>These are the rules the product runs on. Every number here is a <strong>v0 proposal</strong> to be tuned with pilot data. Rule changes need a version bump (<code>rules_version</code>) and new fixtures.</p>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html" aria-current="page">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a></aside><main><h1 id="02--learning-rules">02 · Learning rules</h1>
+<p>These are the rules the product runs on. The implemented baseline is <strong>v0.1.0</strong>, with the clarifications approved on 13 November 2026 below. Thresholds remain subject to pilot tuning. Rule changes need a version bump (<code>rules_version</code>) and new fixtures. Technical acceptance does not replace product sign-off.</p>
 <p>Implementation: rules live in one pure TypeScript package, <code>packages/rules</code>, used by Edge Functions and tests. The UI never computes a scored outcome on its own. See <a href="04-technical-architecture.html">04</a>.</p>
 <h2 id="1-definitions">1. Definitions</h2>
 <div class="table-wrap"><table><thead><tr>
@@ -107,7 +107,7 @@ main{padding:28px 0 80px;min-width:0}
 <li>The child profile was in normal mode (not &quot;practice with a grown-up&quot; mode).</li>
 </ol>
 <p>Everything else is stored as practice and never moves mastery.</p>
-<h2 id="3-mastery-rule-v0">3. Mastery (rule v0)</h2>
+<h2 id="3-mastery-rule-v010">3. Mastery (rule v0.1.0)</h2>
 <h3 id="31-levels">3.1 Levels</h3>
 <div class="table-wrap"><table><thead><tr>
 <th>Level</th>
@@ -152,8 +152,9 @@ main{padding:28px 0 80px;min-width:0}
 </ul>
 <h3 id="33-caps">3.3 Caps</h3>
 <ul>
-<li>The placement check can set a topic to <strong>Level 2 at most</strong>.</li>
-<li>Level 3 and above need responses with <code>confidence = &#39;normal&#39;</code>.</li>
+<li>Placement returns strand results and starting-topic recommendations only; it never changes topic mastery, including when all answers are correct.</li>
+<li>Level 3 and above use only <code>confidence = &#39;normal&#39;</code> responses for every count, accuracy window, assessment and retention requirement.</li>
+<li>Returning to Level 4 after a retention downgrade starts a fresh 14-day wait (7 days when the exam is strictly under 42 days away).</li>
 </ul>
 <h3 id="34-offline-evidence">3.4 Offline evidence</h3>
 <p>Offline practice packs may carry answer keys so children get instant feedback. Those responses are scored with <code>confidence = &#39;low&#39;</code>. They count towards Levels 1–2 only. Practice tests never ship keys.</p>
@@ -205,7 +206,7 @@ main{padding:28px 0 80px;min-width:0}
 <ul>
 <li>After a topic reaches Level 2, schedule reviews at <strong>+3, +10 and +30 days</strong>.</li>
 <li>A review is 3–5 items from the topic, mixed into the next review set.</li>
-<li>If the exam date is within the interval, the interval shrinks so the last review falls at least 3 days before the exam.</li>
+<li>Anchor the offsets at first attainment of Level 2. If necessary, proportionally scale all three offsets to the exam-minus-3-day cutoff, round down to whole calendar days, omit nonfuture dates and merge duplicates. Return <code>no_future_slot</code> when no future date fits.</li>
 <li>A missed review stays due and does not pile up. At most 3 due topics are pulled into one review set.</li>
 </ul>
 <h2 id="5-sets">5. Sets</h2>
@@ -239,10 +240,10 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 <tr>
 <td>Placement check</td>
-<td>20 per paper</td>
+<td>20 per configured learning area</td>
 <td>No</td>
 <td>No</td>
-<td>Up to Level 2</td>
+<td>Strand summary only; no topic mastery</td>
 </tr>
 <tr>
 <td>Practice test</td>
@@ -286,6 +287,7 @@ main{padding:28px 0 80px;min-width:0}
 <li>Answers are saved locally first, then sent in batches every 10 answers or every 30 s.</li>
 <li>If the connection drops, the child keeps going. Locally saved answers with <code>answered_at &lt;= ends_at</code> are accepted up to <strong>15 minutes</strong> after <code>ends_at</code>.</li>
 <li><strong>Resume:</strong> at most <strong>2 resumes</strong>, with a total pause of up to <strong>20 minutes</strong> (the app closed or the device switched off). The timer does not stop for a lost connection, only for an app close counted as a pause.</li>
+<li>A validated pause extends <code>ends_at</code> by its actual duration. The future server adapter must validate pause evidence; an arbitrary client claim is insufficient. Answers during a pause are rejected. A third resume or excess total pause finalizes the session. The server accounts for an ongoing validated pause, bounded by the remaining pause allowance, before applying the grace period.</li>
 <li>At <code>ends_at</code> plus the grace period, the server finalises the session and scores what it has.</li>
 <li>A response time below 1,000 ms on more than 30% of items flags the session as <code>suspect_timing</code> (shown to the teacher, not the child).</li>
 </ul>
@@ -318,6 +320,7 @@ main{padding:28px 0 80px;min-width:0}
 </tbody></table></div>
 <ul>
 <li><strong>Daily cap:</strong> 200 Stardust per learning day. Above the cap, events are logged with 0 value.</li>
+<li>Awards are clamped to the remaining allowance: 195 plus a +10 event awards 5. A topic&#39;s new highest-level transition awards +25 once; a jump from Level 0 to Level 3 awards +25, and regaining an old level awards nothing. Correct scored placement answers earn ordinary Stardust.</li>
 <li>All awards go to <code>stardust_ledger</code> (append-only), written only by the server.</li>
 <li>No Stardust for opening lessons, watching or logging in.</li>
 </ul>
@@ -373,8 +376,9 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 </tbody></table></div>
 <p>Copy rule: never &quot;lose&quot;, &quot;break&quot; or &quot;don&#39;t miss&quot;. See <a href="08-design-system.html#10-voice-in-the-interface">08 Design system §10</a>.</p>
+<p>Voluntary qualifying practice during Rest Mode increases the run and can earn clouds; inactive Rest Mode days preserve it without using clouds. Repair within 48 hours restores the previous run plus actual qualifying activity; excused missed days do not increase its length. Event IDs prevent replay from counting or awarding twice.</p>
 <h2 id="8-parent-report-rules">8. Parent report rules</h2>
-<p>The weekly report is generated on Sunday at 18:00 Lagos time for the learning week Monday 03:00 to Monday 03:00.</p>
+<p>The weekly report is generated on Sunday at 18:00 Lagos time using consecutive Sunday-18:00 cutoffs, with an inclusive start and exclusive end. Late-Sunday activity belongs to the next report. Display the actual period; do not describe this snapshot as a complete Monday-to-Monday learning week.</p>
 <div class="table-wrap"><table><thead><tr>
 <th>Block</th>
 <th>Rule</th>
@@ -406,9 +410,9 @@ main{padding:28px 0 80px;min-width:0}
 </tbody></table></div>
 <h2 id="9-placement-check">9. Placement check</h2>
 <ul>
-<li>20 items per paper, spread evenly across strands. Optional and resumable.</li>
+<li>20 items per configured learning area, spread evenly across strands. Optional and resumable. Learning areas are distinct from official exam papers.</li>
 <li>Result per strand: &quot;Looks secure so far&quot; (≥ 75% correct and at least 4 items), &quot;Check this&quot; (&lt; 50%), otherwise &quot;Not yet measured enough&quot;.</li>
-<li>It never reports topic-level results, never sets a topic above Level 2, and is never called a test.</li>
+<li>It never reports topic-level results or changes topic mastery, and is never called a test.</li>
 </ul>
 <h2 id="10-fixtures">10. Fixtures</h2>
 <p>QA fixtures live in <code>packages/rules/fixtures/*.json</code>. Each fixture is a response sequence plus the expected state. Minimum set:</p>
@@ -470,7 +474,7 @@ main{padding:28px 0 80px;min-width:0}
 <tr>
 <td>M-11</td>
 <td>Placement: 20/20 correct in a strand</td>
-<td>Topics in it at most <code>developing</code></td>
+<td>Topic mastery remains unchanged (<code>not_assessed</code> for a new topic)</td>
 </tr>
 <tr>
 <td>M-12</td>

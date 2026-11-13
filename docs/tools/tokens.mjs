@@ -1,5 +1,8 @@
 // Stellara "Sweet garden" tokens: single source for light and dark themes.
 // Run `node tokens.mjs` to print the contrast table; exits 1 if any text pair fails.
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+
 export const THEMES = {
   light: {
     bg: "#FFF8F1", surface: "#FFFFFF", sunk: "#FCEFE6", line: "#F0DCD3",
@@ -38,7 +41,7 @@ export const PAIRS = [
 ];
 const lum = h => { const c = [1,3,5].map(i => parseInt(h.slice(i,i+2),16)/255).map(v => v<=.03928? v/12.92 : ((v+.055)/1.055)**2.4); return .2126*c[0]+.7152*c[1]+.0722*c[2]; };
 export const ratio = (a,b) => { const [x,y] = [lum(a),lum(b)].sort((p,q)=>q-p); return (x+.05)/(y+.05); };
-if (process.argv[1]?.endsWith("tokens.mjs")) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   let fail = 0;
   for (const [name, t] of Object.entries(THEMES)) {
     console.log(`\n${name}`);

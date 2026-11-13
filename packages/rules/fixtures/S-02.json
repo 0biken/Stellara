@@ -1,0 +1,8 @@
+{
+  "id": "S-02",
+  "timezone": "Africa/Lagos",
+  "events": [
+    { "recordedAt": 1798797600000, "receivedAt": 1799085600000, "deviceClockAtSync": 1799085600000 }
+  ],
+  "expected": { "credited": false, "day": "2027-01-04", "source": "server" }
+}

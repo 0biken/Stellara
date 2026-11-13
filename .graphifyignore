@@ -13,3 +13,9 @@ docs/assets/auntie-stella/*-animated.svg
 docs/assets/auntie-stella/stellara-avatar-preview.png
 docs/assets/auntie-stella/*.mp4
 docs/assets/auntie-stella/*.webm
+# Build products and generated token sheet; source generators remain included.
+packages/*/dist/
+packages/*/coverage/
+packages/ui/src/tokens.css
+apps/web/.next/
+.turbo/

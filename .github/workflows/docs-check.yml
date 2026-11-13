@@ -1,20 +1,28 @@
-name: Docs check
+name: Foundations check
 on:
   push:
   pull_request:
 permissions:
   contents: read
 jobs:
-  generated-docs:
+  quality:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: docs/tools/package-lock.json
-      - run: npm ci --prefix docs/tools
-      - run: npm test --prefix docs/tools
-      - run: npm run generate --prefix docs/tools
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: node docs/tools/tokens.mjs
+      - run: pnpm build
+      - run: pnpm check:client
+      - run: pnpm docs:generate
       - run: node docs/tools/check-generated.mjs

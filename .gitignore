@@ -4,3 +4,10 @@ graphify-out/cache/
 .superpowers/
 # Machine-local Graphify scratch state; share the graph and report instead.
 graphify-out/.graphify*
+.next/
+.turbo/
+.pnpm-store/
+dist/
+coverage/
+*.tsbuildinfo
+private/

@@ -1,9 +1,9 @@
 # Stellara for Kids: task list to completion
 
-Built on 12 Nov 2026 from `docs/md/00–15` and the knowledge graph in `graphify-out/` (407 nodes, 24 communities). Housekeeping refreshed on 13 Nov, including document 16; the graph now has 581 nodes and 51 communities.
+Built on 12 Nov 2026 from `docs/md/00–15` and the knowledge graph in `graphify-out/` (407 nodes, 24 communities). Phase 0 refreshed the graph on 13 Nov to 581 nodes and 51 communities; foundation sources and document 17 are included in the subsequent refresh.
 "Done" means **M6, the pilot gate is passed** (mid-May 2027). Phase 2 and 3 are listed at the end, but only as gated follow-ons.
 
-**Where things stand now (13 Nov 2026):** the specs, brand kit, tokens script, static and animated avatars, and docs build exist. The project is connected to `0biken/Stellara`, with a generated-docs CI check. No application code exists yet: no `apps/`, `packages/` or `supabase/` folders.
+**Where things stand now (13 Nov 2026):** the pnpm/Turborepo monorepo, minimal Next.js 16 web shell, pure `v0.1.0` rules engine, validated content schemas and 74-topic curriculum draft exist. Local quality checks pass, including all 18 required rules fixtures and 99.73% rules branch coverage. Supabase folders reserve later work only; no cloud resources or database migrations are provisioned. Product sign-off, academic approval, official 2027 exam mapping, contributor signatures and supplier quotes remain pending. See [foundation gates](docs/md/17-foundations-and-human-gates.md).
 
 Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 
@@ -33,24 +33,24 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 - ✅ M0: scope, prices and stack confirmed; lawyer and DPO engaged; trademark search ordered.
 
 ### 1B. Rules frozen (M1 · 30 Nov)
-- [ ] **1.11 Scaffold the monorepo:** pnpm and Turborepo, `apps/web`, `packages/{rules,ui,content-schema,i18n}`, and `supabase/{migrations,functions,seed,tests}`. Add ESLint, Prettier and TypeScript strict. **[Eng]** 📄 04 §3, 09 §10
-- [ ] **1.12 Build `packages/rules`** as pure TypeScript with no I/O. **[Eng]** 📄 02
-  - [ ] the scored-response predicate (§2)
-  - [ ] mastery levels 0–5, moving down, and the placement and low-confidence caps (§3)
-  - [ ] spaced review scheduling, including exam-date compression (§4)
-  - [ ] the practice-test timer, grace period, resumes and `suspect_timing` flag (§5.2)
-  - [ ] Stardust events, the daily 200 cap and level names (§6)
-  - [ ] days in a row, clouds, Rest Mode, repair and outage excuse (§7)
-  - [ ] parent report block selection (§8) and placement strand results (§9)
-  - [ ] the `rules_version` constant
-- [ ] **1.13 Add fixtures** M-01…M-14, S-01…S-03 and X-01 in `packages/rules/fixtures/*.json`, plus property tests. **[Eng/QA]** 📄 02 §10
-- ✅ M1: all fixtures pass, branch coverage is at least 90%, and product has signed off.
+- [x] **1.11 Scaffold the monorepo:** pnpm and Turborepo, `apps/web`, `packages/{rules,ui,content-schema,i18n}`, and `supabase/{migrations,functions,seed,tests}`. ESLint, Prettier and TypeScript strict are configured. **[Eng]** 📄 04 §3, 09 §10
+- [x] **1.12 Build `packages/rules`** as pure TypeScript with no I/O. **[Eng]** 📄 02
+  - [x] the scored-response predicate (§2)
+  - [x] mastery levels 0–5, moving down, strand-only placement and low-confidence caps (§3)
+  - [x] spaced review scheduling, including exam-date compression (§4)
+  - [x] the practice-test timer, grace period, resumes and `suspect_timing` flag (§5.2)
+  - [x] Stardust events, the daily 200 cap and level names (§6)
+  - [x] days in a row, clouds, Rest Mode, repair and outage excuse (§7)
+  - [x] parent report block selection (§8) and placement strand results (§9)
+  - [x] the `rules_version` constant (`v0.1.0`)
+- [x] **1.13 Add fixtures** M-01…M-14, S-01…S-03 and X-01 in `packages/rules/fixtures/*.json`, plus seeded property and regression tests. **[Eng/QA]** 📄 02 §10
+- M1 technical gate passes: all fixtures pass and rules branch coverage is 99.73%. **Product sign-off remains pending; M1 is not yet signed off.**
 
 ### 1C. Content schema frozen (by 30 Nov)
-- [ ] **1.14 Write `packages/content-schema`** (Zod) for items, stimuli, lessons and cards, and blueprints. **[Eng + Academic]** 📄 03 §4
-- [ ] **1.15 Draft the curriculum tree for the 5 papers and ~74 topics,** with prerequisites. **[Academic lead]** 📄 03 §2–3
-- [ ] **1.16 Get IP assignment and originality warranties signed** by every author and reviewer. **[Founder]** 📄 03 §7
-- [ ] **1.17 Get 2–3 quotes for authoring** (~3,000–6,000 hours). **[Founder]** 📄 03 §5
+- [x] **1.14 Write `packages/content-schema`** (Zod) for items, stimuli, lessons and cards, and blueprints. Draft/publication validation and client-safe projections pass 35 tests. **[Eng + Academic]** 📄 03 §4
+- [x] **1.15 Draft the curriculum tree for 5 learning areas and 74 topics,** with prerequisites and separate, unverified exam-paper mapping. **Draft prepared; academic approval remains pending.** **[Academic lead]** 📄 03 §2–3
+- [ ] **1.16 Get IP assignment and originality warranties signed** by every author and reviewer. Preparation only: [onboarding/counsel brief and private tracker template](docs/authoring/onboarding-and-rights.md). No signatures obtained. **[Founder]** 📄 03 §7
+- [ ] **1.17 Get 2–3 quotes for authoring** (~3,000–6,000 hours). Preparation only: [unsent quote brief and comparison template](docs/authoring/request-for-quote.md). No suppliers contacted or quotes received. **[Founder]** 📄 03 §5
 
 ## Phase 2: Build the MVP (30 Nov 2026 – 29 Jan 2027)
 

@@ -1,0 +1,1547 @@
+{
+  "metadata": {
+    "status": "draft",
+    "academic_verification": "awaiting_academic_verification",
+    "source_note": "Original planning draft based on docs/md/03-curriculum-and-content.md. NECO 2026 is a reference only; no NECO 2027 structure, timing or item counts are confirmed. Topic labels and prerequisite edges require academic review.",
+    "curriculum_edition": "revised_2025"
+  },
+  "nodes": [
+    {
+      "id": "72000000-0000-4000-8000-000000000001",
+      "parent_id": null,
+      "kind": "pathway",
+      "title": "Common Entrance",
+      "code": "common_entrance",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000002",
+      "parent_id": "72000000-0000-4000-8000-000000000001",
+      "kind": "subject",
+      "title": "Mathematics",
+      "code": "mathematics",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000003",
+      "parent_id": "72000000-0000-4000-8000-000000000002",
+      "kind": "strand",
+      "title": "Number and numeration",
+      "code": "mathematics.s1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000004",
+      "parent_id": "72000000-0000-4000-8000-000000000003",
+      "kind": "topic",
+      "title": "Place value",
+      "code": "mathematics.s1.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000005",
+      "parent_id": "72000000-0000-4000-8000-000000000003",
+      "kind": "topic",
+      "title": "Comparing and ordering whole numbers",
+      "code": "mathematics.s1.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000006",
+      "parent_id": "72000000-0000-4000-8000-000000000003",
+      "kind": "topic",
+      "title": "Addition and subtraction",
+      "code": "mathematics.s1.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000007",
+      "parent_id": "72000000-0000-4000-8000-000000000003",
+      "kind": "topic",
+      "title": "Multiplication and division",
+      "code": "mathematics.s1.t4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000008",
+      "parent_id": "72000000-0000-4000-8000-000000000002",
+      "kind": "strand",
+      "title": "Fractions, decimals, percentages",
+      "code": "mathematics.s2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000009",
+      "parent_id": "72000000-0000-4000-8000-000000000008",
+      "kind": "topic",
+      "title": "Equivalent fractions",
+      "code": "mathematics.s2.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000010",
+      "parent_id": "72000000-0000-4000-8000-000000000008",
+      "kind": "topic",
+      "title": "Operations with fractions",
+      "code": "mathematics.s2.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000011",
+      "parent_id": "72000000-0000-4000-8000-000000000008",
+      "kind": "topic",
+      "title": "Decimals",
+      "code": "mathematics.s2.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000012",
+      "parent_id": "72000000-0000-4000-8000-000000000008",
+      "kind": "topic",
+      "title": "Percentages",
+      "code": "mathematics.s2.t4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000013",
+      "parent_id": "72000000-0000-4000-8000-000000000008",
+      "kind": "topic",
+      "title": "Ratio and proportion",
+      "code": "mathematics.s2.t5",
+      "curriculum_edition": "revised_2025",
+      "sort": 4
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000014",
+      "parent_id": "72000000-0000-4000-8000-000000000002",
+      "kind": "strand",
+      "title": "Measurement",
+      "code": "mathematics.s3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000015",
+      "parent_id": "72000000-0000-4000-8000-000000000014",
+      "kind": "topic",
+      "title": "Length and perimeter",
+      "code": "mathematics.s3.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000016",
+      "parent_id": "72000000-0000-4000-8000-000000000014",
+      "kind": "topic",
+      "title": "Area",
+      "code": "mathematics.s3.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000017",
+      "parent_id": "72000000-0000-4000-8000-000000000014",
+      "kind": "topic",
+      "title": "Volume and capacity",
+      "code": "mathematics.s3.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000018",
+      "parent_id": "72000000-0000-4000-8000-000000000014",
+      "kind": "topic",
+      "title": "Mass",
+      "code": "mathematics.s3.t4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000019",
+      "parent_id": "72000000-0000-4000-8000-000000000014",
+      "kind": "topic",
+      "title": "Time and money",
+      "code": "mathematics.s3.t5",
+      "curriculum_edition": "revised_2025",
+      "sort": 4
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000020",
+      "parent_id": "72000000-0000-4000-8000-000000000002",
+      "kind": "strand",
+      "title": "Geometry",
+      "code": "mathematics.s4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000021",
+      "parent_id": "72000000-0000-4000-8000-000000000020",
+      "kind": "topic",
+      "title": "Angles",
+      "code": "mathematics.s4.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000022",
+      "parent_id": "72000000-0000-4000-8000-000000000020",
+      "kind": "topic",
+      "title": "Plane shapes",
+      "code": "mathematics.s4.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000023",
+      "parent_id": "72000000-0000-4000-8000-000000000020",
+      "kind": "topic",
+      "title": "Solid shapes",
+      "code": "mathematics.s4.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000024",
+      "parent_id": "72000000-0000-4000-8000-000000000002",
+      "kind": "strand",
+      "title": "Everyday statistics",
+      "code": "mathematics.s5",
+      "curriculum_edition": "revised_2025",
+      "sort": 4
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000025",
+      "parent_id": "72000000-0000-4000-8000-000000000024",
+      "kind": "topic",
+      "title": "Tables and pictograms",
+      "code": "mathematics.s5.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000026",
+      "parent_id": "72000000-0000-4000-8000-000000000024",
+      "kind": "topic",
+      "title": "Bar charts",
+      "code": "mathematics.s5.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000027",
+      "parent_id": "72000000-0000-4000-8000-000000000024",
+      "kind": "topic",
+      "title": "Mean and simple probability",
+      "code": "mathematics.s5.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000028",
+      "parent_id": "72000000-0000-4000-8000-000000000002",
+      "kind": "strand",
+      "title": "Algebraic processes",
+      "code": "mathematics.s6",
+      "curriculum_edition": "revised_2025",
+      "sort": 5
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000029",
+      "parent_id": "72000000-0000-4000-8000-000000000028",
+      "kind": "topic",
+      "title": "Missing values in equations",
+      "code": "mathematics.s6.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000030",
+      "parent_id": "72000000-0000-4000-8000-000000000028",
+      "kind": "topic",
+      "title": "Simple word problems",
+      "code": "mathematics.s6.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000031",
+      "parent_id": "72000000-0000-4000-8000-000000000001",
+      "kind": "subject",
+      "title": "English",
+      "code": "english",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000032",
+      "parent_id": "72000000-0000-4000-8000-000000000031",
+      "kind": "strand",
+      "title": "Comprehension",
+      "code": "english.s1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000033",
+      "parent_id": "72000000-0000-4000-8000-000000000032",
+      "kind": "topic",
+      "title": "Finding main ideas",
+      "code": "english.s1.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000034",
+      "parent_id": "72000000-0000-4000-8000-000000000032",
+      "kind": "topic",
+      "title": "Locating details",
+      "code": "english.s1.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000035",
+      "parent_id": "72000000-0000-4000-8000-000000000032",
+      "kind": "topic",
+      "title": "Making inferences",
+      "code": "english.s1.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000036",
+      "parent_id": "72000000-0000-4000-8000-000000000032",
+      "kind": "topic",
+      "title": "Understanding sequence",
+      "code": "english.s1.t4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000037",
+      "parent_id": "72000000-0000-4000-8000-000000000031",
+      "kind": "strand",
+      "title": "Vocabulary",
+      "code": "english.s2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000038",
+      "parent_id": "72000000-0000-4000-8000-000000000037",
+      "kind": "topic",
+      "title": "Words in context",
+      "code": "english.s2.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000039",
+      "parent_id": "72000000-0000-4000-8000-000000000037",
+      "kind": "topic",
+      "title": "Synonyms",
+      "code": "english.s2.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000040",
+      "parent_id": "72000000-0000-4000-8000-000000000037",
+      "kind": "topic",
+      "title": "Antonyms",
+      "code": "english.s2.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000041",
+      "parent_id": "72000000-0000-4000-8000-000000000037",
+      "kind": "topic",
+      "title": "Common idioms",
+      "code": "english.s2.t4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000042",
+      "parent_id": "72000000-0000-4000-8000-000000000031",
+      "kind": "strand",
+      "title": "Grammar and usage",
+      "code": "english.s3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000043",
+      "parent_id": "72000000-0000-4000-8000-000000000042",
+      "kind": "topic",
+      "title": "Nouns and pronouns",
+      "code": "english.s3.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000044",
+      "parent_id": "72000000-0000-4000-8000-000000000042",
+      "kind": "topic",
+      "title": "Verbs and tenses",
+      "code": "english.s3.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000045",
+      "parent_id": "72000000-0000-4000-8000-000000000042",
+      "kind": "topic",
+      "title": "Subject–verb agreement",
+      "code": "english.s3.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000046",
+      "parent_id": "72000000-0000-4000-8000-000000000042",
+      "kind": "topic",
+      "title": "Adjectives and adverbs",
+      "code": "english.s3.t4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000047",
+      "parent_id": "72000000-0000-4000-8000-000000000042",
+      "kind": "topic",
+      "title": "Prepositions and conjunctions",
+      "code": "english.s3.t5",
+      "curriculum_edition": "revised_2025",
+      "sort": 4
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000048",
+      "parent_id": "72000000-0000-4000-8000-000000000031",
+      "kind": "strand",
+      "title": "Spelling and punctuation",
+      "code": "english.s4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000049",
+      "parent_id": "72000000-0000-4000-8000-000000000048",
+      "kind": "topic",
+      "title": "Common spelling patterns",
+      "code": "english.s4.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000050",
+      "parent_id": "72000000-0000-4000-8000-000000000048",
+      "kind": "topic",
+      "title": "Capital letters and sentence punctuation",
+      "code": "english.s4.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000051",
+      "parent_id": "72000000-0000-4000-8000-000000000048",
+      "kind": "topic",
+      "title": "Apostrophes and direct speech",
+      "code": "english.s4.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000052",
+      "parent_id": "72000000-0000-4000-8000-000000000001",
+      "kind": "subject",
+      "title": "Quantitative Aptitude",
+      "code": "quantitative_aptitude",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000053",
+      "parent_id": "72000000-0000-4000-8000-000000000052",
+      "kind": "strand",
+      "title": "Number patterns",
+      "code": "quantitative_aptitude.s1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000054",
+      "parent_id": "72000000-0000-4000-8000-000000000053",
+      "kind": "topic",
+      "title": "Counting sequences",
+      "code": "quantitative_aptitude.s1.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000055",
+      "parent_id": "72000000-0000-4000-8000-000000000053",
+      "kind": "topic",
+      "title": "Arithmetic number patterns",
+      "code": "quantitative_aptitude.s1.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000056",
+      "parent_id": "72000000-0000-4000-8000-000000000053",
+      "kind": "topic",
+      "title": "Alternating number patterns",
+      "code": "quantitative_aptitude.s1.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000057",
+      "parent_id": "72000000-0000-4000-8000-000000000052",
+      "kind": "strand",
+      "title": "Relationships and analogies",
+      "code": "quantitative_aptitude.s2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000058",
+      "parent_id": "72000000-0000-4000-8000-000000000057",
+      "kind": "topic",
+      "title": "Number analogies",
+      "code": "quantitative_aptitude.s2.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000059",
+      "parent_id": "72000000-0000-4000-8000-000000000057",
+      "kind": "topic",
+      "title": "Number relationships",
+      "code": "quantitative_aptitude.s2.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000060",
+      "parent_id": "72000000-0000-4000-8000-000000000052",
+      "kind": "strand",
+      "title": "Missing numbers",
+      "code": "quantitative_aptitude.s3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000061",
+      "parent_id": "72000000-0000-4000-8000-000000000060",
+      "kind": "topic",
+      "title": "Missing numbers in grids",
+      "code": "quantitative_aptitude.s3.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000062",
+      "parent_id": "72000000-0000-4000-8000-000000000060",
+      "kind": "topic",
+      "title": "Missing operation symbols",
+      "code": "quantitative_aptitude.s3.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000063",
+      "parent_id": "72000000-0000-4000-8000-000000000060",
+      "kind": "topic",
+      "title": "Balancing number sentences",
+      "code": "quantitative_aptitude.s3.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000064",
+      "parent_id": "72000000-0000-4000-8000-000000000052",
+      "kind": "strand",
+      "title": "Shape reasoning",
+      "code": "quantitative_aptitude.s4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000065",
+      "parent_id": "72000000-0000-4000-8000-000000000064",
+      "kind": "topic",
+      "title": "Shape sequences",
+      "code": "quantitative_aptitude.s4.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000066",
+      "parent_id": "72000000-0000-4000-8000-000000000064",
+      "kind": "topic",
+      "title": "Spatial relationships",
+      "code": "quantitative_aptitude.s4.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000067",
+      "parent_id": "72000000-0000-4000-8000-000000000001",
+      "kind": "subject",
+      "title": "Verbal Aptitude",
+      "code": "verbal_aptitude",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000068",
+      "parent_id": "72000000-0000-4000-8000-000000000067",
+      "kind": "strand",
+      "title": "Analogies",
+      "code": "verbal_aptitude.s1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000069",
+      "parent_id": "72000000-0000-4000-8000-000000000068",
+      "kind": "topic",
+      "title": "Word analogies",
+      "code": "verbal_aptitude.s1.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000070",
+      "parent_id": "72000000-0000-4000-8000-000000000068",
+      "kind": "topic",
+      "title": "Part and whole analogies",
+      "code": "verbal_aptitude.s1.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000071",
+      "parent_id": "72000000-0000-4000-8000-000000000068",
+      "kind": "topic",
+      "title": "Function analogies",
+      "code": "verbal_aptitude.s1.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000072",
+      "parent_id": "72000000-0000-4000-8000-000000000067",
+      "kind": "strand",
+      "title": "Odd one out",
+      "code": "verbal_aptitude.s2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000073",
+      "parent_id": "72000000-0000-4000-8000-000000000072",
+      "kind": "topic",
+      "title": "Semantic odd one out",
+      "code": "verbal_aptitude.s2.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000074",
+      "parent_id": "72000000-0000-4000-8000-000000000072",
+      "kind": "topic",
+      "title": "Letter odd one out",
+      "code": "verbal_aptitude.s2.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000075",
+      "parent_id": "72000000-0000-4000-8000-000000000067",
+      "kind": "strand",
+      "title": "Word relationships",
+      "code": "verbal_aptitude.s3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000076",
+      "parent_id": "72000000-0000-4000-8000-000000000075",
+      "kind": "topic",
+      "title": "Classifying words",
+      "code": "verbal_aptitude.s3.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000077",
+      "parent_id": "72000000-0000-4000-8000-000000000075",
+      "kind": "topic",
+      "title": "Word pairs",
+      "code": "verbal_aptitude.s3.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000078",
+      "parent_id": "72000000-0000-4000-8000-000000000075",
+      "kind": "topic",
+      "title": "Letter codes",
+      "code": "verbal_aptitude.s3.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000079",
+      "parent_id": "72000000-0000-4000-8000-000000000067",
+      "kind": "strand",
+      "title": "Sequencing",
+      "code": "verbal_aptitude.s4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000080",
+      "parent_id": "72000000-0000-4000-8000-000000000079",
+      "kind": "topic",
+      "title": "Alphabetical order",
+      "code": "verbal_aptitude.s4.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000081",
+      "parent_id": "72000000-0000-4000-8000-000000000079",
+      "kind": "topic",
+      "title": "Ordering events",
+      "code": "verbal_aptitude.s4.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000082",
+      "parent_id": "72000000-0000-4000-8000-000000000001",
+      "kind": "subject",
+      "title": "General Paper",
+      "code": "general_paper",
+      "curriculum_edition": "revised_2025",
+      "sort": 4
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000083",
+      "parent_id": "72000000-0000-4000-8000-000000000082",
+      "kind": "strand",
+      "title": "Basic Science and Technology",
+      "code": "general_paper.s1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000084",
+      "parent_id": "72000000-0000-4000-8000-000000000083",
+      "kind": "topic",
+      "title": "Living and non-living things",
+      "code": "general_paper.s1.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000085",
+      "parent_id": "72000000-0000-4000-8000-000000000083",
+      "kind": "topic",
+      "title": "Human body and health",
+      "code": "general_paper.s1.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000086",
+      "parent_id": "72000000-0000-4000-8000-000000000083",
+      "kind": "topic",
+      "title": "Plants and animals",
+      "code": "general_paper.s1.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000087",
+      "parent_id": "72000000-0000-4000-8000-000000000083",
+      "kind": "topic",
+      "title": "Materials and their properties",
+      "code": "general_paper.s1.t4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000088",
+      "parent_id": "72000000-0000-4000-8000-000000000083",
+      "kind": "topic",
+      "title": "Energy and simple machines",
+      "code": "general_paper.s1.t5",
+      "curriculum_edition": "revised_2025",
+      "sort": 4
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000089",
+      "parent_id": "72000000-0000-4000-8000-000000000083",
+      "kind": "topic",
+      "title": "Weather and environment",
+      "code": "general_paper.s1.t6",
+      "curriculum_edition": "revised_2025",
+      "sort": 5
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000090",
+      "parent_id": "72000000-0000-4000-8000-000000000083",
+      "kind": "topic",
+      "title": "ICT and safe technology use",
+      "code": "general_paper.s1.t7",
+      "curriculum_edition": "revised_2025",
+      "sort": 6
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000091",
+      "parent_id": "72000000-0000-4000-8000-000000000082",
+      "kind": "strand",
+      "title": "Social and civic knowledge",
+      "code": "general_paper.s2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000092",
+      "parent_id": "72000000-0000-4000-8000-000000000091",
+      "kind": "topic",
+      "title": "Family and community",
+      "code": "general_paper.s2.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000093",
+      "parent_id": "72000000-0000-4000-8000-000000000091",
+      "kind": "topic",
+      "title": "Nigerian culture and diversity",
+      "code": "general_paper.s2.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000094",
+      "parent_id": "72000000-0000-4000-8000-000000000091",
+      "kind": "topic",
+      "title": "National symbols and identity",
+      "code": "general_paper.s2.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000095",
+      "parent_id": "72000000-0000-4000-8000-000000000091",
+      "kind": "topic",
+      "title": "Citizenship and responsibilities",
+      "code": "general_paper.s2.t4",
+      "curriculum_edition": "revised_2025",
+      "sort": 3
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000096",
+      "parent_id": "72000000-0000-4000-8000-000000000091",
+      "kind": "topic",
+      "title": "Road and personal safety",
+      "code": "general_paper.s2.t5",
+      "curriculum_edition": "revised_2025",
+      "sort": 4
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000097",
+      "parent_id": "72000000-0000-4000-8000-000000000091",
+      "kind": "topic",
+      "title": "Resources and occupations",
+      "code": "general_paper.s2.t6",
+      "curriculum_edition": "revised_2025",
+      "sort": 5
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000098",
+      "parent_id": "72000000-0000-4000-8000-000000000082",
+      "kind": "strand",
+      "title": "Religious and moral education options",
+      "code": "general_paper.s3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000099",
+      "parent_id": "72000000-0000-4000-8000-000000000098",
+      "kind": "topic",
+      "title": "Honesty and responsibility",
+      "code": "general_paper.s3.t1",
+      "curriculum_edition": "revised_2025",
+      "sort": 0
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000100",
+      "parent_id": "72000000-0000-4000-8000-000000000098",
+      "kind": "topic",
+      "title": "Respect and peaceful coexistence",
+      "code": "general_paper.s3.t2",
+      "curriculum_edition": "revised_2025",
+      "sort": 1
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000101",
+      "parent_id": "72000000-0000-4000-8000-000000000098",
+      "kind": "topic",
+      "title": "Care for others and the environment",
+      "code": "general_paper.s3.t3",
+      "curriculum_edition": "revised_2025",
+      "sort": 2
+    }
+  ],
+  "learning_areas": [
+    {
+      "id": "72000000-0000-4000-8000-000000000002",
+      "code": "mathematics",
+      "title": "Mathematics",
+      "topic_ids": [
+        "72000000-0000-4000-8000-000000000004",
+        "72000000-0000-4000-8000-000000000005",
+        "72000000-0000-4000-8000-000000000006",
+        "72000000-0000-4000-8000-000000000007",
+        "72000000-0000-4000-8000-000000000009",
+        "72000000-0000-4000-8000-000000000010",
+        "72000000-0000-4000-8000-000000000011",
+        "72000000-0000-4000-8000-000000000012",
+        "72000000-0000-4000-8000-000000000013",
+        "72000000-0000-4000-8000-000000000015",
+        "72000000-0000-4000-8000-000000000016",
+        "72000000-0000-4000-8000-000000000017",
+        "72000000-0000-4000-8000-000000000018",
+        "72000000-0000-4000-8000-000000000019",
+        "72000000-0000-4000-8000-000000000021",
+        "72000000-0000-4000-8000-000000000022",
+        "72000000-0000-4000-8000-000000000023",
+        "72000000-0000-4000-8000-000000000025",
+        "72000000-0000-4000-8000-000000000026",
+        "72000000-0000-4000-8000-000000000027",
+        "72000000-0000-4000-8000-000000000029",
+        "72000000-0000-4000-8000-000000000030"
+      ]
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000031",
+      "code": "english",
+      "title": "English",
+      "topic_ids": [
+        "72000000-0000-4000-8000-000000000033",
+        "72000000-0000-4000-8000-000000000034",
+        "72000000-0000-4000-8000-000000000035",
+        "72000000-0000-4000-8000-000000000036",
+        "72000000-0000-4000-8000-000000000038",
+        "72000000-0000-4000-8000-000000000039",
+        "72000000-0000-4000-8000-000000000040",
+        "72000000-0000-4000-8000-000000000041",
+        "72000000-0000-4000-8000-000000000043",
+        "72000000-0000-4000-8000-000000000044",
+        "72000000-0000-4000-8000-000000000045",
+        "72000000-0000-4000-8000-000000000046",
+        "72000000-0000-4000-8000-000000000047",
+        "72000000-0000-4000-8000-000000000049",
+        "72000000-0000-4000-8000-000000000050",
+        "72000000-0000-4000-8000-000000000051"
+      ]
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000052",
+      "code": "quantitative_aptitude",
+      "title": "Quantitative Aptitude",
+      "topic_ids": [
+        "72000000-0000-4000-8000-000000000054",
+        "72000000-0000-4000-8000-000000000055",
+        "72000000-0000-4000-8000-000000000056",
+        "72000000-0000-4000-8000-000000000058",
+        "72000000-0000-4000-8000-000000000059",
+        "72000000-0000-4000-8000-000000000061",
+        "72000000-0000-4000-8000-000000000062",
+        "72000000-0000-4000-8000-000000000063",
+        "72000000-0000-4000-8000-000000000065",
+        "72000000-0000-4000-8000-000000000066"
+      ]
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000067",
+      "code": "verbal_aptitude",
+      "title": "Verbal Aptitude",
+      "topic_ids": [
+        "72000000-0000-4000-8000-000000000069",
+        "72000000-0000-4000-8000-000000000070",
+        "72000000-0000-4000-8000-000000000071",
+        "72000000-0000-4000-8000-000000000073",
+        "72000000-0000-4000-8000-000000000074",
+        "72000000-0000-4000-8000-000000000076",
+        "72000000-0000-4000-8000-000000000077",
+        "72000000-0000-4000-8000-000000000078",
+        "72000000-0000-4000-8000-000000000080",
+        "72000000-0000-4000-8000-000000000081"
+      ]
+    },
+    {
+      "id": "72000000-0000-4000-8000-000000000082",
+      "code": "general_paper",
+      "title": "General Paper",
+      "topic_ids": [
+        "72000000-0000-4000-8000-000000000084",
+        "72000000-0000-4000-8000-000000000085",
+        "72000000-0000-4000-8000-000000000086",
+        "72000000-0000-4000-8000-000000000087",
+        "72000000-0000-4000-8000-000000000088",
+        "72000000-0000-4000-8000-000000000089",
+        "72000000-0000-4000-8000-000000000090",
+        "72000000-0000-4000-8000-000000000092",
+        "72000000-0000-4000-8000-000000000093",
+        "72000000-0000-4000-8000-000000000094",
+        "72000000-0000-4000-8000-000000000095",
+        "72000000-0000-4000-8000-000000000096",
+        "72000000-0000-4000-8000-000000000097",
+        "72000000-0000-4000-8000-000000000099",
+        "72000000-0000-4000-8000-000000000100",
+        "72000000-0000-4000-8000-000000000101"
+      ]
+    }
+  ],
+  "prerequisites": [
+    {
+      "node_id": "72000000-0000-4000-8000-000000000005",
+      "requires_node_id": "72000000-0000-4000-8000-000000000004"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000006",
+      "requires_node_id": "72000000-0000-4000-8000-000000000005"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000007",
+      "requires_node_id": "72000000-0000-4000-8000-000000000006"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000010",
+      "requires_node_id": "72000000-0000-4000-8000-000000000009"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000011",
+      "requires_node_id": "72000000-0000-4000-8000-000000000010"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000012",
+      "requires_node_id": "72000000-0000-4000-8000-000000000011"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000013",
+      "requires_node_id": "72000000-0000-4000-8000-000000000012"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000016",
+      "requires_node_id": "72000000-0000-4000-8000-000000000015"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000017",
+      "requires_node_id": "72000000-0000-4000-8000-000000000016"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000018",
+      "requires_node_id": "72000000-0000-4000-8000-000000000017"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000019",
+      "requires_node_id": "72000000-0000-4000-8000-000000000018"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000022",
+      "requires_node_id": "72000000-0000-4000-8000-000000000021"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000023",
+      "requires_node_id": "72000000-0000-4000-8000-000000000022"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000026",
+      "requires_node_id": "72000000-0000-4000-8000-000000000025"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000027",
+      "requires_node_id": "72000000-0000-4000-8000-000000000026"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000030",
+      "requires_node_id": "72000000-0000-4000-8000-000000000029"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000034",
+      "requires_node_id": "72000000-0000-4000-8000-000000000033"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000035",
+      "requires_node_id": "72000000-0000-4000-8000-000000000034"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000036",
+      "requires_node_id": "72000000-0000-4000-8000-000000000035"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000039",
+      "requires_node_id": "72000000-0000-4000-8000-000000000038"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000040",
+      "requires_node_id": "72000000-0000-4000-8000-000000000039"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000041",
+      "requires_node_id": "72000000-0000-4000-8000-000000000040"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000044",
+      "requires_node_id": "72000000-0000-4000-8000-000000000043"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000045",
+      "requires_node_id": "72000000-0000-4000-8000-000000000044"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000046",
+      "requires_node_id": "72000000-0000-4000-8000-000000000045"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000047",
+      "requires_node_id": "72000000-0000-4000-8000-000000000046"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000050",
+      "requires_node_id": "72000000-0000-4000-8000-000000000049"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000051",
+      "requires_node_id": "72000000-0000-4000-8000-000000000050"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000055",
+      "requires_node_id": "72000000-0000-4000-8000-000000000054"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000056",
+      "requires_node_id": "72000000-0000-4000-8000-000000000055"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000059",
+      "requires_node_id": "72000000-0000-4000-8000-000000000058"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000062",
+      "requires_node_id": "72000000-0000-4000-8000-000000000061"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000063",
+      "requires_node_id": "72000000-0000-4000-8000-000000000062"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000066",
+      "requires_node_id": "72000000-0000-4000-8000-000000000065"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000070",
+      "requires_node_id": "72000000-0000-4000-8000-000000000069"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000071",
+      "requires_node_id": "72000000-0000-4000-8000-000000000070"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000074",
+      "requires_node_id": "72000000-0000-4000-8000-000000000073"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000077",
+      "requires_node_id": "72000000-0000-4000-8000-000000000076"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000078",
+      "requires_node_id": "72000000-0000-4000-8000-000000000077"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000081",
+      "requires_node_id": "72000000-0000-4000-8000-000000000080"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000085",
+      "requires_node_id": "72000000-0000-4000-8000-000000000084"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000086",
+      "requires_node_id": "72000000-0000-4000-8000-000000000085"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000087",
+      "requires_node_id": "72000000-0000-4000-8000-000000000086"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000088",
+      "requires_node_id": "72000000-0000-4000-8000-000000000087"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000089",
+      "requires_node_id": "72000000-0000-4000-8000-000000000088"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000090",
+      "requires_node_id": "72000000-0000-4000-8000-000000000089"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000093",
+      "requires_node_id": "72000000-0000-4000-8000-000000000092"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000094",
+      "requires_node_id": "72000000-0000-4000-8000-000000000093"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000095",
+      "requires_node_id": "72000000-0000-4000-8000-000000000094"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000096",
+      "requires_node_id": "72000000-0000-4000-8000-000000000095"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000097",
+      "requires_node_id": "72000000-0000-4000-8000-000000000096"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000100",
+      "requires_node_id": "72000000-0000-4000-8000-000000000099"
+    },
+    {
+      "node_id": "72000000-0000-4000-8000-000000000101",
+      "requires_node_id": "72000000-0000-4000-8000-000000000100"
+    }
+  ],
+  "pathway_topics": [
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000004"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000005"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000006"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000007"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000009"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000010"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000011"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000012"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000013"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000015"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000016"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000017"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000018"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000019"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000021"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000022"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000023"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000025"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000026"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000027"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000029"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000030"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000033"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000034"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000035"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000036"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000038"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000039"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000040"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000041"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000043"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000044"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000045"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000046"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000047"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000049"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000050"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000051"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000054"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000055"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000056"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000058"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000059"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000061"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000062"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000063"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000065"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000066"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000069"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000070"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000071"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000073"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000074"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000076"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000077"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000078"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000080"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000081"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000084"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000085"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000086"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000087"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000088"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000089"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000090"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000092"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000093"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000094"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000095"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000096"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000097"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000099"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000100"
+    },
+    {
+      "pathway_id": "72000000-0000-4000-8000-000000000001",
+      "topic_id": "72000000-0000-4000-8000-000000000101"
+    }
+  ],
+  "exam_mapping": {
+    "valid_for_year": 2027,
+    "verification_status": "unverified",
+    "papers": []
+  }
+}

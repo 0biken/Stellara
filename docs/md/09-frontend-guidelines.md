@@ -2,7 +2,7 @@
 
 ## 1. Stack
 
-- Next.js 15 App Router, React Server Components for adult and static surfaces; client components for the child practice runtime.
+- Next.js 16 App Router, React Server Components for adult and static surfaces; client components for the child practice runtime. The foundation includes a minimal static shell only.
 - TypeScript `strict`. Zod for every boundary (function responses, IndexedDB records, content).
 - Styling: Tailwind with the tokens in [08](08-design-system.md#11-tokens-in-code). No CSS-in-JS runtime.
 - Data: `@supabase/supabase-js` for adult surfaces; a small typed client for Edge Functions; TanStack Query for caching on adult surfaces.
@@ -103,3 +103,5 @@ Measure the Opera Mini share in the pilot before investing further.
 - Components: props typed, no default exports in packages, stories required.
 - Commit style: Conventional Commits. PRs need one review plus green CI.
 - Feature flags (table `feature_flags`, cached) for anything not ready for every school.
+
+Historical baseline: the earlier draft specified Next.js 15 App Router. It was superseded by Next.js 16 on 13 November 2026 because Next.js 15 security support ends on 31 January 2027, before the pilot finishes. This note records the migration decision, not a second supported application stack.

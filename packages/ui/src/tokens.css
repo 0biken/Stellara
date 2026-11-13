@@ -1,0 +1,71 @@
+/* Generated from docs/tools/tokens.mjs; run pnpm docs:generate. */
+:root {
+  color-scheme: light dark;
+  --bg: #FFF8F1;
+  --surface: #FFFFFF;
+  --sunk: #FCEFE6;
+  --line: #F0DCD3;
+  --text: #3A2430;
+  --muted: #76606A;
+  --primary: #C23A68;
+  --on-primary: #FFFFFF;
+  --primary-tint: #FCE1EA;
+  --primary-ink: #A12E57;
+  --reward: #F6C445;
+  --reward-edge: #D9A22C;
+  --reward-tint: #FFF2CC;
+  --reward-ink: #845400;
+  --success: #86BF7E;
+  --success-tint: #E1F2DB;
+  --success-ink: #2D6537;
+  --hint: #FCE1EA;
+  --focus: #C23A68;
+  --error: #B42318;
+  --space-page: clamp(24px, 6vw, 80px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1E1518;
+    --surface: #291E22;
+    --sunk: #33262B;
+    --line: #47363C;
+    --text: #F7ECE7;
+    --muted: #C9B6BB;
+    --primary: #F39BB9;
+    --on-primary: #3A1123;
+    --primary-tint: #47222F;
+    --primary-ink: #F7B3CA;
+    --reward: #F2C55C;
+    --reward-edge: #C99A33;
+    --reward-tint: #3B2F1C;
+    --reward-ink: #F5D27E;
+    --success: #93C98A;
+    --success-tint: #20352A;
+    --success-ink: #A8D99F;
+    --hint: #47222F;
+    --focus: #F39BB9;
+    --error: #FF8A80;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1E1518;
+  --surface: #291E22;
+  --sunk: #33262B;
+  --line: #47363C;
+  --text: #F7ECE7;
+  --muted: #C9B6BB;
+  --primary: #F39BB9;
+  --on-primary: #3A1123;
+  --primary-tint: #47222F;
+  --primary-ink: #F7B3CA;
+  --reward: #F2C55C;
+  --reward-edge: #C99A33;
+  --reward-tint: #3B2F1C;
+  --reward-ink: #F5D27E;
+  --success: #93C98A;
+  --success-tint: #20352A;
+  --success-ink: #A8D99F;
+  --hint: #47222F;
+  --focus: #F39BB9;
+  --error: #FF8A80;
+}

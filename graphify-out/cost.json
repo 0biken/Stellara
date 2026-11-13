@@ -13,8 +13,17 @@
       "token_usage_available": false,
       "files": 19,
       "note": "Host agent usage not exposed; counters unknown."
+    },
+    {
+      "date": "2026-11-13T12:24:07.232770+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "token_usage_available": false,
+      "files": 16,
+      "note": "Host agent usage not exposed; counters unknown."
     }
   ],
   "total_input_tokens": 432717,
-  "total_output_tokens": 0
+  "total_output_tokens": 0,
+  "unreported_runs": 2
 }

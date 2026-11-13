@@ -60,7 +60,7 @@ main{padding:28px 0 80px;min-width:0}
   <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
   <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
 </svg>
-<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html" aria-current="page">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a></aside><main><h1 id="04--technical-architecture">04 · Technical architecture</h1>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html" aria-current="page">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a></aside><main><h1 id="04--technical-architecture">04 · Technical architecture</h1>
 <h2 id="1-summary">1. Summary</h2>
 <div class="table-wrap"><table><thead><tr>
 <th>Layer</th>
@@ -69,8 +69,8 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 </thead><tbody><tr>
 <td>Client</td>
-<td><strong>Next.js 15 (App Router), TypeScript, React</strong>, installed as a <strong>PWA</strong></td>
-<td>One codebase for child, parent, teacher, school admin and content studio; largest local hiring pool</td>
+<td><strong>Next.js 16 (App Router), TypeScript, React</strong>, installed as a <strong>PWA</strong></td>
+<td>Supported baseline selected 13 Nov 2026; Next.js 15 security support ends before the pilot finishes</td>
 </tr>
 <tr>
 <td>Offline</td>
@@ -150,6 +150,7 @@ main{padding:28px 0 80px;min-width:0}
     tests/               pgTAP tests for RLS and constraints
   docs/                  This documentation</code></pre>
 <p>Tooling: pnpm workspaces and Turborepo, ESLint, Prettier, Vitest, Playwright, pgTAP, Lighthouse CI.</p>
+<p>Foundation status: Node 22 and one root pnpm lockfile include the existing docs tools. Rules, schemas and a minimal web shell are implemented; PWA runtime, Playwright journeys, database policies and cloud resources remain later work. The implemented rules baseline is <code>v0.1.0</code>; all rule functions receive explicit state/time and perform no I/O. Content schemas have separate client and server exports; delivery code cannot import the server schemas or rules engine.</p>
 <h2 id="4-apps-and-route-groups">4. Apps and route groups</h2>
 <div class="table-wrap"><table><thead><tr>
 <th>Route group</th>

@@ -1,0 +1,71 @@
+{
+  "id": "M-01",
+  "topicId": "equivalent-fractions",
+  "events": [
+    {
+      "eventId": "three",
+      "kind": "practice",
+      "occurredAt": 1767441600000,
+      "responses": [
+        {
+          "eventId": "r0",
+          "itemId": "i0",
+          "itemVersion": "1",
+          "answeredAt": 1767268800000,
+          "learningDay": "2026-01-01",
+          "setId": "s0",
+          "correct": true,
+          "difficulty": "standard",
+          "application": false,
+          "responseMs": 2500,
+          "quick": false,
+          "hintShown": false,
+          "explanationShown": false,
+          "keyOnDevice": false,
+          "offline": false,
+          "grownup": false
+        },
+        {
+          "eventId": "r1",
+          "itemId": "i1",
+          "itemVersion": "1",
+          "answeredAt": 1767355200000,
+          "learningDay": "2026-01-02",
+          "setId": "s1",
+          "correct": true,
+          "difficulty": "standard",
+          "application": false,
+          "responseMs": 2500,
+          "quick": false,
+          "hintShown": false,
+          "explanationShown": false,
+          "keyOnDevice": false,
+          "offline": false,
+          "grownup": false
+        },
+        {
+          "eventId": "r2",
+          "itemId": "i2",
+          "itemVersion": "1",
+          "answeredAt": 1767441600000,
+          "learningDay": "2026-01-03",
+          "setId": "s0",
+          "correct": true,
+          "difficulty": "standard",
+          "application": false,
+          "responseMs": 2500,
+          "quick": false,
+          "hintShown": false,
+          "explanationShown": false,
+          "keyOnDevice": false,
+          "offline": false,
+          "grownup": false
+        }
+      ]
+    }
+  ],
+  "expected": {
+    "level": 0,
+    "evidenceCount": 3
+  }
+}

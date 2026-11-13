@@ -13,6 +13,19 @@ Real children's data never leaves production. Staging uses generated data only.
 
 ## 2. CI/CD (GitHub Actions)
 
+The current foundation workflow runs on pushes and pull requests with Node 22,
+one root pnpm lockfile and frozen installation. It enforces formatting, lint and
+import boundaries, strict typechecks, rules/schema/docs tests, rules branch
+coverage of at least 90%, a production web build, a client-bundle canary audit and
+generated-output freshness. There is no deployment, database provisioning or
+production-data access in this workflow. The diagram below describes later gates
+once their respective application and database features exist.
+
+Weekly-report adapters must use consecutive Sunday 18:00 Lagos snapshot periods,
+matching the pure rules package, rather than a Monday-to-Monday period that has
+not ended at dispatch time. Trusted pause tracking and the grace-period finalizer
+must share the same effective test deadline.
+
 ```mermaid
 flowchart LR
   PR[Pull request] --> L[Lint + typecheck]

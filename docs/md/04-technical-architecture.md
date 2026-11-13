@@ -4,7 +4,7 @@
 
 | Layer | Choice | Why |
 |---|---|---|
-| Client | **Next.js 15 (App Router), TypeScript, React**, installed as a **PWA** | One codebase for child, parent, teacher, school admin and content studio; largest local hiring pool |
+| Client | **Next.js 16 (App Router), TypeScript, React**, installed as a **PWA** | Supported baseline selected 13 Nov 2026; Next.js 15 security support ends before the pilot finishes |
 | Offline | Service worker (Serwist), **IndexedDB via Dexie**, outbound sync queue | Interruptions and data costs are normal |
 | Backend | **Supabase**: Postgres 15+, Row Level Security, Auth, Storage, Edge Functions (Deno), pg_cron, Realtime (teacher dashboard only) | Fast to start, Postgres underneath, RLS gives per-school isolation |
 | Rules engine | `packages/rules`: pure TypeScript, no I/O | Same code in Edge Functions, the content studio and tests |
@@ -59,6 +59,8 @@ stellara/
 ```
 
 Tooling: pnpm workspaces and Turborepo, ESLint, Prettier, Vitest, Playwright, pgTAP, Lighthouse CI.
+
+Foundation status: Node 22 and one root pnpm lockfile include the existing docs tools. Rules, schemas and a minimal web shell are implemented; PWA runtime, Playwright journeys, database policies and cloud resources remain later work. The implemented rules baseline is `v0.1.0`; all rule functions receive explicit state/time and perform no I/O. Content schemas have separate client and server exports; delivery code cannot import the server schemas or rules engine.
 
 ## 4. Apps and route groups
 

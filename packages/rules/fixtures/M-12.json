@@ -1,0 +1,60 @@
+{
+  "id": "M-12",
+  "topicId": "equivalent-fractions",
+  "events": [
+    {
+      "eventId": "first",
+      "kind": "practice",
+      "occurredAt": 1767268800000,
+      "responses": [
+        {
+          "eventId": "r0",
+          "itemId": "i0",
+          "itemVersion": "1",
+          "answeredAt": 1767268800000,
+          "learningDay": "2026-01-01",
+          "setId": "s0",
+          "correct": true,
+          "difficulty": "standard",
+          "application": false,
+          "responseMs": 2500,
+          "quick": false,
+          "hintShown": false,
+          "explanationShown": false,
+          "keyOnDevice": false,
+          "offline": false,
+          "grownup": false
+        }
+      ]
+    },
+    {
+      "eventId": "repeat",
+      "kind": "practice",
+      "occurredAt": 1767355200000,
+      "responses": [
+        {
+          "eventId": "r1",
+          "itemId": "i0",
+          "itemVersion": "2",
+          "answeredAt": 1767355200000,
+          "learningDay": "2026-01-02",
+          "setId": "s1",
+          "correct": true,
+          "difficulty": "standard",
+          "application": false,
+          "responseMs": 2500,
+          "quick": false,
+          "hintShown": false,
+          "explanationShown": false,
+          "keyOnDevice": false,
+          "offline": false,
+          "grownup": false
+        }
+      ]
+    }
+  ],
+  "expected": {
+    "level": 0,
+    "evidenceCount": 1
+  }
+}

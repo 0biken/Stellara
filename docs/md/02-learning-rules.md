@@ -1,6 +1,6 @@
 # 02 · Learning rules
 
-These are the rules the product runs on. Every number here is a **v0 proposal** to be tuned with pilot data. Rule changes need a version bump (`rules_version`) and new fixtures.
+These are the rules the product runs on. The implemented baseline is **v0.1.0**, with the clarifications approved on 13 November 2026 below. Thresholds remain subject to pilot tuning. Rule changes need a version bump (`rules_version`) and new fixtures. Technical acceptance does not replace product sign-off.
 
 Implementation: rules live in one pure TypeScript package, `packages/rules`, used by Edge Functions and tests. The UI never computes a scored outcome on its own. See [04](04-technical-architecture.md).
 
@@ -28,7 +28,7 @@ A response is **scored** when all of these are true:
 
 Everything else is stored as practice and never moves mastery.
 
-## 3. Mastery (rule v0)
+## 3. Mastery (rule v0.1.0)
 
 ### 3.1 Levels
 
@@ -48,8 +48,9 @@ Everything else is stored as practice and never moves mastery.
 
 ### 3.3 Caps
 
-- The placement check can set a topic to **Level 2 at most**.
-- Level 3 and above need responses with `confidence = 'normal'`.
+- Placement returns strand results and starting-topic recommendations only; it never changes topic mastery, including when all answers are correct.
+- Level 3 and above use only `confidence = 'normal'` responses for every count, accuracy window, assessment and retention requirement.
+- Returning to Level 4 after a retention downgrade starts a fresh 14-day wait (7 days when the exam is strictly under 42 days away).
 
 ### 3.4 Offline evidence
 
@@ -70,7 +71,7 @@ Offline practice packs may carry answer keys so children get instant feedback. T
 
 - After a topic reaches Level 2, schedule reviews at **+3, +10 and +30 days**.
 - A review is 3–5 items from the topic, mixed into the next review set.
-- If the exam date is within the interval, the interval shrinks so the last review falls at least 3 days before the exam.
+- Anchor the offsets at first attainment of Level 2. If necessary, proportionally scale all three offsets to the exam-minus-3-day cutoff, round down to whole calendar days, omit nonfuture dates and merge duplicates. Return `no_future_slot` when no future date fits.
 - A missed review stays due and does not pile up. At most 3 due topics are pulled into one review set.
 
 ## 5. Sets
@@ -80,7 +81,7 @@ Offline practice packs may carry answer keys so children get instant feedback. T
 | Practice set | 8–12 | No | Online: no. Offline pack: yes | Yes (§2, §3.4) |
 | Review set | 6–10 | No | No | Yes |
 | Topic Assessment | 10 | Soft limit: 15 min, shown as a calm bar | No | Yes; can unlock Level 3 |
-| Placement check | 20 per paper | No | No | Up to Level 2 |
+| Placement check | 20 per configured learning area | No | No | Strand summary only; no topic mastery |
 | Practice test | Blueprint (§5.1) | Yes, server timer | Never | Yes for item-level evidence; the test score is reported separately |
 
 ### 5.1 Practice test blueprint
@@ -102,6 +103,7 @@ The blueprint is configuration, not code: table `test_blueprints`. **The NCEE va
 - Answers are saved locally first, then sent in batches every 10 answers or every 30 s.
 - If the connection drops, the child keeps going. Locally saved answers with `answered_at <= ends_at` are accepted up to **15 minutes** after `ends_at`.
 - **Resume:** at most **2 resumes**, with a total pause of up to **20 minutes** (the app closed or the device switched off). The timer does not stop for a lost connection, only for an app close counted as a pause.
+- A validated pause extends `ends_at` by its actual duration. The future server adapter must validate pause evidence; an arbitrary client claim is insufficient. Answers during a pause are rejected. A third resume or excess total pause finalizes the session. The server accounts for an ongoing validated pause, bounded by the remaining pause allowance, before applying the grace period.
 - At `ends_at` plus the grace period, the server finalises the session and scores what it has.
 - A response time below 1,000 ms on more than 30% of items flags the session as `suspect_timing` (shown to the teacher, not the child).
 
@@ -118,6 +120,7 @@ Stardust is a motivation currency. **It never enters mastery** and is never sold
 | Topic reaches a new level | +25 |
 
 - **Daily cap:** 200 Stardust per learning day. Above the cap, events are logged with 0 value.
+- Awards are clamped to the remaining allowance: 195 plus a +10 event awards 5. A topic's new highest-level transition awards +25 once; a jump from Level 0 to Level 3 awards +25, and regaining an old level awards nothing. Correct scored placement answers earn ordinary Stardust.
 - All awards go to `stardust_ledger` (append-only), written only by the server.
 - No Stardust for opening lessons, watching or logging in.
 
@@ -141,9 +144,11 @@ Stardust is a motivation currency. **It never enters mastery** and is never sold
 
 Copy rule: never "lose", "break" or "don't miss". See [08 Design system §10](08-design-system.md#10-voice-in-the-interface).
 
+Voluntary qualifying practice during Rest Mode increases the run and can earn clouds; inactive Rest Mode days preserve it without using clouds. Repair within 48 hours restores the previous run plus actual qualifying activity; excused missed days do not increase its length. Event IDs prevent replay from counting or awarding twice.
+
 ## 8. Parent report rules
 
-The weekly report is generated on Sunday at 18:00 Lagos time for the learning week Monday 03:00 to Monday 03:00.
+The weekly report is generated on Sunday at 18:00 Lagos time using consecutive Sunday-18:00 cutoffs, with an inclusive start and exclusive end. Late-Sunday activity belongs to the next report. Display the actual period; do not describe this snapshot as a complete Monday-to-Monday learning week.
 
 | Block | Rule |
 |---|---|
@@ -156,9 +161,9 @@ The weekly report is generated on Sunday at 18:00 Lagos time for the learning we
 
 ## 9. Placement check
 
-- 20 items per paper, spread evenly across strands. Optional and resumable.
+- 20 items per configured learning area, spread evenly across strands. Optional and resumable. Learning areas are distinct from official exam papers.
 - Result per strand: "Looks secure so far" (≥ 75% correct and at least 4 items), "Check this" (< 50%), otherwise "Not yet measured enough".
-- It never reports topic-level results, never sets a topic above Level 2, and is never called a test.
+- It never reports topic-level results or changes topic mastery, and is never called a test.
 
 ## 10. Fixtures
 
@@ -176,7 +181,7 @@ QA fixtures live in `packages/rules/fixtures/*.json`. Each fixture is a response
 | M-08 | M-07 then retention check 4/5 after 14 days | `mastered` |
 | M-09 | M-08 then retention check 2/5 | `advanced` |
 | M-10 | 10 C, all offline `key_on_device` | `developing` (low-confidence cap) |
-| M-11 | Placement: 20/20 correct in a strand | Topics in it at most `developing` |
+| M-11 | Placement: 20/20 correct in a strand | Topic mastery remains unchanged (`not_assessed` for a new topic) |
 | M-12 | Same item answered C twice within 30 days | Second response not scored |
 | M-13 | Correct after hint shown | Not scored |
 | M-14 | Correct in 900 ms | Not scored |

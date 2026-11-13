@@ -29,7 +29,7 @@ test("freshness gate accepts clean outputs and rejects stale, deleted and new ou
     rmSync(join(root, "brand-kit/kit.html"));
     assert.equal(check().status, 1);
     git("restore", "brand-kit/kit.html");
-    for (const path of ["docs/html/new.html", "brand-kit/new.html", "docs/stellara-docs.html", "docs/assets/auntie-stella/new.svg", "docs/assets/logo/new.svg"]) {
+    for (const path of ["packages/ui/src/tokens.css", "docs/html/new.html", "brand-kit/new.html", "docs/stellara-docs.html", "docs/assets/auntie-stella/new.svg", "docs/assets/logo/new.svg"]) {
       write(path, "new\n");
       assert.equal(check().status, 1, path);
       assert.ok(check().stderr.includes(path), check().stderr);

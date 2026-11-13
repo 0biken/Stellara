@@ -51,7 +51,7 @@ Child JWT.
 {
   "set_id": "uuid",
   "items": [{ "item_id": "uuid", "version": 3, "type": "single_choice", "stem_html": "...", "options": [...], "media": [...], "hint_available": true }],
-  "rules_version": "v0.3"
+  "rules_version": "v0.1.0"
 }
 ```
 No answers or explanations are returned here.
@@ -83,6 +83,7 @@ Child JWT: `{ "topic_ids": ["uuid"], "max_items": 40 }` → a signed Storage URL
 ### `test-start` / `test-resume` / `test-finish`
 - `test-start { "blueprint_id": "uuid" }` → `{ "set_id", "server_now", "ends_at", "papers": [{ "paper", "items": [...] }] }`
 - `test-resume { "set_id" }` → `{ "server_now", "ends_at", "answered": ["item_id"], "resume_count", "paused_ms" }`. Error `RESUME_LIMIT` after 2 resumes or 20 minutes paused.
+- `ends_at` includes validated app-close pauses; a lost network connection does not extend it. Future server adapters validate pause and clock evidence before calling the pure rules package. Client claims alone are not trusted. Responses during a pause are rejected, and an exceeded resume/pause limit finalizes the session as it stands.
 - Responses go through `responses-submit` with `set_id`.
 - `test-finish { "set_id" }` → `{ "score_by_paper": [{ "paper", "correct", "total" }], "review_url" }`. The server also finalises automatically after `ends_at` plus 15 minutes.
 

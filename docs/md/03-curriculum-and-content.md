@@ -29,7 +29,9 @@ graph TD
 
 ## 3. Common Entrance coverage (MVP)
 
-| Paper | Strands (draft) | Topic count target |
+The five rows below are **learning areas**, not confirmed official exam papers. The 74-topic draft is in `packages/content-schema/data/curriculum-draft.json` and awaits academic approval. Exam papers and their area mappings are configured separately; the official 2027 mapping, counts and durations remain unverified. NECO's 2026 structure is a reference only, not evidence of the 2027 format.
+
+| Learning area | Strands (draft) | Topic count target |
 |---|---|---|
 | Mathematics | Number and numeration; Fractions, decimals, percentages; Measurement; Geometry; Everyday statistics; Algebraic processes | ~22 |
 | English | Comprehension; Vocabulary; Grammar and usage; Spelling and punctuation | ~16 |
@@ -114,6 +116,8 @@ stateDiagram-v2
 ```
 
 Publishing checks, run in the content studio and again in the database:
+
+Foundation status: Zod draft and publication schemas validate structure and available metadata. Maths rendering, media processing, readability measurement, staff verification and database publish constraints are separate future gates; a schema-valid object alone is not approved content.
 
 1. Provenance is set; a licence reference is present if the item is licensed.
 2. The reviewer is not the author.

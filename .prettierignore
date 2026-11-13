@@ -1,0 +1,13 @@
+node_modules/
+.pnpm-store/
+.next/
+.turbo/
+dist/
+coverage/
+graphify-out/
+.superpowers/
+docs/
+brand-kit/
+TASKLIST.md
+pnpm-lock.yaml
+packages/ui/src/tokens.css

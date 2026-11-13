@@ -1,0 +1,16 @@
+{
+  "id": "S-03",
+  "timezone": "Africa/Lagos",
+  "termId": "term-1",
+  "events": [
+    { "id": "s03-1", "day": "2027-01-01", "scored": 5, "completedReview": false, "outages": [] },
+    {
+      "id": "s03-2",
+      "day": "2027-01-02",
+      "scored": 0,
+      "completedReview": false,
+      "outages": [{ "start": 1798855200000, "end": 1798866000000 }]
+    }
+  ],
+  "expected": { "run": 1, "clouds": 2 }
+}
