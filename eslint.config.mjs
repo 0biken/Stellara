@@ -11,6 +11,7 @@ export default [
       "**/dist/**",
       "**/coverage/**",
       "**/.next/**",
+      "apps/web/out/**",
       "**/.turbo/**",
       "**/storybook-static/**",
       "**/test-results/**",

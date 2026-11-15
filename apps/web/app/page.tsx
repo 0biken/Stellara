@@ -51,6 +51,7 @@ function CheckIcon({ className }: { className?: string }) {
 
 export default function Home() {
   const copy = getCatalogue("en-NG");
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   // `delay` is when the drawn path reaches each star (100 ms start + share of a 720 ms draw).
   const heroStars: Array<{
@@ -133,7 +134,7 @@ export default function Home() {
               className="flex min-h-11 items-center gap-2.5 no-underline"
             >
               <img
-                src="/assets/logo/stellara-mark.svg"
+                src={`${basePath}/assets/logo/stellara-mark.svg`}
                 alt=""
                 width={40}
                 height={40}
@@ -270,7 +271,7 @@ export default function Home() {
                 </div>
               ))}
               <img
-                src="/assets/auntie-stella/auntie-stella-smiling.svg"
+                src={`${basePath}/assets/auntie-stella/auntie-stella-smiling.svg`}
                 alt={copy["landing.hero.auntieAlt"]}
                 width={104}
                 height={104}
@@ -362,7 +363,7 @@ export default function Home() {
             >
               <div className="flex items-center gap-3.5 bg-primary-tint px-6 py-5">
                 <img
-                  src="/assets/auntie-stella/auntie-stella-avatar-round.svg"
+                  src={`${basePath}/assets/auntie-stella/auntie-stella-avatar-round.svg`}
                   alt=""
                   width={48}
                   height={48}
@@ -623,7 +624,7 @@ export default function Home() {
         <section id="cta" aria-labelledby="cta-h" className="mx-auto max-w-[1120px] px-6 pb-[72px]">
           <div className="flex flex-wrap items-center gap-8 rounded-3xl bg-primary-tint px-10 py-12">
             <img
-              src="/assets/auntie-stella/auntie-stella-listening.svg"
+              src={`${basePath}/assets/auntie-stella/auntie-stella-listening.svg`}
               alt=""
               width={120}
               height={120}

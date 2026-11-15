@@ -5,6 +5,7 @@ graphify-out/cache/
 # Machine-local Graphify scratch state; share the graph and report instead.
 graphify-out/.graphify*
 .next/
+out/
 .turbo/
 .pnpm-store/
 dist/

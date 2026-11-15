@@ -8,6 +8,7 @@ import { SignInCard } from "./sign-in-card";
 
 export default function SignInPage() {
   const copy = getCatalogue("en-NG");
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   return (
     <div className="flex min-h-screen flex-col bg-bg text-text">
@@ -20,7 +21,7 @@ export default function SignInPage() {
               className="flex min-h-11 items-center gap-2.5 no-underline"
             >
               <img
-                src="/assets/logo/stellara-mark.svg"
+                src={`${basePath}/assets/logo/stellara-mark.svg`}
                 alt=""
                 width={36}
                 height={36}
