@@ -103,7 +103,7 @@ The mark is a working drawing. A designer redraws it once the name is cleared. T
 
 - Stacks: headings `Nunito, Inter, system-ui, sans-serif`; body `Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`.
 - Nunito is never used below 16 px or for long paragraphs.
-- Self-host subsetted WOFF2 (Latin, Latin Extended for Yoruba and Hausa letters, ₦). Run the glyph test (ẹ ọ ṣ ń ɓ ɗ ƙ ị ụ ₦) in CI against the subset files. **Known gap:** the Google Fonts build of Nunito has no **ƙ**, so Inter draws that letter. Before launch, either add ƙ to a custom Nunito subset or accept the fallback after checking Hausa headings on real Android phones.
+- Self-host subsetted WOFF2. The implemented Fontsource assets require **Latin, Latin Extended and Vietnamese** subsets: the Vietnamese Unicode ranges contain required dot-below and combining marks. Run the glyph check (`pnpm check:fonts`) against the subset files, including uppercase letters. **Known gap:** Nunito lacks **ƙƘ**, so the configured Inter fallback draws those letters. Before launch, either add them to a reviewed custom Nunito subset or accept the fallback after checking Hausa headings on real Android phones. See [18 §6](18-ui-foundations.md#6-local-fonts-and-nigerian-language-glyphs) for implementation details; a configured check does not establish that CI has passed.
 - Children under 8: body text never below 18 px. Parents: never below 15 px.
 - Lesson and test screens may fall back to system fonts if the font budget is exceeded.
 

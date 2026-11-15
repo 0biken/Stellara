@@ -2,7 +2,7 @@
 import { execFileSync } from "node:child_process";
 
 const paths = [
-  "packages/ui/src/tokens.css",
+  "packages/ui/src/tokens.css", "packages/ui/src/theme-colors.ts", "packages/ui/src/fonts.css",
   "docs/assets/auntie-stella/", "docs/assets/logo/", "docs/html/",
   "docs/stellara-docs.html", ":(glob)brand-kit/*.html",
 ];

@@ -9,28 +9,150 @@ body {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: "Segoe UI", system-ui, sans-serif;
+  font-family: var(--font-body);
 }
-main {
-  max-width: 780px;
-  margin-inline: auto;
-  padding: var(--space-page);
+
+/*
+ * Landing hero: motion.milestone, played once on load (08 §5).
+ * The pen draws the path at a steady pace, each star rises in as the line
+ * reaches it, and Auntie Stella settles in last. About 1.2 s, never blocks input.
+ */
+.st-hero-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: st-hero-draw 720ms linear 100ms both;
 }
-.brand {
-  color: var(--primary);
-  font-weight: 750;
-  letter-spacing: -0.03em;
+@keyframes st-hero-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
 }
-h1 {
-  font-size: clamp(2.5rem, 7vw, 4.5rem);
-  line-height: 1.08;
-  letter-spacing: -0.045em;
+.st-hero-star {
+  animation: st-reward-in var(--motion-reward) var(--ease-out) both;
+  animation-delay: var(--delay, 0ms);
 }
-p {
-  font-size: 1.125rem;
-  line-height: 1.6;
+.st-hero-late {
+  animation: st-fade-in var(--motion-reward) var(--ease-out) 700ms both;
 }
-.note {
-  margin-top: 3rem;
-  color: var(--muted);
+/* Below the fold (phones), the sequence waits until the card is seen. */
+[data-reveal="armed"] :is(.st-hero-draw, .st-hero-star, .st-hero-late) {
+  animation-play-state: paused;
+}
+
+/* "How a star grows": each star fills in turn, then the last one sprouts. */
+.st-star-fill {
+  transform: translateY(var(--fill-y));
+  transition: transform var(--motion-reward) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+[data-reveal="armed"] .st-star-fill {
+  transform: translateY(48px);
+}
+.st-sprout {
+  transform-origin: 24px 7px;
+  transition:
+    opacity 300ms var(--ease-out),
+    transform 300ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 80ms + 300ms);
+}
+[data-reveal="armed"] .st-sprout {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+/*
+ * Scroll-scrubbed "How a star grows". The reader's scroll paces each star
+ * filling and the path drawing to the next one, forwards and back.
+ * Native scroll-driven animations only. Browsers without them, and reduced
+ * motion, keep the one-time <Reveal> fill above. The step text never moves.
+ */
+.st-grow-path {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .st-grow-step {
+      view-timeline: --grow-step block;
+    }
+    .st-grow-step .st-star-fill {
+      transition: none;
+      animation: st-grow-fill linear both;
+      animation-timeline: --grow-step;
+      animation-range: entry 100% cover 45%;
+    }
+    .st-grow-step .st-sprout {
+      transition: none;
+      animation: st-grow-sprout linear both;
+      animation-timeline: --grow-step;
+      animation-range: cover 40% cover 50%;
+    }
+    .st-grow-path {
+      animation: st-grow-path linear both;
+      animation-timeline: --grow-step;
+      animation-range: cover 40% cover 55%;
+    }
+
+    /* One row of five (wide screens): one shared timeline, staged left to right. */
+    @media (min-width: 960px) {
+      .st-grow {
+        view-timeline: --grow block;
+      }
+      .st-grow-step .st-star-fill,
+      .st-grow-step .st-sprout,
+      .st-grow-path {
+        animation-timeline: --grow;
+      }
+      .st-grow-step .st-star-fill {
+        animation-range: contain calc(var(--i) * 10%) contain calc(var(--i) * 10% + 8%);
+      }
+      .st-grow-path {
+        animation-range: contain calc(var(--i) * 10% + 7%) contain calc(var(--i) * 10% + 11%);
+      }
+      /* Done by the time the row reaches mid-screen. */
+      .st-grow-step .st-sprout {
+        animation-range: contain 48% contain 55%;
+      }
+    }
+  }
+}
+@keyframes st-grow-fill {
+  from {
+    transform: translateY(48px);
+  }
+  to {
+    transform: translateY(var(--fill-y));
+  }
+}
+@keyframes st-grow-sprout {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@keyframes st-grow-path {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-hero-draw {
+    animation: none;
+  }
+  .st-hero-star {
+    animation-name: st-fade-in;
+  }
+  .st-star-fill {
+    transition: none;
+  }
+  [data-reveal="armed"] .st-star-fill {
+    transform: translateY(var(--fill-y));
+  }
+  .st-sprout {
+    transition: opacity 300ms var(--ease-out);
+  }
+  [data-reveal="armed"] .st-sprout {
+    transform: none;
+  }
 }

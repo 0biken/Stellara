@@ -1,6 +1,6 @@
 /* Generated from docs/tools/tokens.mjs; run pnpm docs:generate. */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --bg: #FFF8F1;
   --surface: #FFFFFF;
   --sunk: #FCEFE6;
@@ -21,10 +21,28 @@
   --hint: #FCE1EA;
   --focus: #C23A68;
   --error: #B42318;
+  --line-strong: #E3C7BC;
+  --link-on: #E9A3BB;
+  --link-off: #EAD5CD;
+  --cloud: #F6E7DF;
+  --outline: #3A2430;
+  --backdrop: rgb(30 21 24 / 0.4);
+  --shadow-raised: 0 24px 50px -28px rgb(58 36 48 / 0.45);
+  --font-display: "Nunito Variable", "Nunito", "Inter Variable", "Inter", system-ui, sans-serif;
+  --font-body: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --motion-press: 120ms;
+  --motion-ui: 200ms;
+  --motion-reward: 400ms;
   --space-page: clamp(24px, 6vw, 80px);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --bg: #1E1518;
     --surface: #291E22;
     --sunk: #33262B;
@@ -45,9 +63,17 @@
     --hint: #47222F;
     --focus: #F39BB9;
     --error: #FF8A80;
+    --line-strong: #5E4950;
+    --link-on: #B05E79;
+    --link-off: #4D3B41;
+    --cloud: #3A2D32;
+    --outline: #3A2430;
+    --backdrop: rgb(0 0 0 / 0.5);
+    --shadow-raised: 0 24px 50px -28px rgb(0 0 0 / 0.5);
   }
 }
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --bg: #1E1518;
   --surface: #291E22;
   --sunk: #33262B;
@@ -68,4 +94,20 @@
   --hint: #47222F;
   --focus: #F39BB9;
   --error: #FF8A80;
+  --line-strong: #5E4950;
+  --link-on: #B05E79;
+  --link-off: #4D3B41;
+  --cloud: #3A2D32;
+  --outline: #3A2430;
+  --backdrop: rgb(0 0 0 / 0.5);
+  --shadow-raised: 0 24px 50px -28px rgb(0 0 0 / 0.5);
+}
+@media (prefers-contrast: more) {
+  /* Repeats the Starlight selectors so this later block wins in both themes. */
+  :root,
+  :root:not([data-theme="light"]),
+  :root[data-theme="dark"] {
+    --muted: var(--text);
+    --line: var(--line-strong);
+  }
 }

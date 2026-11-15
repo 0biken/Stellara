@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UI foundations · Stellara docs</title>
+<script>try{var t=localStorage.getItem("stellara-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script><meta name="color-scheme" content="light dark">
+<style>
+:root{--bg:#FFF8F1;--surface:#FFFFFF;--surface-2:#FCEFE6;--fg:#3A2430;--muted:#76606A;--line:#F0DCD3;--accent:#C23A68;--accent-ink:#A12E57;--accent-soft:#FCE1EA;--code:#FCEFE6;--honey:#F6C445;--matcha:#86BF7E;--matcha-soft:#E1F2DB;--wordmark:#A12E57;color-scheme:light;--font-display:"Nunito","Inter",system-ui,sans-serif;--font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1E1518;--surface:#291E22;--surface-2:#33262B;--fg:#F7ECE7;--muted:#C9B6BB;--line:#47363C;--accent:#F39BB9;--accent-ink:#F7B3CA;--accent-soft:#47222F;--code:#33262B;--honey:#F2C55C;--matcha:#93C98A;--matcha-soft:#20352A;--wordmark:#F7B3CA;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 var(--font-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;line-height:1.2;letter-spacing:-.01em;text-wrap:balance;scroll-margin-top:72px}
+h1{font-size:36px;margin:0 0 18px} h2{font-size:24px;margin:44px 0 12px;padding-top:20px;border-top:1px solid var(--line)} h3{font-size:18px;font-weight:700;margin:28px 0 8px} h4{font-size:16px;font-weight:700}
+p,ul,ol{margin:0 0 14px;max-width:72ch}
+li{margin:4px 0}
+blockquote{margin:0 0 16px;padding:12px 16px;border-left:4px solid var(--matcha);background:var(--matcha-soft);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+code{font-family:var(--mono);font-size:.88em;background:var(--code);padding:1px 5px;border-radius:6px}
+pre.code{background:var(--code);padding:14px 16px;border-radius:14px;overflow-x:auto;font-size:13px;line-height:1.5;max-width:100%}
+pre.code code{background:none;padding:0}
+pre.mermaid{background:#FFFFFF;color:#3A2430;border:1px solid var(--line);border-radius:14px;padding:16px;overflow-x:auto;text-align:center}
+.table-wrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+input[type=checkbox]{margin-right:6px}
+.theme{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px}
+.theme button{font:500 12px var(--font-body);border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;cursor:pointer;min-height:30px}
+.theme button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(58,36,48,.2)}
+.wordmark{font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;color:var(--wordmark);font-size:21px;line-height:1}
+.brand{display:flex;gap:8px;align-items:center}
+.brand svg{width:30px;height:30px;flex:none}
+.brand small{font:500 13px var(--font-body);color:var(--muted);margin-left:2px}
+.dimmable svg{transition:filter .2s ease}
+:root[data-theme="dark"] .dimmable svg{filter:brightness(.9)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dimmable svg{filter:brightness(.9)}}
+
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:36px;max-width:1200px;margin:0 auto;padding:0 16px}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0;display:grid;align-content:start;gap:2px}
+aside .top{display:grid;gap:10px;margin-bottom:12px}
+aside a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:14px}
+aside a[aria-current]{background:var(--accent-soft);color:var(--accent-ink)}
+main{padding:28px 0 80px;min-width:0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;max-width:720px}
+.gallery figure{margin:0;text-align:center;font-size:13px;color:var(--muted)}.gallery img{width:100%}
+:root[data-theme="dark"] .gallery img{filter:brightness(.9)}
+@media (max-width:820px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}}
+</style></head>
+<body><div class="shell"><aside><div class="top"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+  
+  <path d="M50 27.5 Q49 22 50 17" stroke="#2D6537" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M50 18.5 C44 9 35 8.5 30.5 12.5 C34.5 19.5 43.5 21.5 50 18.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M50 16.5 C55 6 65.5 3.5 70.5 7.5 C67.5 15.5 57.5 19.5 50 16.5Z" fill="#86BF7E" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="3.6" fill="#C23A68" stroke="#3A2430" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M45.94 32.93Q50.00 27.00 54.06 32.93L58.80 39.84Q61.29 43.47 65.50 44.71L73.54 47.08Q80.43 49.11 76.05 54.81L70.94 61.45Q68.26 64.93 68.38 69.32L68.61 77.70Q68.81 84.89 62.04 82.48L54.14 79.67Q50.00 78.20 45.86 79.67L37.96 82.48Q31.19 84.89 31.39 77.70L31.62 69.32Q31.74 64.93 29.06 61.45L23.95 54.81Q19.57 49.11 26.46 47.08L34.50 44.71Q38.71 43.47 41.20 39.84Z" fill="#F6C445" stroke="#3A2430" stroke-width="2.6" stroke-linejoin="round"/>
+  <ellipse cx="35.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/><ellipse cx="64.5" cy="64" rx="4.2" ry="2.6" fill="#F4A9C2" opacity=".8"/>
+  <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
+  <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a><a href="18-ui-foundations.html" aria-current="page">18 UI foundations</a></aside><main><h1 id="18--ui-foundations">18 · UI foundations</h1>
+<p>This is the implementation guide for the Sweet garden UI foundation. Read it alongside <a href="08-design-system.html">08 · Design system</a>, <a href="09-frontend-guidelines.html">09 · Frontend guidelines</a>, <a href="10-qa-and-testing.html">10 · QA and testing</a> and <a href="16-ux-writing.html">16 · UX writing</a>. The source of the public component API is <code>packages/ui/src/index.ts</code>; TypeScript prop declarations remain authoritative.</p>
+<p>Storybook provides synthetic component and layout review fixtures. Its child, adult and studio archetypes show spacing, typography, supplied state and responsive composition. They do not establish a completed learning, reporting, authentication or authoring journey. The application route groups provide shells for later screens; <code>/basic</code> currently presents a server-rendered foundation heading and description. The description is not evidence that lessons or practice flows exist there.</p>
+<h2 id="1-package-boundaries-and-styles">1. Package boundaries and styles</h2>
+<p>Applications import reusable controls from <code>@stellara/ui</code> and load <code>@stellara/ui/styles.css</code> once at their root. <code>@stellara/ui/tokens.css</code> exposes the generated semantic tokens separately. The stylesheet includes local font faces, Tailwind, tokens, focus and motion rules. The application owns routing, data, translated labels and business decisions; UI components receive display props and callbacks.</p>
+<p><code>packages/ui/src/styles.css</code> maps tokens to Tailwind utilities such as <code>bg-surface</code>, <code>text-muted</code> and <code>font-heading</code>. <code>docs/tools/tokens.mjs</code> supplies the generated colours and design values. Change the source and run the generation command rather than editing generated tokens, font CSS or browser-chrome colour constants directly. Artwork may retain its approved illustration palette; controls use semantic tokens.</p>
+<p>Use <code>cx(...parts)</code> to join optional class names. It omits falsy values; it does not resolve conflicting Tailwind classes. Put application composites in <code>apps/web/components</code> and keep API clients, persistence, scoring and learning-day logic out of the UI package.</p>
+<h2 id="2-display-and-input-components">2. Display and input components</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Export</th>
+<th>Props and behaviour</th>
+</tr>
+</thead><tbody><tr>
+<td><code>Button</code></td>
+<td>Native button props plus <code>variant: primary / quiet / text</code>, <code>size: child / adult</code>, <code>loading</code>, <code>loadingLabel</code>, <code>block</code>. Defaults to <code>type=&quot;button&quot;</code>. Loading disables activation and exposes busy state. Supply translated loading text.</td>
+</tr>
+<tr>
+<td><code>buttonClasses</code></td>
+<td><code>(variant?, size?, className?)</code> returns the button styling for an anchor or another appropriate semantic element. It does not supply button behaviour.</td>
+</tr>
+<tr>
+<td><code>Field</code></td>
+<td><code>id</code>, <code>label</code>, optional <code>help</code> / <code>error</code>, and <code>children</code>. Use the same ID and matching help/error props on the child control so label and description references resolve.</td>
+</tr>
+<tr>
+<td><code>TextInput</code>, <code>PhoneInput</code>, <code>OtpInput</code></td>
+<td>Native input props plus required <code>id</code>, optional <code>help</code> / <code>error</code>. PhoneInput displays +234; it does not validate or normalise a phone number. OtpInput exposes numeric, one-time-code entry with a six-digit pattern; it does not verify an OTP.</td>
+</tr>
+<tr>
+<td><code>Select</code></td>
+<td>Native select props plus required <code>id</code>, optional <code>help</code> / <code>error</code>; provide native option children.</td>
+</tr>
+<tr>
+<td><code>Toggle</code></td>
+<td>Checkbox props except <code>type</code>, required <code>id</code> / <code>label</code>, optional <code>description</code>. Uses switch semantics. Use native <code>checked</code> / <code>onChange</code> for application-controlled state or <code>defaultChecked</code> for an uncontrolled fixture.</td>
+</tr>
+<tr>
+<td><code>AnswerTile</code></td>
+<td>Native button props, content and <code>state: default / selected / correct / not-quite / disabled</code>. Correct and not-quite require <code>stateLabel</code>. Resolved and disabled states lock activation; selection and correctness are supplied by the caller.</td>
+</tr>
+<tr>
+<td><code>QuestionCard</code></td>
+<td><code>header</code>, <code>stem</code>, optional <code>stimulus</code>, <code>stimulusLabel</code>, answer children. Supply a label whenever a stimulus exists. The stimulus uses native collapsible details on phones and a separate visible desktop block from 768 px.</td>
+</tr>
+<tr>
+<td><code>HintCard</code></td>
+<td><code>avatarSrc</code>, optional <code>avatarAlt</code>, <code>title</code> as reveal-button text, hint children, optional <code>onReveal</code>. Reveal notifies the caller; scoring consequences belong to the application.</td>
+</tr>
+<tr>
+<td><code>HintReveal</code></td>
+<td><code>label</code>, children, optional <code>onReveal</code>. Reveals once in the mounted instance; the callback does not calculate or persist a hint penalty.</td>
+</tr>
+<tr>
+<td><code>ProgressBar</code></td>
+<td>Numeric <code>value</code> / <code>max</code>, accessible <code>label</code>, visible <code>valueText</code>, optional <code>tone: success / primary</code>. Clamps finite display values and exposes numeric ARIA state; the caller formats the text.</td>
+</tr>
+<tr>
+<td><code>Timer</code></td>
+<td><code>remainingMs</code>, <code>totalMs</code>, <code>mode: bar / numeric</code>, <code>label</code>. A display only: it never starts a clock, extends a deadline or ends a test. <code>formatClock(ms)</code> produces a nonnegative rounded-up m:ss display.</td>
+</tr>
+<tr>
+<td><code>StarState</code></td>
+<td><code>level</code>, <code>label</code>, optional <code>size</code> / <code>className</code>. Levels: not_assessed, foundation, developing, proficient, advanced, mastered. Supply meaningful text; an empty label makes a star decorative when its parent already supplies an equivalent name.</td>
+</tr>
+<tr>
+<td><code>Sky</code></td>
+<td><code>stars: { id, label, level, x, y }[]</code>, <code>links: { from, to, lit }[]</code>, figure <code>label</code>, optional <code>onSelect(id)</code>. Coordinates are percentages; links refer to supplied IDs. The UI does not infer mastery or prerequisites.</td>
+</tr>
+<tr>
+<td><code>DayRow</code></td>
+<td>Group <code>label</code> and <code>days: { letter, label, mark }[]</code>, with mark star / cloud / empty. Give each day a complete accessible label; the short visual letter is decorative.</td>
+</tr>
+<tr>
+<td><code>StardustChip</code></td>
+<td>Already formatted <code>text</code>, optional <code>className</code>. It neither awards nor totals rewards.</td>
+</tr>
+<tr>
+<td><code>Picture</code></td>
+<td><code>id</code>, optional <code>size</code> / <code>className</code>. Decorative SVG. <code>pictureIds</code> / <code>PictureId</code> describe sun, moon, leaf, flower, fish, ball, cup, house and kite.</td>
+</tr>
+<tr>
+<td><code>PictureKey</code></td>
+<td><code>labels: Record&lt;PictureId,string&gt;</code>, <code>prompt</code>, <code>enteredLabel(count)</code>, <code>removeLabel</code>, <code>clearLabel</code>, optional <code>onComplete(sequence)</code>. Collects four entries, permits repetition and provides correction/reset controls. No sequence is persisted or logged by this component; verification belongs outside it.</td>
+</tr>
+<tr>
+<td><code>ProfilePicker</code></td>
+<td><code>title</code> and <code>profiles: { id, name, picture, href }[]</code>. Renders links and picture avatars, without photos or session switching logic.</td>
+</tr>
+<tr>
+<td><code>Icon</code></td>
+<td><code>name: IconName</code>, optional <code>size</code>, native SVG props. Decorative by default; put the accessible action name on the containing control.</td>
+</tr>
+<tr>
+<td><code>Dialog</code>, <code>Sheet</code></td>
+<td>Controlled <code>open</code> / <code>onOpenChange</code>, <code>title</code>, <code>closeLabel</code>, optional <code>description</code>, <code>children</code>, <code>variant: info / confirm</code>, <code>confirmation</code>, <code>closeOnBackdrop</code> / <code>className</code>. Sheet uses the bottom-sheet presentation. The caller must update open state when dismissal is requested.</td>
+</tr>
+<tr>
+<td><code>ExplanationSheet</code></td>
+<td>Dialog props except children/confirmation, plus readonly <code>steps</code>, <code>nextLabel</code>, <code>completeLabel</code>. Reveals steps progressively, then requests closing. Its step position resets when closed.</td>
+</tr>
+</tbody></table></div>
+<p><code>IconName</code> includes check, alert, sky, learn, practice, home, report, children, settings, privacy, school, classes, teachers, items, review, flags, palette, cloud, chevron, plus and close. <code>ButtonVariant</code>, <code>ButtonSize</code>, <code>ButtonProps</code>, <code>InputProps</code>, <code>AnswerState</code>, <code>AnswerTileProps</code>, <code>StarLevel</code>, <code>SkyStar</code>, <code>SkyLink</code>, <code>DayMark</code>, <code>Profile</code>, <code>PictureId</code> and <code>IconProps</code> describe the corresponding data shapes.</p>
+<p>For destructive actions supply <code>confirmation: { confirmationText, label, actionLabel, onConfirm }</code>. <code>variant=&quot;confirm&quot;</code> alone does not perform or authorise an operation. Typed confirmation matches exactly and case-sensitively without trimming, rejects empty confirmation text, and blocks duplicate confirmation in one opening. The application performs the resulting action and decides whether to close. Native modal opening supplies background inertness and focus containment; dismissal through Escape, the close button or an allowed backdrop hit requests <code>onOpenChange(false)</code>. Backdrop dismissal defaults to enabled. The component initially focuses its title and attempts to return focus to the prior trigger when closed. <code>DialogProps</code>, <code>TypedConfirmation</code> and <code>ExplanationSheetProps</code> are exported contracts.</p>
+<h2 id="3-shells-navigation-appearance-and-reports">3. Shells, navigation, appearance and reports</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Export</th>
+<th>Props and behaviour</th>
+</tr>
+</thead><tbody><tr>
+<td><code>ChildShell</code></td>
+<td><code>children</code>; a centred 480 px reading surface. Compose the child navigation separately.</td>
+</tr>
+<tr>
+<td><code>AdultShell</code></td>
+<td><code>children</code>; an adult reading surface up to the configured max-width. It does not supply account controls or routes.</td>
+</tr>
+<tr>
+<td><code>StudioShell</code></td>
+<td><code>children</code>, required <code>narrowMessage</code>. Below 1024 px the narrow-screen message replaces the studio content; this is layout behaviour, not an authorisation check.</td>
+</tr>
+<tr>
+<td><code>Nav</code></td>
+<td><code>label</code>, readonly <code>items: { id, label, href, icon? }[]</code>, optional <code>activeId</code>, <code>variant: child / adult</code>, <code>className</code>. Anchors use caller-provided destinations and aria-current for the active ID. Child navigation is sticky with bottom safe-area space; the adult list becomes vertical from 768 px.</td>
+</tr>
+<tr>
+<td><code>EmptyState</code></td>
+<td><code>title</code>, body <code>children</code>, <code>avatarSrc</code>, <code>avatarAlt</code>, optional <code>action: { label, href }</code>. Use the static listening illustration and a meaningful alt or empty decorative alt when surrounding text supplies its meaning.</td>
+</tr>
+<tr>
+<td><code>ReportBlock</code></td>
+<td><code>title</code>, body <code>children</code>, optional <code>value</code> / <code>className</code>, and discriminated <code>kind: stat / celebrate / practise-next / coverage / note</code>. Coverage requires <code>disclaimer</code>; other kinds do not accept it. Displays supplied facts without deriving reports.</td>
+</tr>
+<tr>
+<td><code>Appearance</code></td>
+<td><code>audience: parent / teacher</code>, <code>labels: AppearanceLabels</code>, optional <code>storage</code> adapter. The adapter supplies getItem/setItem/removeItem; null explicitly means storage is unavailable. This adult-only setting manages its own device preference.</td>
+</tr>
+</tbody></table></div>
+<p><code>AppearanceLabels</code> requires title, system, systemDescription, light, lightDescription, dark, darkDescription, saved and saveError strings. Use catalogue entries under <code>appearance.*</code>. Successful persistence announces the saved message; blocked storage announces the error message while the current appearance still changes. Children inherit the device theme and do not receive an appearance switch.</p>
+<p><code>ThemeChoice</code> is system / light / dark; <code>themeChoices</code> lists those choices and <code>themeStorageKey</code> is <code>stellara-theme</code>. <code>readThemeChoice</code> falls back to system for unavailable storage or invalid data, and <code>saveThemeChoice</code> reports whether persistence succeeded. System removes the stored override. <code>applyThemeChoice(choice, document?)</code> updates the root attribute and browser-chrome meta colours. <code>themeBootstrapScript</code> is trusted static code for the head before first paint; it reads storage safely and applies an override before CSS renders. <code>themeColors</code> supplies the generated light/dark browser colours. <code>isThemeChoice</code> validates stored values.</p>
+<p>The application root supplies colour-scheme metadata, separate light/dark theme-color metadata, the bootstrap script and the shared CSS. CSS follows the OS when there is no explicit data-theme override. Parent and teacher settings apply immediately and listen for same-origin storage and device preference changes. Persistence is per device, not per child or account.</p>
+<h2 id="4-state-ownership-and-accessibility">4. State ownership and accessibility</h2>
+<p>Treat supplied answer states, progress, star levels, day marks, coverage and rewards as facts computed elsewhere. Online answer tiles must wait for the server result. Offline grading is permitted only in the separately defined offline-pack flow. Timer callers calculate remaining time from the authoritative deadline and server offset, as described in <a href="09-frontend-guidelines.html#3-rules-for-the-child-runtime">09 §3</a>.</p>
+<p>UI callbacks express interaction intent. Route changes, submissions, network retries and state transitions stay with the application. Keep input state controlled when another part of a real flow needs it. Local disclosure and four-picture collection state belongs to the mounted leaf; remount deliberately when starting a different child&#39;s entry session. Do not treat a fixture callback as an authentication or submission implementation.</p>
+<p>Supply visible and accessible names from catalogues. Correctness and star state use text or shape as well as colour. Use semantic buttons, anchors and form controls rather than clickable containers. Child buttons target at least 48 px; adult buttons at least 44 px. Focus uses the semantic focus token. Motion uses transform and opacity, with movement removed under reduced motion. Browser checks are still needed for native dialog focus, Escape, inert background content and focus return; jsdom behaviour tests cannot prove those browser features.</p>
+<h2 id="5-copy-and-formatting">5. Copy and formatting</h2>
+<p>Production copy lives in <code>packages/i18n/src/en-NG.json</code>, with empty Yoruba, Hausa and Igbo catalogues ready for reviewed translations. <code>getCatalogue(locale?)</code> preserves English fallback. <code>formatMessage(key, values?, locale?)</code> gives typed key-specific ICU values; for example:</p>
+<pre class="code"><code>&lt;ProgressBar
+  value={6}
+  max={10}
+  label={formatMessage(&quot;nav.learn&quot;)}
+  valueText={formatMessage(&quot;progress.count&quot;, { current: 6, total: 10 })}
+/&gt;</code></pre>
+<p>Use <code>formatNumber</code>, <code>formatDate</code> and ICU plural messages instead of constructing copy with suffixes. <code>formatDate</code> defaults to Africa/Lagos and accepts an explicit timezone override. A missing translation falls back to English wording and en-NG value formatting for the whole message; standalone helpers map yo/ha/ig to yo-NG/ha-NG/ig-NG. Unknown runtime keys return the key, and invalid ICU or missing arguments throw <code>I18nFormatError</code>. Render formatted output as text, never through HTML insertion.</p>
+<p><code>ReportBlock</code> coverage displays the supplied coverage disclaimer; it must not become a score prediction. Keep error copy calm, appearance labels Daytime / Starlight / Match my phone, and child prompts within the UX writing limits. Story data such as sample names, arithmetic, form labels and SAMPLE confirmation text is explicitly synthetic review material. Replace it with approved catalogue copy and real data when implementing a screen.</p>
+<h2 id="6-local-fonts-and-nigerian-language-glyphs">6. Local fonts and Nigerian-language glyphs</h2>
+<p>Inter Variable is the body face. Headings use Nunito Variable with Inter Variable as the next font fallback. Both come from pinned Fontsource packages and are bundled as same-origin WOFF2 assets; the application and Storybook do not need Google Fonts requests.</p>
+<p>Keep <strong>Latin, Latin Extended and Vietnamese</strong> subsets for both families. The Vietnamese subset is required here for Unicode ranges containing Yoruba/Igbo dot-below and combining marks; its name describes the upstream file grouping, not the language of this product. Latin plus Latin Extended alone does not guarantee those glyphs.</p>
+<p><code>scripts/check-fonts.mjs</code> inspects the actual subset files with fontkit for <code>ẹọṣńɓɗƙịụ₦ẸỌṢŃƁƊƘỊỤ</code>. Inter must cover every required glyph. Nunito&#39;s known gaps are <code>ƙƘ</code>; headings rely on the configured Inter fallback for those letters. Keep the fallback in the stack and review real strings, including combining marks and uppercase variants. A glyph inventory check is separate from browser text rendering, layout and reading-order review.</p>
+<p><code>scripts/generate-fonts.mjs</code> writes local font-face rules from the pinned packages. The font subset byte report and <code>report:assets</code> are inventory information; neither establishes first-visit transfer, compression, cache behaviour or the full performance budgets in <a href="09-frontend-guidelines.html#4-performance-budgets">09 §4</a>.</p>
+<h2 id="7-commands-and-review-surfaces">7. Commands and review surfaces</h2>
+<p>Run from the repository root using the Node/pnpm versions declared in <code>package.json</code>:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead><tbody><tr>
+<td><code>pnpm storybook</code></td>
+<td>Start the Vite/React Storybook review server on port 6006.</td>
+</tr>
+<tr>
+<td><code>pnpm storybook:build</code></td>
+<td>Build its static review bundle.</td>
+</tr>
+<tr>
+<td><code>pnpm build</code></td>
+<td>Build workspace packages and the Next.js application. Build both application and Storybook before browser checks.</td>
+</tr>
+<tr>
+<td><code>pnpm test</code></td>
+<td>Run root boundary/copy-checker tests and package unit tests through Turbo.</td>
+</tr>
+<tr>
+<td><code>pnpm typecheck</code></td>
+<td>Check source and configured test projects.</td>
+</tr>
+<tr>
+<td><code>pnpm lint</code> / <code>pnpm format:check</code></td>
+<td>Check source conventions, package boundaries and formatting.</td>
+</tr>
+<tr>
+<td><code>pnpm check:copy</code></td>
+<td>Scan catalogue values and message-template copy; excludes implementation identifiers and HTML styles/scripts/attributes.</td>
+</tr>
+<tr>
+<td><code>pnpm check:fonts</code></td>
+<td>Check required glyph coverage in the shipped local subsets.</td>
+</tr>
+<tr>
+<td><code>pnpm test:browser</code></td>
+<td>Run configured Chromium and WebKit accessibility/interaction checks.</td>
+</tr>
+<tr>
+<td><code>pnpm test:visual</code></td>
+<td>Compare Chromium phone and desktop screenshots against reviewed baselines.</td>
+</tr>
+<tr>
+<td><code>pnpm check:client</code></td>
+<td>Check the configured application client boundary/build output.</td>
+</tr>
+<tr>
+<td><code>pnpm report:assets</code></td>
+<td>Report uncompressed built JS, CSS and font asset totals.</td>
+</tr>
+<tr>
+<td><code>pnpm docs:generate</code> / <code>pnpm docs:check</code></td>
+<td>Regenerate source-derived docs/assets and check generated output when deliberately updating it.</td>
+</tr>
+</tbody></table></div>
+<p>Storybook uses <code>packages/ui/.storybook/main.ts</code>, its local Tailwind/Vite plugin and <code>docs/assets</code> mapped to <code>/assets</code>. The preview imports the shared stylesheet and applies a toolbar-selected theme. Stories cover control states, long text and empty data, plus appearance, typography and the three synthetic archetypes. Appearance examples use isolated storage rather than changing the reviewer&#39;s saved preference.</p>
+<p>Playwright configuration is in <code>packages/ui/playwright.config.ts</code>. It serves the built Storybook and the built application, selects Chromium/WebKit accessibility projects, and separates visual-phone (390 × 844) and visual-desktop (1280 × 900) comparisons. Story helpers enumerate built stories and await font readiness. Accessibility tests exercise both explicit themes against the opposite OS preference; additional tests cover dialog behaviour and the basic page with JavaScript disabled. A screenshot comparison needs a deliberately reviewed platform-consistent baseline. Generating a new baseline alone does not establish correctness.</p>
+<p>These are configured checks and review procedures, <strong>not a claim that browser tests, visual acceptance or CI gates have passed</strong>. Record actual run results separately. Device testing, TalkBack, full journeys, representative performance measurement and the human gates in <a href="17-foundations-and-human-gates.html">17</a> remain distinct from component fixture review.</p>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>(function(){var r=document.documentElement,b=[].slice.call(document.querySelectorAll(".theme button"));function cur(){try{return localStorage.getItem("stellara-theme")||"auto"}catch(e){return r.getAttribute("data-theme")||"auto"}}function set(p){if(p==="light"||p==="dark")r.setAttribute("data-theme",p);else r.removeAttribute("data-theme");try{if(p==="auto")localStorage.removeItem("stellara-theme");else localStorage.setItem("stellara-theme",p)}catch(e){}b.forEach(function(x){x.setAttribute("aria-pressed",String(x.dataset.set===p))})}b.forEach(function(x){x.addEventListener("click",function(){set(x.dataset.set)})});set(r.getAttribute("data-theme")||cur())})();if(window.mermaid){mermaid.initialize({startOnLoad:true,theme:"base",themeVariables:{primaryColor:"#FCE1EA",primaryBorderColor:"#C23A68",primaryTextColor:"#3A2430",lineColor:"#A12E57",secondaryColor:"#E1F2DB",tertiaryColor:"#FFF2CC",fontFamily:"Inter, sans-serif"}});}</script>
+</body></html>

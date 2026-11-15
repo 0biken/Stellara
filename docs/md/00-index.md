@@ -34,6 +34,7 @@ A progressive web app, sold to private primary schools, that helps children lear
 | 15 | [Glossary](15-glossary.md) | Everyone |
 | 16 | [UX writing](16-ux-writing.md) | Design, product, content, engineering, school success |
 | 17 | [Foundations and human gates](17-foundations-and-human-gates.md) | Engineering, founder, academic lead, product |
+| 18 | [UI foundations](18-ui-foundations.md) | Design, engineering, QA |
 
 ## Reading order by role
 

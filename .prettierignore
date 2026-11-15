@@ -11,3 +11,8 @@ brand-kit/
 TASKLIST.md
 pnpm-lock.yaml
 packages/ui/src/tokens.css
+packages/ui/src/theme-colors.ts
+packages/ui/src/fonts.css
+storybook-static/
+test-results/
+playwright-report/
