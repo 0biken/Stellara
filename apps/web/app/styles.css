@@ -60,6 +60,82 @@ body {
   transform: scale(0.6);
 }
 
+/*
+ * Scroll-scrubbed "How a star grows". The reader's scroll paces each star
+ * filling and the path drawing to the next one, forwards and back.
+ * Native scroll-driven animations only. Browsers without them, and reduced
+ * motion, keep the one-time <Reveal> fill above. The step text never moves.
+ */
+.st-grow-path {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .st-grow-step {
+      view-timeline: --grow-step block;
+    }
+    .st-grow-step .st-star-fill {
+      transition: none;
+      animation: st-grow-fill linear both;
+      animation-timeline: --grow-step;
+      animation-range: entry 100% cover 45%;
+    }
+    .st-grow-step .st-sprout {
+      transition: none;
+      animation: st-grow-sprout linear both;
+      animation-timeline: --grow-step;
+      animation-range: cover 40% cover 50%;
+    }
+    .st-grow-path {
+      animation: st-grow-path linear both;
+      animation-timeline: --grow-step;
+      animation-range: cover 40% cover 55%;
+    }
+
+    /* One row of five (wide screens): one shared timeline, staged left to right. */
+    @media (min-width: 960px) {
+      .st-grow {
+        view-timeline: --grow block;
+      }
+      .st-grow-step .st-star-fill,
+      .st-grow-step .st-sprout,
+      .st-grow-path {
+        animation-timeline: --grow;
+      }
+      .st-grow-step .st-star-fill {
+        animation-range: contain calc(var(--i) * 10%) contain calc(var(--i) * 10% + 8%);
+      }
+      .st-grow-path {
+        animation-range: contain calc(var(--i) * 10% + 7%) contain calc(var(--i) * 10% + 11%);
+      }
+      /* Done by the time the row reaches mid-screen. */
+      .st-grow-step .st-sprout {
+        animation-range: contain 48% contain 55%;
+      }
+    }
+  }
+}
+@keyframes st-grow-fill {
+  from {
+    transform: translateY(48px);
+  }
+  to {
+    transform: translateY(var(--fill-y));
+  }
+}
+@keyframes st-grow-sprout {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@keyframes st-grow-path {
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .st-hero-draw {
     animation: none;

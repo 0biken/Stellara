@@ -296,16 +296,23 @@ export default function Home() {
               <p className="m-0 text-[17px] leading-7 text-muted">{copy["landing.grow.lead"]}</p>
             </div>
             <Reveal>
-              <ol className="m-0 flex list-none flex-wrap p-0">
+              {/* Where supported, the reader's scroll paces the growth (styles.css, "scroll-scrubbed"). */}
+              <ol className="st-grow m-0 flex list-none flex-wrap p-0">
                 {growSteps.map((step, i) => (
                   <li
                     key={step.label}
-                    className="flex min-w-0 flex-[1_1_180px] flex-col gap-2.5 pr-5 pb-6"
+                    style={{ "--i": i } as CSSProperties}
+                    className="st-grow-step flex min-w-0 flex-[1_1_180px] flex-col gap-2.5 pr-5 pb-6"
                   >
                     <div className="flex items-center gap-2">
                       <LandingStar stage={step.stage} size="step" index={i} />
                       {step.connector && (
-                        <div className="h-0 flex-1 border-t-2 border-dotted border-line-strong" />
+                        <div className="relative h-0 flex-1 border-t-2 border-dotted border-line-strong">
+                          <span
+                            aria-hidden="true"
+                            className="st-grow-path absolute -top-0.5 left-0 h-0.5 w-full rounded-full bg-reward"
+                          />
+                        </div>
                       )}
                     </div>
                     <h3 className="m-0 font-heading text-[19px] font-extrabold">{step.label}</h3>
