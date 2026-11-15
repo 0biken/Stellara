@@ -32,9 +32,12 @@
 .st-dialog {
   opacity: 1;
   transform: translateY(0) scale(1);
+  /* display and overlay stay discrete so the browser keeps the dialog visible while it fades out. */
   transition:
     opacity var(--motion-ui) var(--ease-out),
-    transform var(--motion-ui) var(--ease-out);
+    transform var(--motion-ui) var(--ease-out),
+    overlay var(--motion-ui) allow-discrete,
+    display var(--motion-ui) allow-discrete;
 }
 .st-dialog:not([open]) {
   opacity: 0;
@@ -58,7 +61,10 @@
 .st-dialog::backdrop {
   background: var(--backdrop);
   opacity: 1;
-  transition: opacity var(--motion-ui) var(--ease-out);
+  transition:
+    opacity var(--motion-ui) var(--ease-out),
+    overlay var(--motion-ui) allow-discrete,
+    display var(--motion-ui) allow-discrete;
 }
 
 .st-dialog {

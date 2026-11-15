@@ -10,6 +10,8 @@
 
 ## 2. Structure
 
+The implemented UI package, controlled component conventions, local font subsets and Storybook review commands are documented in [18 · UI foundations](18-ui-foundations.md). Its synthetic review fixtures precede the real application journeys described here.
+
 ```
 apps/web/
   app/

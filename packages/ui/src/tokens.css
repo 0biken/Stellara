@@ -103,7 +103,10 @@
   --shadow-raised: 0 24px 50px -28px rgb(0 0 0 / 0.5);
 }
 @media (prefers-contrast: more) {
-  :root {
+  /* Repeats the Starlight selectors so this later block wins in both themes. */
+  :root,
+  :root:not([data-theme="light"]),
+  :root[data-theme="dark"] {
     --muted: var(--text);
     --line: var(--line-strong);
   }
