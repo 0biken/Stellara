@@ -21,6 +21,11 @@ export const THEMES = {
     hint: "#47222F", focus: "#F39BB9", error: "#FF8A80",
   },
 };
+// Supporting colours from 08 §6 and §11: decorative or non-text, so they sit outside the contrast table.
+export const SUPPORTING = {
+  light: { "line-strong": "#E3C7BC", "link-on": "#E9A3BB", "link-off": "#EAD5CD", cloud: "#F6E7DF", outline: "#3A2430", backdrop: "rgb(30 21 24 / 0.4)", "shadow-raised": "0 24px 50px -28px rgb(58 36 48 / 0.45)" },
+  dark: { "line-strong": "#5E4950", "link-on": "#B05E79", "link-off": "#4D3B41", cloud: "#3A2D32", outline: "#3A2430", backdrop: "rgb(0 0 0 / 0.5)", "shadow-raised": "0 24px 50px -28px rgb(0 0 0 / 0.5)" },
+};
 // [foreground, background, minimum ratio, label]
 export const PAIRS = [
   ["text", "bg", 4.5, "Body text on background"],
