@@ -32,9 +32,12 @@
 .st-dialog {
   opacity: 1;
   transform: translateY(0) scale(1);
+  /* display and overlay stay discrete so the browser keeps the dialog visible while it fades out. */
   transition:
     opacity var(--motion-ui) var(--ease-out),
-    transform var(--motion-ui) var(--ease-out);
+    transform var(--motion-ui) var(--ease-out),
+    overlay var(--motion-ui) allow-discrete,
+    display var(--motion-ui) allow-discrete;
 }
 .st-dialog:not([open]) {
   opacity: 0;
@@ -58,7 +61,10 @@
 .st-dialog::backdrop {
   background: var(--backdrop);
   opacity: 1;
-  transition: opacity var(--motion-ui) var(--ease-out);
+  transition:
+    opacity var(--motion-ui) var(--ease-out),
+    overlay var(--motion-ui) allow-discrete,
+    display var(--motion-ui) allow-discrete;
 }
 
 .st-dialog {
@@ -121,10 +127,70 @@
   transition: transform var(--motion-ui) var(--ease-out);
 }
 
+/*
+ * Scroll reveal. Content is visible by default (no JS, already on screen).
+ * <Reveal> marks a region "armed" only when it starts below the fold, then
+ * "shown" once it scrolls in, so nothing flashes and nothing replays.
+ */
+.st-reveal {
+  transition:
+    opacity 300ms var(--ease-out),
+    transform 300ms var(--ease-out);
+}
+[data-reveal="armed"] .st-reveal {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/*
+ * Progress bar fill. Translates inside a rounded, clipped track so the
+ * leading end keeps its round cap (scaleX would squash it).
+ * Set --fill (0–1) inline.
+ */
+.st-bar {
+  width: 100%;
+  transform: translateX(calc((var(--fill, 0) - 1) * 100%));
+  transition: transform 480ms var(--ease-out);
+  transition-delay: calc(120ms + var(--i, 0) * 40ms);
+}
+[data-reveal="armed"] .st-bar {
+  transform: translateX(-100%);
+}
+
+/* Link colour eases on hover, only where hover is real. */
+@media (hover: hover) and (pointer: fine) {
+  .st-link {
+    transition:
+      color 150ms var(--ease-out),
+      border-color 150ms var(--ease-out);
+  }
+}
+
+/* Route changes (React <ViewTransition>): shared elements glide, the rest crossfades. */
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 240ms;
+  animation-timing-function: var(--ease-out);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .st-press,
-  .st-fill {
+  .st-fill,
+  .st-bar {
     transition: none;
+  }
+  .st-reveal {
+    transition: opacity 300ms var(--ease-out);
+  }
+  [data-reveal="armed"] .st-reveal {
+    transform: none;
+  }
+  [data-reveal="armed"] .st-bar {
+    transform: translateX(calc((var(--fill, 0) - 1) * 100%));
+  }
+  ::view-transition-group(*) {
+    animation: none;
   }
   .st-press:active:not(:disabled) {
     transform: none;

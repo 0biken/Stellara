@@ -42,7 +42,10 @@ ${declarations(dark).replace(/^/gm, "  ")}
 ${declarations(dark)}
 }
 @media (prefers-contrast: more) {
-  :root {
+  /* Repeats the Starlight selectors so this later block wins in both themes. */
+  :root,
+  :root:not([data-theme="light"]),
+  :root[data-theme="dark"] {
     --muted: var(--text);
     --line: var(--line-strong);
   }

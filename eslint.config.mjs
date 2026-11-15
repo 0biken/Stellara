@@ -1,6 +1,7 @@
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTypescript from "eslint-config-next/typescript";
 import importX from "eslint-plugin-import-x";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 import tseslint from "typescript-eslint";
 
 export default [
@@ -11,10 +12,14 @@ export default [
       "**/coverage/**",
       "**/.next/**",
       "**/.turbo/**",
+      "**/storybook-static/**",
+      "**/test-results/**",
+      "**/playwright-report/**",
       "apps/web/next-env.d.ts",
     ],
   },
   ...tseslint.configs.recommended,
+  { ...jsxA11y.flatConfigs.recommended, files: ["packages/ui/**/*.{ts,tsx}"] },
   ...[...nextVitals, ...nextTypescript].map((config) => ({
     ...config,
     files: ["apps/web/**/*.{ts,tsx}"],
