@@ -5,6 +5,8 @@ Built on 12 Nov 2026 from `docs/md/00–15` and the knowledge graph in `graphify
 
 **Where things stand now (13 Nov 2026):** the pnpm/Turborepo monorepo, minimal Next.js 16 web shell, pure `v0.1.0` rules engine, validated content schemas and 74-topic curriculum draft exist. Local quality checks pass, including all 18 required rules fixtures and 99.73% rules branch coverage. Supabase folders reserve later work only; no cloud resources or database migrations are provisioned. Product sign-off, academic approval, official 2027 exam mapping, contributor signatures and supplier quotes remain pending. See [foundation gates](docs/md/17-foundations-and-human-gates.md).
 
+**Update (16 Nov 2026):** the design-system work in 2B is done ahead of schedule (2.9–2.12, most of 2.13): Sweet garden tokens, the `@stellara/ui` component library with Storybook, accessibility and visual tests, the theme bootstrap, ICU i18n with the copy lint, route-group shells, the public landing page, a sign-in screen (UI only) and a GitHub Pages deploy. These commits are on `stellara-landing` and not yet merged to `main`. Estimated progress: engineering toward the MVP about 15%, whole plan to M6 about 10%. Still at 0%: the Supabase backend (2A), learning runtime (2C), offline (2D), every portal screen, content authoring (2.33) and every legal/business gate in 1A.
+
 Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 
 ---
@@ -65,11 +67,16 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 - [ ] **2.8 Write the seed data:** a demo school and synthetic children. **[Eng]**
 
 ### 2B. Design system and web shell (in parallel, from 30 Nov)
-- [ ] **2.9 Set up `packages/ui` tokens** (light and dark) and wire them into Tailwind. `tokens.mjs` contrast runs in CI. **[Eng/Design]** 📄 08, 09 §8
-- [ ] **2.10 Build the components from 08 §6 in Storybook,** with axe checks and light and dark snapshots. **[Eng]**
-- [ ] **2.11 Build the theme bootstrap:** an inline no-flash script, `color-scheme` and `theme-color` metas, and the per-device Appearance setting. **[Eng]** 📄 09 §8
-- [ ] **2.12 Set up `packages/i18n`** (ICU, en-NG, with yo/ha/ig catalogues that fall back to English). Add the forbidden-phrase lint and apply 16-ux-writing. **[Eng]** 📄 09 §6, 10 §4
-- [ ] **2.13 Create the route groups** `(child) (family) (teach) (school) (studio) (ops) /basic`. **[Eng]** 📄 04 §4
+- [x] **2.9 Set up `packages/ui` tokens** (light and dark) and wire them into Tailwind. `tokens.mjs` contrast runs in CI. **[Eng/Design]** 📄 08, 09 §8
+- [x] **2.10 Build the components from 08 §6 in Storybook,** with axe checks and light and dark snapshots. **[Eng]** About 25 components; Playwright accessibility and visual specs run in CI. API documented in [18 · UI foundations](docs/md/18-ui-foundations.md).
+- [x] **2.11 Build the theme bootstrap:** an inline no-flash script, `color-scheme` and `theme-color` metas, and the per-device Appearance setting. **[Eng]** 📄 09 §8 The `Appearance` component exists but is not yet mounted on a parent or teacher settings page.
+- [x] **2.12 Set up `packages/i18n`** (ICU, en-NG, with yo/ha/ig catalogues that fall back to English). Add the forbidden-phrase lint and apply 16-ux-writing. **[Eng]** 📄 09 §6, 10 §4 Lint is `pnpm check:copy`; yo/ha/ig contain no real translations yet.
+- [ ] **2.13 Create the route groups** `(child) (family) (teach) (school) (studio) (ops) /basic`. **[Eng]** 📄 04 §4 Done except `(teach)`; existing groups are empty layout shells and `/basic` shows a heading only.
+
+### 2B+. Extra work completed (not in the original plan)
+- [x] **Public landing page** with the scroll-scrubbed "How a star grows" section and theme toggle. **[Eng/Design]**
+- [x] **Sign-in screen (UI only).** Not connected to Supabase Auth; that arrives with 2.4. **[Eng]**
+- [x] **GitHub Pages static-export deploy workflow** for the web app. **[Eng]**
 
 ### 2C. Learning runtime (7 Dec – 10 Jan) ⟶ 1.12, 2.1–2.5
 - [ ] **2.14 Build `set-start`** for practice, review, topic assessment and placement sets. Payloads carry no keys. **[Eng]**
