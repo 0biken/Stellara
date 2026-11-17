@@ -1,4 +1,8 @@
-import { createClient, type Session as SupabaseSession } from "@supabase/supabase-js";
+import {
+  createClient,
+  type Session as SupabaseSession,
+  type SupabaseClient,
+} from "@supabase/supabase-js";
 
 import type { AuthAdapter, Session } from "./types";
 
@@ -31,10 +35,24 @@ export function callbackUrl(basePath: string, next: string): string {
   return `${window.location.origin}${basePath}/auth/callback/?next=${encodeURIComponent(next)}`;
 }
 
+let shared: { key: string; client: SupabaseClient } | undefined;
+
+/** One browser client per page, shared by sign-in and the family and learning APIs. */
+export function supabaseClient(config: Pick<SupabaseConfig, "url" | "publishableKey">) {
+  const key = `${config.url}|${config.publishableKey}`;
+  if (shared?.key !== key) {
+    shared = {
+      key,
+      client: createClient(config.url, config.publishableKey, {
+        auth: { flowType: "pkce", detectSessionInUrl: true, persistSession: true },
+      }),
+    };
+  }
+  return shared.client;
+}
+
 export function createSupabaseAdapter(config: SupabaseConfig): AuthAdapter {
-  const client = createClient(config.url, config.publishableKey, {
-    auth: { flowType: "pkce", detectSessionInUrl: true, persistSession: true },
-  });
+  const client = supabaseClient(config);
 
   return {
     mode: "supabase",
