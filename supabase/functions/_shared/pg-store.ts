@@ -207,6 +207,7 @@ export class PgStore implements RuntimeStore {
         topic_id: state.topicId,
         level: state.level,
         scored_count: state.evidence.length,
+        updated_at: Date.now(),
         state,
       },
       ["child_id", "topic_id"],
