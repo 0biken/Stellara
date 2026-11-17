@@ -22,7 +22,7 @@
 | Parent name, phone or email | Parent | Account, consent, reports | |
 | Child first name, birth year, class, avatar choice | Parent | Learning, school link | **No photos, no surname required, no NIN or ID numbers** |
 | Learning records (responses, timings, mastery) | System | Core learning, reports | |
-| Teacher name, phone or email, school | School | Account, class management | |
+| School admin name, phone or email, school | School | Account, class management | |
 | Device and technical data | System | Security, performance | IP addresses hashed in the audit log after 30 days |
 
 We never collect from children: photos, voice, free text, location, contacts, or exam registration numbers.
@@ -57,7 +57,6 @@ The record holds: who consented, which child, the notice version, the purposes, 
 |---|---|
 | Child | Own sky, own sets and results |
 | Guardian | Own children's full records |
-| Teacher | Children in assigned classes: first name, avatar, mastery, sets. Not guardian contact details |
 | School admin | Aggregates across the school, class lists, licence usage. Guardian contact details only for consenting parents and only the channel the school already holds |
 | Content roles | Content only; no learner data |
 | Ops | Learner data only through audited support tools, with a reason recorded |

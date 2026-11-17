@@ -14,14 +14,14 @@
 
 ## 2. Key journeys (Playwright)
 
-1. School admin invites a teacher → the teacher creates a class → gets a join code.
+1. School admin creates a class → gets a join code.
 2. A parent signs up with an OTP → consents → creates a child with the join code.
 3. The child sets a PIN → does the placement check → sees the sky.
 4. The child takes a lesson → practice set → mastery changes appear.
 5. The child downloads a pack → goes offline → answers 10 items → comes back online → sync → the day is credited.
 6. The child starts a practice test → loses connection for 3 minutes → keeps answering → reconnects → finishes; the score is correct.
 7. The child closes the app mid-test twice → resumes → the third resume is refused and the test is finalised.
-8. A teacher assigns a set → the child sees it first → the teacher sees completion.
+8. School admin starts class mode → the child signs in with the class code and picture PIN → finishes a set.
 9. Weekly report generation → the parent opens the report → no forbidden phrases (§4).
 10. The parent requests export and deletion → requests are fulfilled within the SLA in staging.
 

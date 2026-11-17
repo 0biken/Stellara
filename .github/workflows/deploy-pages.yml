@@ -23,6 +23,13 @@ jobs:
       NEXT_TELEMETRY_DISABLED: 1
       GITHUB_PAGES: "true"
       NEXT_PUBLIC_BASE_PATH: /Stellara
+      # Optional: without these repository variables the site runs sign-in in preview mode.
+      NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+      # Optional: without a DSN Sentry stays off and its SDK is never downloaded.
+      NEXT_PUBLIC_SENTRY_DSN: ${{ vars.NEXT_PUBLIC_SENTRY_DSN }}
+      NEXT_PUBLIC_SENTRY_ENVIRONMENT: pages-preview
+      NEXT_PUBLIC_SENTRY_RELEASE: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,6 +37,7 @@ jobs:
           node-version: 22
       - uses: pnpm/action-setup@v4
       - run: pnpm install --frozen-lockfile
+      # Also adds the hashed CSP <meta> to every page (apps/web/scripts/apply-csp.mjs).
       - run: pnpm turbo run build --filter=@stellara/web
       - run: touch apps/web/out/.nojekyll
       - uses: actions/upload-pages-artifact@v3

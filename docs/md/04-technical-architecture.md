@@ -6,7 +6,7 @@
 |---|---|---|
 | Client | **Next.js 16 (App Router), TypeScript, React**, installed as a **PWA** | Supported baseline selected 13 Nov 2026; Next.js 15 security support ends before the pilot finishes |
 | Offline | Service worker (Serwist), **IndexedDB via Dexie**, outbound sync queue | Interruptions and data costs are normal |
-| Backend | **Supabase**: Postgres 15+, Row Level Security, Auth, Storage, Edge Functions (Deno), pg_cron, Realtime (teacher dashboard only) | Fast to start, Postgres underneath, RLS gives per-school isolation |
+| Backend | **Supabase**: Postgres 15+, Row Level Security, Auth, Storage, Edge Functions (Deno), pg_cron | Fast to start, Postgres underneath, RLS gives per-school isolation |
 | Rules engine | `packages/rules`: pure TypeScript, no I/O | Same code in Edge Functions, the content studio and tests |
 | Messaging | WhatsApp Business API through a Nigerian-friendly provider, SMS fallback (registered sender ID) | Parents live on WhatsApp |
 | Payments | School licences invoiced (Paystack invoices or bank transfer). Parent add-on later through Paystack | B2B first |
@@ -27,7 +27,7 @@ flowchart LR
   end
   UI -- HTTPS JWT --> PR[Supabase PostgREST]
   UI -- HTTPS JWT --> EF[Edge Functions]
-  UI -- OTP / session --> AUTH[Supabase Auth]
+  UI -- sign-in / session --> AUTH[Supabase Auth]
   EF --> DB[(Postgres + RLS)]
   PR --> DB
   EF --> ST[(Storage: media, packs, exports)]
@@ -44,7 +44,7 @@ flowchart LR
 ```
 stellara/
   apps/
-    web/                 Next.js app (child, parent, teacher, school, studio route groups)
+    web/                 Next.js app (child, parent, school, studio, ops route groups)
   packages/
     rules/               Mastery, scoring, Stardust, streak, report rules + fixtures
     ui/                  Design-system components and tokens (see 08)
@@ -60,15 +60,14 @@ stellara/
 
 Tooling: pnpm workspaces and Turborepo, ESLint, Prettier, Vitest, Playwright, pgTAP, Lighthouse CI.
 
-Foundation status: Node 22 and one root pnpm lockfile include the existing docs tools. Rules, schemas and a minimal web shell are implemented; PWA runtime, Playwright journeys, database policies and cloud resources remain later work. The implemented rules baseline is `v0.1.0`; all rule functions receive explicit state/time and perform no I/O. Content schemas have separate client and server exports; delivery code cannot import the server schemas or rules engine.
+Foundation status: Node 22 and one root pnpm lockfile include the existing docs tools. Rules, schemas and a minimal web shell are implemented; PWA runtime, Playwright journeys, database policies and cloud resources remain later work. The implemented rules baseline is `v0.1.0`; all rule functions receive explicit state/time and perform no I/O. Content schemas have separate client and server exports; delivery code cannot import the server schemas or rules engine. The learning runtime core (`packages/runtime`: `set-start`, `responses-submit` and the scheduled-job logic) is pure and storage-agnostic behind a `RuntimeStore` port and is tested against an in-memory store. Delivery code cannot import it either. Its Deno and Postgres adapters follow the 2A migrations.
 
 ## 4. Apps and route groups
 
 | Route group | Users | Auth |
 |---|---|---|
 | `/(child)` | Children | Child session token issued to a signed-in parent device or a class device (§6) |
-| `/(family)` | Parents | Supabase Auth (phone OTP or email) |
-| `/(teach)` | Teachers | Supabase Auth plus a school membership |
+| `/(family)` | Parents | Supabase Auth (Google or email link) |
 | `/(school)` | School admins | Supabase Auth plus the `school_admin` role |
 | `/(studio)` | Authors and reviewers | Supabase Auth plus a content role; desktop only |
 | `/(ops)` | Stellara staff | Supabase Auth plus the `ops` role, IP allow-list, MFA |
@@ -97,10 +96,10 @@ sequenceDiagram
 
 ## 6. Identity and sessions
 
-- **Adults** use Supabase Auth: phone OTP (WhatsApp first, then SMS), or an email magic link. Staff roles require MFA (TOTP).
+- **Adults** use Supabase Auth: Google sign-in, or an email magic link as the fallback. Phone OTP (WhatsApp first, then SMS) is a later option. Staff roles require MFA (TOTP). The web app is a static export, so sign-in runs in the browser with the PKCE flow and returns to `/auth/callback/`; until a Supabase project exists, a clearly labelled preview session stands in.
 - **Children have no Supabase Auth user.** A child acts through a **child session**:
   - **Family device:** the parent is signed in. The child picks their profile and enters a 4-picture PIN. The Edge Function `child-session` returns a short-lived JWT (2 h, refreshable on the device for 30 days) with claims `{ role: 'child', child_id, guardian_id }`.
-  - **School device:** the teacher starts "class mode" with a class code. The child picks their name and enters their picture PIN. The JWT has `{ role: 'child', child_id, class_id, school_id, mode: 'class' }` and expires at the end of the school day.
+  - **School device:** the school admin starts "class mode" with a class code. The child picks their name and enters their picture PIN. The JWT has `{ role: 'child', child_id, class_id, school_id, mode: 'class' }` and expires at the end of the school day.
 - PINs are stored as salted hashes (argon2id) in `child_pins`. Five wrong attempts lock the profile for 5 minutes.
 - Shared phones: each child profile has its own IndexedDB partition, keyed by `child_id`.
 

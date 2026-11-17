@@ -11,7 +11,7 @@
 
 ## What is being built
 
-A progressive web app, sold to private primary schools, that helps children learn in short daily steps and shows parents real proof of progress. The first release (MVP) is **Common Entrance preparation** for Primary 5–6, with a weekly parent report and a teacher dashboard. The intermediate section (Primary 1–6) and the creche/KG section follow in later phases.
+A progressive web app, sold to private primary schools, that helps children learn in short daily steps and shows parents real proof of progress. The first release (MVP) is **Common Entrance preparation** for Primary 5–6, with a weekly parent report and a school overview. The intermediate section (Primary 1–6) and the creche/KG section follow in later phases.
 
 ## Documents
 

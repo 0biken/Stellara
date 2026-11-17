@@ -1,0 +1,93 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":pinAllExceptPeerDependencies",
+    ":semanticCommits",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "timezone": "Africa/Lagos",
+  "schedule": ["after 4pm every weekday", "every weekend"],
+  "prHourlyLimit": 2,
+  "prConcurrentLimit": 8,
+  "minimumReleaseAge": "3 days",
+  "rangeStrategy": "pin",
+  "postUpdateOptions": ["pnpmDedupe"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on monday"]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"],
+    "schedule": ["at any time"],
+    "minimumReleaseAge": null
+  },
+  "osvVulnerabilityAlerts": true,
+  "dependencyDashboard": true,
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "description": "Group framework packages that must move together.",
+      "matchPackageNames": [
+        "next",
+        "eslint-config-next",
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ],
+      "groupName": "next and react"
+    },
+    {
+      "description": "Storybook packages share one version.",
+      "matchPackageNames": ["storybook", "@storybook/**"],
+      "groupName": "storybook"
+    },
+    {
+      "description": "Playwright packages and browsers move together; visual baselines may need review.",
+      "matchPackageNames": [
+        "@playwright/test",
+        "playwright",
+        "playwright-core",
+        "@axe-core/playwright",
+        "axe-core"
+      ],
+      "groupName": "playwright and axe"
+    },
+    {
+      "description": "Lint and test tooling.",
+      "matchPackageNames": [
+        "eslint",
+        "typescript-eslint",
+        "eslint-plugin-**",
+        "prettier",
+        "vitest",
+        "@vitest/**",
+        "typescript"
+      ],
+      "groupName": "lint and test tooling"
+    },
+    {
+      "description": "Sentry SDK packages share one version.",
+      "matchPackageNames": ["@sentry/**"],
+      "groupName": "sentry"
+    },
+    {
+      "description": "Tailwind packages share one version.",
+      "matchPackageNames": ["tailwindcss", "@tailwindcss/**"],
+      "groupName": "tailwind"
+    },
+    {
+      "description": "GitHub Actions: one weekly PR.",
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions",
+      "schedule": ["before 6am on monday"]
+    },
+    {
+      "description": "Majors always need a human; never automerge anything in this repo (children's data).",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    }
+  ]
+}

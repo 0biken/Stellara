@@ -1,0 +1,186 @@
+# Stellara CI/CD pipeline (docs/md/11 §2, TASKLIST 2.35).
+#
+#   lint + typecheck → Vitest → [pgTAP] → Playwright (Storybook a11y + visual)
+#   → web build + client audit + bundle budgets + Lighthouse CI
+#   → [preview] → [staging] → [tagged production]
+#
+# Jobs in [brackets] are disabled (`if: false`) until Phase 2A lands the Supabase
+# migrations, Edge Functions and Vercel projects they need. Each one says what
+# it waits for. Docs freshness lives in docs-check.yml; the GitHub Pages demo
+# deploy lives in deploy-pages.yml.
+name: CI
+
+on:
+  push:
+    branches: [main, "claude/**", "feat/**", "fix/**", stellara-landing]
+    tags: ["v*"]
+  pull_request:
+  schedule:
+    # Weekly dependency audit, Monday 06:00 Lagos (05:00 UTC), so new advisories
+    # surface even when nobody pushes.
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+  TURBO_TELEMETRY_DISABLED: 1
+
+jobs:
+  quality:
+    name: Lint, typecheck and unit tests
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm check:copy
+      - run: pnpm check:fonts
+      - run: pnpm typecheck
+      # Vitest across packages (rules branch coverage ≥ 90%), plus script tests.
+      - run: pnpm test
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # High and critical advisories fail; Renovate (renovate.json) raises the fixes.
+      - run: pnpm audit --audit-level high
+
+  pgtap:
+    name: Database migrations and pgTAP (waits for 2A)
+    # Disabled until Phase 2A adds supabase/migrations and supabase/tests.
+    # Enable by deleting this `if:` once `supabase test db` has tests to run.
+    if: false
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - run: supabase db start
+      - run: supabase db reset --no-seed
+      - run: supabase test db
+
+  ui:
+    name: Storybook accessibility and visual specs
+    if: github.event_name != 'schedule'
+    needs: quality
+    # Match the reviewed Chromium Windows baselines; functional checks use both engines.
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install chromium webkit
+      - run: pnpm build
+      - run: pnpm storybook:build
+      - run: pnpm test:browser
+      - run: pnpm test:visual
+      - run: pnpm report:assets
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ui-browser-results
+          path: |
+            packages/ui/test-results/
+            packages/ui/playwright-report/
+
+  web:
+    name: Web build, client audit and performance budgets
+    if: github.event_name != 'schedule'
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # The same static export GitHub Pages serves, at the site root so
+      # Lighthouse CI can serve it locally.
+      GITHUB_PAGES: "true"
+      NEXT_PUBLIC_BASE_PATH: ""
+      NEXT_PUBLIC_SENTRY_RELEASE: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Builds every package, then the web export with its hashed CSP <meta>.
+      - run: pnpm build
+      - name: Client bundle canary audit
+        run: pnpm check:client
+      - name: Bundle budgets (docs/md/09 §4)
+        run: pnpm check:budgets
+      - name: Lighthouse CI
+        run: pnpm dlx @lhci/cli@0.16.1 autorun
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          include-hidden-files: true
+          if-no-files-found: ignore
+
+  deploy-preview:
+    name: Deploy preview (waits for 2A)
+    # Disabled until the Vercel project and Supabase branching exist (11 §1).
+    # Will deploy each pull request to a Vercel preview against a Supabase
+    # preview branch seeded with fixtures only.
+    if: false
+    needs: [quality, audit, pgtap, ui, web]
+    runs-on: ubuntu-latest
+    environment: preview
+    steps:
+      - run: echo "Vercel preview deploy and supabase branch go here."
+
+  deploy-staging:
+    name: Deploy staging (waits for 2A)
+    # Disabled until `stellara-staging` exists. On merge to main: apply
+    # migrations with `supabase db push` (CI only, never by hand), deploy Edge
+    # Functions, then deploy the web app to staging.<domain>.
+    if: false
+    needs: [quality, audit, pgtap, ui, web]
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - run: echo "supabase db push, functions deploy and Vercel staging deploy go here."
+
+  deploy-production:
+    name: Deploy production (waits for 2A)
+    # Disabled until `stellara-prod` exists. Runs on `v*` tags only, with the
+    # GitHub `production` environment's required reviewers. Deploy after 16:00
+    # Lagos unless it is a hotfix (11 §2). Web app and Edge Functions ship with
+    # the same release tag.
+    if: false
+    needs: [deploy-staging]
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - run: echo "Tagged production migrations, functions and web deploy go here."

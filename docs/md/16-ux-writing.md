@@ -19,7 +19,7 @@ Strings live in `packages/i18n` (ICU MessageFormat). Email templates are in `doc
 |---|---|---|---|
 | **Auntie Stella** | Children | A patient auntie at the kitchen table | Ages 4–7: ≤ 8 words a line, read aloud. Ages 8–12: ≤ 15 words. One exclamation mark per screen at most. "My dear" no more than once a session |
 | **Stellara** | Parents and guardians | A trusted class teacher writing a note home | Evidence first. Full sentences. No exclamation marks, no emoji in the app. Uses the child's first name, never "your child" when the name is known |
-| **Stellara for schools** | Teachers, heads, proprietors | A capable colleague | Short, factual, numbers first. No sweetness beyond the brand names |
+| **Stellara for schools** | School admins, heads, proprietors | A capable colleague | Short, factual, numbers first. No sweetness beyond the brand names |
 
 ### 2.1 Tone dial
 
@@ -50,8 +50,7 @@ Use these words exactly. The QA lint ([10 §4](10-qa-and-testing.md#4-content-an
 | Points | **Stardust** | Stardust | XP, coins, gems, points |
 | Daily habit | **Days in a row** | Days in a row | Streak (in copy), chain |
 | A missed day covered automatically | **Resting cloud** | Resting cloud | Freeze, lost day, missed |
-| Today's suggested practice | **Today's set** | Today's set | Homework (unless a teacher assigned it), task |
-| A set a teacher assigned | **From your teacher** | Assigned set | Homework due, overdue |
+| Today's suggested practice | **Today's set** | Today's set | Homework, task |
 | Timed exam practice | **Practice test** | Practice test | Mock exam, exam, real questions |
 | Share of the syllabus practised | n/a | Coverage | Readiness, predicted score, chance of passing |
 | Parent's weekly summary | n/a | **Weekly report** | Scorecard, results |
@@ -75,7 +74,7 @@ The two themes are named for the sky the whole product is built on. Parents choo
 - On compact toggles (the brand kit, the docs) the labels are **Auto · Daytime · Starlight**.
 - The setting is stored on this device only. The confirmation reads: "Saved on this phone. Other phones keep their own setting."
 - Children have no switch. When the device moves to dark, the child's app simply becomes Starlight. Auntie Stella may say once, the first time: "The stars are out. Let's learn by starlight."
-- Teachers see the same three options in *Account → How Stellara looks*.
+- School admins see the same three options in *Account → How Stellara looks*.
 
 ## 5. Mechanics
 
@@ -144,16 +143,13 @@ The two themes are named for the sky the whole product is built on. Parents choo
 | Withdraw consent | Title: "Withdraw consent" · Body: "Stellara will stop using Tolu's data straight away and delete it within 30 days. Tolu won't be able to sign in." · Button: "Withdraw consent" → "Consent withdrawn. We've stopped using Tolu's data." |
 | Delete account | Typed confirmation: "Type DELETE to confirm." · Button: "Delete account" |
 
-### 6.3 Teachers and school admins
+### 6.3 School admins
 
 | Moment | Copy |
 |---|---|
 | Class home | "Primary 5 Gold · 28 pupils · 21 practised this week" |
-| Assign a set | Button: "Assign set" · Sheet title: "Assign a set to Primary 5 Gold" · Confirmation: "Set assigned to 28 pupils." |
-| Class grid legend | "Mastered · In progress · Not yet · Not started" |
 | Pupil not practising | "Kemi hasn't practised for 7 days." (fact, no judgement) |
 | Empty class | "No pupils yet. Share the school code with parents, or add pupils from a list." |
-| Invite a teacher | Button: "Send invite" → "Invite sent to Mrs Okafor." |
 | Licences | "212 of 250 licences in use." |
 
 ## 7. Errors
@@ -202,7 +198,7 @@ Push is off by default for parents; WhatsApp is the main channel. When on, push 
 
 ## 9. Email
 
-Email is for parents who sign up with an email address, for teachers and school admins, and for anything legal (receipts of consent, data exports, deletion). Templates: `docs/emails/` (HTML and plain text, built by `docs/tools/emails.mjs`). **[Open the email gallery](../emails/index.html)** to see every template in Daytime and Starlight.
+Email is for parents who sign up with an email address, for school admins, and for anything legal (receipts of consent, data exports, deletion). Templates: `docs/emails/` (HTML and plain text, built by `docs/tools/emails.mjs`). **[Open the email gallery](../emails/index.html)** to see every template in Daytime and Starlight.
 
 ### 9.1 Rules for every email
 
@@ -218,11 +214,10 @@ Email is for parents who sign up with an email address, for teachers and school 
 
 | File | Sent when | Subject | Preheader | Button |
 |---|---|---|---|---|
-| `sign-in` | Parent or teacher asks for a link | Your Stellara sign-in link | The link works once and expires in 15 minutes. | Sign in to Stellara |
+| `sign-in` | Parent or school admin asks for a link | Your Stellara sign-in link | The link works once and expires in 15 minutes. | Sign in to Stellara |
 | `consent-confirmed` | Consent given | You've given consent for Tolu | Here's what you agreed to, and how to change it. | View consent settings |
 | `weekly-report` | Sunday 18:00 | Tolu's week: 5 days, 1 new star (pluralised) | Fractions sprouted. Next: 10 minutes on Ratios. | Read Tolu's report |
 | `star-sprouted` | Topic mastered, if chosen | Tolu has mastered Fractions | 9 of the last 10 right, including a check 2 weeks later. | See Tolu's sky |
-| `teacher-invite` | Admin invites a teacher | Join Primary 5 Gold on Stellara | Mrs Bello from Greenfield School invited you. | Accept invite |
 | `school-term-summary` | End of term, to admins | Greenfield School's term on Stellara | 212 pupils practised; 1,348 topics mastered. | Open the school summary |
 | `data-export-ready` | Parent asks for a copy of data | Your copy of Tolu's data is ready | The download link works for 7 days. | Download Tolu's data |
 | `account-deleted` | Deletion finished | Tolu's Stellara account has been deleted | We've removed Tolu's data. Here's what we keep and why. | (no button) |

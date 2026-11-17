@@ -80,7 +80,7 @@ main{padding:28px 0 80px;min-width:0}
 <p>→ <code>{ &quot;token&quot;: &quot;jwt&quot;, &quot;expires_at&quot;: &quot;...&quot;, &quot;refresh_until&quot;: &quot;...&quot; }</code></p>
 <p>Errors: <code>PIN_INCORRECT</code> (with <code>attempts_left</code>), <code>PROFILE_LOCKED</code> (with <code>locked_until</code>).</p>
 <h3 id="class-join"><code>class-join</code></h3>
-<p>Teacher JWT for class mode: <code>{ &quot;class_code&quot;: &quot;P5GLD7&quot; }</code> → <code>{ &quot;class_id&quot;, &quot;children&quot;: [{ &quot;child_id&quot;, &quot;first_name&quot;, &quot;avatar_key&quot; }] }</code>.</p>
+<p>School admin JWT for class mode: <code>{ &quot;class_code&quot;: &quot;P5GLD7&quot; }</code> → <code>{ &quot;class_id&quot;, &quot;children&quot;: [{ &quot;child_id&quot;, &quot;first_name&quot;, &quot;avatar_key&quot; }] }</code>.</p>
 <h2 id="2-learning">2. Learning</h2>
 <h3 id="set-start"><code>set-start</code></h3>
 <p>Child JWT.</p>
@@ -155,30 +155,14 @@ main{padding:28px 0 80px;min-width:0}
 <td><code>{ &quot;child_id&quot;, &quot;days&quot;: 7 }</code> sets Rest Mode within the rules</td>
 </tr>
 </tbody></table></div>
-<h2 id="4-teacher-and-school">4. Teacher and school</h2>
+<h2 id="4-school">4. School</h2>
 <div class="table-wrap"><table><thead><tr>
 <th>Endpoint</th>
 <th>Purpose</th>
 </tr>
 </thead><tbody><tr>
-<td><code>/rest/v1/v_class_grid?class_id=eq.&lt;id&gt;</code></td>
-<td>Pupil × topic mastery grid</td>
-</tr>
-<tr>
-<td><code>/rest/v1/v_class_needs_help?class_id=eq.&lt;id&gt;</code></td>
-<td>Pupils matching the needs-help rule</td>
-</tr>
-<tr>
-<td><code>assignment-create</code></td>
-<td><code>{ class_id, kind, topic_ids, due_at }</code></td>
-</tr>
-<tr>
 <td><code>/rest/v1/v_school_overview?school_id=eq.&lt;id&gt;</code></td>
 <td>Licence use, weekly active pupils, coverage by class</td>
-</tr>
-<tr>
-<td><code>teacher-invite</code></td>
-<td><code>{ school_id, phone | email }</code></td>
 </tr>
 </tbody></table></div>
 <h2 id="5-content-studio">5. Content studio</h2>
@@ -295,11 +279,6 @@ main{padding:28px 0 80px;min-width:0}
 <td><code>report_generated</code> / <code>report_opened</code></td>
 <td>Parent report</td>
 <td><code>channel</code>, <code>days_since_generated</code></td>
-</tr>
-<tr>
-<td><code>assignment_created</code> / <code>assignment_completed</code></td>
-<td>Teacher flow</td>
-<td><code>kind</code>, <code>topics</code>, <code>completion_rate</code></td>
 </tr>
 <tr>
 <td><code>rest_mode_set</code></td>

@@ -93,7 +93,7 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 <tr>
 <td><strong>Stellara for schools</strong></td>
-<td>Teachers, heads, proprietors</td>
+<td>School admins, heads, proprietors</td>
 <td>A capable colleague</td>
 <td>Short, factual, numbers first. No sweetness beyond the brand names</td>
 </tr>
@@ -204,13 +204,7 @@ main{padding:28px 0 80px;min-width:0}
 <td>Today&#39;s suggested practice</td>
 <td><strong>Today&#39;s set</strong></td>
 <td>Today&#39;s set</td>
-<td>Homework (unless a teacher assigned it), task</td>
-</tr>
-<tr>
-<td>A set a teacher assigned</td>
-<td><strong>From your teacher</strong></td>
-<td>Assigned set</td>
-<td>Homework due, overdue</td>
+<td>Homework, task</td>
 </tr>
 <tr>
 <td>Timed exam practice</td>
@@ -294,7 +288,7 @@ main{padding:28px 0 80px;min-width:0}
 <li>On compact toggles (the brand kit, the docs) the labels are <strong>Auto · Daytime · Starlight</strong>.</li>
 <li>The setting is stored on this device only. The confirmation reads: &quot;Saved on this phone. Other phones keep their own setting.&quot;</li>
 <li>Children have no switch. When the device moves to dark, the child&#39;s app simply becomes Starlight. Auntie Stella may say once, the first time: &quot;The stars are out. Let&#39;s learn by starlight.&quot;</li>
-<li>Teachers see the same three options in <em>Account → How Stellara looks</em>.</li>
+<li>School admins see the same three options in <em>Account → How Stellara looks</em>.</li>
 </ul>
 <h2 id="5-mechanics">5. Mechanics</h2>
 <div class="table-wrap"><table><thead><tr>
@@ -531,7 +525,7 @@ main{padding:28px 0 80px;min-width:0}
 <td>Typed confirmation: &quot;Type DELETE to confirm.&quot; · Button: &quot;Delete account&quot;</td>
 </tr>
 </tbody></table></div>
-<h3 id="63-teachers-and-school-admins">6.3 Teachers and school admins</h3>
+<h3 id="63-school-admins">6.3 School admins</h3>
 <div class="table-wrap"><table><thead><tr>
 <th>Moment</th>
 <th>Copy</th>
@@ -541,24 +535,12 @@ main{padding:28px 0 80px;min-width:0}
 <td>&quot;Primary 5 Gold · 28 pupils · 21 practised this week&quot;</td>
 </tr>
 <tr>
-<td>Assign a set</td>
-<td>Button: &quot;Assign set&quot; · Sheet title: &quot;Assign a set to Primary 5 Gold&quot; · Confirmation: &quot;Set assigned to 28 pupils.&quot;</td>
-</tr>
-<tr>
-<td>Class grid legend</td>
-<td>&quot;Mastered · In progress · Not yet · Not started&quot;</td>
-</tr>
-<tr>
 <td>Pupil not practising</td>
 <td>&quot;Kemi hasn&#39;t practised for 7 days.&quot; (fact, no judgement)</td>
 </tr>
 <tr>
 <td>Empty class</td>
 <td>&quot;No pupils yet. Share the school code with parents, or add pupils from a list.&quot;</td>
-</tr>
-<tr>
-<td>Invite a teacher</td>
-<td>Button: &quot;Send invite&quot; → &quot;Invite sent to Mrs Okafor.&quot;</td>
 </tr>
 <tr>
 <td>Licences</td>
@@ -651,7 +633,7 @@ main{padding:28px 0 80px;min-width:0}
 <h3 id="83-push-and-in-app-notices">8.3 Push and in-app notices</h3>
 <p>Push is off by default for parents; WhatsApp is the main channel. When on, push uses the WhatsApp wording without emoji. Children never receive push notifications.</p>
 <h2 id="9-email">9. Email</h2>
-<p>Email is for parents who sign up with an email address, for teachers and school admins, and for anything legal (receipts of consent, data exports, deletion). Templates: <code>docs/emails/</code> (HTML and plain text, built by <code>docs/tools/emails.mjs</code>). <strong><a href="../emails/index.html">Open the email gallery</a></strong> to see every template in Daytime and Starlight.</p>
+<p>Email is for parents who sign up with an email address, for school admins, and for anything legal (receipts of consent, data exports, deletion). Templates: <code>docs/emails/</code> (HTML and plain text, built by <code>docs/tools/emails.mjs</code>). <strong><a href="../emails/index.html">Open the email gallery</a></strong> to see every template in Daytime and Starlight.</p>
 <h3 id="91-rules-for-every-email">9.1 Rules for every email</h3>
 <ul>
 <li><strong>From:</strong> &quot;Stellara&quot; <code>&lt;hello@…&gt;</code>. Reports add &quot;with a note from Auntie Stella&quot; in the body, never in the From name. Reply-to: the support inbox, which a human reads.</li>
@@ -672,7 +654,7 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 </thead><tbody><tr>
 <td><code>sign-in</code></td>
-<td>Parent or teacher asks for a link</td>
+<td>Parent or school admin asks for a link</td>
 <td>Your Stellara sign-in link</td>
 <td>The link works once and expires in 15 minutes.</td>
 <td>Sign in to Stellara</td>
@@ -697,13 +679,6 @@ main{padding:28px 0 80px;min-width:0}
 <td>Tolu has mastered Fractions</td>
 <td>9 of the last 10 right, including a check 2 weeks later.</td>
 <td>See Tolu&#39;s sky</td>
-</tr>
-<tr>
-<td><code>teacher-invite</code></td>
-<td>Admin invites a teacher</td>
-<td>Join Primary 5 Gold on Stellara</td>
-<td>Mrs Bello from Greenfield School invited you.</td>
-<td>Accept invite</td>
 </tr>
 <tr>
 <td><code>school-term-summary</code></td>

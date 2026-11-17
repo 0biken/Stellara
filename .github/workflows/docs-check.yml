@@ -1,4 +1,6 @@
-name: Foundations check
+# Formatting and generated-docs freshness. Lint, tests, the UI browser specs,
+# the web build and performance budgets moved to ci.yml.
+name: Docs check
 on:
   push:
   pull_request:
@@ -18,39 +20,6 @@ jobs:
       - uses: pnpm/action-setup@v4
       - run: pnpm install --frozen-lockfile
       - run: pnpm format:check
-      - run: pnpm lint
-      - run: pnpm check:copy
-      - run: pnpm check:fonts
-      - run: pnpm typecheck
-      - run: pnpm test
       - run: node docs/tools/tokens.mjs
-      - run: pnpm build
-      - run: pnpm check:client
       - run: pnpm docs:generate
       - run: node docs/tools/check-generated.mjs
-  ui:
-    # Match the reviewed Chromium Windows baselines; functional checks use both engines.
-    runs-on: windows-latest
-    timeout-minutes: 30
-    env:
-      NEXT_TELEMETRY_DISABLED: 1
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - uses: pnpm/action-setup@v4
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm exec playwright install chromium webkit
-      - run: pnpm build
-      - run: pnpm storybook:build
-      - run: pnpm test:browser
-      - run: pnpm test:visual
-      - run: pnpm report:assets
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: ui-browser-results
-          path: |
-            packages/ui/test-results/
-            packages/ui/playwright-report/

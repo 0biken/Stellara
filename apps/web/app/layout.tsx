@@ -4,6 +4,8 @@ import "./styles.css";
 import { getCatalogue } from "@stellara/i18n";
 import { themeBootstrapScript, themeColors } from "@stellara/ui";
 
+import { SessionProvider } from "../lib/auth/session-provider";
+
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
@@ -23,7 +25,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="theme-color" content={themeColors.dark} media="(prefers-color-scheme: dark)" />
         <script id="stellara-theme" dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <SessionProvider>{children}</SessionProvider>
+      </body>
     </html>
   );
 }

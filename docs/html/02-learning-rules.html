@@ -289,7 +289,7 @@ main{padding:28px 0 80px;min-width:0}
 <li><strong>Resume:</strong> at most <strong>2 resumes</strong>, with a total pause of up to <strong>20 minutes</strong> (the app closed or the device switched off). The timer does not stop for a lost connection, only for an app close counted as a pause.</li>
 <li>A validated pause extends <code>ends_at</code> by its actual duration. The future server adapter must validate pause evidence; an arbitrary client claim is insufficient. Answers during a pause are rejected. A third resume or excess total pause finalizes the session. The server accounts for an ongoing validated pause, bounded by the remaining pause allowance, before applying the grace period.</li>
 <li>At <code>ends_at</code> plus the grace period, the server finalises the session and scores what it has.</li>
-<li>A response time below 1,000 ms on more than 30% of items flags the session as <code>suspect_timing</code> (shown to the teacher, not the child).</li>
+<li>A response time below 1,000 ms on more than 30% of items flags the session as <code>suspect_timing</code> (shown to the school admin, not the child).</li>
 </ul>
 <h2 id="6-stardust">6. Stardust</h2>
 <p>Stardust is a motivation currency. <strong>It never enters mastery</strong> and is never sold.</p>
@@ -356,7 +356,7 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 <tr>
 <td>Rest Mode</td>
-<td>Up to 14 days, twice per school term. Set by a parent or teacher. The run is frozen and no clouds are used</td>
+<td>Up to 14 days, twice per school term. Set by a parent or school admin. The run is frozen and no clouds are used</td>
 </tr>
 <tr>
 <td>Repair</td>
