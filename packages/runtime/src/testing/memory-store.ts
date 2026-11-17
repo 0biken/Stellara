@@ -133,9 +133,11 @@ export class MemoryStore implements RuntimeStore {
   }
   async insertAttempts(attempts: readonly AttemptRecord[]) {
     this.check("insertAttempts");
-    for (const a of attempts)
-      if (this.t.attempts.some((x) => x.client_id === a.client_id))
-        throw new Error("attempts.client_id must be unique");
+    const seen = new Set(this.t.attempts.map((a) => a.client_id));
+    for (const a of attempts) {
+      if (seen.has(a.client_id)) throw new Error("attempts.client_id must be unique");
+      seen.add(a.client_id);
+    }
     this.t.attempts.push(...attempts);
   }
   async attemptsReceivedBetween(start: number, end: number) {
