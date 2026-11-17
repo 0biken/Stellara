@@ -1,6 +1,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set search_path=public,extensions;
+grant usage on schema extensions to child;
 select no_plan();
 insert into auth.users(id,email) values
  ('a0000000-0000-4000-8000-000000000001','a@test.invalid'),
@@ -24,6 +25,8 @@ values('e0000000-0000-4000-8000-000000000001',1,'single_choice','test','[]','tes
 insert into item_answers values('e0000000-0000-4000-8000-000000000001',1,'{"option_id":"a"}');
 select throws_ok($$update item_versions set status='published',reviewer_id=author_id where item_id='e0000000-0000-4000-8000-000000000001'$$,'P0001','PUBLISH_REQUIREMENTS','same author/reviewer rejected');
 select throws_ok($$update item_versions set status='published',media='[{"src":"x","alt_text":" "}]' where item_id='e0000000-0000-4000-8000-000000000001'$$,'P0001','PUBLISH_REQUIREMENTS','missing alt text rejected');
+select throws_ok($$update item_versions set status='published',provenance='licensed',licence_ref=null where item_id='e0000000-0000-4000-8000-000000000001'$$,'P0001','PUBLISH_REQUIREMENTS','licensed content needs licence reference');
+select throws_ok($$insert into item_versions(item_id,version,type,stem,explanation,difficulty,curriculum_edition,provenance,author_id,reviewer_id,answer_verified_at,status) values('e0000000-0000-4000-8000-000000000001',2,'numeric','Missing answer','Test','easy','revised_2025','original','a0000000-0000-4000-8000-000000000001','a0000000-0000-4000-8000-000000000002',now(),'published'); set constraints all immediate$$,'P0001','ANSWER_REQUIRED','deferred publishing requires matching answer');
 update item_versions set status='published' where item_id='e0000000-0000-4000-8000-000000000001';
 select throws_ok($$update item_versions set stem='changed' where item_id='e0000000-0000-4000-8000-000000000001'$$,'P0001','PUBLISHED_IMMUTABLE','published version immutable');
 select throws_ok($$update item_answers set answer='{}' where item_id='e0000000-0000-4000-8000-000000000001'$$,'P0001','PUBLISHED_IMMUTABLE','published key immutable');
