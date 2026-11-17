@@ -1,0 +1,5 @@
+{
+  "$comment": "Critical-path budgets per page, gzip-compressed KiB (docs/md/09 §4). `target` is the spec budget; going over it is a CI warning. `ceiling` is a temporary ratchet at today's size plus a little headroom; going over it fails CI. Lower `ceiling` as bundles shrink and delete it once every page fits `target`. Totals include the Basic Latin webfonts the stylesheets declare. Lesson, pack and test-payload budgets join once those payloads exist (Phase 2A/2B).",
+  "target": { "js": 130, "total": 200 },
+  "ceiling": { "js": 225, "total": 330 }
+}

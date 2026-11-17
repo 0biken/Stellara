@@ -137,7 +137,9 @@ test("landing page renders with JavaScript disabled", async ({ browser }) => {
     page.getByRole("heading", { level: 1, name: "A personal tutor that knows your child." }),
   ).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Main" })).toBeVisible();
-  await expect(page.getByRole("contentinfo")).toContainText("Stellara is not affiliated with NECO.");
+  await expect(page.getByRole("contentinfo")).toContainText(
+    "Stellara is not affiliated with NECO.",
+  );
   await context.close();
 });
 

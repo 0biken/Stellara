@@ -61,7 +61,7 @@ describe("plain text ICU formatting", () => {
     const copy = i18n.getCatalogue("en-NG");
     expect(copy.homeTitle).toBe("A personal tutor that knows your child.");
     expect(copy["landing.hero.badge"]).toBe("For primary pupils, with a parent’s permission");
-    expect(copy["landing.start.step1Title"]).toBe("Sign in with Google");
+    expect(copy["landing.start.step1Title"]).toBe("Sign in");
     expect(copy["signIn.ageRule"]).toContain("over 18 years old");
     expect(copy["landing.footer.disclaimer"]).toContain("Stellara is not affiliated with NECO.");
   });

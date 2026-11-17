@@ -1,3 +1,5 @@
+import { securityHeaders } from "./scripts/security-headers.mjs";
+
 import type { NextConfig } from "next";
 
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
@@ -13,6 +15,12 @@ const config: NextConfig = {
         basePath,
         images: { unoptimized: true },
       }
-    : {}),
+    : {
+        // Static exports cannot send headers; scripts/apply-csp.mjs adds a hashed
+        // CSP <meta> instead. Header-capable hosts (Vercel, next start) get these.
+        async headers() {
+          return [{ source: "/:path*", headers: securityHeaders() }];
+        },
+      }),
 };
 export default config;
