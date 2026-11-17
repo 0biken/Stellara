@@ -83,8 +83,8 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 ### 2C. Learning runtime (7 Dec – 10 Jan) ⟶ 1.12, 2.1–2.5
 - [ ] **2.14 Build `set-start`** for practice, review, topic assessment and placement sets. Payloads carry no keys. **[Eng]** Core done (16 Nov): `startSet` in `packages/runtime`, pure and tested against an in-memory store. The Deno adapter is pending 2A.
 - [ ] **2.15 Build `responses-submit`:** batch processing that is idempotent on `client_id`, calls rules for scoring and mastery, and writes the ledger and activity days. Target p95 under 400 ms in Lagos. **[Eng]** 📄 04 §5 Core done (16 Nov): `submitResponses`, which is transactional, idempotent and covers mastery, reviews, Stardust and activity days. The Deno adapter and the Lagos latency check are pending 2A.
-- [ ] **2.16 Build the child screens:** the sky home (KID-02), lesson cards, practice with the "checking" state, hints, and "Not quite" (KID-03). **[Eng]**
-- [ ] **2.17 Build the placement check flow** (optional, resumable, strand-level only). **[Eng]** 📄 02 §9
+- [ ] **2.16 Build the child screens:** the sky home (KID-02), lesson cards, practice with the "checking" state, hints, and "Not quite" (KID-03). **[Eng]** — UI done in preview mode (`apps/web/app/(child)/`, `components/child/`, `lib/learning/`); live once 2.5 child-session and the runtime adapters exist.
+- [ ] **2.17 Build the placement check flow** (optional, resumable, strand-level only). **[Eng]** 📄 02 §9 — UI done in preview mode (`apps/web/app/(child)/`, `components/child/`, `lib/learning/`); live once 2.5 child-session and the runtime adapters exist.
 - [ ] **2.18 Add the pg_cron jobs:** close the learning day, schedule due reviews, update item stats, and purge for retention. **[Eng]** 📄 04 §10 The job logic and the `CRON_JOBS` table are done (16 Nov). The pg_cron registration and purge execution are pending 2A migrations.
 - ✅ **M2, walking skeleton (18 Dec):** parent sign-in → consent → child → one practice set works end to end (locally first, then in staging).
 

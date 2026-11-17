@@ -73,15 +73,17 @@ main{padding:28px 0 80px;min-width:0}
 <p>The implemented UI package, controlled component conventions, local font subsets and Storybook review commands are documented in <a href="18-ui-foundations.html">18 · UI foundations</a>. Its synthetic review fixtures precede the real application journeys described here.</p>
 <pre class="code"><code>apps/web/
   app/
-    (child)/sky/  (child)/learn/[topic]/  (child)/practice/[set]/  (child)/test/[set]/
+    (child)/sky/  (child)/learn/?topic=  (child)/practice/?topic=  (child)/placement/  (child)/test/?set=
     (family)/…   (studio)/…   (ops)/…   basic/…
   components/      app-specific composites (screens built from packages/ui)
+  lib/learning/    learning API adapter: Edge Functions when Supabase is set, otherwise a labelled preview
   lib/
     outbox/        queue, retry with backoff, idempotency, clock offset
     packs/         download, verify signature, evict
     session/       child session tokens, PIN flow
     api/           typed Edge Function client
   sw/              service worker (precache shell, runtime cache for media)</code></pre>
+<p>Child routes take their topic or set as a query string, not a path segment. The web app is a static export (GitHub Pages), which cannot pre-render one page per topic or set.</p>
 <h2 id="3-rules-for-the-child-runtime">3. Rules for the child runtime</h2>
 <ol>
 <li>Never compute correctness for online sets on the client. Show &quot;checking&quot; until the server answers (target under 400 ms).</li>

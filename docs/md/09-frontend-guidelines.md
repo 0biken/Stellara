@@ -15,9 +15,10 @@ The implemented UI package, controlled component conventions, local font subsets
 ```
 apps/web/
   app/
-    (child)/sky/  (child)/learn/[topic]/  (child)/practice/[set]/  (child)/test/[set]/
+    (child)/sky/  (child)/learn/?topic=  (child)/practice/?topic=  (child)/placement/  (child)/test/?set=
     (family)/…   (studio)/…   (ops)/…   basic/…
   components/      app-specific composites (screens built from packages/ui)
+  lib/learning/    learning API adapter: Edge Functions when Supabase is set, otherwise a labelled preview
   lib/
     outbox/        queue, retry with backoff, idempotency, clock offset
     packs/         download, verify signature, evict
@@ -25,6 +26,8 @@ apps/web/
     api/           typed Edge Function client
   sw/              service worker (precache shell, runtime cache for media)
 ```
+
+Child routes take their topic or set as a query string, not a path segment. The web app is a static export (GitHub Pages), which cannot pre-render one page per topic or set.
 
 ## 3. Rules for the child runtime
 

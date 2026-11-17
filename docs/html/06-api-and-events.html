@@ -102,10 +102,11 @@ main{padding:28px 0 80px;min-width:0}
 }</code></pre>
 <p>→</p>
 <pre class="code"><code>{
-  &quot;results&quot;: [{ &quot;client_id&quot;: &quot;uuid&quot;, &quot;is_correct&quot;: true, &quot;scored&quot;: true, &quot;explanation_html&quot;: &quot;...&quot;, &quot;stardust&quot;: 10 }],
+  &quot;results&quot;: [{ &quot;client_id&quot;: &quot;uuid&quot;, &quot;is_correct&quot;: true, &quot;scored&quot;: true, &quot;explanation_html&quot;: &quot;...&quot;, &quot;hint_html&quot;: &quot;...&quot;, &quot;stardust&quot;: 10 }],
   &quot;mastery_changes&quot;: [{ &quot;topic_id&quot;: &quot;uuid&quot;, &quot;from&quot;: &quot;developing&quot;, &quot;to&quot;: &quot;proficient&quot; }],
   &quot;stardust_today&quot;: 120, &quot;run_length&quot;: 6
 }</code></pre>
+<p><code>hint_html</code> is present only when the answer was not correct and the item has a hint; the child screen shows it as the one hint before the second try.</p>
 <h3 id="pack-build"><code>pack-build</code></h3>
 <p>Child JWT: <code>{ &quot;topic_ids&quot;: [&quot;uuid&quot;], &quot;max_items&quot;: 40 }</code> → a signed Storage URL for a JSON pack (≤ 120 KB with images) plus <code>pack_id</code>. The pack includes keys and explanations and is marked <code>key_on_device=true</code>.</p>
 <h3 id="test-start--test-resume--test-finish"><code>test-start</code> / <code>test-resume</code> / <code>test-finish</code></h3>

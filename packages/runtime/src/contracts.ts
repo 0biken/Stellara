@@ -53,6 +53,8 @@ export interface SubmitResult {
   readonly is_correct: boolean;
   readonly scored: boolean;
   readonly explanation_html: string;
+  /** Present only when the answer was not correct and the item has a hint ("Not quite" flow). */
+  readonly hint_html?: string;
   readonly stardust: number;
 }
 export interface ResponsesSubmitResponse {

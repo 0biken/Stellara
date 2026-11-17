@@ -69,11 +69,12 @@ Child JWT. Up to 20 responses per call, idempotent on `client_id`.
 →
 ```json
 {
-  "results": [{ "client_id": "uuid", "is_correct": true, "scored": true, "explanation_html": "...", "stardust": 10 }],
+  "results": [{ "client_id": "uuid", "is_correct": true, "scored": true, "explanation_html": "...", "hint_html": "...", "stardust": 10 }],
   "mastery_changes": [{ "topic_id": "uuid", "from": "developing", "to": "proficient" }],
   "stardust_today": 120, "run_length": 6
 }
 ```
+`hint_html` is present only when the answer was not correct and the item has a hint; the child screen shows it as the one hint before the second try.
 
 ### `pack-build`
 Child JWT: `{ "topic_ids": ["uuid"], "max_items": 40 }` → a signed Storage URL for a JSON pack (≤ 120 KB with images) plus `pack_id`. The pack includes keys and explanations and is marked `key_on_device=true`.

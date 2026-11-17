@@ -11,6 +11,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@stellara/content-schema": "workspace:*",
     "@stellara/i18n": "workspace:*",
     "@stellara/ui": "workspace:*",
     "@supabase/supabase-js": "2.119.0",

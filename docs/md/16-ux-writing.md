@@ -119,6 +119,14 @@ The two themes are named for the sky the whole product is built on. Parents choo
 | Practice test, 5 minutes left | "5 minutes left. Take your time with the last few." |
 | Practice test submit | "Hand in your test?" · "You have 3 unanswered questions." · Buttons: "Hand in" / "Keep going" |
 | Practice test result | "You answered 31 of 40 correctly." Then by strand. Never a grade, never "pass" |
+| Checking an answer | Tile and button: "Checking" |
+| Answer saved offline | "Saved. We'll check it when the internet is back." |
+| Set finished with answers still on the phone | "Some answers are saved on this phone. We'll check them when the internet is back." |
+| Star grew (not yet sprouted) | "Your Fractions star is growing." |
+| Lesson not ready | "This star opens soon. Try another star in your sky." |
+| Placement card | Title: "Find your starting stars" · Body: "20 short questions. There are no marks. It helps us choose where you start." · Buttons: "Start" (or "Carry on") / "Maybe later" |
+| Placement header | "Finding your stars · 6 of 20" |
+| Placement results | Title: "Here's where to start" · Body: "These are early signs, not marks. Your sky will show what to practise first." · Labels: "Looks secure so far" · "Check this" · "Not yet measured enough" |
 | Empty sky (new child) | "Your sky is waiting. Start today's set to light your first star." |
 
 ### 6.2 Parents

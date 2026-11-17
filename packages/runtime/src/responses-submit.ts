@@ -426,6 +426,7 @@ export async function submitResponses(
         is_correct: stored.is_correct,
         scored: stored.scored,
         explanation_html: item?.explanation ?? "",
+        ...(!stored.is_correct && item?.hint ? { hint_html: item.hint } : {}),
         stardust: existing.has(r.client_id)
           ? (replayStardust.get(r.client_id) ?? 0)
           : (awarded.get(r.client_id) ?? 0),
