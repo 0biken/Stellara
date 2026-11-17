@@ -10,6 +10,7 @@ export default [
       "**/node_modules/**",
       "**/dist/**",
       "**/coverage/**",
+      "supabase/functions/_shared/runtime.bundle.js",
       "**/.next/**",
       "apps/web/out/**",
       "**/.turbo/**",

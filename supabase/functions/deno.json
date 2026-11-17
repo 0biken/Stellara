@@ -1,0 +1,9 @@
+{
+  "imports": {
+    "postgres": "npm:postgres@3.4.7",
+    "jose": "npm:jose@6.1.3",
+    "hash-wasm": "npm:hash-wasm@4.12.0",
+    "zod": "npm:zod@4.6.7",
+    "@stellara/runtime": "./_shared/runtime.bundle.js"
+  }
+}

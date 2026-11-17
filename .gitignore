@@ -17,3 +17,6 @@ storybook-static/
 test-results/
 playwright-report/
 .playwright-cli/
+
+supabase/functions/_shared/runtime.bundle.js
+supabase/.temp/

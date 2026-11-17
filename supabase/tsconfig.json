@@ -1,0 +1,5 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": { "noEmit": true, "allowImportingTsExtensions": true },
+  "include": ["tests/**/*.ts", "functions/**/*.ts", "deno-globals.d.ts", "vitest.config.ts"]
+}
