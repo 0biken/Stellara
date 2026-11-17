@@ -34,7 +34,7 @@ export function checkBoundaries(root) {
       if (specifier && ts.isStringLiteralLike(specifier)) {
         const target = specifier.text.replaceAll("\\", "/");
         if (
-          /(?:@stellara\/rules(?:\/|$)|(?:^|\/)packages\/rules\/|@stellara\/content-schema\/server(?:\/|$)|(?:^|\/)content-schema\/(?:src|dist)\/server)/.test(
+          /(?:@stellara\/(?:rules|runtime)(?:\/|$)|(?:^|\/)packages\/(?:rules|runtime)\/|@stellara\/content-schema\/server(?:\/|$)|(?:^|\/)content-schema\/(?:src|dist)\/server)/.test(
             target,
           )
         )

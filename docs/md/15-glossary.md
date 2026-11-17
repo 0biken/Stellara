@@ -4,7 +4,7 @@
 |---|---|
 | **Auntie Stella** | The tutor's name and voice for children. Appears in hints, notes and the parent report |
 | **Blueprint** | Configuration describing a practice test: papers, item counts, duration, rules |
-| **Class mode** | A teacher-started session on a school device where children sign in with a class code and picture PIN |
+| **Class mode** | A session started by the school admin on a school device where children sign in with a class code and picture PIN |
 | **Constellation / sky** | The child's visual map of topics; each topic is a star whose shape shows its mastery level (a mastered star grows a sprout) |
 | **Star sprout** | The Stellara logo: a honey star with a small face and two matcha leaves. Also the mastered state of a topic star |
 | **Daytime** | The light theme: cream and honey |

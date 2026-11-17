@@ -18,6 +18,7 @@ export interface MessageArguments {
   "stardust.amount": { amount: number };
   "money.amount": { amount: number };
   "pictureKey.progress": { count: number };
+  "family.signedInAs": { name: string };
 }
 export type MessageValues<K extends MessageKey> = K extends keyof MessageArguments
   ? MessageArguments[K]

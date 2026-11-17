@@ -16,7 +16,6 @@ All targets are **v0 proposals** for the January–April 2027 pilot, to be reset
 | Learning | Topics reaching `proficient` per active pupil per month | ≥ 3 |
 | Retention of learning | Retention checks passed at 4/5 or better | ≥ 70% |
 | Parents | Weekly report opened within 7 days | ≥ 55% |
-| Teachers | Teachers who assign at least one set per fortnight | ≥ 60% |
 | Schools | Schools that say they intend to renew (end-of-pilot survey) | ≥ 70% |
 | Quality | Published items with a confirmed error | < 1% |
 | Performance | Field LCP p75 on child screens | ≤ 2.5 s |

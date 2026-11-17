@@ -79,7 +79,7 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 <tr>
 <td>Backend</td>
-<td><strong>Supabase</strong>: Postgres 15+, Row Level Security, Auth, Storage, Edge Functions (Deno), pg_cron, Realtime (teacher dashboard only)</td>
+<td><strong>Supabase</strong>: Postgres 15+, Row Level Security, Auth, Storage, Edge Functions (Deno), pg_cron</td>
 <td>Fast to start, Postgres underneath, RLS gives per-school isolation</td>
 </tr>
 <tr>
@@ -124,7 +124,7 @@ main{padding:28px 0 80px;min-width:0}
   end
   UI -- HTTPS JWT --&gt; PR[Supabase PostgREST]
   UI -- HTTPS JWT --&gt; EF[Edge Functions]
-  UI -- OTP / session --&gt; AUTH[Supabase Auth]
+  UI -- sign-in / session --&gt; AUTH[Supabase Auth]
   EF --&gt; DB[(Postgres + RLS)]
   PR --&gt; DB
   EF --&gt; ST[(Storage: media, packs, exports)]
@@ -137,7 +137,7 @@ main{padding:28px 0 80px;min-width:0}
 <h2 id="3-repository-layout">3. Repository layout</h2>
 <pre class="code"><code>stellara/
   apps/
-    web/                 Next.js app (child, parent, teacher, school, studio route groups)
+    web/                 Next.js app (child, parent, school, studio, ops route groups)
   packages/
     rules/               Mastery, scoring, Stardust, streak, report rules + fixtures
     ui/                  Design-system components and tokens (see 08)
@@ -150,7 +150,7 @@ main{padding:28px 0 80px;min-width:0}
     tests/               pgTAP tests for RLS and constraints
   docs/                  This documentation</code></pre>
 <p>Tooling: pnpm workspaces and Turborepo, ESLint, Prettier, Vitest, Playwright, pgTAP, Lighthouse CI.</p>
-<p>Foundation status: Node 22 and one root pnpm lockfile include the existing docs tools. Rules, schemas and a minimal web shell are implemented; PWA runtime, Playwright journeys, database policies and cloud resources remain later work. The implemented rules baseline is <code>v0.1.0</code>; all rule functions receive explicit state/time and perform no I/O. Content schemas have separate client and server exports; delivery code cannot import the server schemas or rules engine.</p>
+<p>Foundation status: Node 22 and one root pnpm lockfile include the existing docs tools. Rules, schemas and a minimal web shell are implemented; PWA runtime, Playwright journeys, database policies and cloud resources remain later work. The implemented rules baseline is <code>v0.1.0</code>; all rule functions receive explicit state/time and perform no I/O. Content schemas have separate client and server exports; delivery code cannot import the server schemas or rules engine. The learning runtime core (<code>packages/runtime</code>: <code>set-start</code>, <code>responses-submit</code> and the scheduled-job logic) is pure and storage-agnostic behind a <code>RuntimeStore</code> port and is tested against an in-memory store. Delivery code cannot import it either. Its Deno and Postgres adapters follow the 2A migrations.</p>
 <h2 id="4-apps-and-route-groups">4. Apps and route groups</h2>
 <div class="table-wrap"><table><thead><tr>
 <th>Route group</th>
@@ -165,12 +165,7 @@ main{padding:28px 0 80px;min-width:0}
 <tr>
 <td><code>/(family)</code></td>
 <td>Parents</td>
-<td>Supabase Auth (phone OTP or email)</td>
-</tr>
-<tr>
-<td><code>/(teach)</code></td>
-<td>Teachers</td>
-<td>Supabase Auth plus a school membership</td>
+<td>Supabase Auth (Google or email link)</td>
 </tr>
 <tr>
 <td><code>/(school)</code></td>
@@ -213,10 +208,10 @@ main{padding:28px 0 80px;min-width:0}
 </ul>
 <h2 id="6-identity-and-sessions">6. Identity and sessions</h2>
 <ul>
-<li><strong>Adults</strong> use Supabase Auth: phone OTP (WhatsApp first, then SMS), or an email magic link. Staff roles require MFA (TOTP).</li>
+<li><strong>Adults</strong> use Supabase Auth: Google sign-in, or an email magic link as the fallback. Phone OTP (WhatsApp first, then SMS) is a later option. Staff roles require MFA (TOTP). The web app is a static export, so sign-in runs in the browser with the PKCE flow and returns to <code>/auth/callback/</code>; until a Supabase project exists, a clearly labelled preview session stands in.</li>
 <li><strong>Children have no Supabase Auth user.</strong> A child acts through a <strong>child session</strong>:<ul>
 <li><strong>Family device:</strong> the parent is signed in. The child picks their profile and enters a 4-picture PIN. The Edge Function <code>child-session</code> returns a short-lived JWT (2 h, refreshable on the device for 30 days) with claims <code>{ role: &#39;child&#39;, child_id, guardian_id }</code>.</li>
-<li><strong>School device:</strong> the teacher starts &quot;class mode&quot; with a class code. The child picks their name and enters their picture PIN. The JWT has <code>{ role: &#39;child&#39;, child_id, class_id, school_id, mode: &#39;class&#39; }</code> and expires at the end of the school day.</li>
+<li><strong>School device:</strong> the school admin starts &quot;class mode&quot; with a class code. The child picks their name and enters their picture PIN. The JWT has <code>{ role: &#39;child&#39;, child_id, class_id, school_id, mode: &#39;class&#39; }</code> and expires at the end of the school day.</li>
 </ul>
 </li>
 <li>PINs are stored as salted hashes (argon2id) in <code>child_pins</code>. Five wrong attempts lock the profile for 5 minutes.</li>

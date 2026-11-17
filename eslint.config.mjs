@@ -41,7 +41,7 @@ export default [
     },
   },
   {
-    files: ["packages/rules/src/**/*.ts"],
+    files: ["packages/rules/src/**/*.ts", "packages/runtime/src/**/*.ts"],
     rules: {
       "no-restricted-imports": [
         "error",

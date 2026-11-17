@@ -37,7 +37,7 @@ Errors: `CONSENT_REQUIRED`, `JOIN_CODE_INVALID`, `LICENCE_FULL`.
 Errors: `PIN_INCORRECT` (with `attempts_left`), `PROFILE_LOCKED` (with `locked_until`).
 
 ### `class-join`
-Teacher JWT for class mode: `{ "class_code": "P5GLD7" }` → `{ "class_id", "children": [{ "child_id", "first_name", "avatar_key" }] }`.
+School admin JWT for class mode: `{ "class_code": "P5GLD7" }` → `{ "class_id", "children": [{ "child_id", "first_name", "avatar_key" }] }`.
 
 ## 2. Learning
 
@@ -98,15 +98,11 @@ Child JWT: `{ "topic_ids": ["uuid"], "max_items": 40 }` → a signed Storage URL
 | `data-delete` | POST | `{ "child_id", "confirm": "DELETE TOLU" }` → request id |
 | `rest-mode` | POST | `{ "child_id", "days": 7 }` sets Rest Mode within the rules |
 
-## 4. Teacher and school
+## 4. School
 
 | Endpoint | Purpose |
 |---|---|
-| `/rest/v1/v_class_grid?class_id=eq.<id>` | Pupil × topic mastery grid |
-| `/rest/v1/v_class_needs_help?class_id=eq.<id>` | Pupils matching the needs-help rule |
-| `assignment-create` | `{ class_id, kind, topic_ids, due_at }` |
 | `/rest/v1/v_school_overview?school_id=eq.<id>` | Licence use, weekly active pupils, coverage by class |
-| `teacher-invite` | `{ school_id, phone \| email }` |
 
 ## 5. Content studio
 
@@ -145,6 +141,5 @@ Events go to the first-party `events` table only. **No names, free text or conta
 | `pack_downloaded` | Offline pack | `items`, `bytes` |
 | `sync_completed` | Outbox flushed | `responses`, `max_delay_s` |
 | `report_generated` / `report_opened` | Parent report | `channel`, `days_since_generated` |
-| `assignment_created` / `assignment_completed` | Teacher flow | `kind`, `topics`, `completion_rate` |
 | `rest_mode_set` | Rest Mode | `days` |
 | `perf_vitals` | Field web vitals | `lcp_ms`, `inp_ms`, `cls`, `device_class` |

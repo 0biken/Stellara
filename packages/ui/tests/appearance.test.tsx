@@ -52,7 +52,7 @@ it("server renders system without accessing browser storage", () => {
 });
 it("reads persisted choice after mount and offers one named native radio group", () => {
   localStorage.setItem("stellara-theme", "light");
-  render(<Appearance audience="teacher" labels={labels} />);
+  render(<Appearance audience="school" labels={labels} />);
   expect(screen.getByRole("group", { name: labels.title })).toBeDefined();
   expect(screen.getAllByRole("radio")).toHaveLength(3);
   expect((screen.getByRole("radio", { name: labels.light }) as HTMLInputElement).checked).toBe(

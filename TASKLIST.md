@@ -5,7 +5,7 @@ Built on 12 Nov 2026 from `docs/md/00–15` and the knowledge graph in `graphify
 
 **Where things stand now (13 Nov 2026):** the pnpm/Turborepo monorepo, minimal Next.js 16 web shell, pure `v0.1.0` rules engine, validated content schemas and 74-topic curriculum draft exist. Local quality checks pass, including all 18 required rules fixtures and 99.73% rules branch coverage. Supabase folders reserve later work only; no cloud resources or database migrations are provisioned. Product sign-off, academic approval, official 2027 exam mapping, contributor signatures and supplier quotes remain pending. See [foundation gates](docs/md/17-foundations-and-human-gates.md).
 
-**Update (16 Nov 2026):** the design-system work in 2B is done ahead of schedule (2.9–2.12, most of 2.13): Sweet garden tokens, the `@stellara/ui` component library with Storybook, accessibility and visual tests, the theme bootstrap, ICU i18n with the copy lint, route-group shells, the public landing page, a sign-in screen (UI only) and a GitHub Pages deploy. These commits are on `stellara-landing` and not yet merged to `main`. Estimated progress: engineering toward the MVP about 15%, whole plan to M6 about 10%. Still at 0%: the Supabase backend (2A), learning runtime (2C), offline (2D), every portal screen, content authoring (2.33) and every legal/business gate in 1A.
+**Update (16 Nov 2026):** the design-system work in 2B is done ahead of schedule (2.9–2.12, most of 2.13): Sweet garden tokens, the `@stellara/ui` component library with Storybook, accessibility and visual tests, the theme bootstrap, ICU i18n with the copy lint, route-group shells, the public landing page, parent sign-in (Google or email link, in preview mode until Supabase exists) and a GitHub Pages deploy. These commits are on `stellara-landing` and not yet merged to `main`. **Scope change:** the teacher role and dashboard are dropped from the MVP; school admins own classes, join codes and class mode. Estimated progress: engineering toward the MVP about 15%, whole plan to M6 about 10%. Still at 0%: the Supabase backend (2A), learning runtime (2C), offline (2D), every portal screen, content authoring (2.33) and every legal/business gate in 1A.
 
 Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 
@@ -62,29 +62,29 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 - [ ] **2.3 Add RLS helpers and policies on every table.** Each policy gets a pgTAP allow test and a deny test. **[Eng]** 📄 05 §3, 10 §1
 - [ ] **2.4 Set up Supabase Auth:** phone OTP (WhatsApp, then SMS) and email magic link, with OTP limits (FAM-01). Staff accounts get MFA. **[Eng]**
 - [ ] **2.5 Build the functions `consent-start` and `consent-confirm`, `child-create`, `child-session`,** plus the picture PIN with argon2id hashing and lockout. **[Eng]** 📄 06, 04 §6
-- [ ] **2.6 Build school onboarding:** SCH-01…03, invites, class codes and `class-join`. **[Eng]** 📄 01 §7.1
+- [ ] **2.6 Build school onboarding:** SCH-01…03, school admin accounts, classes and join codes created by the school admin, and `class-join`. **[Eng]** 📄 01 §7.1
 - [ ] **2.7 Set up rate limits** on `responses-submit`, `child-session` and OTP. **[Eng]** 📄 04 §11
 - [ ] **2.8 Write the seed data:** a demo school and synthetic children. **[Eng]**
 
 ### 2B. Design system and web shell (in parallel, from 30 Nov)
 - [x] **2.9 Set up `packages/ui` tokens** (light and dark) and wire them into Tailwind. `tokens.mjs` contrast runs in CI. **[Eng/Design]** 📄 08, 09 §8
 - [x] **2.10 Build the components from 08 §6 in Storybook,** with axe checks and light and dark snapshots. **[Eng]** About 25 components; Playwright accessibility and visual specs run in CI. API documented in [18 · UI foundations](docs/md/18-ui-foundations.md).
-- [x] **2.11 Build the theme bootstrap:** an inline no-flash script, `color-scheme` and `theme-color` metas, and the per-device Appearance setting. **[Eng]** 📄 09 §8 The `Appearance` component exists but is not yet mounted on a parent or teacher settings page.
+- [x] **2.11 Build the theme bootstrap:** an inline no-flash script, `color-scheme` and `theme-color` metas, and the per-device Appearance setting. **[Eng]** 📄 09 §8 The `Appearance` component exists but is not yet mounted on a parent or school admin settings page.
 - [x] **2.12 Set up `packages/i18n`** (ICU, en-NG, with yo/ha/ig catalogues that fall back to English). Add the forbidden-phrase lint and apply 16-ux-writing. **[Eng]** 📄 09 §6, 10 §4 Lint is `pnpm check:copy`; yo/ha/ig contain no real translations yet.
-- [ ] **2.13 Create the route groups** `(child) (family) (teach) (school) (studio) (ops) /basic`. **[Eng]** 📄 04 §4 Done except `(teach)`; existing groups are empty layout shells and `/basic` shows a heading only.
+- [x] **2.13 Create the route groups** `(child) (family) (school) (studio) (ops) /basic`. **[Eng]** 📄 04 §4 The groups are empty layout shells and `/basic` shows a heading only. `(teach)` was dropped with the teacher role (16 Nov).
 
 ### 2B+. Extra work completed (not in the original plan)
 - [x] **Public landing page** with the scroll-scrubbed "How a star grows" section and theme toggle. **[Eng/Design]**
-- [x] **Sign-in screen (UI only).** Not connected to Supabase Auth; that arrives with 2.4. **[Eng]**
+- [x] **Parent sign-in, connected through an auth adapter.** Google plus an email magic-link fallback (docs 01 FAM-01 and 04 §6 updated). Runs in a labelled preview mode until 2.4 provisions Supabase; set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` to switch on. `/family` is a guarded parent home with an empty "Add your child" state. **[Eng]**
 - [x] **GitHub Pages static-export deploy workflow** for the web app. **[Eng]**
 
 ### 2C. Learning runtime (7 Dec – 10 Jan) ⟶ 1.12, 2.1–2.5
-- [ ] **2.14 Build `set-start`** for practice, review, topic assessment and placement sets. Payloads carry no keys. **[Eng]**
-- [ ] **2.15 Build `responses-submit`:** batch processing that is idempotent on `client_id`, calls rules for scoring and mastery, and writes the ledger and activity days. Target p95 under 400 ms in Lagos. **[Eng]** 📄 04 §5
+- [ ] **2.14 Build `set-start`** for practice, review, topic assessment and placement sets. Payloads carry no keys. **[Eng]** Core done (16 Nov): `startSet` in `packages/runtime`, pure and tested against an in-memory store. The Deno adapter is pending 2A.
+- [ ] **2.15 Build `responses-submit`:** batch processing that is idempotent on `client_id`, calls rules for scoring and mastery, and writes the ledger and activity days. Target p95 under 400 ms in Lagos. **[Eng]** 📄 04 §5 Core done (16 Nov): `submitResponses`, which is transactional, idempotent and covers mastery, reviews, Stardust and activity days. The Deno adapter and the Lagos latency check are pending 2A.
 - [ ] **2.16 Build the child screens:** the sky home (KID-02), lesson cards, practice with the "checking" state, hints, and "Not quite" (KID-03). **[Eng]**
 - [ ] **2.17 Build the placement check flow** (optional, resumable, strand-level only). **[Eng]** 📄 02 §9
-- [ ] **2.18 Add the pg_cron jobs:** close the learning day, schedule due reviews, update item stats, and purge for retention. **[Eng]** 📄 04 §10
-- ✅ **M2, walking skeleton (18 Dec):** school → teacher → class → parent consent → child → one practice set works end to end in staging.
+- [ ] **2.18 Add the pg_cron jobs:** close the learning day, schedule due reviews, update item stats, and purge for retention. **[Eng]** 📄 04 §10 The job logic and the `CRON_JOBS` table are done (16 Nov). The pg_cron registration and purge execution are pending 2A migrations.
+- ✅ **M2, walking skeleton (18 Dec):** school → class → parent consent → child → one practice set works end to end in staging.
 
 ### 2D. Offline packs and sync (28 Dec – 18 Jan) ⟶ 2.15
 - [ ] **2.19 Set up the Serwist service worker** to precache the shell and cache media at runtime. **[Eng]**
@@ -97,11 +97,11 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 - [ ] **2.24 Build `test-start`, `test-resume` and `test-finish`:** a server timer, 15 min grace, 2 resumes within 20 min total pause, finalisation of abandoned tests, and `suspect_timing`. **[Eng]** 📄 02 §5.2, KID-04
 - [ ] **2.25 Build the test UI:** an offset-synced timer, free navigation, and flags. It must handle 100 items on a 3 GB device without a tab reload. **[Eng]**
 
-### 2F. Parents, teachers, schools (11 Jan – 1 Feb)
+### 2F. Parents and schools (11 Jan – 1 Feb)
 - [ ] **2.26 Build `report-weekly`** (Sunday 18:00) and the in-app report (FAM-04), with the Common Entrance coverage disclaimer. **[Eng]** 📄 02 §8
 - [ ] **2.27 Build `messages-dispatch`:** a monthly WhatsApp/SMS summary, quiet hours, and the note from Auntie Stella. **[Eng]**
 - [ ] **2.28 Build the data rights flow:** `data-export` (7 days), `data-delete` (30 days) and consent withdrawal in 2 taps (FAM-05/06). **[Eng]**
-- [ ] **2.29 Build the teacher dashboard:** the class grid with shape-coded states, the needs-help list, and assigning sets (SCH-04/05). **[Eng]**
+- ~~**2.29 Build the teacher dashboard.**~~ **Dropped (16 Nov 2026):** there is no teacher role in the MVP. School admins create classes, share join codes and start class mode (SCH-03, 2.6).
 - [ ] **2.30 Build the school overview:** licence usage and Common Entrance coverage by class. **[Eng]**
 - [ ] **2.31 Build Stardust, days in a row and clouds in the UI.** Use calm celebrations and no loss-framing copy (KID-06). **[Eng/Design]**
 
@@ -127,7 +127,7 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 - [ ] **3.3 Sign processor DPAs** (Supabase, Vercel, messaging, Sentry, Paystack) and school DPAs. **[Legal]**
 - [ ] **3.4 Finish the breach runbook** and set up the NDPC 72-hour notification path. **[DPO + Eng]** 📄 07 §7
 - [ ] **3.5 Register the SMS sender ID** at least 3 weeks before the pilot. **[Eng]** 📄 11 §7
-- [ ] **3.6 Prepare school materials:** a parent letter (plus local-language versions), a consent explainer, a teacher card and a poster. **[School success]** 📄 13 §2
+- [ ] **3.6 Prepare school materials:** a parent letter (plus local-language versions), a consent explainer, a school admin quick-start card and a poster. **[School success]** 📄 13 §2
 - [ ] **3.7 Run the release checklist:** TalkBack, light and dark by eye, tokens contrast, a manual offline run, a clean forbidden-phrase lint, and release notes. **[QA]** 📄 10 §6
 - ✅ **M4, pilot-ready (29 Jan):** all MVP stories accepted, DPIA signed, budgets green, TalkBack passed, and at least 70% of the item pool published.
 

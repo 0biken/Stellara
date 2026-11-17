@@ -34,7 +34,7 @@ function AppearanceExample({
   theme,
   blocked = false,
 }: {
-  audience: "parent" | "teacher";
+  audience: "parent" | "school";
   theme: "light" | "dark";
   blocked?: boolean;
 }) {
@@ -73,12 +73,12 @@ export const AppearanceParent: Story = {
   },
 };
 
-export const AppearanceTeacher: Story = {
+export const AppearanceSchool: Story = {
   render: (_args, context) => {
     const theme = context.globals.theme === "dark" ? "dark" : "light";
     return (
       <AdultShell>
-        <AppearanceExample key={theme} audience="teacher" theme={theme} />
+        <AppearanceExample key={theme} audience="school" theme={theme} />
       </AdultShell>
     );
   },

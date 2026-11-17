@@ -38,6 +38,9 @@ test("web import boundary rejects static, dynamic and relative server imports", 
       'export * from "@stellara/content-schema/server";',
       'import("@stellara/rules");',
       'import "../../../packages/rules/src/index.js";',
+      'import { submitResponses } from "@stellara/runtime";',
+      'import "@stellara/runtime/testing";',
+      'import "../../../packages/runtime/src/grade.js";',
     ]) {
       write("apps/web/app/page.tsx", statement);
       assert.equal(checkBoundaries(root).length, 1, statement);

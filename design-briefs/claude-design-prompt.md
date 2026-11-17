@@ -15,7 +15,7 @@ You are the lead product designer for **Stellara**, a learning app for Nigerian 
 
 ## The product in one paragraph
 
-Stellara is a personal tutor that knows your child. Children practise in short daily sets. Each topic is a star in the child's own sky. A star fills as the child masters the topic, and a mastered star **sprouts**. Parents get a weekly report with evidence ("9 of the last 10 right, including a check two weeks later"). Teachers see their class by topic and can assign a set. The first section is Common Entrance (NCEE) preparation for Primary 5–6.
+Stellara is a personal tutor that knows your child. Children practise in short daily sets. Each topic is a star in the child's own sky. A star fills as the child masters the topic, and a mastered star **sprouts**. Parents get a weekly report with evidence ("9 of the last 10 right, including a check two weeks later"). Schools see licence use and Common Entrance coverage. There is no teacher role in the MVP. The first section is Common Entrance (NCEE) preparation for Primary 5–6.
 
 ## Locked brand (do not change)
 
@@ -23,21 +23,21 @@ Stellara is a personal tutor that knows your child. Children practise in short d
 
 Use role tokens. Every screen comes in **Daytime** (light) and **Starlight** (dark).
 
-| Role | Daytime | Starlight | Job |
-|---|---|---|---|
-| bg | #FFF8F1 cream | #1E1518 cocoa | Page |
-| surface | #FFFFFF | #291E22 | Cards, tiles, sheets |
-| sunk | #FCEFE6 | #33262B | Wells, empty bars |
-| line | #F0DCD3 | #47363C | 1 px borders |
-| text | #3A2430 | #F7ECE7 | Main text |
-| muted | #76606A | #C9B6BB | Secondary text |
-| primary | #C23A68 strawberry | #F39BB9 | The one main button, links, selection |
-| primary-tint / ink | #FCE1EA / #A12E57 | #47222F / #F7B3CA | Selected states, active nav, wordmark |
-| reward | #F6C445 honey | #F2C55C | Stars and Stardust. Fill only, never text |
-| reward-tint / ink | #FFF2CC / #845400 | #3B2F1C / #F5D27E | Stardust chip |
-| success | #86BF7E matcha | #93C98A | Progress, sprouts, ticks |
-| success-tint / ink | #E1F2DB / #2D6537 | #20352A / #A8D99F | Correct answer, mastered rows |
-| error | #B42318 | #FF8A80 | Form errors only, never a child's wrong answer |
+| Role               | Daytime            | Starlight         | Job                                            |
+| ------------------ | ------------------ | ----------------- | ---------------------------------------------- |
+| bg                 | #FFF8F1 cream      | #1E1518 cocoa     | Page                                           |
+| surface            | #FFFFFF            | #291E22           | Cards, tiles, sheets                           |
+| sunk               | #FCEFE6            | #33262B           | Wells, empty bars                              |
+| line               | #F0DCD3            | #47363C           | 1 px borders                                   |
+| text               | #3A2430            | #F7ECE7           | Main text                                      |
+| muted              | #76606A            | #C9B6BB           | Secondary text                                 |
+| primary            | #C23A68 strawberry | #F39BB9           | The one main button, links, selection          |
+| primary-tint / ink | #FCE1EA / #A12E57  | #47222F / #F7B3CA | Selected states, active nav, wordmark          |
+| reward             | #F6C445 honey      | #F2C55C           | Stars and Stardust. Fill only, never text      |
+| reward-tint / ink  | #FFF2CC / #845400  | #3B2F1C / #F5D27E | Stardust chip                                  |
+| success            | #86BF7E matcha     | #93C98A           | Progress, sprouts, ticks                       |
+| success-tint / ink | #E1F2DB / #2D6537  | #20352A / #A8D99F | Correct answer, mastered rows                  |
+| error              | #B42318            | #FF8A80           | Form errors only, never a child's wrong answer |
 
 - **One job per colour.** Strawberry means action, honey means reward, matcha means growth. About two thirds of every screen is cream or surface. Strawberry Milk is about 12%. The rest are small accents.
 - **Type:** Nunito 800/700 for display and headings (never below 16 px, never for paragraphs). Inter for body text: 15/24 for adults, 18/28 for children, 22/30 Nunito question stems. Use sentence case everywhere.
@@ -61,9 +61,9 @@ Words should be sweet in moments and plain in facts. Use real copy, never lorem 
 
 ### A. Marketing site (responsive: 390 px and 1280 px, both themes)
 
-1. **Home (for schools; schools are the buyer).** Hero: "A personal tutor that knows your child." Then: how a star grows (not assessed → mastered → sprouted), what parents see (a real weekly report), what teachers see (the class grid), Common Entrance coverage with the label "not a predicted score", how a pilot works, privacy and NDPA consent in plain words, and a "Talk to us about a pilot" call to action. Footer: the non-affiliation notice ("Stellara is not affiliated with NECO").
+1. **Home (for schools; schools are the buyer).** Hero: "A personal tutor that knows your child." Then: how a star grows (not assessed → mastered → sprouted), what parents see (a real weekly report), what the school sees (the school overview), Common Entrance coverage with the label "not a predicted score", how a pilot works, privacy and NDPA consent in plain words, and a "Talk to us about a pilot" call to action. Footer: the non-affiliation notice ("Stellara is not affiliated with NECO").
 2. **For parents.** Joining with a school code, what a child does each day (10 questions, about 10 minutes), the picture key (no passwords for children), the weekly report and the WhatsApp summary, and consent and data controls.
-3. **For teachers.** The class view by topic, pupils who need help, assigning a set, and set-up time.
+3. **For schools.** Set-up time, creating classes and join codes, class mode in the computer lab, and the school overview.
 
 ### B. Child app (phone, 390 × 844, max width 480, primary action in thumb reach)
 
@@ -85,10 +85,10 @@ Bottom nav: Sky, Learn, Practice.
 14. Settings → How Stellara looks: Match my phone / Daytime / Starlight, with the confirmation "Saved on this phone."
 15. Withdraw consent (typed confirmation, plain and serious)
 
-### D. Teacher and school (desktop 1280 px, plus a phone fallback)
+### D. School admin (desktop 1280 px, plus a phone fallback)
 
-16. Class grid: pupils × topics with the five star states. It scrolls horizontally inside its own container and has a "Needs help" filter.
-17. Assign a set (sheet) → "Set assigned to 28 pupils."
+16. Classes: a list of classes with pupil counts; create a class and share its join code.
+17. Start class mode: pick a class, show its class code for the lab devices.
 18. School overview: licences used, and Common Entrance coverage by class
 
 For each screen, show the default, empty, loading and error states. Use worst-case data too: long names like "Oluwaseyifunmi Adebayo-Okonkwo", Yoruba diacritics (ẹ ọ ṣ), and a class of 45 pupils.
@@ -118,7 +118,7 @@ What good looks like:
 
 ## Output format
 
-Work in this order: the design-system board first (tokens, type, buttons, answer tiles, star states, nav), then the marketing home, then the child screens, then parents, then teachers. Show Daytime and Starlight side by side. Annotate motion, component names and copy keys. End with a self-review against the quality bar above. List anything you changed or could not meet.
+Work in this order: the design-system board first (tokens, type, buttons, answer tiles, star states, nav), then the marketing home, then the child screens, then parents, then the school admin screens. Show Daytime and Starlight side by side. Annotate motion, component names and copy keys. End with a self-review against the quality bar above. List anything you changed or could not meet.
 
 ---
 
@@ -126,22 +126,22 @@ Work in this order: the design-system board first (tokens, type, buttons, answer
 
 Claude Design can't load these skills. Use them in Claude Code before the brief (to settle scope) and after the designs come back (to review them and turn them into code).
 
-| When | Skill | What it does for Stellara |
-|---|---|---|
-| Before | `brainstorming` | Settles which screens are in this round and the open questions (pilot call to action, pricing, the copy on the schools page) |
-| Review | `emil-design-eng` | Polish: spacing, press states, motion values, the invisible details (you asked for this one) |
-| Review | `apple-design` | HIG-grounded critique, dark mode, accessibility, onboarding, "less generic" (you asked for this one) |
-| Review | `design-taste-frontend` | An anti-slop pre-flight for the landing pages, against templated layouts |
-| Review | `web-design-guidelines` | A web interface and accessibility compliance pass |
-| Review | `dataviz` | The teacher class grid, coverage bars and report blocks |
-| Review | `break-ui` | Worst-case data: long names, diacritics, 45 pupils, empty states |
-| Build | `frontend-design` | Turns the approved designs into `apps/web` screens using `@stellara/ui` |
-| Build | `redesign-existing-projects` | Brings `/basic` and the route-group shells in line without a rebuild |
-| Motion | `animate` | Builds the press, reward-star and sprout-milestone motion to the token values |
-| Motion | `find-animation-opportunities` | Finds where motion helps, and rejects everything else |
-| Motion | `animation-performance` | Keeps motion within the frame budget on cheap Android phones |
-| Verify | `playwright-cli` | Screenshots at 390 and 1280 px in Daytime and Starlight |
-| Verify | `verification-before-completion` | No "done" claims without evidence |
-| Optional | `minimalist-ui` | Only for the teacher and studio surfaces, if they feel busy |
+| When     | Skill                            | What it does for Stellara                                                                                                    |
+| -------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Before   | `brainstorming`                  | Settles which screens are in this round and the open questions (pilot call to action, pricing, the copy on the schools page) |
+| Review   | `emil-design-eng`                | Polish: spacing, press states, motion values, the invisible details (you asked for this one)                                 |
+| Review   | `apple-design`                   | HIG-grounded critique, dark mode, accessibility, onboarding, "less generic" (you asked for this one)                         |
+| Review   | `design-taste-frontend`          | An anti-slop pre-flight for the landing pages, against templated layouts                                                     |
+| Review   | `web-design-guidelines`          | A web interface and accessibility compliance pass                                                                            |
+| Review   | `dataviz`                        | The school overview, coverage bars and report blocks                                                                         |
+| Review   | `break-ui`                       | Worst-case data: long names, diacritics, 45 pupils, empty states                                                             |
+| Build    | `frontend-design`                | Turns the approved designs into `apps/web` screens using `@stellara/ui`                                                      |
+| Build    | `redesign-existing-projects`     | Brings `/basic` and the route-group shells in line without a rebuild                                                         |
+| Motion   | `animate`                        | Builds the press, reward-star and sprout-milestone motion to the token values                                                |
+| Motion   | `find-animation-opportunities`   | Finds where motion helps, and rejects everything else                                                                        |
+| Motion   | `animation-performance`          | Keeps motion within the frame budget on cheap Android phones                                                                 |
+| Verify   | `playwright-cli`                 | Screenshots at 390 and 1280 px in Daytime and Starlight                                                                      |
+| Verify   | `verification-before-completion` | No "done" claims without evidence                                                                                            |
+| Optional | `minimalist-ui`                  | Only for the school admin and studio surfaces, if they feel busy                                                             |
 
 **Left out on purpose** (each one pulls toward a look you've rejected or the docs forbid): `gpt-taste`, `high-end-visual-design`, `animated-component-libraries`, `gsap-scrolltrigger`, `scroll-reveal-libraries`, `locomotive-scroll`, `industrial-brutalist-ui`, the 3D skills, `lottie-animations`, and `brandkit` (the brand is already locked). Their problems are scroll-jacking, glows, bounces, agency-luxury type or a heavy payload.

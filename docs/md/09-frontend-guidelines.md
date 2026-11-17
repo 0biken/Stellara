@@ -16,7 +16,7 @@ The implemented UI package, controlled component conventions, local font subsets
 apps/web/
   app/
     (child)/sky/  (child)/learn/[topic]/  (child)/practice/[set]/  (child)/test/[set]/
-    (family)/…   (teach)/…   (school)/…   (studio)/…   (ops)/…   basic/…
+    (family)/…   (school)/…   (studio)/…   (ops)/…   basic/…
   components/      app-specific composites (screens built from packages/ui)
   lib/
     outbox/        queue, retry with backoff, idempotency, clock offset
@@ -61,7 +61,7 @@ Enforced in CI with Lighthouse CI and a bundle-size check. A failing budget fail
 | Chrome Android 100+, Samsung Internet 20+ | Full |
 | Opera (full mode), Firefox Android | Full |
 | Safari iOS 16+ | Full (PWA install guidance shown) |
-| Desktop Chrome, Edge, Firefox, Safari (last 2) | Full (teachers, studio) |
+| Desktop Chrome, Edge, Firefox, Safari (last 2) | Full (school, studio) |
 | Opera Mini (Extreme) | `/basic` mode: server-rendered lessons and untimed practice; no practice tests |
 
 Measure the Opera Mini share in the pilot before investing further.

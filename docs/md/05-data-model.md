@@ -48,12 +48,10 @@ erDiagram
 | Table | Key columns | Notes |
 |---|---|---|
 | `schools` | `id`, `name`, `state`, `lga`, `dpa_accepted_at`, `term_dates` (jsonb) | DPA = data processing agreement |
-| `school_members` | `school_id`, `profile_id`, `role` (`school_admin` · `teacher`) | |
+| `school_members` | `school_id`, `profile_id`, `role` (`school_admin`) | |
 | `classes` | `id`, `school_id`, `name`, `level` (`P1`…`P6`, `KG1`…), `pathway_id`, `join_code`, `join_code_expires_at` | |
-| `class_teachers` | `class_id`, `profile_id` | |
 | `enrolments` | `class_id`, `child_id`, `enrolled_at`, `left_at` | |
 | `licences` | `id`, `school_id`, `seats`, `starts_on`, `ends_on`, `invoice_ref` | |
-| `assignments` | `id`, `class_id`, `kind`, `topic_ids`, `due_at`, `created_by` | |
 
 ### Curriculum and content
 
@@ -97,15 +95,15 @@ erDiagram
 
 Helper functions (security definer, stable): `auth_role()`, `my_child_ids()`, `my_class_ids()`, `my_school_ids()`, `is_school_admin(school_id)`.
 
-| Table | Child (JWT `role=child`) | Guardian | Teacher | School admin | Content roles | Ops |
-|---|---|---|---|---|---|---|
-| `children` | own row | rows in `my_child_ids()` | enrolled in `my_class_ids()` (first name, avatar only via view) | children in own school (view) | — | via audited function |
-| `consents` | — | own | — | read status only (view) | — | read |
-| `attempts` | insert via function only; read own | read own children (summary view) | read class (summary view) | aggregate views | — | read |
-| `mastery_states` | own | own children | class | school (aggregate) | — | read |
-| `item_versions` (published) | read | read | read | read | full | read |
-| `item_answers` | **none** | none | none | none | read/write | none |
-| `audit_log` | none | none | none | none | none | read |
+| Table | Child (JWT `role=child`) | Guardian | School admin | Content roles | Ops |
+|---|---|---|---|---|---|
+| `children` | own row | rows in `my_child_ids()` | children in own school (view) | — | via audited function |
+| `consents` | — | own | read status only (view) | — | read |
+| `attempts` | insert via function only; read own | read own children (summary view) | aggregate views | — | read |
+| `mastery_states` | own | own children | school (aggregate) | — | read |
+| `item_versions` (published) | read | read | read | full | read |
+| `item_answers` | **none** | none | none | read/write | none |
+| `audit_log` | none | none | none | none | read |
 
 Every policy has a pgTAP test proving both allow and deny cases ([10](10-qa-and-testing.md)).
 

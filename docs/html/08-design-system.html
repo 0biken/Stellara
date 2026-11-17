@@ -287,7 +287,7 @@ main{padding:28px 0 80px;min-width:0}
 <h3 id="23-daytime-and-starlight-light-and-dark">2.3 Daytime and Starlight (light and dark)</h3>
 <p>In every user-facing word, the light theme is <strong>Daytime</strong> and the dark theme is <strong>Starlight</strong>; following the device is <strong>Match my phone</strong> (see <a href="16-ux-writing.html#4-daytime-and-starlight-appearance">16 §4</a>). &quot;Light&quot; and &quot;dark&quot; are used only in code.</p>
 <ul>
-<li><strong>Default: follow the device</strong> (<code>prefers-color-scheme</code>). This covers the children&#39;s app, the parent app, teacher and school screens, and the website.</li>
+<li><strong>Default: follow the device</strong> (<code>prefers-color-scheme</code>). This covers the children&#39;s app, the parent app, school screens, and the website.</li>
 <li><strong>Override:</strong> parents can choose <em>Settings → How Stellara looks: Match my phone, Daytime, Starlight</em>. It is stored <strong>per device</strong> (localStorage <code>stellara-theme</code>, absent means System), so a shared family tablet keeps its own setting. There is no theme switch on children&#39;s screens. This follows Apple&#39;s guidance (HIG <em>Dark Mode</em>: &quot;Avoid offering an app-specific appearance setting&quot;), while still giving families the control they asked for.</li>
 <li><strong>Dark is warm cocoa,</strong> never pure black or purple. Text is a soft off-white (<code>#F7ECE7</code>), never <code>#FFFFFF</code> on dark.</li>
 <li><strong>Illustrations</strong> keep their colours in dark mode. Auntie Stella and photos are dimmed slightly (<code>filter: brightness(.9)</code>) so they don&#39;t glare.</li>
@@ -453,7 +453,7 @@ main{padding:28px 0 80px;min-width:0}
 <li>Never <code>ease-in</code> for interface motion. Never enter from <code>scale(0)</code>.</li>
 <li>Animate only <code>transform</code> and <code>opacity</code>. Use CSS transitions (which can be interrupted) for anything that can be triggered repeatedly; keyframes only for one-off moments.</li>
 <li>Hover effects only under <code>@media (hover: hover) and (pointer: fine)</code>.</li>
-<li>No animation on actions that repeat many times an hour (keyboard shortcuts, tab switches in the teacher grid).</li>
+<li>No animation on actions that repeat many times an hour (keyboard shortcuts, tab switches in the studio).</li>
 </ul>
 <h2 id="6-components">6. Components</h2>
 <p>Each component lives in <code>packages/ui</code>, has Storybook stories for every state <strong>in both themes</strong>, and passes axe checks.</p>
@@ -540,7 +540,7 @@ main{padding:28px 0 80px;min-width:0}
 <tr>
 <td><strong>Appearance setting</strong> (&quot;How Stellara looks&quot;)</td>
 <td>Match my phone, Daytime, Starlight</td>
-<td>Parent and teacher Settings only. A list of three options, each with a one-line description; default Match my phone. Confirmation: &quot;Saved on this phone.&quot;</td>
+<td>Parent and school admin Settings only. A list of three options, each with a one-line description; default Match my phone. Confirmation: &quot;Saved on this phone.&quot;</td>
 </tr>
 <tr>
 <td><strong>Dialog / sheet</strong></td>
@@ -596,7 +596,7 @@ main{padding:28px 0 80px;min-width:0}
 <ul>
 <li>Child app: a single column, max width 480 px, 16–20 px side gutters, primary action pinned to the bottom within thumb reach.</li>
 <li>Parent app: a single column on phones; two columns from 768 px.</li>
-<li>Teacher and school: responsive grid; the class grid scrolls horizontally inside its own container.</li>
+<li>School: responsive grid; wide tables scroll horizontally inside their own container.</li>
 <li>Content studio: desktop only (≥ 1024 px).</li>
 </ul>
 <h2 id="9-accessibility">9. Accessibility</h2>

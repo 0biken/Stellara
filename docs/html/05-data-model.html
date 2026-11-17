@@ -137,17 +137,12 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 <tr>
 <td><code>school_members</code></td>
-<td><code>school_id</code>, <code>profile_id</code>, <code>role</code> (<code>school_admin</code> · <code>teacher</code>)</td>
+<td><code>school_id</code>, <code>profile_id</code>, <code>role</code> (<code>school_admin</code>)</td>
 <td></td>
 </tr>
 <tr>
 <td><code>classes</code></td>
 <td><code>id</code>, <code>school_id</code>, <code>name</code>, <code>level</code> (<code>P1</code>…<code>P6</code>, <code>KG1</code>…), <code>pathway_id</code>, <code>join_code</code>, <code>join_code_expires_at</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>class_teachers</code></td>
-<td><code>class_id</code>, <code>profile_id</code></td>
 <td></td>
 </tr>
 <tr>
@@ -158,11 +153,6 @@ main{padding:28px 0 80px;min-width:0}
 <tr>
 <td><code>licences</code></td>
 <td><code>id</code>, <code>school_id</code>, <code>seats</code>, <code>starts_on</code>, <code>ends_on</code>, <code>invoice_ref</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>assignments</code></td>
-<td><code>id</code>, <code>class_id</code>, <code>kind</code>, <code>topic_ids</code>, <code>due_at</code>, <code>created_by</code></td>
 <td></td>
 </tr>
 </tbody></table></div>
@@ -308,7 +298,6 @@ main{padding:28px 0 80px;min-width:0}
 <th>Table</th>
 <th>Child (JWT <code>role=child</code>)</th>
 <th>Guardian</th>
-<th>Teacher</th>
 <th>School admin</th>
 <th>Content roles</th>
 <th>Ops</th>
@@ -317,7 +306,6 @@ main{padding:28px 0 80px;min-width:0}
 <td><code>children</code></td>
 <td>own row</td>
 <td>rows in <code>my_child_ids()</code></td>
-<td>enrolled in <code>my_class_ids()</code> (first name, avatar only via view)</td>
 <td>children in own school (view)</td>
 <td>—</td>
 <td>via audited function</td>
@@ -326,7 +314,6 @@ main{padding:28px 0 80px;min-width:0}
 <td><code>consents</code></td>
 <td>—</td>
 <td>own</td>
-<td>—</td>
 <td>read status only (view)</td>
 <td>—</td>
 <td>read</td>
@@ -335,7 +322,6 @@ main{padding:28px 0 80px;min-width:0}
 <td><code>attempts</code></td>
 <td>insert via function only; read own</td>
 <td>read own children (summary view)</td>
-<td>read class (summary view)</td>
 <td>aggregate views</td>
 <td>—</td>
 <td>read</td>
@@ -344,14 +330,12 @@ main{padding:28px 0 80px;min-width:0}
 <td><code>mastery_states</code></td>
 <td>own</td>
 <td>own children</td>
-<td>class</td>
 <td>school (aggregate)</td>
 <td>—</td>
 <td>read</td>
 </tr>
 <tr>
 <td><code>item_versions</code> (published)</td>
-<td>read</td>
 <td>read</td>
 <td>read</td>
 <td>read</td>
@@ -363,13 +347,11 @@ main{padding:28px 0 80px;min-width:0}
 <td><strong>none</strong></td>
 <td>none</td>
 <td>none</td>
-<td>none</td>
 <td>read/write</td>
 <td>none</td>
 </tr>
 <tr>
 <td><code>audit_log</code></td>
-<td>none</td>
 <td>none</td>
 <td>none</td>
 <td>none</td>

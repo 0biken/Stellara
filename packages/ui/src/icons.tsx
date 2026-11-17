@@ -14,7 +14,6 @@ export type IconName =
   | "privacy"
   | "school"
   | "classes"
-  | "teachers"
   | "items"
   | "review"
   | "flags"
@@ -40,8 +39,6 @@ const paths: Record<IconName, string> = {
   privacy: "M12 3.5l7 2.5v5.5c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6zM9 12l2 2 4-4",
   school: "M3.5 9.5L12 5l8.5 4.5L12 14zM7 11.5V16c1.5 1.5 3 2 5 2s3.5-.5 5-2v-4.5M20.5 9.5V15",
   classes: "M4 5h16v10H4zM8 19h8M12 15v4",
-  teachers:
-    "M9 10.5a3 3 0 100-6 3 3 0 000 6zM3.5 20c.5-3.5 2.5-5.5 5.5-5.5s5 2 5.5 5.5M17 8v6M14 11h6",
   items: "M5 5h14v14H5zM8.5 9.5h7M8.5 12.5h7M8.5 15.5h4",
   review:
     "M4 12s3-6.5 8-6.5 8 6.5 8 6.5-3 6.5-8 6.5S4 12 4 12zM12 14.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z",

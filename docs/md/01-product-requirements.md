@@ -30,7 +30,6 @@ Stellara is therefore sold **to schools first** (business to school to parent). 
 | **Child, primary** | 6–12 | Short daily practice, clear progress, encouragement | Child app (phone, tablet, school device) |
 | **Child, Common Entrance candidate** | 9–12 (Primary 5–6) | Exam-format practice, timing, knowing what to work on | Child app, practice tests |
 | **Parent or guardian** | Adult | Proof of progress, simple guidance, control over data | Parent app, weekly report, WhatsApp summary |
-| **Class teacher** | Adult | See class progress, assign practice, spot who needs help | Teacher dashboard |
 | **School administrator** | Adult | Licences, classes, parent onboarding, results overview | School admin console |
 | **Content author** | Adult | Write lessons and items in the agreed schema | Content studio |
 | **Academic reviewer** | Adult | Approve content, verify answers | Content studio |
@@ -52,7 +51,7 @@ The data model supports all three from day one (see [05 Data model](05-data-mode
 
 ### In
 
-1. **School onboarding.** Stellara staff create a school, the school admin invites teachers, and teachers create classes.
+1. **School onboarding.** Stellara staff create a school, and the school admin creates classes and shares their join codes. There is no teacher role in the MVP.
 2. **Parent-led child profiles.** Parents join with a class invite code, give consent, and create the child's profile.
 3. **Child sign-in without credentials.** On a family phone: a profile picker with a 4-picture PIN. On a school device: a class code plus the picture PIN.
 4. **Placement check.** About 20 items per paper, optional and resumable. Results are reported at strand level only.
@@ -63,10 +62,9 @@ The data model supports all three from day one (see [05 Data model](05-data-mode
 9. **Motivation.** Stardust (points with a daily cap), days in a row with resting clouds, and calm celebrations.
 10. **Offline practice.** Downloadable practice packs, answers saved on the device first, automatic sync.
 11. **Parent report.** A weekly in-app report plus a monthly WhatsApp or SMS summary, including "a note from Auntie Stella".
-12. **Teacher dashboard.** Class view by topic and mastery state, pupils who need help, and the ability to assign a practice set.
-13. **School overview.** Licence usage and Common Entrance coverage by class.
-14. **Content studio.** Author, review and publish items and lessons, with provenance and versioning.
-15. **Compliance foundations.** Consent records, a data export or delete request flow, an audit log and a non-affiliation notice.
+12. **School overview.** Licence usage and Common Entrance coverage by class.
+13. **Content studio.** Author, review and publish items and lessons, with provenance and versioning.
+14. **Compliance foundations.** Consent records, a data export or delete request flow, an audit log and a non-affiliation notice.
 
 ### Out of the MVP (with the condition for bringing it back)
 
@@ -94,32 +92,25 @@ The data model supports all three from day one (see [05 Data model](05-data-mode
 
 The IDs are used in tests ([10 QA and testing](10-qa-and-testing.md)).
 
-### 7.1 Schools and teachers
+### 7.1 Schools
 
 **SCH-01** As a Stellara operator, I can create a school with a licence count and term dates.
-- AC1: The school cannot invite teachers until a named school admin has accepted the data processing agreement.
+- AC1: The school cannot create classes until a named school admin has accepted the data processing agreement.
 - AC2: Licence count and dates are visible to the school admin.
 
-**SCH-02** As a school admin, I can invite teachers by phone number or email.
-- AC1: An invite expires after 7 days.
-- AC2: A teacher sees only the classes assigned to them (enforced by row-level security, tested in pgTAP).
+**SCH-02** *(Dropped 16 Nov 2026: there is no teacher role in the MVP.)*
 
-**SCH-03** As a teacher, I can create a class (for example "Primary 5 Gold") and get a class invite code for parents.
+**SCH-03** As a school admin, I can create a class (for example "Primary 5 Gold") and get a class invite code for parents.
 - AC1: The code is 6 characters, contains no ambiguous characters, and can be regenerated.
 - AC2: A child joins a class only after a parent has given consent (see FAM-02).
 
-**SCH-04** As a teacher, I can see a class grid of topics by pupils with mastery states.
-- AC1: States use shape as well as colour (outline, half, full, ringed).
-- AC2: A "needs help" list shows pupils with 3 or more topics at Foundation after at least 20 scored responses.
-
-**SCH-05** As a teacher, I can assign a practice set (topic or mixed) to a class with a due date.
-- AC1: Assigned sets appear first on the child's home screen.
-- AC2: Completion and the median score are shown to the teacher.
+**SCH-04, SCH-05** *(Dropped 16 Nov 2026: the class grid, needs-help list and assigned sets were teacher features. Children follow their own learning path.)*
 
 ### 7.2 Families
 
-**FAM-01** As a parent, I can sign up with a phone number (OTP by WhatsApp, then SMS) or with email.
-- AC1: An OTP expires after 10 minutes. After 5 failed attempts in 15 minutes, sign-in is blocked for 30 minutes.
+**FAM-01** As a parent, I can sign up with my Google account or with an email sign-in link, after confirming I am over 18.
+- AC1: An email link works once and expires after 1 hour. After 5 failed attempts in 15 minutes, sign-in is blocked for 30 minutes.
+- AC2: Phone sign-in (OTP by WhatsApp, then SMS) is a later option and is not in the MVP.
 
 **FAM-02** As a parent, I give consent before a child profile exists.
 - AC1: **No child profile row exists without a consent record** (database constraint plus test).

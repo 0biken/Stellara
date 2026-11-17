@@ -124,12 +124,6 @@ main{padding:28px 0 80px;min-width:0}
 <td>Parent app, weekly report, WhatsApp summary</td>
 </tr>
 <tr>
-<td><strong>Class teacher</strong></td>
-<td>Adult</td>
-<td>See class progress, assign practice, spot who needs help</td>
-<td>Teacher dashboard</td>
-</tr>
-<tr>
 <td><strong>School administrator</strong></td>
 <td>Adult</td>
 <td>Licences, classes, parent onboarding, results overview</td>
@@ -185,7 +179,7 @@ main{padding:28px 0 80px;min-width:0}
 <h2 id="5-mvp-scope-phase-1">5. MVP scope (Phase 1)</h2>
 <h3 id="in">In</h3>
 <ol>
-<li><strong>School onboarding.</strong> Stellara staff create a school, the school admin invites teachers, and teachers create classes.</li>
+<li><strong>School onboarding.</strong> Stellara staff create a school, and the school admin creates classes and shares their join codes. There is no teacher role in the MVP.</li>
 <li><strong>Parent-led child profiles.</strong> Parents join with a class invite code, give consent, and create the child&#39;s profile.</li>
 <li><strong>Child sign-in without credentials.</strong> On a family phone: a profile picker with a 4-picture PIN. On a school device: a class code plus the picture PIN.</li>
 <li><strong>Placement check.</strong> About 20 items per paper, optional and resumable. Results are reported at strand level only.</li>
@@ -196,7 +190,6 @@ main{padding:28px 0 80px;min-width:0}
 <li><strong>Motivation.</strong> Stardust (points with a daily cap), days in a row with resting clouds, and calm celebrations.</li>
 <li><strong>Offline practice.</strong> Downloadable practice packs, answers saved on the device first, automatic sync.</li>
 <li><strong>Parent report.</strong> A weekly in-app report plus a monthly WhatsApp or SMS summary, including &quot;a note from Auntie Stella&quot;.</li>
-<li><strong>Teacher dashboard.</strong> Class view by topic and mastery state, pupils who need help, and the ability to assign a practice set.</li>
 <li><strong>School overview.</strong> Licence usage and Common Entrance coverage by class.</li>
 <li><strong>Content studio.</strong> Author, review and publish items and lessons, with provenance and versioning.</li>
 <li><strong>Compliance foundations.</strong> Consent records, a data export or delete request flow, an audit log and a non-affiliation notice.</li>
@@ -250,36 +243,24 @@ main{padding:28px 0 80px;min-width:0}
 </ol>
 <h2 id="7-user-stories-and-acceptance-criteria">7. User stories and acceptance criteria</h2>
 <p>The IDs are used in tests (<a href="10-qa-and-testing.html">10 QA and testing</a>).</p>
-<h3 id="71-schools-and-teachers">7.1 Schools and teachers</h3>
+<h3 id="71-schools">7.1 Schools</h3>
 <p><strong>SCH-01</strong> As a Stellara operator, I can create a school with a licence count and term dates.</p>
 <ul>
-<li>AC1: The school cannot invite teachers until a named school admin has accepted the data processing agreement.</li>
+<li>AC1: The school cannot create classes until a named school admin has accepted the data processing agreement.</li>
 <li>AC2: Licence count and dates are visible to the school admin.</li>
 </ul>
-<p><strong>SCH-02</strong> As a school admin, I can invite teachers by phone number or email.</p>
-<ul>
-<li>AC1: An invite expires after 7 days.</li>
-<li>AC2: A teacher sees only the classes assigned to them (enforced by row-level security, tested in pgTAP).</li>
-</ul>
-<p><strong>SCH-03</strong> As a teacher, I can create a class (for example &quot;Primary 5 Gold&quot;) and get a class invite code for parents.</p>
+<p><strong>SCH-02</strong> <em>(Dropped 16 Nov 2026: there is no teacher role in the MVP.)</em></p>
+<p><strong>SCH-03</strong> As a school admin, I can create a class (for example &quot;Primary 5 Gold&quot;) and get a class invite code for parents.</p>
 <ul>
 <li>AC1: The code is 6 characters, contains no ambiguous characters, and can be regenerated.</li>
 <li>AC2: A child joins a class only after a parent has given consent (see FAM-02).</li>
 </ul>
-<p><strong>SCH-04</strong> As a teacher, I can see a class grid of topics by pupils with mastery states.</p>
-<ul>
-<li>AC1: States use shape as well as colour (outline, half, full, ringed).</li>
-<li>AC2: A &quot;needs help&quot; list shows pupils with 3 or more topics at Foundation after at least 20 scored responses.</li>
-</ul>
-<p><strong>SCH-05</strong> As a teacher, I can assign a practice set (topic or mixed) to a class with a due date.</p>
-<ul>
-<li>AC1: Assigned sets appear first on the child&#39;s home screen.</li>
-<li>AC2: Completion and the median score are shown to the teacher.</li>
-</ul>
+<p><strong>SCH-04, SCH-05</strong> <em>(Dropped 16 Nov 2026: the class grid, needs-help list and assigned sets were teacher features. Children follow their own learning path.)</em></p>
 <h3 id="72-families">7.2 Families</h3>
-<p><strong>FAM-01</strong> As a parent, I can sign up with a phone number (OTP by WhatsApp, then SMS) or with email.</p>
+<p><strong>FAM-01</strong> As a parent, I can sign up with my Google account or with an email sign-in link, after confirming I am over 18.</p>
 <ul>
-<li>AC1: An OTP expires after 10 minutes. After 5 failed attempts in 15 minutes, sign-in is blocked for 30 minutes.</li>
+<li>AC1: An email link works once and expires after 1 hour. After 5 failed attempts in 15 minutes, sign-in is blocked for 30 minutes.</li>
+<li>AC2: Phone sign-in (OTP by WhatsApp, then SMS) is a later option and is not in the MVP.</li>
 </ul>
 <p><strong>FAM-02</strong> As a parent, I give consent before a child profile exists.</p>
 <ul>

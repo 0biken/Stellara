@@ -16,19 +16,20 @@
 | Week | Step | Owner |
 |---|---|---|
 | 0 | Agreement and data processing agreement signed; licence created | Stellara ops, proprietor |
-| 0 | School admin account; teachers invited | School admin |
-| 1 | Teacher training (60 minutes, in person or video call) | Stellara |
-| 1 | Classes created; join codes printed on a parent letter | Teachers |
+| 0 | School admin account | School admin |
+| 1 | School admin training (60 minutes, in person or video call) | Stellara |
+| 1 | Classes created; join codes printed on a parent letter | School admin |
 | 1 | Parent evening or WhatsApp broadcast: what Stellara is, how consent works | School + Stellara |
 | 2 | Parents consent and create profiles (target ≥ 70% of the class) | Parents |
-| 2 | First class-mode session in the computer lab or on tablets | Teacher |
+| 2 | First class-mode session in the computer lab or on tablets | School admin |
 
-Materials: a parent letter (English, with Yoruba, Hausa or Igbo versions where the school asks), a consent explainer, a teacher quick-start card and a school poster. None of them use exam-body logos.
+Materials: a parent letter (English, with Yoruba, Hausa or Igbo versions where the school asks), a consent explainer, a school admin quick-start card and a school poster. None of them use exam-body logos.
 
-## 3. Teacher workflows
+## 3. School admin workflows
 
-- **Monday:** check the class grid and the needs-help list.
-- **Weekly:** assign one practice set that matches the week's classroom topic.
+There is no teacher role in the MVP (dropped 16 Nov 2026).
+
+- **Weekly:** check the school overview for licence use and pupils who have stopped practising.
 - **Monthly:** run a practice test in class mode for Primary 6.
 - **Parents' evening:** show a child's sky and report (with that parent present only).
 

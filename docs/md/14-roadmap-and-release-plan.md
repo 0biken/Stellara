@@ -18,7 +18,7 @@ gantt
   Offline packs + sync                    :b3, 2026-12-28, 21d
   Practice tests + timer                  :b4, 2027-01-04, 21d
   Parent report + messaging               :b5, 2027-01-11, 14d
-  Teacher + school views                  :b6, 2027-01-11, 21d
+  School views                            :b6, 2027-01-11, 21d
   section Content
   Authoring + review (MVP pool)           :c1, 2026-11-30, 90d
   section Pilot
@@ -34,7 +34,7 @@ gantt
 |---|---|---|
 | M0 Decisions | 4 Dec 2026 | Scope, price hypotheses, stack confirmed; lawyer and DPO engaged; trademark search ordered |
 | M1 Rules frozen | 30 Nov 2026 | `packages/rules` passes all fixtures; product sign-off |
-| M2 Walking skeleton | 18 Dec 2026 | School → teacher → class → parent consent → child → one practice set, end to end in staging |
+| M2 Walking skeleton | 18 Dec 2026 | School → class → parent consent → child → one practice set, end to end in staging |
 | M3 Content alpha | 15 Jan 2027 | ≥ 40% of the MVP item pool published and reviewed |
 | M4 Pilot-ready | 29 Jan 2027 | All MVP stories accepted; DPIA signed; budgets green; TalkBack pass; ≥ 70% of the item pool |
 | M5 Pilot live | 1 Feb 2027 | First 5 schools onboarded |
