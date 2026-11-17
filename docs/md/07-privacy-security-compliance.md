@@ -13,16 +13,15 @@
 | Breach notification (s.40) | Notify the NDPC within 72 hours; tell parents without undue delay where risk is high | DPO, engineering | Runbook before the pilot |
 | Cross-border transfer (s.41–43) | Document the basis for hosting outside Nigeria; disclose it in the notice | DPO, legal | Before the pilot |
 | Data subject rights | Export, correction, deletion, withdrawal, all from Settings | Product | MVP |
-| Processor contracts | Data processing agreements with Supabase, Vercel, the messaging provider, Sentry and Paystack; DPAs with schools | Legal | Before the pilot |
+| Processor contracts | Data processing agreements with Supabase, Vercel, the messaging provider, Sentry and Paystack | Legal | Before the pilot |
 
 ## 2. Data we collect
 
 | Data | From | Purpose | Notes |
 |---|---|---|---|
 | Parent name, phone or email | Parent | Account, consent, reports | |
-| Child first name, birth year, class, avatar choice | Parent | Learning, school link | **No photos, no surname required, no NIN or ID numbers** |
+| Child first name, birth year, school year, avatar choice | Parent | Learning | **No photos, no surname required, no NIN or ID numbers** |
 | Learning records (responses, timings, mastery) | System | Core learning, reports | |
-| School admin name, phone or email, school | School | Account, class management | |
 | Device and technical data | System | Security, performance | IP addresses hashed in the audit log after 30 days |
 
 We never collect from children: photos, voice, free text, location, contacts, or exam registration numbers.
@@ -34,8 +33,7 @@ sequenceDiagram
   participant P as Parent
   participant A as Stellara app
   participant F as consent functions
-  participant S as School (optional)
-  P->>A: Opens invite link or enters class code
+  P->>A: Signs in (Google or email link) and confirms 18+
   A->>P: Plain-language notice (version shown), purposes as separate toggles
   P->>A: Selects purposes, confirms
   A->>F: consent-start
@@ -44,12 +42,11 @@ sequenceDiagram
   F->>P: Second, risk-proportionate check (method to be approved by the lawyer)
   F-->>A: consent verified (record stored)
   A->>P: Create child profile
-  S-->>P: (School channel) paper or in-person confirmation can count as the second check if the lawyer agrees
 ```
 
 The record holds: who consented, which child, the notice version, the purposes, the time, the method and evidence references. Withdrawal is two taps and stops processing immediately.
 
-**Open:** which second check satisfies s.31(2) short of government ID. Candidate methods to put to the lawyer: confirmation through the school (the school already holds verified parent contacts); a small card payment by the parent (Phase 2); a signed school consent form uploaded by the school. We never collect a child's ID. If parent ID is ever used, we keep only the check result.
+**Open:** which second check satisfies s.31(2) short of government ID. Without schools there is no third party to vouch for the parent. Candidate methods to put to the lawyer: a small refundable card check through Paystack (the card holder is an adult); a verified phone number plus a signed declaration; or a light ID check that keeps only the result. Until the lawyer decides, development and the walking skeleton use `declaration_v0` (signed-in adult plus an 18+ declaration), recorded as that method and never enabled in production. We never collect a child's ID. If parent ID is ever used, we keep only the check result.
 
 ## 4. Roles and access
 
@@ -57,7 +54,6 @@ The record holds: who consented, which child, the notice version, the purposes, 
 |---|---|
 | Child | Own sky, own sets and results |
 | Guardian | Own children's full records |
-| School admin | Aggregates across the school, class lists, licence usage. Guardian contact details only for consenting parents and only the channel the school already holds |
 | Content roles | Content only; no learner data |
 | Ops | Learner data only through audited support tools, with a reason recorded |
 
@@ -65,7 +61,7 @@ The record holds: who consented, which child, the notice version, the purposes, 
 
 | Data | Kept for | Then |
 |---|---|---|
-| Child profile and learning records | While the account is active, plus 12 months after the last activity or the end of the school licence | Deleted; aggregates anonymised |
+| Child profile and learning records | While the account is active, plus 12 months after the last activity or the end of the subscription | Deleted; aggregates anonymised |
 | Consent records | 6 years after withdrawal or deletion (evidence) | Deleted |
 | Audit log | 2 years | Deleted |
 | Raw IP addresses | 30 days | Hashed |
@@ -93,7 +89,7 @@ Target: **OWASP ASVS Level 2** for the web app and functions.
 1. Detect and record (time, source, scope).
 2. Contain (rotate keys, disable accounts, block routes).
 3. Assess the risk to children and parents within 24 hours.
-4. Notify the NDPC within 72 hours where required; notify parents and schools in plain language.
+4. Notify the NDPC within 72 hours where required; notify parents in plain language.
 5. Fix, review, and update the DPIA and controls.
 
 ## 8. Claims, marketing and exam bodies
@@ -109,6 +105,6 @@ Target: **OWASP ASVS Level 2** for the web app and functions.
 From UN General Comment 25 and the brand's own rules:
 
 - No dark patterns: no loss-framed streaks, no countdown pressure beyond real exam timers, no purchases inside children's screens.
-- Notifications at most once a day, never during quiet hours (20:00–07:00) or school hours by default.
+- Notifications at most once a day, never during quiet hours (20:00–07:00) or school hours by default (08:00–14:00 on weekdays).
 - No social features, chat or public profiles for children in the MVP.
 - No AI features for children until a DPIA update and DPO sign-off.

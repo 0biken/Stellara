@@ -67,7 +67,7 @@ Components use **role tokens**, never raw hex values. Each role has a light and 
 
 In every user-facing word, the light theme is **Daytime** and the dark theme is **Starlight**; following the device is **Match my phone** (see [16 §4](16-ux-writing.md#4-daytime-and-starlight-appearance)). "Light" and "dark" are used only in code.
 
-- **Default: follow the device** (`prefers-color-scheme`). This covers the children's app, the parent app, school screens, and the website.
+- **Default: follow the device** (`prefers-color-scheme`). This covers the children's app, the parent app and the website.
 - **Override:** parents can choose *Settings → How Stellara looks: Match my phone, Daytime, Starlight*. It is stored **per device** (localStorage `stellara-theme`, absent means System), so a shared family tablet keeps its own setting. There is no theme switch on children's screens. This follows Apple's guidance (HIG *Dark Mode*: "Avoid offering an app-specific appearance setting"), while still giving families the control they asked for.
 - **Dark is warm cocoa,** never pure black or purple. Text is a soft off-white (`#F7ECE7`), never `#FFFFFF` on dark.
 - **Illustrations** keep their colours in dark mode. Auntie Stella and photos are dimmed slightly (`filter: brightness(.9)`) so they don't glare.
@@ -153,7 +153,7 @@ Each component lives in `packages/ui`, has Storybook stories for every state **i
 | **Picture PIN** | 4 of 9 pictures | Pictures have text labels for screen readers |
 | **Profile picker** | avatar plus first name | Avatars from a fixed set; no photos |
 | **Form fields** | text, phone (+234 default), OTP, select, toggle | Label above, help text below, errors in `error` with an icon |
-| **Appearance setting** ("How Stellara looks") | Match my phone, Daytime, Starlight | Parent and school admin Settings only. A list of three options, each with a one-line description; default Match my phone. Confirmation: "Saved on this phone." |
+| **Appearance setting** ("How Stellara looks") | Match my phone, Daytime, Starlight | Parent Settings only. A list of three options, each with a one-line description; default Match my phone. Confirmation: "Saved on this phone." |
 | **Dialog / sheet** | confirm, info | Never for nagging; destructive actions need typed confirmation |
 | **Nav** | child: bottom bar (Sky, Learn, Practice); adults: top bar plus side nav on desktop | Active tab: `primary-ink` on `primary-tint` |
 | **Empty state** | with Auntie Stella listening pose | Says what will appear and how to start |
@@ -176,7 +176,6 @@ Rules: she never looks disappointed at the child; she never appears next to scor
 
 - Child app: a single column, max width 480 px, 16–20 px side gutters, primary action pinned to the bottom within thumb reach.
 - Parent app: a single column on phones; two columns from 768 px.
-- School: responsive grid; wide tables scroll horizontally inside their own container.
 - Content studio: desktop only (≥ 1024 px).
 
 ## 9. Accessibility

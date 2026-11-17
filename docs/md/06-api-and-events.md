@@ -13,20 +13,20 @@ Reads that RLS can protect safely go through PostgREST (`/rest/v1/...`) using vi
 ### `consent-start`
 Guardian JWT.
 ```json
-{ "notice_version": "2026-11-v1", "purposes": { "core_learning": true, "school_sharing": true, "progress_messages": true, "product_research": false } }
+{ "notice_version": "2026-11-v1", "purposes": { "core_learning": true, "progress_messages": true, "product_research": false } }
 ```
-→ `{ "consent_id": "uuid", "verification": { "method": "otp_whatsapp", "expires_at": "..." } }`
+→ `{ "consent_id": "uuid", "verification": { "method": "declaration_v0", "expires_at": "..." } }`. `declaration_v0` (signed-in adult plus an 18+ declaration) is a placeholder for development and the walking skeleton only; it is never enabled in production.
 
 ### `consent-confirm`
 → `{ "consent_id": "uuid", "status": "verified" }`. The second verification step is whatever method the lawyer approves ([07 §3](07-privacy-security-compliance.md#3-parental-consent)).
 
 ### `child-create`
 ```json
-{ "consent_id": "uuid", "first_name": "Tolu", "birth_year": 2016, "avatar_key": "kite", "join_code": "P5GLD7" }
+{ "consent_id": "uuid", "first_name": "Tolu", "birth_year": 2016, "year": "P5", "exam_date": "2027-04-24", "avatar_key": "kite", "pin": ["sun","kite","leaf","cup"] }
 ```
-→ `{ "child_id": "uuid", "class": { "id": "uuid", "name": "Primary 5 Gold" } }`
+→ `{ "child_id": "uuid" }`
 
-Errors: `CONSENT_REQUIRED`, `JOIN_CODE_INVALID`, `LICENCE_FULL`.
+Errors: `CONSENT_REQUIRED`, `PIN_INVALID`.
 
 ### `child-session`
 ```json
@@ -36,8 +36,6 @@ Errors: `CONSENT_REQUIRED`, `JOIN_CODE_INVALID`, `LICENCE_FULL`.
 
 Errors: `PIN_INCORRECT` (with `attempts_left`), `PROFILE_LOCKED` (with `locked_until`).
 
-### `class-join`
-School admin JWT for class mode: `{ "class_code": "P5GLD7" }` → `{ "class_id", "children": [{ "child_id", "first_name", "avatar_key" }] }`.
 
 ## 2. Learning
 
@@ -100,9 +98,7 @@ Child JWT: `{ "topic_ids": ["uuid"], "max_items": 40 }` → a signed Storage URL
 
 ## 4. School
 
-| Endpoint | Purpose |
-|---|---|
-| `/rest/v1/v_school_overview?school_id=eq.<id>` | Licence use, weekly active pupils, coverage by class |
+*Removed 17 Nov 2026. Stellara is family-only.*
 
 ## 5. Content studio
 
@@ -131,7 +127,7 @@ Events go to the first-party `events` table only. **No names, free text or conta
 |---|---|---|
 | `app_opened` | Shell loaded | `surface`, `online`, `install_state` |
 | `consent_given` | Consent verified | `notice_version`, `purposes` (booleans), `method` |
-| `child_created` | Profile created | `level`, `school_id` |
+| `child_created` | Profile created | `level` |
 | `placement_started` / `placement_finished` | Placement | `paper`, `items_answered` |
 | `set_started` / `set_finished` | Any set | `kind`, `items`, `scored`, `correct`, `duration_s`, `offline` |
 | `lesson_card_viewed` | Card shown | `card_kind`, `topic_id` |

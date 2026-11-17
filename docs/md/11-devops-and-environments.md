@@ -6,7 +6,7 @@
 |---|---|---|---|---|
 | Local | Supabase CLI (Docker) | `next dev` | Seed + fixtures | Engineers |
 | Preview | Supabase branch per PR | Vercel preview | Seed only | Engineers, product |
-| Staging | `stellara-staging` | `staging.<domain>` | Synthetic schools; no real children | QA, content, pilot schools for training |
+| Staging | `stellara-staging` | `staging.<domain>` | Synthetic families; no real children | QA, content, beta demos |
 | Production | `stellara-prod` | `app.<domain>` | Real | Everyone |
 
 Real children's data never leaves production. Staging uses generated data only.
@@ -72,7 +72,7 @@ When an outage exceeds 2 hours in a learning day, record it in `outages` so stre
 ## 6. Incident response
 
 1. Acknowledge within 15 minutes during school hours (07:00–17:00 Lagos), 1 hour otherwise.
-2. Post a status note for schools (status page or WhatsApp broadcast).
+2. Post a status note for parents (status page or WhatsApp channel).
 3. Mitigate, then fix.
 4. Write a blameless review within 5 working days.
 5. Personal data involved? Follow the breach runbook in [07 §7](07-privacy-security-compliance.md#7-breach-runbook-outline).

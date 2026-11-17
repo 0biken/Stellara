@@ -385,12 +385,6 @@ export const Navigation: Story = {
               href: "#family",
               icon: "children",
             },
-            {
-              id: "school",
-              label: m("nav.school"),
-              href: "#school",
-              icon: "school",
-            },
           ]}
         />
       </>,

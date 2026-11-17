@@ -60,27 +60,25 @@ main{padding:28px 0 80px;min-width:0}
   <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
   <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
 </svg>
-<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html" aria-current="page">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a><a href="18-ui-foundations.html">18 UI foundations</a></aside><main><h1 id="06--api-and-events">06 · API and events</h1>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html" aria-current="page">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-family-launch-and-operations.html">13 Family launch and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a><a href="18-ui-foundations.html">18 UI foundations</a></aside><main><h1 id="06--api-and-events">06 · API and events</h1>
 <p>All Edge Functions are <code>POST https://&lt;project&gt;.supabase.co/functions/v1/&lt;name&gt;</code> with <code>Authorization: Bearer &lt;jwt&gt;</code> and JSON bodies. Errors use the shape:</p>
 <pre class="code"><code>{ &quot;error&quot;: { &quot;code&quot;: &quot;CONSENT_REQUIRED&quot;, &quot;message&quot;: &quot;A parent must give consent first.&quot;, &quot;retryable&quot;: false } }</code></pre>
 <p>Reads that RLS can protect safely go through PostgREST (<code>/rest/v1/...</code>) using views. Anything that <strong>scores, awards, issues tokens, or touches answer keys</strong> goes through a function.</p>
 <h2 id="1-consent-and-children">1. Consent and children</h2>
 <h3 id="consent-start"><code>consent-start</code></h3>
 <p>Guardian JWT.</p>
-<pre class="code"><code>{ &quot;notice_version&quot;: &quot;2026-11-v1&quot;, &quot;purposes&quot;: { &quot;core_learning&quot;: true, &quot;school_sharing&quot;: true, &quot;progress_messages&quot;: true, &quot;product_research&quot;: false } }</code></pre>
-<p>→ <code>{ &quot;consent_id&quot;: &quot;uuid&quot;, &quot;verification&quot;: { &quot;method&quot;: &quot;otp_whatsapp&quot;, &quot;expires_at&quot;: &quot;...&quot; } }</code></p>
+<pre class="code"><code>{ &quot;notice_version&quot;: &quot;2026-11-v1&quot;, &quot;purposes&quot;: { &quot;core_learning&quot;: true, &quot;progress_messages&quot;: true, &quot;product_research&quot;: false } }</code></pre>
+<p>→ <code>{ &quot;consent_id&quot;: &quot;uuid&quot;, &quot;verification&quot;: { &quot;method&quot;: &quot;declaration_v0&quot;, &quot;expires_at&quot;: &quot;...&quot; } }</code>. <code>declaration_v0</code> (signed-in adult plus an 18+ declaration) is a placeholder for development and the walking skeleton only; it is never enabled in production.</p>
 <h3 id="consent-confirm"><code>consent-confirm</code></h3>
 <p>→ <code>{ &quot;consent_id&quot;: &quot;uuid&quot;, &quot;status&quot;: &quot;verified&quot; }</code>. The second verification step is whatever method the lawyer approves (<a href="07-privacy-security-compliance.html#3-parental-consent">07 §3</a>).</p>
 <h3 id="child-create"><code>child-create</code></h3>
-<pre class="code"><code>{ &quot;consent_id&quot;: &quot;uuid&quot;, &quot;first_name&quot;: &quot;Tolu&quot;, &quot;birth_year&quot;: 2016, &quot;avatar_key&quot;: &quot;kite&quot;, &quot;join_code&quot;: &quot;P5GLD7&quot; }</code></pre>
-<p>→ <code>{ &quot;child_id&quot;: &quot;uuid&quot;, &quot;class&quot;: { &quot;id&quot;: &quot;uuid&quot;, &quot;name&quot;: &quot;Primary 5 Gold&quot; } }</code></p>
-<p>Errors: <code>CONSENT_REQUIRED</code>, <code>JOIN_CODE_INVALID</code>, <code>LICENCE_FULL</code>.</p>
+<pre class="code"><code>{ &quot;consent_id&quot;: &quot;uuid&quot;, &quot;first_name&quot;: &quot;Tolu&quot;, &quot;birth_year&quot;: 2016, &quot;year&quot;: &quot;P5&quot;, &quot;exam_date&quot;: &quot;2027-04-24&quot;, &quot;avatar_key&quot;: &quot;kite&quot;, &quot;pin&quot;: [&quot;sun&quot;,&quot;kite&quot;,&quot;leaf&quot;,&quot;cup&quot;] }</code></pre>
+<p>→ <code>{ &quot;child_id&quot;: &quot;uuid&quot; }</code></p>
+<p>Errors: <code>CONSENT_REQUIRED</code>, <code>PIN_INVALID</code>.</p>
 <h3 id="child-session"><code>child-session</code></h3>
 <pre class="code"><code>{ &quot;child_id&quot;: &quot;uuid&quot;, &quot;pin&quot;: [&quot;sun&quot;,&quot;kite&quot;,&quot;drum&quot;,&quot;star&quot;], &quot;device_id&quot;: &quot;uuid&quot;, &quot;mode&quot;: &quot;family&quot; }</code></pre>
 <p>→ <code>{ &quot;token&quot;: &quot;jwt&quot;, &quot;expires_at&quot;: &quot;...&quot;, &quot;refresh_until&quot;: &quot;...&quot; }</code></p>
 <p>Errors: <code>PIN_INCORRECT</code> (with <code>attempts_left</code>), <code>PROFILE_LOCKED</code> (with <code>locked_until</code>).</p>
-<h3 id="class-join"><code>class-join</code></h3>
-<p>School admin JWT for class mode: <code>{ &quot;class_code&quot;: &quot;P5GLD7&quot; }</code> → <code>{ &quot;class_id&quot;, &quot;children&quot;: [{ &quot;child_id&quot;, &quot;first_name&quot;, &quot;avatar_key&quot; }] }</code>.</p>
 <h2 id="2-learning">2. Learning</h2>
 <h3 id="set-start"><code>set-start</code></h3>
 <p>Child JWT.</p>
@@ -156,15 +154,7 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 </tbody></table></div>
 <h2 id="4-school">4. School</h2>
-<div class="table-wrap"><table><thead><tr>
-<th>Endpoint</th>
-<th>Purpose</th>
-</tr>
-</thead><tbody><tr>
-<td><code>/rest/v1/v_school_overview?school_id=eq.&lt;id&gt;</code></td>
-<td>Licence use, weekly active pupils, coverage by class</td>
-</tr>
-</tbody></table></div>
+<p><em>Removed 17 Nov 2026. Stellara is family-only.</em></p>
 <h2 id="5-content-studio">5. Content studio</h2>
 <div class="table-wrap"><table><thead><tr>
 <th>Endpoint</th>
@@ -233,7 +223,7 @@ main{padding:28px 0 80px;min-width:0}
 <tr>
 <td><code>child_created</code></td>
 <td>Profile created</td>
-<td><code>level</code>, <code>school_id</code></td>
+<td><code>level</code></td>
 </tr>
 <tr>
 <td><code>placement_started</code> / <code>placement_finished</code></td>

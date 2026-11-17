@@ -15,25 +15,24 @@ Learning grows. Every skill a child masters becomes a star, and mastered stars s
 
 ## 2. Why now, and for whom
 
-Stellara has direct relationships with a number of private primary schools. Those schools report two problems:
+Parents of Primary 5–6 children face two problems:
 
-1. **Parents want proof of progress.** Termly report cards and occasional WhatsApp messages from teachers are not enough.
-2. **Schools want better Common Entrance results.** Results are part of how a school markets itself.
+1. **They want proof of progress.** Termly report cards and occasional WhatsApp messages from teachers are not enough.
+2. **They want help preparing for Common Entrance** without paying for a lesson teacher every week.
 
-Stellara is therefore sold **to schools first** (business to school to parent). Parents and children are the daily users; the school is the buyer and the channel.
+Stellara is therefore sold **directly to families**, like Duolingo or Khan Academy: a home tutor on the family phone. The parent is the buyer and controls the account; the child is the daily learner. There is no school in the loop (decided 17 Nov 2026).
 
 ## 3. Users
 
 | User | Age | Needs | Primary surfaces |
 |---|---|---|---|
-| **Child, early years** | 2–5 | Play-based early learning with an adult. Very little screen time. | Phase 3 only: parent- and teacher-led activities |
-| **Child, primary** | 6–12 | Short daily practice, clear progress, encouragement | Child app (phone, tablet, school device) |
+| **Child, early years** | 2–5 | Play-based early learning with an adult. Very little screen time. | Phase 3 only: parent-led activities |
+| **Child, primary** | 6–12 | Short daily practice, clear progress, encouragement | Child app on the family phone or tablet |
 | **Child, Common Entrance candidate** | 9–12 (Primary 5–6) | Exam-format practice, timing, knowing what to work on | Child app, practice tests |
 | **Parent or guardian** | Adult | Proof of progress, simple guidance, control over data | Parent app, weekly report, WhatsApp summary |
-| **School administrator** | Adult | Licences, classes, parent onboarding, results overview | School admin console |
 | **Content author** | Adult | Write lessons and items in the agreed schema | Content studio |
 | **Academic reviewer** | Adult | Approve content, verify answers | Content studio |
-| **Stellara operations** | Adult | Support, school onboarding, data requests | Internal admin |
+| **Stellara operations** | Adult | Support, data requests, content error triage | Internal admin |
 
 Every user under 18 is a **child** under the Nigeria Data Protection Act. No child creates their own account. See [07 Privacy, security and compliance](07-privacy-security-compliance.md).
 
@@ -51,9 +50,9 @@ The data model supports all three from day one (see [05 Data model](05-data-mode
 
 ### In
 
-1. **School onboarding.** Stellara staff create a school, and the school admin creates classes and shares their join codes. There is no teacher role in the MVP.
-2. **Parent-led child profiles.** Parents join with a class invite code, give consent, and create the child's profile.
-3. **Child sign-in without credentials.** On a family phone: a profile picker with a 4-picture PIN. On a school device: a class code plus the picture PIN.
+1. **Parent sign-up.** Google or an email sign-in link, for adults over 18.
+2. **Parent-led child profiles.** The parent gives consent, then creates the child's profile (first name, school year, goal).
+3. **Child sign-in without credentials.** On the family phone: a profile picker with a 4-picture key.
 4. **Placement check.** About 20 items per paper, optional and resumable. Results are reported at strand level only.
 5. **Learning path.** Short lesson cards (5–8 minutes) followed by practice items on each topic.
 6. **Practice and review.** Scored practice, spaced review at +3, +10 and +30 days (capped by the exam date), and topic assessments.
@@ -62,20 +61,20 @@ The data model supports all three from day one (see [05 Data model](05-data-mode
 9. **Motivation.** Stardust (points with a daily cap), days in a row with resting clouds, and calm celebrations.
 10. **Offline practice.** Downloadable practice packs, answers saved on the device first, automatic sync.
 11. **Parent report.** A weekly in-app report plus a monthly WhatsApp or SMS summary, including "a note from Auntie Stella".
-12. **School overview.** Licence usage and Common Entrance coverage by class.
-13. **Content studio.** Author, review and publish items and lessons, with provenance and versioning.
-14. **Compliance foundations.** Consent records, a data export or delete request flow, an audit log and a non-affiliation notice.
+12. **Content studio.** Author, review and publish items and lessons, with provenance and versioning. Authors may use AI to draft; a reviewer verifies every answer before publishing.
+13. **Compliance foundations.** Consent records, a data export or delete request flow, an audit log and a non-affiliation notice.
 
 ### Out of the MVP (with the condition for bringing it back)
 
 | Feature | Return condition |
 |---|---|
 | Intermediate section (P1–6 full curriculum) | Phase 2, once the pilot gate is passed |
-| Creche/KG section | Phase 3, after an early-years design study with 3 schools |
+| Creche/KG section | Phase 3, after an early-years design study with families |
 | Leaderboards | Only if pilot data shows a need; opt-in for ages 10+, aliases only |
 | Video lessons, YouTube embeds | After a DPIA update and data-cost review |
-| AI-generated hints or chat | Not for children until a DPIA and DPO sign-off |
-| Direct-to-parent paid subscriptions | Phase 2. The MVP is sold through school licences |
+| Live AI chat or AI-generated hints shown to children | Phase 2 at the earliest, after a DPIA update, DPO sign-off, safety filters and a parent opt-in |
+| Paid parent subscriptions (Paystack) | Built after M2; the beta is a free trial |
+| Schools, classes and class mode | Removed 17 Nov 2026; not planned |
 | Native Android app | When the PWA install rate or offline needs show a gap |
 | Yoruba, Hausa and Igbo interfaces | Strings are ready from day one; translation comes in Phase 2 |
 
@@ -86,7 +85,7 @@ The data model supports all three from day one (see [05 Data model](05-data-mode
 3. **No loss-framing.** No broken-streak guilt, no countdowns other than real exam timers, no "hurry".
 4. **Honest about the exam.** Stellara shows practice coverage and mastery, never a predicted score and never "you are ready".
 5. **Light on data and kind to cheap phones.** See the budgets in [09 Frontend guidelines](09-frontend-guidelines.md).
-6. **Children's data is minimal.** Collect a first name, a class, a year of birth and progress. No photos of children, and no free-text input from children in the MVP.
+6. **Children's data is minimal.** Collect a first name, a school year, a year of birth and progress. No photos of children, and no free-text input from children in the MVP.
 
 ## 7. User stories and acceptance criteria
 
@@ -94,17 +93,7 @@ The IDs are used in tests ([10 QA and testing](10-qa-and-testing.md)).
 
 ### 7.1 Schools
 
-**SCH-01** As a Stellara operator, I can create a school with a licence count and term dates.
-- AC1: The school cannot create classes until a named school admin has accepted the data processing agreement.
-- AC2: Licence count and dates are visible to the school admin.
-
-**SCH-02** *(Dropped 16 Nov 2026: there is no teacher role in the MVP.)*
-
-**SCH-03** As a school admin, I can create a class (for example "Primary 5 Gold") and get a class invite code for parents.
-- AC1: The code is 6 characters, contains no ambiguous characters, and can be regenerated.
-- AC2: A child joins a class only after a parent has given consent (see FAM-02).
-
-**SCH-04, SCH-05** *(Dropped 16 Nov 2026: the class grid, needs-help list and assigned sets were teacher features. Children follow their own learning path.)*
+*Removed 17 Nov 2026 (SCH-01…05). Stellara is family-only.*
 
 ### 7.2 Families
 
@@ -115,9 +104,9 @@ The IDs are used in tests ([10 QA and testing](10-qa-and-testing.md)).
 **FAM-02** As a parent, I give consent before a child profile exists.
 - AC1: **No child profile row exists without a consent record** (database constraint plus test).
 - AC2: The consent record stores who consented, which child, the notice version, purposes, a timestamp and the verification method.
-- AC3: Each purpose is separately selectable: core learning (required), school sharing (required for school accounts), progress messages, product research.
+- AC3: Each purpose is separately selectable: core learning (required), progress messages, product research.
 
-**FAM-03** As a parent, I create a child profile with a first name, year of birth, class code and an avatar chosen from a set.
+**FAM-03** As a parent, I create a child profile with a first name, year of birth, school year, a goal (such as Common Entrance and its date) and an avatar chosen from a set.
 - AC1: Photo upload is not available.
 - AC2: The child chooses a 4-picture PIN on first use, and the parent can reset it.
 
@@ -137,7 +126,7 @@ The IDs are used in tests ([10 QA and testing](10-qa-and-testing.md)).
 **KID-01** As a child, I pick my profile and enter my picture PIN.
 - AC1: After 5 wrong PINs, the profile is locked for 5 minutes and a parent can unlock it.
 
-**KID-02** As a child, I see my sky: today's suggested set, assigned sets, and my constellation.
+**KID-02** As a child, I see my sky: today's suggested set and my constellation.
 - AC1: The first screen is usable within 5 seconds on the reference device (see [09](09-frontend-guidelines.md#4-performance-budgets)).
 
 **KID-03** As a child, I take a short lesson and then practise.
@@ -182,14 +171,14 @@ The IDs are used in tests ([10 QA and testing](10-qa-and-testing.md)).
 
 ## 9. Success measures
 
-Targets and the pilot gate are in [12 Analytics and metrics](12-analytics-and-metrics.md). In short: weekly active pupils, the parent report open rate, topics mastered per pupil per month, a measurable gain on delayed retention checks, and school renewal intent.
+Targets and the pilot gate are in [12 Analytics and metrics](12-analytics-and-metrics.md). In short: weekly active pupils, the parent report open rate, topics mastered per pupil per month, a measurable gain on delayed retention checks, and paid conversion after the free trial.
 
 ## 10. Open questions
 
 | # | Question | Owner | Needed by |
 |---|---|---|---|
 | Q1 | 2027 NCEE papers, item counts, durations, and whether it is paper or CBT | Academic lead | Before practice-test blueprints are final |
-| Q2 | Price per pupil per term for schools; is a parent add-on allowed? | Founder | Before pilot contracts |
-| Q3 | Parental verification method that satisfies NDPA s.31 | Lawyer | Before the pilot |
+| Q2 | Monthly and termly family price; length of the free trial | Founder | Before the family beta |
+| Q3 | Parental verification method that satisfies NDPA s.31, without a school to vouch for the parent | Lawyer | Before the pilot |
 | Q4 | Product name clearance | Trademark agent | Before any public launch |
 | Q5 | Supabase hosting region and the cross-border transfer basis | DPO, engineering | Before the pilot |

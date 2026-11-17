@@ -11,7 +11,7 @@
 
 ## What is being built
 
-A progressive web app, sold to private primary schools, that helps children learn in short daily steps and shows parents real proof of progress. The first release (MVP) is **Common Entrance preparation** for Primary 5–6, with a weekly parent report and a school overview. The intermediate section (Primary 1–6) and the creche/KG section follow in later phases.
+A progressive web app that families use directly, like a home tutor: it helps children learn in short daily steps and shows parents real proof of progress. The first release (MVP) is **Common Entrance preparation** for Primary 5–6, with a weekly parent report. The intermediate section (Primary 1–6) and the creche/KG section follow in later phases.
 
 ## Documents
 
@@ -29,10 +29,10 @@ A progressive web app, sold to private primary schools, that helps children lear
 | 10 | [QA and testing](10-qa-and-testing.md) | QA, engineering |
 | 11 | [DevOps and environments](11-devops-and-environments.md) | Engineering |
 | 12 | [Analytics and metrics](12-analytics-and-metrics.md) | Founder, product |
-| 13 | [School rollout and operations](13-school-rollout-and-operations.md) | Founder, school success |
+| 13 | [Family launch and operations](13-family-launch-and-operations.md) | Founder, family success |
 | 14 | [Roadmap and release plan](14-roadmap-and-release-plan.md) | Everyone |
 | 15 | [Glossary](15-glossary.md) | Everyone |
-| 16 | [UX writing](16-ux-writing.md) | Design, product, content, engineering, school success |
+| 16 | [UX writing](16-ux-writing.md) | Design, product, content, engineering, family success |
 | 17 | [Foundations and human gates](17-foundations-and-human-gates.md) | Engineering, founder, academic lead, product |
 | 18 | [UI foundations](18-ui-foundations.md) | Design, engineering, QA |
 
@@ -50,7 +50,7 @@ A progressive web app, sold to private primary schools, that helps children lear
 
 | Date | Decision | By |
 |---|---|---|
-| Nov 2026 | Children's product first; sell through partner schools | Founder |
+| Nov 2026 | Children's product first; sell through partner schools (superseded 17 Nov 2026) | Founder |
 | Nov 2026 | Three sections: creche/KG, intermediate, Common Entrance | Founder |
 | Nov 2026 | MVP = Common Entrance prep; the others are phased | Founder |
 | Nov 2026 | Soft, calm visual direction (superseded 12 Nov); tutor named Auntie Stella | Founder |
@@ -60,6 +60,8 @@ A progressive web app, sold to private primary schools, that helps children lear
 | 12 Nov 2026 | Rebrand to "Sweet garden": strawberry, honey and matcha on cream; Nunito headings; star-sprout logo; replaces the blue "soft and calm" palette | Founder |
 | 12 Nov 2026 | Light and dark themes across the whole system, children's app included. Follows the device; parents can override per device in Settings | Founder |
 | 12 Nov 2026 | Themes are named **Daytime** and **Starlight** (default: Match my phone). UX writing guide and email templates adopted: "sweet in moments, plain in facts" | Founder |
+| 16 Nov 2026 | No teacher role or teacher dashboard | Founder |
+| 17 Nov 2026 | **Family-only, direct to parents, like a home tutor.** No schools, classes, join codes, class mode or school licences. Parents sign up, give consent, add a child and pay (after M2). Auntie Stella is the adaptive tutor, driven by the rules engine; AI helps the content team behind the scenes and every item is checked by a person. Children do not chat with AI in the MVP. Public "AI" wording stays off until the founder approves it | Founder |
 
 ## Must be verified before the pilot
 
@@ -67,7 +69,7 @@ A progressive web app, sold to private primary schools, that helps children lear
 2. **Parental verification method** under NDPA s.31 (lawyer).
 3. **Hosting region** and cross-border transfer basis (DPO).
 4. **Trademark** clearance for the product name (agent).
-5. **Pricing** and pilot terms with schools (founder).
+5. **Pricing** for families and the free-trial terms for the beta (founder).
 
 ## Assets
 

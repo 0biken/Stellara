@@ -1,11 +1,13 @@
 # Stellara for Kids: task list to completion
 
 Built on 12 Nov 2026 from `docs/md/00–15` and the knowledge graph in `graphify-out/` (407 nodes, 24 communities). Phase 0 refreshed the graph on 13 Nov to 581 nodes and 51 communities; foundation sources and document 17 are included in the subsequent refresh.
-"Done" means **M6, the pilot gate is passed** (mid-May 2027). Phase 2 and 3 are listed at the end, but only as gated follow-ons.
+"Done" means **M6, the beta gate is passed** (mid-May 2027). Phase 2 and 3 are listed at the end, but only as gated follow-ons.
 
 **Where things stand now (13 Nov 2026):** the pnpm/Turborepo monorepo, minimal Next.js 16 web shell, pure `v0.1.0` rules engine, validated content schemas and 74-topic curriculum draft exist. Local quality checks pass, including all 18 required rules fixtures and 99.73% rules branch coverage. Supabase folders reserve later work only; no cloud resources or database migrations are provisioned. Product sign-off, academic approval, official 2027 exam mapping, contributor signatures and supplier quotes remain pending. See [foundation gates](docs/md/17-foundations-and-human-gates.md).
 
 **Update (16 Nov 2026):** the design-system work in 2B is done ahead of schedule (2.9–2.12, most of 2.13): Sweet garden tokens, the `@stellara/ui` component library with Storybook, accessibility and visual tests, the theme bootstrap, ICU i18n with the copy lint, route-group shells, the public landing page, parent sign-in (Google or email link, in preview mode until Supabase exists) and a GitHub Pages deploy. These commits are on `stellara-landing` and not yet merged to `main`. **Scope change:** the teacher role and dashboard are dropped from the MVP; school admins own classes, join codes and class mode. Estimated progress: engineering toward the MVP about 15%, whole plan to M6 about 10%. Still at 0%: the Supabase backend (2A), learning runtime (2C), offline (2D), every portal screen, content authoring (2.33) and every legal/business gate in 1A.
+
+**Pivot (17 Nov 2026): family-only, like a home tutor.** Stellara is sold directly to parents, like Duolingo or Khan Academy. Schools, classes, join codes, class mode, licences and the school pilot are removed (2.6 and 2.30 dropped; the pilot is now a family beta of 50–100 families). Auntie Stella is the adaptive tutor through the rules engine; AI helps the content team behind the scenes, and children do not chat with AI in the MVP. **M2 is now: parent sign-in → consent → child → one practice set.** With school onboarding gone the remaining MVP is about 10% smaller, so engineering toward the MVP is now about 17%.
 
 Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 
@@ -26,8 +28,8 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 - [ ] **1.2 Appoint the DPO** (an external DPO is fine). **[Founder]** 📄 07 §1 (s.32)
 - [ ] **1.3 Order a trademark search for "Stellara"** (Q4). If it conflicts, the identity can carry on through Auntie Stella and the constellation. **[Founder → agent]** 📄 14 §4
 - [ ] **1.4 Confirm the 2027 NCEE details with NECO (Q1):** papers, item counts, durations, paper or CBT, and the date. Re-baseline the pilot dates if the date moves. **[Academic lead]** 📄 03 §1, 02 §5.1
-- [ ] **1.5 Set price hypotheses and pilot terms (Q2):** test 2–3 price points, and decide whether pilot pricing is free or discounted. **[Founder]** 📄 13 §1
-- [ ] **1.6 Choose the parental verification method (Q3)** that satisfies NDPA s.31(2). The candidates are school confirmation and a signed school form. **[Lawyer]** 📄 07 §3
+- [ ] **1.5 Set family price hypotheses and the free trial (Q2):** test 2–3 monthly or termly price points with beta families, and set the trial length. **[Founder]** 📄 13 §1
+- [ ] **1.6 Choose the parental verification method (Q3)** that satisfies NDPA s.31(2). With no school to vouch for parents, the candidates are a small refundable card check (Paystack), a verified phone plus a signed declaration, or a light ID check that keeps only the result. Development uses the placeholder `declaration_v0`, never in production. **[Lawyer]** 📄 07 §3
 - [ ] **1.7 Choose the Supabase region and transfer basis (Q5, ADR-007).** Measure latency from Lagos and Abuja in week 1 and record the result in the decision log. **[DPO + Eng]** 📄 04 §8
 - [ ] **1.8 Choose the messaging provider (Q6):** WhatsApp Business API plus SMS fallback. **[Eng]** 📄 04 §1
 - [ ] **1.9 Accept or reject the proposed ADRs:** ADR-004 (child JWT), ADR-005 (first-party analytics) and ADR-006 (KaTeX at publish). **[Eng]** 📄 04 §13
@@ -56,22 +58,22 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 
 ## Phase 2: Build the MVP (30 Nov 2026 – 29 Jan 2027)
 
-### 2A. Platform: data, auth, consent, schools (30 Nov – 28 Dec) ⟶ 1.6, 1.7, 1.11
+### 2A. Platform: data, auth, consent, children (30 Nov – 28 Dec) ⟶ 1.6, 1.7, 1.11
 - [ ] **2.1 Write migrations for every table in 05 §2**, with `attempts` partitioned monthly. **[Eng]** 📄 05
 - [ ] **2.2 Add the rule-encoding constraints:** the children consent trigger, `attempts` UPDATE/DELETE revoked, the item publish trigger, and the stardust daily check. **[Eng]** 📄 05 §4
 - [ ] **2.3 Add RLS helpers and policies on every table.** Each policy gets a pgTAP allow test and a deny test. **[Eng]** 📄 05 §3, 10 §1
 - [ ] **2.4 Set up Supabase Auth:** phone OTP (WhatsApp, then SMS) and email magic link, with OTP limits (FAM-01). Staff accounts get MFA. **[Eng]**
 - [ ] **2.5 Build the functions `consent-start` and `consent-confirm`, `child-create`, `child-session`,** plus the picture PIN with argon2id hashing and lockout. **[Eng]** 📄 06, 04 §6
-- [ ] **2.6 Build school onboarding:** SCH-01…03, school admin accounts, classes and join codes created by the school admin, and `class-join`. **[Eng]** 📄 01 §7.1
+- ~~**2.6 Build school onboarding.**~~ **Dropped (17 Nov 2026):** Stellara is family-only.
 - [ ] **2.7 Set up rate limits** on `responses-submit`, `child-session` and OTP. **[Eng]** 📄 04 §11
-- [ ] **2.8 Write the seed data:** a demo school and synthetic children. **[Eng]**
+- [ ] **2.8 Write the seed data:** a demo family, synthetic children and one sample topic of published items. **[Eng]**
 
 ### 2B. Design system and web shell (in parallel, from 30 Nov)
 - [x] **2.9 Set up `packages/ui` tokens** (light and dark) and wire them into Tailwind. `tokens.mjs` contrast runs in CI. **[Eng/Design]** 📄 08, 09 §8
 - [x] **2.10 Build the components from 08 §6 in Storybook,** with axe checks and light and dark snapshots. **[Eng]** About 25 components; Playwright accessibility and visual specs run in CI. API documented in [18 · UI foundations](docs/md/18-ui-foundations.md).
-- [x] **2.11 Build the theme bootstrap:** an inline no-flash script, `color-scheme` and `theme-color` metas, and the per-device Appearance setting. **[Eng]** 📄 09 §8 The `Appearance` component exists but is not yet mounted on a parent or school admin settings page.
+- [x] **2.11 Build the theme bootstrap:** an inline no-flash script, `color-scheme` and `theme-color` metas, and the per-device Appearance setting. **[Eng]** 📄 09 §8 The `Appearance` component exists but is not yet mounted on the parent settings page.
 - [x] **2.12 Set up `packages/i18n`** (ICU, en-NG, with yo/ha/ig catalogues that fall back to English). Add the forbidden-phrase lint and apply 16-ux-writing. **[Eng]** 📄 09 §6, 10 §4 Lint is `pnpm check:copy`; yo/ha/ig contain no real translations yet.
-- [x] **2.13 Create the route groups** `(child) (family) (school) (studio) (ops) /basic`. **[Eng]** 📄 04 §4 The groups are empty layout shells and `/basic` shows a heading only. `(teach)` was dropped with the teacher role (16 Nov).
+- [x] **2.13 Create the route groups** `(child) (family) (studio) (ops) /basic`. **[Eng]** 📄 04 §4 The groups are layout shells and `/basic` shows a heading only. `(teach)` and `(school)` were dropped (16 and 17 Nov).
 
 ### 2B+. Extra work completed (not in the original plan)
 - [x] **Public landing page** with the scroll-scrubbed "How a star grows" section and theme toggle. **[Eng/Design]**
@@ -84,7 +86,7 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 - [ ] **2.16 Build the child screens:** the sky home (KID-02), lesson cards, practice with the "checking" state, hints, and "Not quite" (KID-03). **[Eng]**
 - [ ] **2.17 Build the placement check flow** (optional, resumable, strand-level only). **[Eng]** 📄 02 §9
 - [ ] **2.18 Add the pg_cron jobs:** close the learning day, schedule due reviews, update item stats, and purge for retention. **[Eng]** 📄 04 §10 The job logic and the `CRON_JOBS` table are done (16 Nov). The pg_cron registration and purge execution are pending 2A migrations.
-- ✅ **M2, walking skeleton (18 Dec):** school → class → parent consent → child → one practice set works end to end in staging.
+- ✅ **M2, walking skeleton (18 Dec):** parent sign-in → consent → child → one practice set works end to end (locally first, then in staging).
 
 ### 2D. Offline packs and sync (28 Dec – 18 Jan) ⟶ 2.15
 - [ ] **2.19 Set up the Serwist service worker** to precache the shell and cache media at runtime. **[Eng]**
@@ -97,45 +99,46 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 - [ ] **2.24 Build `test-start`, `test-resume` and `test-finish`:** a server timer, 15 min grace, 2 resumes within 20 min total pause, finalisation of abandoned tests, and `suspect_timing`. **[Eng]** 📄 02 §5.2, KID-04
 - [ ] **2.25 Build the test UI:** an offset-synced timer, free navigation, and flags. It must handle 100 items on a 3 GB device without a tab reload. **[Eng]**
 
-### 2F. Parents and schools (11 Jan – 1 Feb)
+### 2F. Parents (11 Jan – 1 Feb)
 - [ ] **2.26 Build `report-weekly`** (Sunday 18:00) and the in-app report (FAM-04), with the Common Entrance coverage disclaimer. **[Eng]** 📄 02 §8
 - [ ] **2.27 Build `messages-dispatch`:** a monthly WhatsApp/SMS summary, quiet hours, and the note from Auntie Stella. **[Eng]**
 - [ ] **2.28 Build the data rights flow:** `data-export` (7 days), `data-delete` (30 days) and consent withdrawal in 2 taps (FAM-05/06). **[Eng]**
-- ~~**2.29 Build the teacher dashboard.**~~ **Dropped (16 Nov 2026):** there is no teacher role in the MVP. School admins create classes, share join codes and start class mode (SCH-03, 2.6).
-- [ ] **2.30 Build the school overview:** licence usage and Common Entrance coverage by class. **[Eng]**
+- ~~**2.29 Build the teacher dashboard.**~~ **Dropped (16 Nov 2026):** there is no teacher role.
+- ~~**2.30 Build the school overview.**~~ **Dropped (17 Nov 2026):** Stellara is family-only.
+- [ ] **2.30a Build parent subscriptions:** a free trial, then Paystack monthly or termly billing, and the `subscriptions` table (05). **[Eng]** ⟶ 1.5
 - [ ] **2.31 Build Stardust, days in a row and clouds in the UI.** Use calm celebrations and no loss-framing copy (KID-06). **[Eng/Design]**
 
 ### 2G. Content studio and authoring (30 Nov – end Feb)
 - [ ] **2.32 Build the studio:** author, review and publish workflow, versioning, publish checks, KaTeX at publish, and a readability check (CON-01…03). **[Eng]** 📄 03 §6
-- [ ] **2.33 Author the item pool:** about 1,800–2,200 items, ~74 lessons, 5 placement checks and 3 test forms (from a reserved pool). Prioritise Maths and English in school-calendar order. **[Content team]**
+- [ ] **2.33 Author the item pool:** about 1,800–2,200 items, ~74 lessons, 5 placement checks and 3 test forms (from a reserved pool). Prioritise Maths and English in school-year order. AI may draft; a reviewer verifies every answer. **[Content team]**
 - [ ] **2.34 Run 10% second-review sampling,** keeping the error rate below 1%. **[Academic lead]**
 - ✅ **M3, content alpha (15 Jan):** at least 40% of the pool published and reviewed. M4 needs at least 70%.
 
 ### 2H. Quality, ops, analytics (continuous)
 - [ ] **2.35 Set up the CI pipeline:** lint → Vitest → pgTAP → Playwright → Lighthouse CI and bundle budgets → preview → staging → tagged production. **[Eng]** 📄 11 §2
 - [ ] **2.36 Cover the 10 key journeys in Playwright** on mobile Chromium and WebKit, in light and dark. **[QA]** 📄 10 §2
-- [ ] **2.37 Set up the device lab:** an entry Android Go phone, the reference phone, a tablet, an iOS 16 phone and a lab PC. Test on entry devices from M2. **[QA]**
+- [ ] **2.37 Set up the device lab:** an entry Android Go phone, the reference phone, a tablet, an iOS 16 phone and a shared family PC. Test on entry devices from M2. **[QA]**
 - [ ] **2.38 Set up monitoring:** Sentry with PII scrubbing, an uptime monitor, latency and sync-backlog alerts, and cost alerts. **[Eng]** 📄 11 §5
 - [ ] **2.39 Add the first-party `events` catalogue** with hashed child IDs, plus the Metabase dashboards. **[Eng]** 📄 06 §7, 12 §4
 - [ ] **2.40 Apply the security baseline:** CSP, `frame-ancestors 'none'`, Renovate, `pnpm audit`, secrets rotation and backup restore drills. **[Eng]** 📄 07 §6, 11 §3–4
 - [ ] **2.41 Build the `/basic` server-rendered mode for Opera Mini** (lessons and untimed practice). **[Eng]**
 
-## Phase 3: Pilot readiness (11 Jan – 29 Jan 2027)
+## Phase 3: Beta readiness (11 Jan – 29 Jan 2027)
 
 - [ ] **3.1 Get the DPIA signed.** It must cover scoring, the guardian view, gamification, analytics, hosting and transfer, and messaging. **[DPO]** 📄 07 §1
 - [ ] **3.2 Get a lawyer to approve** the consent notice, the non-affiliation line and all public wording. **[Lawyer]**
-- [ ] **3.3 Sign processor DPAs** (Supabase, Vercel, messaging, Sentry, Paystack) and school DPAs. **[Legal]**
+- [ ] **3.3 Sign processor DPAs** (Supabase, Vercel, messaging, Sentry, Paystack). **[Legal]**
 - [ ] **3.4 Finish the breach runbook** and set up the NDPC 72-hour notification path. **[DPO + Eng]** 📄 07 §7
 - [ ] **3.5 Register the SMS sender ID** at least 3 weeks before the pilot. **[Eng]** 📄 11 §7
-- [ ] **3.6 Prepare school materials:** a parent letter (plus local-language versions), a consent explainer, a school admin quick-start card and a poster. **[School success]** 📄 13 §2
+- [ ] **3.6 Prepare family materials:** a one-page "How Stellara works" (local-language versions later), a consent explainer and a short demo video. **[Family success]** 📄 13 §2
 - [ ] **3.7 Run the release checklist:** TalkBack, light and dark by eye, tokens contrast, a manual offline run, a clean forbidden-phrase lint, and release notes. **[QA]** 📄 10 §6
-- ✅ **M4, pilot-ready (29 Jan):** all MVP stories accepted, DPIA signed, budgets green, TalkBack passed, and at least 70% of the item pool published.
+- ✅ **M4, beta-ready (29 Jan):** all MVP stories accepted, DPIA signed, budgets green, TalkBack passed, and at least 70% of the item pool published.
 
-## Phase 4: Pilot (1 Feb – ~3 May 2027)
+## Phase 4: Family beta (1 Feb – ~3 May 2027)
 
-- [ ] **4.1 Onboard the first 5 schools** using the 2-week playbook (DPA → admin → training → classes → parents at 70% or more → first class-mode session). **[School success]**
-- ✅ **M5, pilot live (1 Feb).**
-- [ ] **4.2 Scale to 5–10 schools,** and track the weekly KPIs on the pilot health dashboard. **[Founder]** 📄 12 §2
+- [ ] **4.1 Recruit and onboard the first 20 families** through parent WhatsApp groups and referrals, with check-ins in weeks 2 and 6. **[Family success]** 📄 13 §2
+- ✅ **M5, beta live (1 Feb).**
+- [ ] **4.2 Grow to 50–100 families,** and track the weekly KPIs on the beta health dashboard. **[Founder]** 📄 12 §2
 - [ ] **4.3 Finish authoring the full pool before the NCEE.** **[Content]**
 - [ ] **4.4 Run the support SLAs and content error triage.** **[Ops]** 📄 13 §4
 - [ ] **4.5 Measure the Opera Mini share** to decide whether to invest further in `/basic`. **[Eng]**
@@ -143,13 +146,14 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 
 ## Phase 5: Gate (mid-May 2027)
 
-- [ ] **5.1 Evaluate the pilot gate.** All five must hold: weekly active pupils at 50% or more in 6 of 8 weeks; a gain on retention checks; renewal intent at 70% or more; no open privacy incident with the DPIA current; and 100% of items with verified answers. **[Founder]** 📄 12 §3
+- [ ] **5.1 Evaluate the beta gate.** All five must hold: weekly active children at 50% or more in 6 of 8 weeks; a gain on retention checks; at least 30% of families paying after the free trial; no open privacy incident with the DPIA current; and 100% of items with verified answers. **[Founder]** 📄 12 §3
 - [ ] **5.2 Optionally, with consent, collect NCEE outcomes** and publish the findings with the error band. **[Product]**
 - ✅ **M6, gate passed: done for the MVP.**
 
 ## After the gate (only if M6 passes)
-- **Phase 2, Intermediate (2027/28 Terms 1–2):** P1–6 Maths and English, Basic Science, a parent add-on through Paystack, and Yoruba, Hausa and Igbo strings.
-- **Phase 3, Early years:** a design study with 3 schools, then teacher-led creche and KG activities.
+- **Phase 2, Intermediate (2027/28 Terms 1–2):** P1–6 Maths and English, Basic Science, sibling plans, and Yoruba, Hausa and Igbo strings.
+- **Phase 3, Early years:** a design study with families, then parent-led creche and KG activities.
+- **Later, gated:** live AI chat with Auntie Stella for children, only after a DPIA update, DPO sign-off, safety filters and a parent opt-in.
 - **Later:** a native Android wrapper, licensed past papers, and validated outcome reporting.
 
 ---

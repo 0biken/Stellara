@@ -60,7 +60,7 @@ main{padding:28px 0 80px;min-width:0}
   <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
   <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
 </svg>
-<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html" aria-current="page">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a><a href="18-ui-foundations.html">18 UI foundations</a></aside><main><h1 id="16--ux-writing">16 · UX writing</h1>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-family-launch-and-operations.html">13 Family launch and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html" aria-current="page">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a><a href="18-ui-foundations.html">18 UI foundations</a></aside><main><h1 id="16--ux-writing">16 · UX writing</h1>
 <p>Every word in Stellara is part of the design. This guide covers the app, notifications, WhatsApp, SMS and email. The look is sweet; the words are <strong>sweet in moments and plain in facts</strong>. A child should feel encouraged, and a parent should know exactly what happened and what to do next.</p>
 <p>Strings live in <code>packages/i18n</code> (ICU MessageFormat). Email templates are in <code>docs/emails/</code> and are built by <code>docs/tools/emails.mjs</code>. The voice rules in <a href="08-design-system.html#10-voice-in-the-interface">08 §10</a> are summarised here and extended.</p>
 <h2 id="1-principles">1. Principles</h2>
@@ -68,7 +68,7 @@ main{padding:28px 0 80px;min-width:0}
 <li><strong>Kind and true.</strong> We never shame, nag or exaggerate. We never hide a problem either: &quot;Not quite&quot; is kind <em>and</em> honest.</li>
 <li><strong>Specific beats general.</strong> &quot;9 of the last 10 right&quot; beats &quot;Great progress!&quot;. Praise names what went right.</li>
 <li><strong>One idea per line.</strong> Children read one short idea at a time. Parents get the fact first and the detail second.</li>
-<li><strong>Same thing, same name.</strong> A feature keeps one name everywhere: app, WhatsApp, email, school letters. A button called &quot;Start today&#39;s set&quot; leads to a screen titled &quot;Today&#39;s set&quot;.</li>
+<li><strong>Same thing, same name.</strong> A feature keeps one name everywhere: app, WhatsApp and email. A button called &quot;Start today&#39;s set&quot; leads to a screen titled &quot;Today&#39;s set&quot;.</li>
 <li><strong>Sweet in moments, plain in facts.</strong> Garden and sky words belong to celebrations, Auntie Stella, and the names of things. Settings, consent, money, errors and data use plain words.</li>
 <li><strong>Nothing to lose.</strong> Progress only grows. We never say lose, break, miss, fail, behind or last chance.</li>
 </ol>
@@ -90,12 +90,6 @@ main{padding:28px 0 80px;min-width:0}
 <td>Parents and guardians</td>
 <td>A trusted class teacher writing a note home</td>
 <td>Evidence first. Full sentences. No exclamation marks, no emoji in the app. Uses the child&#39;s first name, never &quot;your child&quot; when the name is known</td>
-</tr>
-<tr>
-<td><strong>Stellara for schools</strong></td>
-<td>School admins, heads, proprietors</td>
-<td>A capable colleague</td>
-<td>Short, factual, numbers first. No sweetness beyond the brand names</td>
 </tr>
 </tbody></table></div>
 <h3 id="21-tone-dial">2.1 Tone dial</h3>
@@ -155,7 +149,7 @@ main{padding:28px 0 80px;min-width:0}
 <div class="table-wrap"><table><thead><tr>
 <th>Thing</th>
 <th>Children see</th>
-<th>Parents and schools see</th>
+<th>Parents see</th>
 <th>Never</th>
 </tr>
 </thead><tbody><tr>
@@ -237,12 +231,6 @@ main{padding:28px 0 80px;min-width:0}
 <td>PIN (to children), password</td>
 </tr>
 <tr>
-<td>School&#39;s join code</td>
-<td>n/a</td>
-<td>School code</td>
-<td>Access token, licence key</td>
-</tr>
-<tr>
 <td>Light theme</td>
 <td>n/a</td>
 <td><strong>Daytime</strong></td>
@@ -288,7 +276,6 @@ main{padding:28px 0 80px;min-width:0}
 <li>On compact toggles (the brand kit, the docs) the labels are <strong>Auto · Daytime · Starlight</strong>.</li>
 <li>The setting is stored on this device only. The confirmation reads: &quot;Saved on this phone. Other phones keep their own setting.&quot;</li>
 <li>Children have no switch. When the device moves to dark, the child&#39;s app simply becomes Starlight. Auntie Stella may say once, the first time: &quot;The stars are out. Let&#39;s learn by starlight.&quot;</li>
-<li>School admins see the same three options in <em>Account → How Stellara looks</em>.</li>
 </ul>
 <h2 id="5-mechanics">5. Mechanics</h2>
 <div class="table-wrap"><table><thead><tr>
@@ -490,7 +477,7 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 <tr>
 <td>Add a child</td>
-<td>&quot;Child&#39;s first name&quot; · &quot;Class&quot; · &quot;School code (from Tolu&#39;s school)&quot; · Button: &quot;Add Tolu&quot; → &quot;Tolu has been added.&quot;</td>
+<td>&quot;Child&#39;s first name&quot; · &quot;School year&quot; · &quot;Goal&quot; (for example Common Entrance, with its date) · Button: &quot;Add Tolu&quot; → &quot;Tolu has been added.&quot;</td>
 </tr>
 <tr>
 <td>Picture key set-up</td>
@@ -525,28 +512,6 @@ main{padding:28px 0 80px;min-width:0}
 <td>Typed confirmation: &quot;Type DELETE to confirm.&quot; · Button: &quot;Delete account&quot;</td>
 </tr>
 </tbody></table></div>
-<h3 id="63-school-admins">6.3 School admins</h3>
-<div class="table-wrap"><table><thead><tr>
-<th>Moment</th>
-<th>Copy</th>
-</tr>
-</thead><tbody><tr>
-<td>Class home</td>
-<td>&quot;Primary 5 Gold · 28 pupils · 21 practised this week&quot;</td>
-</tr>
-<tr>
-<td>Pupil not practising</td>
-<td>&quot;Kemi hasn&#39;t practised for 7 days.&quot; (fact, no judgement)</td>
-</tr>
-<tr>
-<td>Empty class</td>
-<td>&quot;No pupils yet. Share the school code with parents, or add pupils from a list.&quot;</td>
-</tr>
-<tr>
-<td>Licences</td>
-<td>&quot;212 of 250 licences in use.&quot;</td>
-</tr>
-</tbody></table></div>
 <h2 id="7-errors">7. Errors</h2>
 <p><strong>Formula:</strong> what happened, then what to do. Never blame the user, never apologise twice, never show a code without a sentence.</p>
 <div class="table-wrap"><table><thead><tr>
@@ -564,14 +529,6 @@ main{padding:28px 0 80px;min-width:0}
 <tr>
 <td>Too many attempts</td>
 <td>&quot;Too many tries. For your security, wait 30 minutes and try again.&quot;</td>
-</tr>
-<tr>
-<td>Invalid school code</td>
-<td>&quot;We can&#39;t find that school code. Check it with Tolu&#39;s school; it has 6 letters and numbers.&quot;</td>
-</tr>
-<tr>
-<td>School out of licences</td>
-<td>Parent: &quot;Tolu&#39;s school has no places left right now. We&#39;ve let the school know.&quot; · School: &quot;A parent couldn&#39;t join: all 250 licences are in use.&quot;</td>
 </tr>
 <tr>
 <td>Network</td>
@@ -618,10 +575,6 @@ main{padding:28px 0 80px;min-width:0}
 <td><code>wa_rest_day</code></td>
 <td>Never sent. A resting cloud is not news.</td>
 </tr>
-<tr>
-<td><code>wa_consent_needed</code></td>
-<td>&quot;Hello {{parent_name}}. {{school}} has invited Tolu to Stellara. Tolu can start once you give consent: {{link}}&quot;</td>
-</tr>
 </tbody></table></div>
 <h3 id="82-sms-fallback">8.2 SMS (fallback)</h3>
 <ul>
@@ -633,7 +586,7 @@ main{padding:28px 0 80px;min-width:0}
 <h3 id="83-push-and-in-app-notices">8.3 Push and in-app notices</h3>
 <p>Push is off by default for parents; WhatsApp is the main channel. When on, push uses the WhatsApp wording without emoji. Children never receive push notifications.</p>
 <h2 id="9-email">9. Email</h2>
-<p>Email is for parents who sign up with an email address, for school admins, and for anything legal (receipts of consent, data exports, deletion). Templates: <code>docs/emails/</code> (HTML and plain text, built by <code>docs/tools/emails.mjs</code>). <strong><a href="../emails/index.html">Open the email gallery</a></strong> to see every template in Daytime and Starlight.</p>
+<p>Email is for parents who sign up with an email address and for anything legal (receipts of consent, data exports, deletion). Templates: <code>docs/emails/</code> (HTML and plain text, built by <code>docs/tools/emails.mjs</code>). <strong><a href="../emails/index.html">Open the email gallery</a></strong> to see every template in Daytime and Starlight.</p>
 <h3 id="91-rules-for-every-email">9.1 Rules for every email</h3>
 <ul>
 <li><strong>From:</strong> &quot;Stellara&quot; <code>&lt;hello@…&gt;</code>. Reports add &quot;with a note from Auntie Stella&quot; in the body, never in the From name. Reply-to: the support inbox, which a human reads.</li>
@@ -654,7 +607,7 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 </thead><tbody><tr>
 <td><code>sign-in</code></td>
-<td>Parent or school admin asks for a link</td>
+<td>Parent asks for a link</td>
 <td>Your Stellara sign-in link</td>
 <td>The link works once and expires in 15 minutes.</td>
 <td>Sign in to Stellara</td>
@@ -679,13 +632,6 @@ main{padding:28px 0 80px;min-width:0}
 <td>Tolu has mastered Fractions</td>
 <td>9 of the last 10 right, including a check 2 weeks later.</td>
 <td>See Tolu&#39;s sky</td>
-</tr>
-<tr>
-<td><code>school-term-summary</code></td>
-<td>End of term, to admins</td>
-<td>Greenfield School&#39;s term on Stellara</td>
-<td>212 pupils practised; 1,348 topics mastered.</td>
-<td>Open the school summary</td>
 </tr>
 <tr>
 <td><code>data-export-ready</code></td>

@@ -105,7 +105,7 @@ The blueprint is configuration, not code: table `test_blueprints`. **The NCEE va
 - **Resume:** at most **2 resumes**, with a total pause of up to **20 minutes** (the app closed or the device switched off). The timer does not stop for a lost connection, only for an app close counted as a pause.
 - A validated pause extends `ends_at` by its actual duration. The future server adapter must validate pause evidence; an arbitrary client claim is insufficient. Answers during a pause are rejected. A third resume or excess total pause finalizes the session. The server accounts for an ongoing validated pause, bounded by the remaining pause allowance, before applying the grace period.
 - At `ends_at` plus the grace period, the server finalises the session and scores what it has.
-- A response time below 1,000 ms on more than 30% of items flags the session as `suspect_timing` (shown to the school admin, not the child).
+- A response time below 1,000 ms on more than 30% of items flags the session as `suspect_timing` (shown to the parent, not the child).
 
 ## 6. Stardust
 
@@ -136,7 +136,7 @@ Stardust is a motivation currency. **It never enters mastery** and is never sold
 | Earn a cloud | 1 per 5 qualifying days |
 | Maximum clouds held | 3 |
 | Use | Automatic on a missed day while the run is above 0 |
-| Rest Mode | Up to 14 days, twice per school term. Set by a parent or school admin. The run is frozen and no clouds are used |
+| Rest Mode | Up to 14 days, twice per school term. Set by a parent. The run is frozen and no clouds are used |
 | Repair | Once per term, within 48 hours of a run ending, by completing a review set |
 | Platform outage | If the service is down for more than 2 hours in a learning day, that day is excused for everyone |
 | Offline | Work credits its local learning day if synced within 72 hours |
