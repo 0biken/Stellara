@@ -7,8 +7,10 @@ import {
   type ChildSignInResult,
   type ChildSummary,
   type ConsentRecord,
+  type DataRequestRecord,
   type FamilyApi,
   type FamilyErrorCode,
+  type UpdateChildInput,
 } from "./types";
 
 /** Read by the child side (apps/web/lib/learning/supabase.ts). */
@@ -149,6 +151,39 @@ export function createSupabaseFamilyApi(client: SupabaseClient): FamilyApi {
         throw new FamilyError("SERVER");
       }
       return { status: "signed-in" };
+    },
+    async updateChild(childId: string, patch: UpdateChildInput) {
+      return invoke<ChildSummary>("child-update", { child_id: childId, ...patch });
+    },
+    async resetChildPin(childId: string, pin) {
+      await invoke("child-pin-reset", { child_id: childId, pin });
+    },
+    async pauseChild(childId: string) {
+      return invoke<ChildSummary>("child-status", { child_id: childId, status: "paused" });
+    },
+    async resumeChild(childId: string) {
+      return invoke<ChildSummary>("child-status", { child_id: childId, status: "active" });
+    },
+    async withdrawConsent(childId: string) {
+      await invoke("consent-withdraw", { child_id: childId });
+    },
+    async requestDataExport(childId: string) {
+      return invoke<DataRequestRecord>("data-request-export", { child_id: childId });
+    },
+    async requestDataDeletion(childId: string, confirmationText: string) {
+      return invoke<DataRequestRecord>("data-request-delete", {
+        child_id: childId,
+        confirmation: confirmationText,
+      });
+    },
+    async listDataRequests(childId: string) {
+      const { data, error } = await client
+        .from("data_requests")
+        .select("id, child_id, kind, status, requested_at, due_at, download_url, download_expires_at")
+        .eq("child_id", childId)
+        .order("requested_at", { ascending: false });
+      if (error) throw new FamilyError("NETWORK");
+      return (data ?? []) as DataRequestRecord[];
     },
   };
 }

@@ -97,9 +97,14 @@ export function FamilyHome() {
           href: `${basePath}/family/child/?id=${encodeURIComponent(child.id)}`,
         }))}
       />
-      <a href={`${basePath}${addHref}`} className={buttonClasses("quiet", "adult", "self-start")}>
-        {copy["family.addAnother"]}
-      </a>
+      <div className="flex flex-wrap gap-3">
+        <a href={`${basePath}${addHref}`} className={buttonClasses("quiet", "adult")}>
+          {copy["family.addAnother"]}
+        </a>
+        <a href={`${basePath}/family/settings/`} className={buttonClasses("secondary", "adult")}>
+          Parent settings
+        </a>
+      </div>
     </section>
   );
 }

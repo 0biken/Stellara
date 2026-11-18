@@ -29,12 +29,35 @@ export interface ConsentRecord {
 export type SchoolYear = "P4" | "P5" | "P6";
 export const schoolYears: readonly SchoolYear[] = ["P4", "P5", "P6"];
 
+export type ChildStatus = "active" | "paused" | "deletion_pending";
+
 export interface ChildSummary {
   id: string;
   first_name: string;
   avatar_key: PictureId;
   year: SchoolYear;
   exam_date: string | null;
+  timezone?: string;
+  status?: ChildStatus;
+}
+
+export interface UpdateChildInput {
+  first_name?: string;
+  avatar_key?: PictureId;
+  year?: SchoolYear;
+  exam_date?: string | null;
+  timezone?: string;
+}
+
+export interface DataRequestRecord {
+  id: string;
+  child_id: string;
+  kind: "export" | "deletion";
+  status: "pending" | "ready" | "completed" | "failed";
+  requested_at: string;
+  due_at: string;
+  download_url?: string;
+  download_expires_at?: string;
 }
 
 export interface NewChild {
@@ -67,6 +90,14 @@ export interface FamilyApi {
    * the child session is stored for the child side, which starts at `/sky/`.
    */
   signInChild(child: ChildSummary, pin: PictureId[]): Promise<ChildSignInResult>;
+  updateChild?(childId: string, patch: UpdateChildInput): Promise<ChildSummary>;
+  resetChildPin?(childId: string, pin: PictureId[]): Promise<void>;
+  pauseChild?(childId: string): Promise<ChildSummary>;
+  resumeChild?(childId: string): Promise<ChildSummary>;
+  withdrawConsent?(childId: string): Promise<void>;
+  requestDataExport?(childId: string): Promise<DataRequestRecord>;
+  requestDataDeletion?(childId: string, confirmationText: string): Promise<DataRequestRecord>;
+  listDataRequests?(childId: string): Promise<DataRequestRecord[]>;
 }
 
 export type ChildSignInResult =
