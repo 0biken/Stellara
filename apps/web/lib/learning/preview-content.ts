@@ -16,7 +16,72 @@ export const TOPICS = {
   decimals: id(1, 3),
   money: id(1, 4),
   time: id(1, 5),
+  p4Fractions: "00000000-0000-4000-8000-000400000001",
+  p4Shapes: "00000000-0000-4000-8000-000400000002",
+  p5Angles: "00000000-0000-4000-8000-000500000002",
+  p6Fractions: "00000000-0000-4000-8000-000600000001",
+  p6Area: "00000000-0000-4000-8000-000600000002",
 } as const;
+
+export interface SampleTopic {
+  id: string;
+  title: string;
+  year: "P4" | "P5" | "P6";
+  strand_id: string;
+  strand_name: string;
+}
+
+export const SAMPLE_TOPIC_DEFS: SampleTopic[] = [
+  {
+    id: TOPICS.p4Fractions,
+    title: "P4 Fractions",
+    year: "P4",
+    strand_id: "p4-fractions-strand",
+    strand_name: "Fractions and Parts",
+  },
+  {
+    id: TOPICS.p4Shapes,
+    title: "P4 Shapes",
+    year: "P4",
+    strand_id: "p4-shapes-strand",
+    strand_name: "2D and 3D Shapes",
+  },
+  {
+    id: TOPICS.fractions, // Reusing existing P5 fractions ID
+    title: "P5 Fractions",
+    year: "P5",
+    strand_id: "p5-fractions-strand",
+    strand_name: "Fractions and Decimals",
+  },
+  {
+    id: TOPICS.p5Angles,
+    title: "P5 Angles",
+    year: "P5",
+    strand_id: "p5-angles-strand",
+    strand_name: "Angles and Lines",
+  },
+  {
+    id: TOPICS.p6Fractions,
+    title: "P6 Fractions",
+    year: "P6",
+    strand_id: "p6-fractions-strand",
+    strand_name: "Advanced Fractions and Ratios",
+  },
+  {
+    id: TOPICS.p6Area,
+    title: "P6 Area",
+    year: "P6",
+    strand_id: "p6-area-strand",
+    strand_name: "Area and Perimeter",
+  },
+];
+export const SAMPLE_TOPICS = SAMPLE_TOPIC_DEFS;
+
+export const TOPICS_BY_YEAR: Record<"P4" | "P5" | "P6", SampleTopic[]> = {
+  P4: SAMPLE_TOPICS.filter((t) => t.year === "P4"),
+  P5: SAMPLE_TOPICS.filter((t) => t.year === "P5"),
+  P6: SAMPLE_TOPICS.filter((t) => t.year === "P6"),
+};
 
 export const SKY_TOPICS: Omit<SkyTopic, "level">[] = [
   { id: TOPICS.placeValue, title: "Place value", x: 18, y: 66 },
@@ -24,12 +89,20 @@ export const SKY_TOPICS: Omit<SkyTopic, "level">[] = [
   { id: TOPICS.decimals, title: "Decimals", x: 62, y: 58 },
   { id: TOPICS.money, title: "Money", x: 80, y: 26 },
   { id: TOPICS.time, title: "Time", x: 86, y: 72 },
+  { id: TOPICS.p4Fractions, title: "P4 Fractions", x: 25, y: 45 },
+  { id: TOPICS.p4Shapes, title: "P4 Shapes", x: 35, y: 75 },
+  { id: TOPICS.p5Angles, title: "P5 Angles", x: 50, y: 20 },
+  { id: TOPICS.p6Fractions, title: "P6 Fractions", x: 70, y: 35 },
+  { id: TOPICS.p6Area, title: "P6 Area", x: 75, y: 65 },
 ];
 export const SKY_LINKS = [
   { from: TOPICS.placeValue, to: TOPICS.fractions },
   { from: TOPICS.fractions, to: TOPICS.decimals },
   { from: TOPICS.decimals, to: TOPICS.money },
   { from: TOPICS.decimals, to: TOPICS.time },
+  { from: TOPICS.p4Fractions, to: TOPICS.p4Shapes },
+  { from: TOPICS.fractions, to: TOPICS.p5Angles },
+  { from: TOPICS.p6Fractions, to: TOPICS.p6Area },
 ];
 
 /** Placement strands map one-to-one onto the two topics with sample items. */
@@ -308,7 +381,82 @@ const fractionCheck = build(
   5,
 );
 
-export const ITEMS: ClientItem[] = [...pv.items, ...fr.items];
+interface SampleTopicGenerator {
+  stem: (i: number) => string;
+  options: (i: number) => [string, string, string, string];
+  hint: (i: number) => string;
+  explanation: (i: number) => string;
+}
+
+const TEMPLATES: Record<string, SampleTopicGenerator> = {
+  "P4 Fractions": {
+    stem: (i) => `What is ${i + 1}/8 + ${i + 2}/8?`,
+    options: (i) => [`${2 * i + 3}/8`, `${2 * i + 2}/8`, `${2 * i + 4}/8`, `${2 * i + 3}/16`],
+    hint: () => "Add the numerators together while keeping denominator 8.",
+    explanation: (i) => `Add numerators ${i + 1} and ${i + 2}: ${2 * i + 3}/8.`,
+  },
+  "P4 Shapes": {
+    stem: (i) => {
+      const shapes = ["triangle", "quadrilateral", "pentagon", "hexagon", "octagon"];
+      return `How many sides does a regular ${shapes[i % shapes.length]} have?`;
+    },
+    options: (i) => {
+      const sides = ["3", "4", "5", "6", "8"];
+      const correct = sides[i % sides.length];
+      const rest = ["2", "7", "9", "10"].filter((x) => x !== correct);
+      return [correct, rest[0], rest[1], rest[2]];
+    },
+    hint: () => "Count the straight outer edges of the shape.",
+    explanation: (i) => `This regular shape has ${[3, 4, 5, 6, 8][i % 5]} straight sides.`,
+  },
+  "P5 Fractions": {
+    stem: (i) => `Convert ${(i + 2) * 3 + 1}/3 into a mixed number.`,
+    options: (i) => [`${i + 2} 1/3`, `${i + 2} 2/3`, `${i + 1} 1/3`, `${i + 3} 1/3`],
+    hint: () => "Divide the numerator by the denominator 3.",
+    explanation: (i) => `${(i + 2) * 3 + 1} ÷ 3 = ${i + 2} with remainder 1, so ${i + 2} 1/3.`,
+  },
+  "P5 Angles": {
+    stem: (i) => `Two angles on a straight line are ${50 + (i % 8) * 5}° and x°. What is x?`,
+    options: (i) => {
+      const a = 50 + (i % 8) * 5;
+      const x = 180 - a;
+      return [`${x}°`, `${x - 10}°`, `${x + 10}°`, `${190 - a}°`];
+    },
+    hint: () => "Angles on a straight line add up to 180°.",
+    explanation: (i) => `180° - ${50 + (i % 8) * 5}° = ${180 - (50 + (i % 8) * 5)}°.`,
+  },
+  "P6 Fractions": {
+    stem: (i) => `What is ${i + 1}/4 × 2/${i + 3}? (in simplest terms)`,
+    options: (i) => {
+      const n = 2 * (i + 1);
+      const d = 4 * (i + 3);
+      const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+      const g = gcd(n, d);
+      return [`${n / g}/${d / g}`, `${n}/${d + 2}`, `${n + 1}/${d}`, `${n}/${d * 2}`];
+    },
+    hint: () => "Multiply numerators together and denominators together, then simplify.",
+    explanation: () => "Multiply numerators and denominators and reduce by the greatest common divisor.",
+  },
+  "P6 Area": {
+    stem: (i) => `Find the area of a rectangle with length ${i + 4} cm and width ${i + 2} cm.`,
+    options: (i) => {
+      const a = (i + 4) * (i + 2);
+      return [`${a} cm²`, `${a - 2} cm²`, `${(i + 4 + i + 2) * 2} cm²`, `${a + 4} cm²`];
+    },
+    hint: () => "Area = length × width.",
+    explanation: (i) => `${i + 4} cm × ${i + 2} cm = ${(i + 4) * (i + 2)} cm².`,
+  },
+};
+
+export const SAMPLE_ITEMS: ClientItem[] = [];
+export const SAMPLE_LESSONS: {
+  id: string;
+  topic_id: string;
+  title: string;
+  status: "published";
+  cards: LessonCardData[];
+}[] = [];
+
 export const KEYS = new Map<string, PreviewKey>([
   ...pv.keys,
   ...fr.keys,
@@ -337,27 +485,78 @@ export const LESSONS: Record<string, { title: string; cards: LessonCardData[] }>
       { kind: "summary", body: "Moving one place to the left makes a digit worth ten times more." },
     ],
   },
-  [TOPICS.fractions]: {
-    title: "Fractions",
-    cards: [
-      {
-        kind: "explain",
-        body: "A fraction is part of a whole cut into equal parts. The bottom number says how many parts. The top number says how many we have.",
-      },
-      {
-        kind: "worked_example",
-        body: "Find a fraction equal to 1/2.",
-        steps: [
-          "Multiply the top by 2: 1 × 2 = 2.",
-          "Multiply the bottom by 2: 2 × 2 = 4.",
-          "So 2/4 is the same as 1/2.",
-        ],
-      },
-      { kind: "check", item: fractionCheck.items[0]! },
-      {
-        kind: "summary",
-        body: "Multiply or divide the top and bottom by the same number, and the fraction keeps its size.",
-      },
-    ],
-  },
 };
+
+// Generate 30 practice items and 3 check items for each sample topic
+SAMPLE_TOPIC_DEFS.forEach((t, topicIdx) => {
+  const tmpl = TEMPLATES[t.title];
+  if (!tmpl) return;
+
+  const practiceRows: Row[] = [];
+  for (let i = 0; i < 30; i++) {
+    practiceRows.push({
+      stem: tmpl.stem(i),
+      options: [...tmpl.options(i)],
+      hint: tmpl.hint(i),
+      explanation: tmpl.explanation(i),
+      difficulty: i % 3 === 0 ? "easy" : i % 3 === 1 ? "standard" : "hard",
+      purpose: "practice",
+    });
+  }
+
+  const checkRows: Row[] = [];
+  for (let i = 0; i < 3; i++) {
+    checkRows.push({
+      stem: tmpl.stem(30 + i),
+      options: [...tmpl.options(30 + i)],
+      hint: tmpl.hint(30 + i),
+      explanation: tmpl.explanation(30 + i),
+      difficulty: "standard",
+      purpose: "lesson_check",
+    });
+  }
+
+  const practiceBuild = build(practiceRows, t.id, 10 + topicIdx * 2);
+  const checkBuild = build(checkRows, t.id, 100 + topicIdx * 2);
+
+  SAMPLE_ITEMS.push(...practiceBuild.items, ...checkBuild.items);
+  for (const [k, v] of practiceBuild.keys) KEYS.set(k, v);
+  for (const [k, v] of checkBuild.keys) KEYS.set(k, v);
+
+  const lessonCards: LessonCardData[] = [
+    {
+      kind: "explain",
+      body: `Welcome to ${t.title}. In this sample lesson, we explore the core concepts step by step.`,
+    },
+    {
+      kind: "worked_example",
+      body: `Worked example for ${t.title}:`,
+      steps: [
+        "Step 1: Read the problem carefully.",
+        "Step 2: Apply the mathematical rule.",
+        "Step 3: Check your result.",
+      ],
+    },
+    { kind: "check", item: checkBuild.items[0]! },
+    { kind: "try_it", items: [checkBuild.items[1]!, checkBuild.items[2]!] },
+    {
+      kind: "summary",
+      body: `Great job! You are ready to start practice questions for ${t.title}.`,
+    },
+  ];
+
+  LESSONS[t.id] = {
+    title: t.title,
+    cards: lessonCards,
+  };
+
+  SAMPLE_LESSONS.push({
+    id: `00000000-0000-4000-8000-1e55${(topicIdx + 1).toString(16).padStart(8, "0")}`,
+    topic_id: t.id,
+    title: t.title,
+    status: "published",
+    cards: lessonCards,
+  });
+});
+
+export const ITEMS: ClientItem[] = [...pv.items, ...fr.items, ...SAMPLE_ITEMS];

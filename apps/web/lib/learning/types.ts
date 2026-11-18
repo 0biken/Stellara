@@ -19,6 +19,8 @@ export interface SkyTopic {
   /** Position in the sky, as percentages. */
   x: number;
   y: number;
+  /** True when a published lesson exists for this topic. */
+  has_lesson?: boolean;
 }
 
 export interface SkyData {
@@ -33,7 +35,8 @@ export type LessonCardData =
   | { kind: "explain"; body: string }
   | { kind: "worked_example"; body: string; steps: string[] }
   | { kind: "summary"; body: string }
-  | { kind: "check"; item: ClientItem };
+  | { kind: "check"; item: ClientItem }
+  | { kind: "try_it"; items: ClientItem[] };
 
 export interface LessonData {
   topic_id: string;
