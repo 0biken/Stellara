@@ -47,12 +47,28 @@ export interface OfflineGrantRecord {
   profile: unknown;
 }
 
+export interface WorkerLeaseRecord {
+  key: string;
+  holder_id: string;
+  expires_at: number;
+}
+
+export interface ConfirmedProgressRecord {
+  child_id: string;
+  topic_id: string;
+  level: string;
+  stardust_today: number;
+  updated_at: number;
+}
+
 export class StellaraOfflineDB extends Dexie {
   child_drafts!: EntityTable<ChildDraftRecord, "[child_id+kind]">;
   outbox!: EntityTable<OutboxRecord, "id">;
   downloaded_packs!: EntityTable<DownloadedPackRecord, "id">;
   cached_lessons!: EntityTable<CachedLessonRecord, "[topic_id+version]">;
   offline_grants!: EntityTable<OfflineGrantRecord, "child_id">;
+  worker_leases!: EntityTable<WorkerLeaseRecord, "key">;
+  confirmed_progress!: EntityTable<ConfirmedProgressRecord, "[child_id+topic_id]">;
 
   constructor(dbName = "stellara_offline") {
     super(dbName);
@@ -62,6 +78,8 @@ export class StellaraOfflineDB extends Dexie {
       downloaded_packs: "id, child_id, topic_id, created_at, size_bytes, last_accessed_at",
       cached_lessons: "[topic_id+version], child_id, topic_id, version, updated_at",
       offline_grants: "child_id, granted_at, expires_at",
+      worker_leases: "key, holder_id, expires_at",
+      confirmed_progress: "[child_id+topic_id], child_id, topic_id, updated_at",
     });
   }
 }
