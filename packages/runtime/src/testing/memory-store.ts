@@ -138,6 +138,10 @@ export class MemoryStore implements RuntimeStore {
   async updateSet(set: SetRecord) {
     this.t.sets.set(set.id, set);
   }
+  async listChildSets(childId: string, kind?: SetKind) {
+    const sets = [...this.t.sets.values()].filter((s) => s.child_id === childId);
+    return kind ? sets.filter((s) => s.kind === kind) : sets;
+  }
 
   async findAttempts(clientIds: readonly string[]) {
     return this.t.attempts.filter((a) => clientIds.includes(a.client_id));

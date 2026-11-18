@@ -46,6 +46,41 @@ export const lessonCheckRequestSchema = z.object({
 });
 export type LessonCheckRequest = z.infer<typeof lessonCheckRequestSchema>;
 
+export const placementConfigResponseSchema = z.object({
+  year: z.enum(["P4", "P5", "P6"]),
+  strands: z.array(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+    }),
+  ),
+  total_questions: z.number().int().positive(),
+  available: z.boolean(),
+  completed: z.boolean(),
+  completed_set_id: z.string().optional(),
+  active_set_id: z.string().optional(),
+});
+export type PlacementConfigResponse = z.infer<typeof placementConfigResponseSchema>;
+
+export const ownedSetResponseSchema = z.object({
+  set_id: z.string(),
+  child_id: z.string(),
+  kind: z.enum(["practice", "review", "topic_assessment", "placement"]),
+  finished_at: z.number().nullable(),
+  completed: z.boolean(),
+  total_items: z.number().int().nonnegative(),
+  items: z.array(clientItemSchema),
+  placement: z
+    .array(
+      z.object({
+        strand_id: z.string(),
+        label: z.enum(["looks_secure_so_far", "check_this", "not_yet_measured_enough"]),
+      }),
+    )
+    .nullable(),
+});
+export type OwnedSetResponse = z.infer<typeof ownedSetResponseSchema>;
+
 export const masteryCodes = [
   "not_assessed",
   "foundation",

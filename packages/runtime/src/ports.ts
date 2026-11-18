@@ -158,6 +158,7 @@ export interface RuntimeStore {
   insertSet(set: SetRecord): Promise<void>;
   getSet(setId: string): Promise<SetRecord | null>;
   updateSet(set: SetRecord): Promise<void>;
+  listChildSets(childId: string, kind?: SetKind): Promise<readonly SetRecord[]>;
 
   findAttempts(clientIds: readonly string[]): Promise<readonly AttemptRecord[]>;
   setAttempts(setId: string): Promise<readonly AttemptRecord[]>;
