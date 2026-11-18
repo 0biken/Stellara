@@ -35,6 +35,7 @@ interface Tables {
   dueQueue: Map<string, readonly ReviewDueTopic[]>;
   outages: StreakOutage[];
   itemStats: Map<string, ItemStats>;
+  exposedKeys: Set<string>;
 }
 
 const empty = (): Tables => ({
@@ -54,6 +55,7 @@ const empty = (): Tables => ({
   dueQueue: new Map(),
   outages: [],
   itemStats: new Map(),
+  exposedKeys: new Set(),
 });
 
 const key = (...parts: (string | number)[]) => parts.join("|");
@@ -218,5 +220,13 @@ export class MemoryStore implements RuntimeStore {
   }
   async putItemStats(stats: ItemStats) {
     this.t.itemStats.set(stats.item_id, stats);
+  }
+  async recordKeyExposure(childId: string, itemIds: readonly string[]) {
+    for (const itemId of itemIds) {
+      this.t.exposedKeys.add(key(childId, itemId));
+    }
+  }
+  async isKeyExposed(childId: string, itemId: string) {
+    return this.t.exposedKeys.has(key(childId, itemId));
   }
 }

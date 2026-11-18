@@ -113,6 +113,11 @@ export interface ResponsesSubmitResponse {
   readonly placement?: readonly { readonly strand_id: string; readonly label: string }[];
 }
 
+export const packBuildRequestSchema = z.object({
+  topic_id: uuidSchema,
+});
+export type PackBuildRequest = z.infer<typeof packBuildRequestSchema>;
+
 export const errorCodes = {
   INVALID_REQUEST: false,
   CHILD_NOT_FOUND: false,
@@ -127,6 +132,7 @@ export const errorCodes = {
   ITEM_VERSION_MISMATCH: false,
   LESSON_NOT_FOUND: false,
   LESSON_ITEM_NOT_IN_LESSON: false,
+  PACK_BUDGET_EXCEEDED: false,
 } as const satisfies Record<string, boolean>;
 export type ErrorCode = keyof typeof errorCodes;
 
@@ -144,6 +150,7 @@ const messages: Record<ErrorCode, string> = {
   ITEM_VERSION_MISMATCH: "This question has changed since the set started.",
   LESSON_NOT_FOUND: "This lesson was not found or is not published yet.",
   LESSON_ITEM_NOT_IN_LESSON: "This check question is not part of the lesson.",
+  PACK_BUDGET_EXCEEDED: "This practice pack exceeds the 120 KB download budget.",
 };
 
 export class RuntimeError extends Error {

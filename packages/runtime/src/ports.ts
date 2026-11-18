@@ -188,6 +188,18 @@ export interface RuntimeStore {
 
   getItemStats(itemId: string): Promise<ItemStats | null>;
   putItemStats(stats: ItemStats): Promise<void>;
+
+  recordKeyExposure?(childId: string, itemIds: readonly string[]): Promise<void>;
+  isKeyExposed?(childId: string, itemId: string): Promise<boolean>;
+}
+
+export interface PackSigningConfig {
+  readonly privateKeyPem: string;
+  readonly publicKeyPem: string;
+}
+
+export interface PackStoragePort {
+  putPack(packId: string, bytes: Uint8Array): Promise<string>;
 }
 
 export interface RuntimeDeps {
@@ -195,4 +207,6 @@ export interface RuntimeDeps {
   readonly clock: Clock;
   readonly ids: Ids;
   readonly rng: Rng;
+  readonly packSigning?: PackSigningConfig;
+  readonly packStorage?: PackStoragePort;
 }
