@@ -1,12 +1,10 @@
-import { createHash, generateKeyPairSync, sign } from "node:crypto";
-
 import { projectItemForClient, type ClientItem } from "@stellara/content-schema/client";
-import { RULES_VERSION } from "@stellara/rules";
+import { rules_version } from "@stellara/rules";
 
 import { packBuildRequestSchema, parseRequest, RuntimeError } from "./contracts.js";
-import type { RuntimeDeps, SetRecord } from "./ports.js";
 import { recentlySeen, shuffle } from "./util.js";
 
+import type { RuntimeDeps, SetRecord } from "./ports.js";
 import type { PublishedItem } from "@stellara/content-schema/server";
 
 export const PACK_MAX_BYTES = 120 * 1024; // 120 KB
@@ -55,13 +53,58 @@ export interface BuildPracticePackResult {
   readonly payload: PackPayload;
 }
 
-function resolveSigningKeys(deps: RuntimeDeps): { privateKeyPem: string; publicKeyPem: string } {
-  if (deps.packSigning) return deps.packSigning;
-  const pair = generateKeyPairSync("ed25519", {
-    publicKeyEncoding: { type: "spki", format: "pem" },
-    privateKeyEncoding: { type: "pkcs8", format: "pem" },
-  });
-  return { privateKeyPem: pair.privateKey, publicKeyPem: pair.publicKey };
+function pemToBytes(pem: string): Uint8Array {
+  const b64 = pem.replace(/-----[^-]+-----/g, "").replace(/\s+/g, "");
+  const bin = atob(b64);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+function bytesToBase64(bytes: Uint8Array): string {
+  let bin = "";
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]!);
+  return btoa(bin);
+}
+
+function bytesToHex(bytes: Uint8Array): string {
+  return [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function sha256Hex(data: Uint8Array): Promise<string> {
+  const digest = await globalThis.crypto.subtle.digest("SHA-256", data as BufferSource);
+  return bytesToHex(new Uint8Array(digest));
+}
+
+async function signManifest(
+  deps: RuntimeDeps,
+  payloadBytes: Uint8Array,
+): Promise<{ publicKeyPem: string; signBytes: (data: Uint8Array) => Promise<string> }> {
+  void payloadBytes;
+  const subtle = globalThis.crypto.subtle;
+  if (deps.packSigning) {
+    const der = pemToBytes(deps.packSigning.privateKeyPem);
+    const key = await subtle.importKey("pkcs8", der as BufferSource, { name: "Ed25519" }, false, [
+      "sign",
+    ]);
+    return {
+      publicKeyPem: deps.packSigning.publicKeyPem,
+      signBytes: async (data) => {
+        const sig = await subtle.sign("Ed25519", key, data as BufferSource);
+        return bytesToBase64(new Uint8Array(sig));
+      },
+    };
+  }
+  const generated = (await subtle.generateKey("Ed25519", true, ["sign", "verify"])) as CryptoKeyPair;
+  const spki = await subtle.exportKey("spki", generated.publicKey);
+  const pubB64 = bytesToBase64(new Uint8Array(spki));
+  return {
+    publicKeyPem: `-----BEGIN PUBLIC KEY-----\n${pubB64}\n-----END PUBLIC KEY-----`,
+    signBytes: async (data) => {
+      const sig = await subtle.sign("Ed25519", generated.privateKey, data as BufferSource);
+      return bytesToBase64(new Uint8Array(sig));
+    },
+  };
 }
 
 export async function buildPracticePack(
@@ -114,7 +157,7 @@ export async function buildPracticePack(
       started_at: now,
       finished_at: null,
       placement: null,
-      rules_version: RULES_VERSION,
+      rules_version,
     });
   }
 
@@ -132,7 +175,7 @@ export async function buildPracticePack(
     })),
   };
 
-  const encoded = Buffer.from(JSON.stringify(payload), "utf8");
+  const encoded = new TextEncoder().encode(JSON.stringify(payload));
   const sizeBytes = encoded.byteLength;
   if (sizeBytes > PACK_MAX_BYTES) {
     throw new RuntimeError("PACK_BUDGET_EXCEEDED", { size_bytes: sizeBytes, max: PACK_MAX_BYTES });
@@ -143,14 +186,14 @@ export async function buildPracticePack(
     for (const set of sets) {
       await deps.store.insertSet(set);
     }
-    await deps.store.recordKeyExposure?.(
+    await deps.store.recordKeyExposure(
       child.id,
       chosen.map((i) => i.id),
     );
   });
 
-  const sha256 = createHash("sha256").update(encoded).digest("hex");
-  const { privateKeyPem, publicKeyPem } = resolveSigningKeys(deps);
+  const sha256 = await sha256Hex(encoded);
+  const signer = await signManifest(deps, encoded);
   const manifestBody: PackManifestBody = {
     pack_id: packId,
     child_id: child.id,
@@ -161,11 +204,9 @@ export async function buildPracticePack(
     sha256,
     created_at: now,
     expires_at: now + 72 * 60 * 60 * 1000,
-    public_key: publicKeyPem,
+    public_key: signer.publicKeyPem,
   };
-  const signature = sign(null, Buffer.from(JSON.stringify(manifestBody), "utf8"), privateKeyPem).toString(
-    "base64",
-  );
+  const signature = await signer.signBytes(new TextEncoder().encode(JSON.stringify(manifestBody)));
   const manifest: PackManifest = {
     ...manifestBody,
     signature,

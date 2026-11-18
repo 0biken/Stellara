@@ -1,4 +1,5 @@
 import { generateKeyPairSync, verify } from "node:crypto";
+
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { RuntimeError } from "../src/contracts.js";

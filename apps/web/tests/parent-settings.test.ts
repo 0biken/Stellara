@@ -22,8 +22,8 @@ describe("parent settings and data rights in FamilyApi", () => {
       first_name: "Tolu",
       year: "P5",
       exam_date: "2026-04-20",
-      avatar_key: "butterfly",
-      pin: ["butterfly", "butterfly", "butterfly", "butterfly"],
+      avatar_key: "sun",
+      pin: ["sun", "sun", "sun", "sun"],
     });
     return { api, child };
   };
@@ -32,14 +32,14 @@ describe("parent settings and data rights in FamilyApi", () => {
     const { api, child } = await setupChild();
     const updated = await api.updateChild!(child.id, {
       first_name: "Toluwani",
-      avatar_key: "owl",
+      avatar_key: "moon",
       year: "P6",
       exam_date: "2026-05-15",
       timezone: "Europe/London",
     });
 
     expect(updated.first_name).toBe("Toluwani");
-    expect(updated.avatar_key).toBe("owl");
+    expect(updated.avatar_key).toBe("moon");
     expect(updated.year).toBe("P6");
     expect(updated.exam_date).toBe("2026-05-15");
     expect(updated.timezone).toBe("Europe/London");
@@ -47,18 +47,18 @@ describe("parent settings and data rights in FamilyApi", () => {
 
   it("resets picture PIN and revokes active child session", async () => {
     const { api, child } = await setupChild();
-    const signInRes = await api.signInChild(child, ["butterfly", "butterfly", "butterfly", "butterfly"]);
+    const signInRes = await api.signInChild(child, ["sun", "sun", "sun", "sun"]);
     expect(signInRes.status).toBe("signed-in");
     expect(window.localStorage.getItem(previewChildKey)).not.toBeNull();
 
-    await api.resetChildPin!(child.id, ["owl", "owl", "owl", "owl"]);
+    await api.resetChildPin!(child.id, ["moon", "moon", "moon", "moon"]);
     // Session revoked
     expect(window.localStorage.getItem(previewChildKey)).toBeNull();
 
     // Old PIN rejected, new PIN accepted
-    const oldAttempt = await api.signInChild(child, ["butterfly", "butterfly", "butterfly", "butterfly"]);
+    const oldAttempt = await api.signInChild(child, ["sun", "sun", "sun", "sun"]);
     expect(oldAttempt.status).toBe("incorrect");
-    const newAttempt = await api.signInChild(child, ["owl", "owl", "owl", "owl"]);
+    const newAttempt = await api.signInChild(child, ["moon", "moon", "moon", "moon"]);
     expect(newAttempt.status).toBe("signed-in");
   });
 

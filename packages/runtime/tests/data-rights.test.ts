@@ -7,8 +7,8 @@ import {
   requestDataDeletion,
   requestDataExport,
 } from "../src/data-rights.js";
-import { startSet } from "../src/set-start.js";
 import { submitResponses } from "../src/responses-submit.js";
+import { startSet } from "../src/set-start.js";
 import { ManualClock, sequentialIds } from "../src/testing/fixtures.js";
 import { MemoryStore } from "../src/testing/memory-store.js";
 import { SAMPLE_PRACTICE_ITEMS } from "../src/testing/sample-content.js";

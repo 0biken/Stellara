@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Dialog, PictureKey, buttonClasses, pictures, type PictureId } from "@stellara/ui";
+import { Button, Dialog, PictureKey, buttonClasses, pictureIds, type PictureId } from "@stellara/ui";
 import { useCallback, useEffect, useState } from "react";
 
 import { ConsentWithdrawDialog } from "../../../../components/family/consent-withdraw-dialog";
@@ -14,6 +14,17 @@ import {
 } from "../../../../lib/family";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const pictureLabels: Record<PictureId, string> = {
+  sun: "Sun",
+  moon: "Moon",
+  leaf: "Leaf",
+  flower: "Flower",
+  fish: "Fish",
+  ball: "Ball",
+  cup: "Cup",
+  house: "House",
+  kite: "Kite",
+};
 
 export function ParentSettingsClient() {
   const [children, setChildren] = useState<ChildSummary[]>([]);
@@ -25,7 +36,7 @@ export function ParentSettingsClient() {
 
   // Edit profile form
   const [firstName, setFirstName] = useState("");
-  const [avatarKey, setAvatarKey] = useState<PictureId>("butterfly");
+  const [avatarKey, setAvatarKey] = useState<PictureId>("sun");
   const [year, setYear] = useState<SchoolYear>("P5");
   const [examDate, setExamDate] = useState("");
   const [timezone, setTimezone] = useState("Africa/Lagos");
@@ -48,31 +59,55 @@ export function ParentSettingsClient() {
     setTimezone(child.timezone ?? "Africa/Lagos");
   }, []);
 
+  const applyLoaded = useCallback(
+    async (list: ChildSummary[]) => {
+      setChildren(list);
+      const active = list.find((c) => c.id === selectedId) ?? list[0];
+      if (active) {
+        setSelectedId(active.id);
+        syncSelectedForm(active);
+        const api = getFamilyApi();
+        if (api.listDataRequests) {
+          setRequests(await api.listDataRequests(active.id));
+        }
+      }
+    },
+    [selectedId, syncSelectedForm],
+  );
+
   const loadAll = useCallback(async () => {
     setLoading(true);
     setErrorMsg(null);
     try {
       const api = getFamilyApi();
       const list = await api.listChildren();
-      setChildren(list);
-      const active = list.find((c) => c.id === selectedId) ?? list[0];
-      if (active) {
-        setSelectedId(active.id);
-        syncSelectedForm(active);
-        if (api.listDataRequests) {
-          setRequests(await api.listDataRequests(active.id));
-        }
-      }
+      await applyLoaded(list);
     } catch {
       setErrorMsg("Could not load family settings.");
     } finally {
       setLoading(false);
     }
-  }, [selectedId, syncSelectedForm]);
+  }, [applyLoaded]);
 
   useEffect(() => {
-    void loadAll();
-  }, [loadAll]);
+    let live = true;
+    const api = getFamilyApi();
+    api
+      .listChildren()
+      .then(async (list) => {
+        if (!live) return;
+        await applyLoaded(list);
+      })
+      .catch(() => {
+        if (live) setErrorMsg("Could not load family settings.");
+      })
+      .finally(() => {
+        if (live) setLoading(false);
+      });
+    return () => {
+      live = false;
+    };
+  }, [applyLoaded]);
 
   const selectChild = async (child: ChildSummary) => {
     setSelectedId(child.id);
@@ -221,7 +256,7 @@ export function ParentSettingsClient() {
         {children.map((c) => (
           <Button
             key={c.id}
-            variant={c.id === selectedId ? "primary" : "secondary"}
+            variant={c.id === selectedId ? "primary" : "quiet"}
             onClick={() => void selectChild(c)}
           >
             {c.first_name} ({c.year})
@@ -278,14 +313,14 @@ export function ParentSettingsClient() {
             </div>
             <fieldset className="flex flex-wrap gap-2 border-0 p-0">
               <legend className="mb-1 text-sm font-medium">Avatar</legend>
-              {pictures.map((pic) => (
+              {pictureIds.map((pic) => (
                 <Button
-                  key={pic.id}
+                  key={pic}
                   type="button"
-                  variant={avatarKey === pic.id ? "primary" : "secondary"}
-                  onClick={() => setAvatarKey(pic.id)}
+                  variant={avatarKey === pic ? "primary" : "quiet"}
+                  onClick={() => setAvatarKey(pic)}
                 >
-                  {pic.label}
+                  {pictureLabels[pic]}
                 </Button>
               ))}
             </fieldset>
@@ -300,11 +335,11 @@ export function ParentSettingsClient() {
               Status: <strong>{selected.status ?? "active"}</strong>
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button variant="secondary" onClick={() => setShowPinReset((v) => !v)}>
+              <Button variant="quiet" onClick={() => setShowPinReset((v) => !v)}>
                 {showPinReset ? "Cancel PIN reset" : "Reset picture PIN"}
               </Button>
               {selected.status !== "deletion_pending" && (
-                <Button variant="secondary" onClick={() => void handleTogglePause()}>
+                <Button variant="quiet" onClick={() => void handleTogglePause()}>
                   {selected.status === "paused" ? "Resume child" : "Pause child"}
                 </Button>
               )}
@@ -314,9 +349,12 @@ export function ParentSettingsClient() {
             {showPinReset && (
               <div className="mt-2 flex flex-col gap-3 rounded-2xl border border-line p-4">
                 <PictureKey
-                  label="Choose 4 new pictures"
-                  value={newPin}
-                  onChange={setNewPin}
+                  labels={pictureLabels}
+                  prompt="Choose 4 new pictures"
+                  enteredLabel={(count) => `${count} of 4 chosen`}
+                  removeLabel="Remove last"
+                  clearLabel="Clear"
+                  onComplete={(seq) => setNewPin(seq)}
                 />
                 <Button
                   variant="primary"
@@ -333,10 +371,10 @@ export function ParentSettingsClient() {
           <section className="flex flex-col gap-4 rounded-3xl border border-line bg-surface p-6">
             <h2 className="m-0 font-heading text-xl font-bold">Data rights (NDPA)</h2>
             <div className="flex flex-wrap gap-3">
-              <Button variant="secondary" onClick={() => void handleExport()}>
+              <Button variant="quiet" onClick={() => void handleExport()}>
                 Export {selected.first_name}&apos;s data
               </Button>
-              <Button variant="secondary" onClick={() => setDeleteOpen(true)}>
+              <Button variant="quiet" onClick={() => setDeleteOpen(true)}>
                 Delete {selected.first_name}&apos;s data
               </Button>
             </div>

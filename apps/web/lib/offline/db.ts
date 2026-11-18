@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable, type Table } from "dexie";
+
 import type { SubmittedAnswer } from "../learning/types";
 
 export interface ChildDraftRecord {

@@ -1,6 +1,7 @@
+import { ParentSettingsClient } from "./settings-client";
+
 import type { Metadata } from "next";
 
-import { ParentSettingsClient } from "./settings-client";
 
 export const metadata: Metadata = { title: "Parent settings — Stellara" };
 

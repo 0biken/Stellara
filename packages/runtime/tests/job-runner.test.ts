@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { CRON_JOBS } from "../src/jobs/schedule.js";
 import { runJobWithLock } from "../src/jobs/runner.js";
+import { CRON_JOBS } from "../src/jobs/schedule.js";
 import { ManualClock, sequentialIds } from "../src/testing/fixtures.js";
 import { MemoryStore } from "../src/testing/memory-store.js";
 

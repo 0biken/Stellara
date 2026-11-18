@@ -28,7 +28,7 @@ export function ConsentWithdrawDialog({ childName, onWithdraw }: ConsentWithdraw
 
   return (
     <>
-      <Button variant="secondary" onClick={() => setOpen(true)}>
+      <Button variant="quiet" onClick={() => setOpen(true)}>
         Withdraw consent for {childName}
       </Button>
       <Dialog
@@ -40,7 +40,7 @@ export function ConsentWithdrawDialog({ childName, onWithdraw }: ConsentWithdraw
         variant="confirm"
       >
         <div className="mt-4 flex justify-end gap-3">
-          <Button variant="secondary" onClick={() => setOpen(false)} disabled={busy}>
+          <Button variant="quiet" onClick={() => setOpen(false)} disabled={busy}>
             Keep active
           </Button>
           <Button variant="primary" onClick={() => void confirm()} disabled={busy}>

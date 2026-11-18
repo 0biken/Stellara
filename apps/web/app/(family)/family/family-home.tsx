@@ -101,7 +101,7 @@ export function FamilyHome() {
         <a href={`${basePath}${addHref}`} className={buttonClasses("quiet", "adult")}>
           {copy["family.addAnother"]}
         </a>
-        <a href={`${basePath}/family/settings/`} className={buttonClasses("secondary", "adult")}>
+        <a href={`${basePath}/family/settings/`} className={buttonClasses("quiet", "adult")}>
           Parent settings
         </a>
       </div>
