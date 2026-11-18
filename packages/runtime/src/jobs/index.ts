@@ -9,6 +9,7 @@ import {
   selectDueTopics,
 } from "@stellara/rules";
 
+import { executeDeletion, processExportRequest } from "../data-rights.js";
 import { DAY_MS } from "../util.js";
 
 import type { ActivityDay, CreditedBy, RuntimeDeps } from "../ports.js";
@@ -151,7 +152,10 @@ export async function retentionPurgePlan(deps: RuntimeDeps): Promise<PurgePlan> 
   const now = deps.clock.now();
   const learning = minusMonths(now, 12);
   const children = (await deps.store.listActiveChildren())
-    .filter((c) => c.last_active_at !== null && c.last_active_at < learning)
+    .filter((c) => {
+      const activityRef = c.last_active_at ?? c.created_at ?? null;
+      return activityRef !== null && activityRef < learning;
+    })
     .map((c) => c.id)
     .sort();
   return {
@@ -162,4 +166,81 @@ export async function retentionPurgePlan(deps: RuntimeDeps): Promise<PurgePlan> 
     raw_ip_before: now - 30 * DAY_MS,
     children,
   };
+}
+
+export interface RetentionExecutionReport {
+  readonly processed_children: number;
+  readonly purged_consents: number;
+  readonly expired_exports: number;
+}
+
+export async function executeRetentionPurge(
+  deps: RuntimeDeps,
+  options: { batchSize?: number } = {},
+): Promise<RetentionExecutionReport> {
+  const now = deps.clock.now();
+  const batchSize = options.batchSize ?? 50;
+  const plan = await retentionPurgePlan(deps);
+
+  let processedChildren = 0;
+  for (const childId of plan.children.slice(0, batchSize)) {
+    await deps.store.transaction(async () => {
+      await deps.store.deleteChildLearningRecords(childId);
+    });
+    processedChildren++;
+  }
+
+  let purgedConsents = 0;
+  const consents = await deps.store.listConsents();
+  for (const consent of consents.filter((c) => c.retain_until < now).slice(0, batchSize)) {
+    await deps.store.deleteConsent(consent.id);
+    purgedConsents++;
+  }
+
+  let expiredExports = 0;
+  const requests = await deps.store.listDataRequests();
+  for (const req of requests
+    .filter(
+      (r) =>
+        r.kind === "export" &&
+        r.status === "ready" &&
+        r.download_url !== undefined &&
+        r.download_expires_at != null &&
+        r.download_expires_at < now,
+    )
+    .slice(0, batchSize)) {
+    const { download_url: _removed, ...rest } = req;
+    void _removed;
+    await deps.store.putDataRequest(rest);
+    expiredExports++;
+  }
+
+  return {
+    processed_children: processedChildren,
+    purged_consents: purgedConsents,
+    expired_exports: expiredExports,
+  };
+}
+
+export async function processPendingDataRequests(
+  deps: RuntimeDeps,
+  options: { batchSize?: number } = {},
+): Promise<JobReport> {
+  const batchSize = options.batchSize ?? 20;
+  const pending = (await deps.store.listDataRequests())
+    .filter((r) => r.status === "pending")
+    .sort((a, b) => a.requested_at - b.requested_at)
+    .slice(0, batchSize);
+
+  let processed = 0;
+  for (const req of pending) {
+    if (req.kind === "export") {
+      await processExportRequest(deps, req.id);
+    } else {
+      await executeDeletion(deps, req.id);
+    }
+    processed++;
+  }
+
+  return { processed };
 }
