@@ -3,6 +3,7 @@ import { z } from "zod";
 export const uuidSchema = z.uuid().transform((value) => value.toLowerCase());
 export const versionSchema = z.number().int().positive();
 export const curriculumEditionSchema = z.enum(["legacy", "revised_2025"]);
+export const itemPurposeSchema = z.enum(["practice", "lesson_check", "placement"]).default("practice");
 export const itemTypeSchema = z.enum([
   "single_choice",
   "multi_choice",
@@ -37,6 +38,7 @@ const clientBase = {
   stimulus_id: uuidSchema.nullable(),
   difficulty: z.enum(["easy", "standard", "hard"]),
   tags: z.array(z.string()),
+  purpose: itemPurposeSchema,
   curriculum_edition: curriculumEditionSchema,
   media: z.array(mediaSchema),
   hint_available: z.boolean(),
@@ -56,6 +58,7 @@ export function projectItemForClient(input: unknown): ClientItem {
   const source = z
     .object({
       ...clientBase,
+      purpose: itemPurposeSchema.optional(),
       hint_available: z.boolean().optional(),
       hint: z.string().nullable().optional(),
       type: itemTypeSchema,
@@ -74,6 +77,7 @@ export function projectItemForClient(input: unknown): ClientItem {
     stimulus_id: source.stimulus_id,
     difficulty: source.difficulty,
     tags: source.tags,
+    purpose: source.purpose ?? "practice",
     curriculum_edition: source.curriculum_edition,
     media: source.media,
     hint_available: Boolean(source.hint?.trim()) || source.hint_available === true,
@@ -92,3 +96,79 @@ export const clientStimulusSchema = z.object({
   media: z.array(mediaSchema),
   alt_text: z.string().optional(),
 });
+
+export const clientLessonCardSchema = z.discriminatedUnion("kind", [
+  z.object({ kind: z.literal("explain"), body: z.string().min(1), media: z.array(mediaSchema).optional() }),
+  z.object({ kind: z.literal("worked_example"), body: z.string().min(1), steps: z.array(z.string().min(1)).min(1) }),
+  z.object({ kind: z.literal("check"), item: clientItemSchema }),
+  z.object({ kind: z.literal("try_it"), items: z.array(clientItemSchema).min(2).max(3) }),
+  z.object({ kind: z.literal("summary"), body: z.string().min(1) }),
+]);
+export type ClientLessonCard = z.infer<typeof clientLessonCardSchema>;
+
+export const clientLessonSchema = z.object({
+  id: uuidSchema,
+  version: versionSchema,
+  topic_id: uuidSchema,
+  title: z.string().trim().min(1).optional(),
+  cards: z.array(clientLessonCardSchema).min(3).max(6),
+});
+export type ClientLesson = z.infer<typeof clientLessonSchema>;
+
+/** Projects a published lesson and its referenced items through recursive allowlists. */
+export function projectLessonForClient(
+  lessonInput: unknown,
+  itemsMap: Map<string, unknown> | Record<string, unknown>,
+): ClientLesson {
+  const getRawItem = (id: string): unknown => {
+    if (itemsMap instanceof Map) return itemsMap.get(id);
+    return (itemsMap as Record<string, unknown>)[id];
+  };
+
+  const raw = z
+    .object({
+      id: uuidSchema,
+      version: versionSchema,
+      topic_id: uuidSchema,
+      title: z.string().trim().min(1).optional(),
+      cards: z.array(
+        z.discriminatedUnion("kind", [
+          z.object({ kind: z.literal("explain"), body: z.string().min(1), media: z.array(mediaSchema).optional() }),
+          z.object({
+            kind: z.literal("worked_example"),
+            body: z.string().min(1),
+            steps: z.array(z.string().min(1)).min(1),
+          }),
+          z.object({ kind: z.literal("check"), item_id: uuidSchema }),
+          z.object({ kind: z.literal("try_it"), item_ids: z.array(uuidSchema).min(2).max(3) }),
+          z.object({ kind: z.literal("summary"), body: z.string().min(1) }),
+        ]),
+      ),
+    })
+    .parse(lessonInput);
+
+  const projectedCards = raw.cards.map((card) => {
+    if (card.kind === "check") {
+      const itemRaw = getRawItem(card.item_id);
+      if (!itemRaw) throw new Error(`Referenced item ${card.item_id} not found in items map`);
+      return { kind: "check" as const, item: projectItemForClient(itemRaw) };
+    }
+    if (card.kind === "try_it") {
+      const items = card.item_ids.map((id) => {
+        const itemRaw = getRawItem(id);
+        if (!itemRaw) throw new Error(`Referenced item ${id} not found in items map`);
+        return projectItemForClient(itemRaw);
+      });
+      return { kind: "try_it" as const, items };
+    }
+    return card;
+  });
+
+  return clientLessonSchema.parse({
+    id: raw.id,
+    version: raw.version,
+    topic_id: raw.topic_id,
+    title: raw.title,
+    cards: projectedCards,
+  });
+}

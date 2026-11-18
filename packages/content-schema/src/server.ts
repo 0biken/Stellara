@@ -4,6 +4,7 @@ import {
   uuidSchema,
   versionSchema,
   curriculumEditionSchema,
+  itemPurposeSchema,
   optionsSchema,
   clozeSlotsSchema,
   itemTypeSchema,
@@ -66,6 +67,7 @@ const commonShape = {
   hint: text.optional(),
   difficulty: z.enum(["easy", "standard", "hard"]),
   tags: z.array(text),
+  purpose: itemPurposeSchema,
   curriculum_edition: curriculumEditionSchema,
   media: z.array(mediaSchema),
   exposure_count: z.number().int().nonnegative(),
@@ -237,12 +239,41 @@ export const lessonCardSchema = z.discriminatedUnion("kind", [
   }),
   z.object({ kind: z.literal("summary"), body: text }),
 ]);
-export const lessonSchema = z.object({
+
+export const lessonStatusSchema = z.enum(["draft", "published", "retired"]);
+export type LessonStatus = z.infer<typeof lessonStatusSchema>;
+
+export const draftLessonSchema = z.object({
   id: uuidSchema,
   version: versionSchema,
   topic_id: uuidSchema,
-  cards: z.array(lessonCardSchema).min(3).max(6),
+  title: text.optional(),
+  status: lessonStatusSchema.default("draft"),
+  cards: z.array(lessonCardSchema).optional(),
 });
+export type DraftLesson = z.infer<typeof draftLessonSchema>;
+
+export const publishedLessonSchema = z
+  .object({
+    id: uuidSchema,
+    version: versionSchema,
+    topic_id: uuidSchema,
+    title: text.optional(),
+    status: z.literal("published").default("published"),
+    cards: z.array(lessonCardSchema).min(3).max(6),
+  })
+  .superRefine((lesson, ctx) => {
+    const checkCards = lesson.cards.filter((c) => c.kind === "check" || c.kind === "try_it");
+    if (checkCards.length === 0) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Published lesson must have at least one check or try_it card",
+      });
+    }
+  });
+export type PublishedLesson = z.infer<typeof publishedLessonSchema>;
+
+export const lessonSchema = publishedLessonSchema;
 export type Lesson = z.infer<typeof lessonSchema>;
 export type Stimulus = z.infer<typeof publishedStimulusSchema>;
 export { itemTypeSchema };

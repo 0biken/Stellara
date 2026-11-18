@@ -52,6 +52,7 @@ type Row = {
   hint: string;
   explanation: string;
   difficulty: "easy" | "standard" | "hard";
+  purpose?: "practice" | "lesson_check" | "placement";
 };
 
 const placeValue: Row[] = [
@@ -257,6 +258,7 @@ function build(rows: Row[], topicId: string, group: number) {
       stimulus_id: null,
       difficulty: row.difficulty,
       tags: [],
+      purpose: row.purpose ?? ("practice" as const),
       curriculum_edition: "revised_2025" as const,
       media: [],
       hint_available: true,
