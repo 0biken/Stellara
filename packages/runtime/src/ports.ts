@@ -68,6 +68,17 @@ export interface DataRequestServerRecord {
   readonly download_expires_at?: number | null;
 }
 
+export interface JobRunRecord {
+  readonly id: string;
+  readonly job_name: string;
+  readonly status: "running" | "completed" | "failed" | "skipped_locked";
+  readonly started_at: number;
+  readonly finished_at: number | null;
+  readonly processed: number;
+  readonly checkpoint: string | null;
+  readonly error?: string;
+}
+
 /** Identity resolved from a verified child JWT by the adapter. */
 export interface ChildContext {
   readonly child_id: string;
@@ -238,6 +249,11 @@ export interface RuntimeStore {
   listDataRequests(childId?: string): Promise<readonly DataRequestServerRecord[]>;
   collectChildExportData(childId: string): Promise<Record<string, unknown>>;
   deleteChildLearningRecords(childId: string): Promise<void>;
+
+  tryAcquireJobLock(jobName: string, holderId: string): Promise<boolean>;
+  releaseJobLock(jobName: string, holderId: string): Promise<void>;
+  putJobRun(run: JobRunRecord): Promise<void>;
+  listJobRuns(jobName?: string): Promise<readonly JobRunRecord[]>;
 }
 
 export interface PackSigningConfig {

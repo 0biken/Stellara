@@ -5,6 +5,7 @@ import type {
   ConsentEvidenceRecord,
   DataRequestServerRecord,
   ItemStats,
+  JobRunRecord,
   LedgerRow,
   MasteryEventRecord,
   RuntimeStore,
@@ -41,6 +42,8 @@ interface Tables {
   consents: Map<string, ConsentEvidenceRecord>;
   revokedAt: Map<string, number>;
   dataRequests: Map<string, DataRequestServerRecord>;
+  jobLocks: Map<string, string>;
+  jobRuns: JobRunRecord[];
 }
 
 const empty = (): Tables => ({
@@ -64,6 +67,8 @@ const empty = (): Tables => ({
   consents: new Map(),
   revokedAt: new Map(),
   dataRequests: new Map(),
+  jobLocks: new Map(),
+  jobRuns: [],
 });
 
 const key = (...parts: (string | number)[]) => parts.join("|");
@@ -337,5 +342,23 @@ export class MemoryStore implements RuntimeStore {
       if (k.startsWith(`${childId}|`)) this.t.exposedKeys.delete(k);
     }
     this.t.children.delete(childId);
+  }
+  async tryAcquireJobLock(jobName: string, holderId: string) {
+    if (this.t.jobLocks.has(jobName)) return false;
+    this.t.jobLocks.set(jobName, holderId);
+    return true;
+  }
+  async releaseJobLock(jobName: string, holderId: string) {
+    if (this.t.jobLocks.get(jobName) === holderId) {
+      this.t.jobLocks.delete(jobName);
+    }
+  }
+  async putJobRun(run: JobRunRecord) {
+    const idx = this.t.jobRuns.findIndex((r) => r.id === run.id);
+    if (idx >= 0) this.t.jobRuns[idx] = run;
+    else this.t.jobRuns.push(run);
+  }
+  async listJobRuns(jobName?: string) {
+    return jobName ? this.t.jobRuns.filter((r) => r.job_name === jobName) : [...this.t.jobRuns];
   }
 }

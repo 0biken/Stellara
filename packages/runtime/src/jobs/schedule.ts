@@ -7,6 +7,7 @@ export const CRON_JOBS = [
   { name: "update-item-stats", lagos: "Daily 02:00", cron_utc: "0 1 * * *" },
   { name: "close-learning-day", lagos: "Daily 03:05", cron_utc: "5 2 * * *" },
   { name: "schedule-due-reviews", lagos: "Daily 03:15", cron_utc: "15 2 * * *" },
+  { name: "process-data-requests", lagos: "Every 5 minutes", cron_utc: "*/5 * * * *" },
   { name: "report-weekly", lagos: "Sunday 18:00", cron_utc: "0 17 * * 0" },
   { name: "finalise-practice-tests", lagos: "Every 5 minutes", cron_utc: "*/5 * * * *" },
 ] as const;

@@ -13,6 +13,7 @@ import { DAY_MS } from "../util.js";
 
 import type { ActivityDay, CreditedBy, RuntimeDeps } from "../ports.js";
 
+export * from "./runner.js";
 export * from "./schedule.js";
 
 /** At most this many missed days are caught up in one run (a stalled cron). */
