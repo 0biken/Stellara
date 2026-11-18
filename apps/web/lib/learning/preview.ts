@@ -1,4 +1,13 @@
-import { ITEMS, KEYS, LESSONS, SKY_LINKS, SKY_TOPICS, STRANDS, TOPICS } from "./preview-content";
+import {
+  ITEMS,
+  KEYS,
+  LESSONS,
+  SKY_LINKS,
+  SKY_TOPICS,
+  STRANDS,
+  STRANDS_BY_YEAR,
+  TOPICS,
+} from "./preview-content";
 import {
   LearningError,
   type AnswerResult,
@@ -38,17 +47,21 @@ interface Evidence {
 }
 interface PreviewState {
   placementDone: boolean;
+  completedPlacementSetId?: string;
+  placementBySetId?: Record<string, { strand_id: string; label: PlacementTone }[]>;
   seen: Record<string, number>;
   evidence: Record<string, Evidence[]>;
   levels: Record<string, number>;
   highwater: Record<string, number>;
   stardustByDay: Record<string, number>;
-  sets: Record<string, { kind: SetKind; items: string[] }>;
+  sets: Record<string, { kind: SetKind; items: string[]; finished_at?: number | null }>;
   results: Record<string, AnswerResult & { item_id: string; set_id: string }>;
 }
 
 const empty = (): PreviewState => ({
   placementDone: false,
+  completedPlacementSetId: undefined,
+  placementBySetId: {},
   seen: {},
   evidence: {},
   levels: {},
@@ -149,8 +162,8 @@ export function createPreviewLearningApi(options: PreviewOptions = {}): Learning
   return {
     mode: "preview",
 
-    async startPreviewChild() {
-      const profile: ChildProfile = child() ?? { id: uuid(), first_name: "Tolu" };
+    async startPreviewChild(override?: Partial<ChildProfile>) {
+      const profile: ChildProfile = { id: uuid(), first_name: "Tolu", year: "P5", ...override };
       write(CHILD_KEY, profile);
       return profile;
     },
@@ -196,7 +209,58 @@ export function createPreviewLearningApi(options: PreviewOptions = {}): Learning
     },
 
     async placementStrands() {
-      return STRANDS.map(({ id, name }) => ({ id, name }));
+      const currentChild = child();
+      const year = currentChild?.year ?? "P5";
+      const list = STRANDS_BY_YEAR[year] ?? STRANDS_BY_YEAR.P5;
+      return list.map(({ id, name }) => ({ id, name }));
+    },
+
+    async placementConfig() {
+      requireChild();
+      const currentChild = child()!;
+      const year = currentChild.year ?? "P5";
+      const strands = (STRANDS_BY_YEAR[year] ?? STRANDS_BY_YEAR.P5).map(({ id, name }) => ({
+        id,
+        name,
+      }));
+      const state = load();
+      const completed = Boolean(state.placementDone && state.completedPlacementSetId);
+      return wait(
+        {
+          year,
+          strands,
+          total_questions: 20,
+          available: !completed,
+          completed,
+          ...(state.completedPlacementSetId
+            ? { completed_set_id: state.completedPlacementSetId }
+            : {}),
+        },
+        latency / 3,
+      );
+    },
+
+    async getOwnedSet(setId: string) {
+      requireChild();
+      const state = load();
+      const set = state.sets[setId];
+      if (!set) throw new LearningError("NOT_AVAILABLE", false);
+      const items = set.items.map((id) => ITEMS.find((i) => i.id === id)!).filter(Boolean);
+      const placement = state.placementBySetId?.[setId] ?? null;
+      return wait(
+        {
+          set_id: setId,
+          kind: set.kind,
+          finished_at: set.finished_at ?? (state.placementDone ? now() : null),
+          completed: Boolean(
+            set.finished_at || (set.kind === "placement" && state.placementDone),
+          ),
+          total_items: items.length,
+          items,
+          placement,
+        },
+        latency / 3,
+      );
     },
 
     async startSet({ kind, topic_ids }) {
@@ -204,8 +268,12 @@ export function createPreviewLearningApi(options: PreviewOptions = {}): Learning
       const state = load();
       const at = now();
       const fresh = (itemId: string) => !(at - (state.seen[itemId] ?? -Infinity) < 30 * DAY);
-      const pick = (topic: string, count: number) => {
-        const pool = ITEMS.filter((i) => i.topic_id === topic);
+      const pick = (topic: string, count: number, purpose?: "placement" | "practice") => {
+        const pool = ITEMS.filter((i) => {
+          if (i.topic_id !== topic) return false;
+          if (purpose === "placement") return i.purpose === "placement";
+          return i.purpose !== "placement" && i.purpose !== "lesson_check";
+        });
         return [
           ...shuffle(pool.filter((i) => fresh(i.id))),
           ...shuffle(pool.filter((i) => !fresh(i.id))),
@@ -213,11 +281,14 @@ export function createPreviewLearningApi(options: PreviewOptions = {}): Learning
       };
       let items;
       if (kind === "placement") {
-        const groups = STRANDS.map((s) => pick(s.topic, 10));
+        const currentChild = child();
+        const year = currentChild?.year ?? "P5";
+        const strands = STRANDS_BY_YEAR[year] ?? STRANDS_BY_YEAR.P5;
+        const groups = strands.map((s) => pick(s.topic, 10, "placement"));
         items = groups[0]!.flatMap((item, i) => [item, groups[1]![i]!]).filter(Boolean);
       } else {
         const topic = topic_ids[0] ?? TOPICS.fractions;
-        items = pick(topic, 10);
+        items = pick(topic, 10, "practice");
       }
       if (items.length === 0) throw new LearningError("NO_ITEMS_AVAILABLE", false);
       const set_id = uuid();
@@ -305,7 +376,10 @@ export function createPreviewLearningApi(options: PreviewOptions = {}): Learning
         )
           continue;
         state.placementDone = true;
-        placement = STRANDS.map((strand) => {
+        const currentChild = child();
+        const year = currentChild?.year ?? "P5";
+        const strands = STRANDS_BY_YEAR[year] ?? STRANDS_BY_YEAR.P5;
+        placement = strands.map((strand) => {
           const mine = answered.filter(
             (a, index, all) =>
               ITEMS.find((i) => i.id === a.item_id)?.topic_id === strand.topic &&
@@ -316,6 +390,12 @@ export function createPreviewLearningApi(options: PreviewOptions = {}): Learning
             label: strandLabel(mine.filter((a) => a.is_correct).length, mine.length),
           };
         });
+        state.completedPlacementSetId = setId;
+        if (!state.placementBySetId) state.placementBySetId = {};
+        state.placementBySetId[setId] = placement;
+        if (state.sets[setId]) {
+          state.sets[setId].finished_at = at;
+        }
       }
       write(storeKey(), state);
       return wait({

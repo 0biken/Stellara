@@ -105,11 +105,26 @@ export const SKY_LINKS = [
   { from: TOPICS.p6Fractions, to: TOPICS.p6Area },
 ];
 
+export const STRANDS_BY_YEAR: Record<
+  "P4" | "P5" | "P6",
+  { id: string; name: string; topic: string }[]
+> = {
+  P4: [
+    { id: "p4-fractions-strand", name: "Fractions and Parts", topic: TOPICS.p4Fractions },
+    { id: "p4-shapes-strand", name: "2D and 3D Shapes", topic: TOPICS.p4Shapes },
+  ],
+  P5: [
+    { id: "p5-fractions-strand", name: "Fractions and Decimals", topic: TOPICS.fractions },
+    { id: "p5-angles-strand", name: "Angles and Lines", topic: TOPICS.p5Angles },
+  ],
+  P6: [
+    { id: "p6-fractions-strand", name: "Advanced Fractions and Ratios", topic: TOPICS.p6Fractions },
+    { id: "p6-area-strand", name: "Area and Perimeter", topic: TOPICS.p6Area },
+  ],
+};
+
 /** Placement strands map one-to-one onto the two topics with sample items. */
-export const STRANDS = [
-  { id: "whole-numbers", name: "Whole numbers", topic: TOPICS.placeValue },
-  { id: "fractions", name: "Fractions", topic: TOPICS.fractions },
-];
+export const STRANDS = STRANDS_BY_YEAR.P5;
 
 export interface PreviewKey {
   correct: string;

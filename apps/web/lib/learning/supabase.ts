@@ -70,6 +70,8 @@ export function createSupabaseLearningApi(options: {
     getLesson: notYet,
     checkLessonAnswer: notYet,
     placementStrands: notYet,
+    placementConfig: notYet,
+    getOwnedSet: notYet,
     startSet: (request) => invoke("set-start", { ...request, assignment_id: null }),
     submit: (request) => invoke<SubmitOutcome>("responses-submit", request),
   };

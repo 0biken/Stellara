@@ -10,6 +10,27 @@ export type SetKind = "practice" | "review" | "topic_assessment" | "placement";
 export interface ChildProfile {
   id: string;
   first_name: string;
+  year?: "P4" | "P5" | "P6";
+}
+
+export interface PlacementConfig {
+  year: "P4" | "P5" | "P6";
+  strands: { id: string; name: string }[];
+  total_questions: number;
+  available: boolean;
+  completed: boolean;
+  completed_set_id?: string;
+  active_set_id?: string;
+}
+
+export interface OwnedSet {
+  set_id: string;
+  kind: SetKind;
+  finished_at: number | null;
+  completed: boolean;
+  total_items: number;
+  items: ClientItem[];
+  placement: { strand_id: string; label: PlacementTone }[] | null;
 }
 
 export interface SkyTopic {
@@ -92,6 +113,8 @@ export interface LearningApi {
     response: ChildResponse,
   ): Promise<{ is_correct: boolean; explanation_html: string }>;
   placementStrands(): Promise<{ id: string; name: string }[]>;
+  placementConfig(): Promise<PlacementConfig>;
+  getOwnedSet(setId: string): Promise<OwnedSet>;
   startSet(request: { kind: SetKind; topic_ids: string[] }): Promise<StartedSet>;
   submit(request: { responses: SubmittedAnswer[]; device_clock: string }): Promise<SubmitOutcome>;
   /** Preview only: opens a sample child profile on this device. */

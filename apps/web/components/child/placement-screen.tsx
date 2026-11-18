@@ -49,10 +49,37 @@ function Placement({ api, child }: { api: LearningApi; child: ChildProfile }) {
   const questionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let active = true;
     api
-      .placementStrands()
-      .then((list) => setNames(Object.fromEntries(list.map((s) => [s.id, s.name]))))
-      .catch(() => setNames({}));
+      .placementConfig()
+      .then(async (config) => {
+        if (!active) return;
+        setNames(Object.fromEntries(config.strands.map((s) => [s.id, s.name])));
+        if (config.completed && config.completed_set_id) {
+          try {
+            const owned = await api.getOwnedSet(config.completed_set_id);
+            if (active && owned.placement) {
+              setResult(owned.placement);
+              clearDraft(child.id, "placement");
+            }
+          } catch {
+            // Ignore error when reading completed set
+          }
+        }
+      })
+      .catch(() => {
+        api
+          .placementStrands()
+          .then((list) => {
+            if (active) setNames(Object.fromEntries(list.map((s) => [s.id, s.name])));
+          })
+          .catch(() => {
+            if (active) setNames({});
+          });
+      });
+    return () => {
+      active = false;
+    };
   }, [api, child.id]);
 
   const persist = useCallback(
