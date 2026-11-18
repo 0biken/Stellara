@@ -1,4 +1,4 @@
-import Dexie, { type EntityTable } from "dexie";
+import Dexie, { type EntityTable, type Table } from "dexie";
 import type { SubmittedAnswer } from "../learning/types";
 
 export interface ChildDraftRecord {
@@ -62,13 +62,13 @@ export interface ConfirmedProgressRecord {
 }
 
 export class StellaraOfflineDB extends Dexie {
-  child_drafts!: EntityTable<ChildDraftRecord, "[child_id+kind]">;
+  child_drafts!: Table<ChildDraftRecord, [string, string]>;
   outbox!: EntityTable<OutboxRecord, "id">;
   downloaded_packs!: EntityTable<DownloadedPackRecord, "id">;
-  cached_lessons!: EntityTable<CachedLessonRecord, "[topic_id+version]">;
+  cached_lessons!: Table<CachedLessonRecord, [string, number]>;
   offline_grants!: EntityTable<OfflineGrantRecord, "child_id">;
   worker_leases!: EntityTable<WorkerLeaseRecord, "key">;
-  confirmed_progress!: EntityTable<ConfirmedProgressRecord, "[child_id+topic_id]">;
+  confirmed_progress!: Table<ConfirmedProgressRecord, [string, string]>;
 
   constructor(dbName = "stellara_offline") {
     super(dbName);
