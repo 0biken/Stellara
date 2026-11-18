@@ -69,7 +69,7 @@ export async function startSet(
   const kind: SetKind = request.kind;
   const topicIds = [...new Set(request.topic_ids)];
 
-  if ((kind === "practice" || kind === "placement") && topicIds.length === 0)
+  if (kind === "practice" && topicIds.length === 0)
     throw new RuntimeError("INVALID_REQUEST", "topic_ids is required");
   if (kind === "topic_assessment" && topicIds.length !== 1)
     throw new RuntimeError("INVALID_REQUEST", "A topic assessment covers exactly one topic");
@@ -81,8 +81,37 @@ export async function startSet(
     reviewTopicIds = due.slice(0, SET_SIZES.review.maxTopics).map((d) => d.topicId);
     if (reviewTopicIds.length === 0) throw new RuntimeError("NO_REVIEWS_DUE");
   }
-  const sourceTopics = kind === "review" ? reviewTopicIds : topicIds;
-  const pool = await deps.store.publishedItems(sourceTopics);
+
+  let effectiveTopicIds = topicIds;
+  if (kind === "placement" && topicIds.length === 0) {
+    const year = child.year ?? "P5";
+    if (year === "P4") {
+      effectiveTopicIds = [
+        "00000000-0000-4000-8000-000400000001",
+        "00000000-0000-4000-8000-000400000002",
+      ];
+    } else if (year === "P6") {
+      effectiveTopicIds = [
+        "00000000-0000-4000-8000-000600000001",
+        "00000000-0000-4000-8000-000600000002",
+      ];
+    } else {
+      effectiveTopicIds = [
+        "00000000-0000-4000-8000-000100000002",
+        "00000000-0000-4000-8000-000500000002",
+      ];
+    }
+  }
+
+  const sourceTopics = kind === "review" ? reviewTopicIds : effectiveTopicIds;
+  const rawPool = await deps.store.publishedItems(sourceTopics);
+  const pool = rawPool.filter((i) => {
+    if (i.purpose) {
+      if (kind === "placement") return i.purpose === "placement";
+      return i.purpose === "practice";
+    }
+    return true;
+  });
   const states = await Promise.all(sourceTopics.map((t) => deps.store.getMastery(child.id, t)));
   const seen = recentlySeen(states, now);
   const byTopic = groupBy(pool, (i) => i.topic_id);
@@ -104,7 +133,7 @@ export async function startSet(
       );
       break;
     case "placement": {
-      const strands = groupBy(await deps.store.topicStrands(topicIds), (s) => s.strand_id);
+      const strands = groupBy(await deps.store.topicStrands(effectiveTopicIds), (s) => s.strand_id);
       const strandGroups = [...strands.keys()]
         .sort()
         .map((strand) =>
@@ -124,10 +153,15 @@ export async function startSet(
     id: deps.ids.uuid(),
     child_id: child.id,
     kind,
-    topic_ids: kind === "review" ? reviewTopicIds : topicIds,
+    topic_ids: kind === "review" ? reviewTopicIds : effectiveTopicIds,
     review_topic_ids: reviewTopicIds,
     assignment_id: request.assignment_id,
-    items: chosen.map((i) => ({ item_id: i.id, version: i.version, topic_id: i.topic_id })),
+    items: chosen.map((i) => ({
+      item_id: i.id,
+      version: i.version,
+      topic_id: i.topic_id,
+      ...(i.purpose ? { purpose: i.purpose } : {}),
+    })),
     started_at: now,
     finished_at: null,
     placement: null,

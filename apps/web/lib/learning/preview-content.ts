@@ -401,10 +401,10 @@ const TEMPLATES: Record<string, SampleTopicGenerator> = {
       return `How many sides does a regular ${shapes[i % shapes.length]} have?`;
     },
     options: (i) => {
-      const sides = ["3", "4", "5", "6", "8"];
-      const correct = sides[i % sides.length];
+      const sides = ["3", "4", "5", "6", "8"] as const;
+      const correct = sides[i % sides.length]!;
       const rest = ["2", "7", "9", "10"].filter((x) => x !== correct);
-      return [correct, rest[0], rest[1], rest[2]];
+      return [correct, rest[0] ?? "2", rest[1] ?? "7", rest[2] ?? "9"];
     },
     hint: () => "Count the straight outer edges of the shape.",
     explanation: (i) => `This regular shape has ${[3, 4, 5, 6, 8][i % 5]} straight sides.`,
@@ -449,6 +449,7 @@ const TEMPLATES: Record<string, SampleTopicGenerator> = {
 };
 
 export const SAMPLE_ITEMS: ClientItem[] = [];
+export const SAMPLE_PLACEMENT_ITEMS: ClientItem[] = [];
 export const SAMPLE_LESSONS: {
   id: string;
   topic_id: string;
@@ -516,12 +517,27 @@ SAMPLE_TOPIC_DEFS.forEach((t, topicIdx) => {
     });
   }
 
+  const placementRows: Row[] = [];
+  for (let i = 0; i < 10; i++) {
+    placementRows.push({
+      stem: tmpl.stem(50 + i),
+      options: [...tmpl.options(50 + i)],
+      hint: tmpl.hint(50 + i),
+      explanation: tmpl.explanation(50 + i),
+      difficulty: "standard",
+      purpose: "placement",
+    });
+  }
+
   const practiceBuild = build(practiceRows, t.id, 10 + topicIdx * 2);
   const checkBuild = build(checkRows, t.id, 100 + topicIdx * 2);
+  const placementBuild = build(placementRows, t.id, 200 + topicIdx * 2);
 
-  SAMPLE_ITEMS.push(...practiceBuild.items, ...checkBuild.items);
+  SAMPLE_ITEMS.push(...practiceBuild.items, ...checkBuild.items, ...placementBuild.items);
+  SAMPLE_PLACEMENT_ITEMS.push(...placementBuild.items);
   for (const [k, v] of practiceBuild.keys) KEYS.set(k, v);
   for (const [k, v] of checkBuild.keys) KEYS.set(k, v);
+  for (const [k, v] of placementBuild.keys) KEYS.set(k, v);
 
   const lessonCards: LessonCardData[] = [
     {

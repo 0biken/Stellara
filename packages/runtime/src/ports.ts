@@ -30,6 +30,7 @@ export interface ChildRecord {
   readonly exam_date: string | null;
   readonly status: "active" | "paused" | "deletion_pending";
   readonly term_id: string;
+  readonly year?: "P4" | "P5" | "P6";
   /** Last activity instant, used by the retention purge plan. */
   readonly last_active_at: number | null;
 }
@@ -45,6 +46,7 @@ export interface SetItemRef {
   readonly item_id: string;
   readonly version: number;
   readonly topic_id: string;
+  readonly purpose?: "practice" | "lesson_check" | "placement";
 }
 
 export interface PlacementStrandResult {

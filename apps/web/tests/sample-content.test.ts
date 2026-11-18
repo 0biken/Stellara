@@ -45,6 +45,18 @@ describe("P4-P6 sample maths content", () => {
     }
   });
 
+  it("provides 10 dedicated placement questions per topic (20 per year) with purpose: placement", () => {
+    for (const topic of SAMPLE_TOPICS) {
+      const topicPlacement = SAMPLE_ITEMS.filter(
+        (i) => i.topic_id === topic.id && i.purpose === "placement",
+      );
+      expect(topicPlacement).toHaveLength(10);
+      for (const item of topicPlacement) {
+        expect(KEYS.has(item.id)).toBe(true);
+      }
+    }
+  });
+
   it("provides a published lesson for each topic containing check and try_it cards", () => {
     for (const topic of SAMPLE_TOPICS) {
       const lesson = SAMPLE_LESSONS.find((l) => l.topic_id === topic.id);

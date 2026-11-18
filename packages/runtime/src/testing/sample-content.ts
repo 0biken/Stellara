@@ -56,7 +56,7 @@ export const SAMPLE_TOPIC_DEFS: SampleTopicDef[] = [
 
 const pad = (n: number, width: number) => n.toString(16).padStart(width, "0");
 const itemId = (topicIdx: number, typePrefix: string, itemIdx: number) =>
-  `00000000-0000-4000-8000-${typePrefix}${pad(topicIdx, 3)}${pad(itemIdx, 8)}`;
+  `00000000-0000-4000-8000-${typePrefix}${pad(topicIdx, 2)}${pad(itemIdx, 6)}`;
 const lessonId = (topicIdx: number) =>
   `00000000-0000-4000-8000-1e55${pad(topicIdx, 8)}`;
 
@@ -201,6 +201,7 @@ export function buildSampleItem(
 
 export const SAMPLE_PRACTICE_ITEMS: PublishedItem[] = [];
 export const SAMPLE_CHECK_ITEMS: PublishedItem[] = [];
+export const SAMPLE_PLACEMENT_ITEMS: PublishedItem[] = [];
 export const SAMPLE_LESSONS: PublishedLesson[] = [];
 
 SAMPLE_TOPIC_DEFS.forEach((t, topicIdx) => {
@@ -233,6 +234,18 @@ SAMPLE_TOPIC_DEFS.forEach((t, topicIdx) => {
     );
     checkItems.push(item);
     SAMPLE_CHECK_ITEMS.push(item);
+  }
+
+  // 10 placement items
+  for (let i = 0; i < 10; i++) {
+    const item = buildSampleItem(
+      itemId(topicIdx, "0003", i + 1),
+      t.id,
+      "placement",
+      template,
+      50 + i,
+    );
+    SAMPLE_PLACEMENT_ITEMS.push(item);
   }
 
   // 1 published lesson
