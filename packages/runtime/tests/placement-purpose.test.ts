@@ -1,10 +1,11 @@
 import { beforeEach, describe, expect, it } from "vitest";
+
+import { startSet } from "../src/set-start.js";
 import { ManualClock, sequentialIds, AUTHOR, REVIEWER } from "../src/testing/fixtures.js";
 import { MemoryStore } from "../src/testing/memory-store.js";
-import { startSet } from "../src/set-start.js";
-import { buildSampleItem, SAMPLE_TOPIC_DEFS } from "../src/testing/sample-content.js";
-import type { PublishedItem } from "@stellara/content-schema/server";
+
 import type { ChildRecord, RuntimeDeps } from "../src/ports.js";
+import type { PublishedItem } from "@stellara/content-schema/server";
 
 const P4_FRACTIONS = "00000000-0000-4000-8000-000400000001";
 const P4_SHAPES = "00000000-0000-4000-8000-000400000002";

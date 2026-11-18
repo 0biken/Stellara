@@ -1,9 +1,11 @@
 import { projectItemForClient, type ClientItem } from "@stellara/content-schema/client";
+
 import {
   RuntimeError,
   type OwnedSetResponse,
   type PlacementConfigResponse,
 } from "./contracts.js";
+
 import type { RuntimeDeps } from "./ports.js";
 
 export const STRANDS_BY_YEAR: Record<

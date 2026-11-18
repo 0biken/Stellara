@@ -4,7 +4,6 @@ import {
   LESSONS,
   SKY_LINKS,
   SKY_TOPICS,
-  STRANDS,
   STRANDS_BY_YEAR,
   TOPICS,
 } from "./preview-content";

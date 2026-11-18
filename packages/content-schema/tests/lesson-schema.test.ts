@@ -1,15 +1,13 @@
 import { describe, expect, it } from "vitest";
+
 import {
   projectLessonForClient,
-  clientLessonSchema,
-  itemPurposeSchema,
   projectItemForClient,
 } from "../src/client.js";
 import {
   publishedLessonSchema,
   draftLessonSchema,
   publishedItemSchema,
-  lessonSchema,
 } from "../src/server.js";
 
 const sampleItemId1 = "10000000-0000-4000-8000-000000000001";
@@ -140,15 +138,15 @@ describe("versioned lesson schemas and publication validation", () => {
     expect(checkCard).toBeDefined();
     if (checkCard && checkCard.kind === "check") {
       expect(checkCard.item.id).toBe(sampleItemId1);
-      expect((checkCard.item as any).answer).toBeUndefined();
-      expect((checkCard.item as any).explanation).toBeUndefined();
+      expect("answer" in checkCard.item).toBe(false);
+      expect("explanation" in checkCard.item).toBe(false);
     }
 
     const tryItCard = projected.cards.find((c) => c.kind === "try_it");
     expect(tryItCard).toBeDefined();
     if (tryItCard && tryItCard.kind === "try_it") {
       expect(tryItCard.items).toHaveLength(2);
-      expect((tryItCard.items[0] as any).answer).toBeUndefined();
+      expect("answer" in tryItCard.items[0]!).toBe(false);
     }
   });
 

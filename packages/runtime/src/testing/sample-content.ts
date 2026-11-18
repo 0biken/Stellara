@@ -1,5 +1,6 @@
-import type { PublishedItem, PublishedLesson } from "@stellara/content-schema/server";
 import { AUTHOR, REVIEWER } from "./fixtures.js";
+
+import type { PublishedItem, PublishedLesson } from "@stellara/content-schema/server";
 
 export interface SampleTopicDef {
   id: string;

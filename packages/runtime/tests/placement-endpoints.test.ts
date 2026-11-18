@@ -1,12 +1,14 @@
 import { beforeEach, describe, expect, it } from "vitest";
+
+import { RuntimeError } from "../src/contracts.js";
+import { getPlacementConfig, getOwnedSet } from "../src/placement.js";
+import { submitResponses } from "../src/responses-submit.js";
+import { startSet } from "../src/set-start.js";
 import { ManualClock, sequentialIds, AUTHOR, REVIEWER } from "../src/testing/fixtures.js";
 import { MemoryStore } from "../src/testing/memory-store.js";
-import { getPlacementConfig, getOwnedSet } from "../src/placement.js";
-import { startSet } from "../src/set-start.js";
-import { submitResponses } from "../src/responses-submit.js";
-import type { PublishedItem } from "@stellara/content-schema/server";
+
 import type { ChildRecord, RuntimeDeps } from "../src/ports.js";
-import { RuntimeError } from "../src/contracts.js";
+import type { PublishedItem } from "@stellara/content-schema/server";
 
 const P4_FRACTIONS = "00000000-0000-4000-8000-000400000001";
 const P4_SHAPES = "00000000-0000-4000-8000-000400000002";
@@ -187,7 +189,7 @@ describe("placement configuration and owned-set read endpoints", () => {
     expect(closedSet.placement?.every((p) => p.label === "looks_secure_so_far")).toBe(true);
     // Crucially: no per-question marks in items
     for (const item of closedSet.items) {
-      expect((item as any).answer).toBeUndefined();
+      expect("answer" in item).toBe(false);
     }
 
     // Config now shows placement completed and points to the completed set

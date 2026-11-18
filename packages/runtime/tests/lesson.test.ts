@@ -1,9 +1,11 @@
 import { beforeEach, describe, expect, it } from "vitest";
+
+import { getLesson, checkLessonAnswer } from "../src/lesson.js";
 import { ManualClock, sequentialIds, AUTHOR, REVIEWER } from "../src/testing/fixtures.js";
 import { MemoryStore } from "../src/testing/memory-store.js";
-import { getLesson, checkLessonAnswer } from "../src/lesson.js";
-import type { PublishedItem, PublishedLesson } from "@stellara/content-schema/server";
+
 import type { RuntimeDeps, ChildRecord } from "../src/ports.js";
+import type { PublishedItem, PublishedLesson } from "@stellara/content-schema/server";
 
 const TOPIC_ID = "00000000-0000-4000-8000-000000000001";
 const LESSON_ID = "00000000-0000-4000-8000-000000000002";
@@ -96,15 +98,15 @@ describe("lesson-get and lesson-check runtime", () => {
     expect(checkCard).toBeDefined();
     if (checkCard && checkCard.kind === "check") {
       expect(checkCard.item.id).toBe(ITEM_1);
-      expect((checkCard.item as any).answer).toBeUndefined();
-      expect((checkCard.item as any).explanation).toBeUndefined();
+      expect("answer" in checkCard.item).toBe(false);
+      expect("explanation" in checkCard.item).toBe(false);
     }
 
     const tryCard = lesson.cards.find((c) => c.kind === "try_it");
     expect(tryCard).toBeDefined();
     if (tryCard && tryCard.kind === "try_it") {
       expect(tryCard.items).toHaveLength(2);
-      expect((tryCard.items[0] as any).answer).toBeUndefined();
+      expect("answer" in tryCard.items[0]!).toBe(false);
     }
   });
 

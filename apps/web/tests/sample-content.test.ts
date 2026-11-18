@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import {
   TOPICS_BY_YEAR,
   SAMPLE_TOPICS,

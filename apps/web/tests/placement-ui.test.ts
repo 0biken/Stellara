@@ -1,7 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest";
+
 import { createPreviewLearningApi } from "../lib/learning/preview";
 import { KEYS } from "../lib/learning/preview-content";
-import { clearDraft, loadDraft, saveDraft } from "../lib/learning/session";
+import { loadDraft, saveDraft } from "../lib/learning/session";
+
+import type { StartedSet, SubmittedAnswer } from "../lib/learning/types";
 
 describe("live placement flow across P4-P6", () => {
   beforeEach(() => {
@@ -50,11 +53,14 @@ describe("live placement flow across P4-P6", () => {
       });
 
       // Reload draft
-      const loaded = loadDraft<{ set: any; index: number; pending: any[] }>(child.id, "placement");
+      const loaded = loadDraft<{ set: StartedSet; index: number; pending: SubmittedAnswer[] }>(
+        child.id,
+        "placement",
+      );
       expect(loaded).not.toBeNull();
       expect(loaded!.index).toBe(10);
       expect(loaded!.pending).toHaveLength(10);
-      expect(loaded!.pending[0].client_id).toBe(`cid-${year}-0`);
+      expect(loaded!.pending[0]?.client_id).toBe(`cid-${year}-0`);
 
       // 4. Submit all 20 answers
       const remainingAnswers = started.items.slice(10).map((item, i) => ({
@@ -93,7 +99,7 @@ describe("live placement flow across P4-P6", () => {
       expect(owned.completed).toBe(true);
       expect(owned.placement).toEqual(outcome.placement);
       for (const item of owned.items) {
-        expect((item as any).answer).toBeUndefined();
+        expect("answer" in item).toBe(false);
       }
     });
   }
