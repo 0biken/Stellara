@@ -1,3 +1,9 @@
+import {
+  clearChildDraft,
+  getOfflineDb,
+  migrateLocalStorageDrafts,
+  saveChildDraft,
+} from "../offline/db";
 import type {
   AnswerResult,
   ChildResponse,
@@ -193,12 +199,18 @@ export function correctLine(state: PracticeState):
 
 const draftKey = (childId: string, slot: string) => `stellara.draft.${childId}.${slot}`;
 
+// Trigger localStorage draft migration to Dexie on module load in browser
+if (typeof window !== "undefined") {
+  migrateLocalStorageDrafts(getOfflineDb()).catch(() => {});
+}
+
 export function saveDraft<T>(childId: string, slot: string, state: T) {
   try {
     window.localStorage.setItem(draftKey(childId, slot), JSON.stringify(state));
   } catch {
     /* No storage: the set still works, it just cannot resume after a reload. */
   }
+  saveChildDraft(getOfflineDb(), childId, slot, state).catch(() => {});
 }
 export function loadDraft<T>(childId: string, slot: string): T | null {
   try {
@@ -214,4 +226,5 @@ export function clearDraft(childId: string, slot: string) {
   } catch {
     /* Nothing to clear. */
   }
+  clearChildDraft(getOfflineDb(), childId, slot).catch(() => {});
 }
