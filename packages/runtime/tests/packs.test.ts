@@ -154,4 +154,14 @@ describe("pack-build, budgets, Ed25519 manifest signing, and key exposure scorin
       expect(attempt.reason).toBe("offline_key");
     }
   });
+
+  it("rejects unknown child, inactive child, or topics with fewer than 30 practice items", async () => {
+    await expect(
+      buildPracticePack(deps, { child_id: "00000000-0000-4000-8000-000000009999" }, { topic_id: P4_FRACTIONS }),
+    ).rejects.toThrow(RuntimeError);
+
+    await expect(
+      buildPracticePack(deps, { child_id: CHILD_ID }, { topic_id: "00000000-0000-4000-8000-000000000999" }),
+    ).rejects.toThrow(RuntimeError);
+  });
 });

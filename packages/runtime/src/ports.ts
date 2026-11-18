@@ -222,21 +222,22 @@ export interface RuntimeStore {
   getItemStats(itemId: string): Promise<ItemStats | null>;
   putItemStats(stats: ItemStats): Promise<void>;
 
-  recordKeyExposure?(childId: string, itemIds: readonly string[]): Promise<void>;
-  isKeyExposed?(childId: string, itemId: string): Promise<boolean>;
+  recordKeyExposure(childId: string, itemIds: readonly string[]): Promise<void>;
+  isKeyExposed(childId: string, itemId: string): Promise<boolean>;
 
-  updateChild?(child: ChildRecord): Promise<void>;
-  revokeChildAccess?(childId: string, at: number): Promise<void>;
-  isChildAccessRevoked?(childId: string, issuedAt: number): Promise<boolean>;
-  getActiveConsent?(guardianId: string, childId?: string): Promise<ConsentEvidenceRecord | null>;
-  putConsent?(consent: ConsentEvidenceRecord): Promise<void>;
-  listConsents?(): Promise<readonly ConsentEvidenceRecord[]>;
-  deleteConsent?(consentId: string): Promise<void>;
+  updateChild(child: ChildRecord): Promise<void>;
+  revokeChildAccess(childId: string, at: number): Promise<void>;
+  isChildAccessRevoked(childId: string, issuedAt: number): Promise<boolean>;
+  getActiveConsent(guardianId: string, childId?: string): Promise<ConsentEvidenceRecord | null>;
+  putConsent(consent: ConsentEvidenceRecord): Promise<void>;
+  listConsents(): Promise<readonly ConsentEvidenceRecord[]>;
+  deleteConsent(consentId: string): Promise<void>;
 
-  putDataRequest?(request: DataRequestServerRecord): Promise<void>;
-  getDataRequest?(requestId: string): Promise<DataRequestServerRecord | null>;
-  listDataRequests?(childId?: string): Promise<readonly DataRequestServerRecord[]>;
-  deleteChildLearningRecords?(childId: string): Promise<void>;
+  putDataRequest(request: DataRequestServerRecord): Promise<void>;
+  getDataRequest(requestId: string): Promise<DataRequestServerRecord | null>;
+  listDataRequests(childId?: string): Promise<readonly DataRequestServerRecord[]>;
+  collectChildExportData(childId: string): Promise<Record<string, unknown>>;
+  deleteChildLearningRecords(childId: string): Promise<void>;
 }
 
 export interface PackSigningConfig {

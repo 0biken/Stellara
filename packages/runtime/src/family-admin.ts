@@ -34,7 +34,7 @@ export async function updateChildProfile(
     ...(patch.timezone !== undefined ? { timezone: patch.timezone } : {}),
   };
 
-  await deps.store.updateChild?.(updated);
+  await deps.store.updateChild(updated);
   return updated;
 }
 
@@ -49,8 +49,8 @@ export async function resetChildPin(
   const now = deps.clock.now();
 
   await deps.store.transaction(async () => {
-    await deps.store.updateChild?.({ ...child, pin_hash: newPinHash });
-    await deps.store.revokeChildAccess?.(child.id, now);
+    await deps.store.updateChild({ ...child, pin_hash: newPinHash });
+    await deps.store.revokeChildAccess(child.id, now);
   });
 }
 
@@ -64,8 +64,8 @@ export async function pauseChild(
   const updated: ChildRecord = { ...child, status: "paused" };
 
   await deps.store.transaction(async () => {
-    await deps.store.updateChild?.(updated);
-    await deps.store.revokeChildAccess?.(child.id, now);
+    await deps.store.updateChild(updated);
+    await deps.store.revokeChildAccess(child.id, now);
   });
 
   return updated;
@@ -82,7 +82,7 @@ export async function resumeChild(
   }
 
   if (child.consent_withdrawn_at != null) {
-    const activeConsent = await deps.store.getActiveConsent?.(ctx.guardian_id, child.id);
+    const activeConsent = await deps.store.getActiveConsent(ctx.guardian_id, child.id);
     if (!activeConsent || activeConsent.given_at <= child.consent_withdrawn_at) {
       throw new RuntimeError("CONSENT_REQUIRED");
     }
@@ -93,7 +93,7 @@ export async function resumeChild(
     status: "active",
     consent_withdrawn_at: null,
   };
-  await deps.store.updateChild?.(updated);
+  await deps.store.updateChild(updated);
   return updated;
 }
 
@@ -106,18 +106,18 @@ export async function withdrawConsent(
   const now = deps.clock.now();
 
   await deps.store.transaction(async () => {
-    const active = await deps.store.getActiveConsent?.(ctx.guardian_id, child.id);
+    const active = await deps.store.getActiveConsent(ctx.guardian_id, child.id);
     if (active) {
-      await deps.store.putConsent?.({
+      await deps.store.putConsent({
         ...active,
         withdrawn_at: now,
       });
     }
-    await deps.store.updateChild?.({
+    await deps.store.updateChild({
       ...child,
       status: "paused",
       consent_withdrawn_at: now,
     });
-    await deps.store.revokeChildAccess?.(child.id, now);
+    await deps.store.revokeChildAccess(child.id, now);
   });
 }

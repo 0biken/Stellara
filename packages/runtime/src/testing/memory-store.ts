@@ -285,6 +285,36 @@ export class MemoryStore implements RuntimeStore {
     const all = [...this.t.dataRequests.values()];
     return childId ? all.filter((r) => r.child_id === childId) : all;
   }
+  async collectChildExportData(childId: string) {
+    const child = this.t.children.get(childId);
+    const safeProfile = child
+      ? {
+          id: child.id,
+          first_name: child.first_name,
+          avatar_key: child.avatar_key,
+          year: child.year,
+          exam_date: child.exam_date,
+          timezone: child.timezone,
+          status: child.status,
+          last_active_at: child.last_active_at,
+        }
+      : null;
+    const sets = [...this.t.sets.values()].filter((s) => s.child_id === childId);
+    const attempts = this.t.attempts.filter((a) => a.child_id === childId);
+    const mastery = [...this.t.mastery.entries()]
+      .filter(([k]) => k.startsWith(`${childId}|`))
+      .map(([, v]) => v);
+    const stardust = this.t.stardust.get(childId) ?? null;
+    const ledger = this.t.ledger.filter((l) => l.child_id === childId);
+    return {
+      profile: safeProfile,
+      sets,
+      attempts,
+      mastery,
+      stardust,
+      ledger,
+    };
+  }
   async deleteChildLearningRecords(childId: string) {
     // Restricted deletion across shared partitions/tables: deletes only this child's rows.
     this.t.attempts = this.t.attempts.filter((a) => a.child_id !== childId);

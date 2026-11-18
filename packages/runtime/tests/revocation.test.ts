@@ -144,5 +144,15 @@ describe("guardian child management, session revocation, and consent withdrawal"
     const resumed = await resumeChild(deps, { guardian_id: GUARDIAN_A }, CHILD_A);
     expect(resumed.status).toBe("active");
     expect(resumed.consent_withdrawn_at).toBeNull();
+
+    // Unknown child or deletion_pending child cannot be resumed
+    await expect(
+      resumeChild(deps, { guardian_id: GUARDIAN_A }, "00000000-0000-4000-8000-000000009999"),
+    ).rejects.toThrow(RuntimeError);
+
+    await store.updateChild({ ...(await store.getChild(CHILD_A))!, status: "deletion_pending" });
+    await expect(resumeChild(deps, { guardian_id: GUARDIAN_A }, CHILD_A)).rejects.toThrow(
+      RuntimeError,
+    );
   });
 });
