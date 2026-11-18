@@ -74,7 +74,8 @@ export type LessonCardView =
   | { kind: "explain"; body: string }
   | { kind: "worked_example"; body: string; steps: string[] }
   | { kind: "summary"; body: string }
-  | { kind: "check"; content: ReactNode };
+  | { kind: "check"; content: ReactNode }
+  | { kind: "try_it"; content: ReactNode };
 
 /** One card at a time, 3–6 cards per lesson (03 §4.3). */
 export function LessonCards({
@@ -89,6 +90,7 @@ export function LessonCards({
     worked: string;
     summary: string;
     check: string;
+    tryIt?: string;
     next: string;
     back: string;
     done: string;
@@ -140,6 +142,12 @@ export function LessonCards({
         {card.kind === "check" && (
           <>
             <h2 className="m-0 font-heading text-xl font-bold">{labels.check}</h2>
+            {card.content}
+          </>
+        )}
+        {card.kind === "try_it" && (
+          <>
+            <h2 className="m-0 font-heading text-xl font-bold">{labels.tryIt ?? labels.check}</h2>
             {card.content}
           </>
         )}

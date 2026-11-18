@@ -86,10 +86,10 @@ const TEMPLATES: Record<string, QuestionTemplate> = {
       return `How many sides does a regular ${shapes[i % shapes.length]} have?`;
     },
     options: (i) => {
-      const counts = ["3", "4", "5", "6", "8"];
-      const correct = counts[i % counts.length];
+      const counts = ["3", "4", "5", "6", "8"] as const;
+      const correct = counts[i % counts.length]!;
       const others = ["2", "7", "9", "10"].filter((c) => c !== correct);
-      return [correct, others[0], others[1], others[2]];
+      return [correct, others[0] ?? "2", others[1] ?? "7", others[2] ?? "9"];
     },
     hint: () => "Count the straight outer edges of the shape.",
     explanation: (i) => {
@@ -258,11 +258,11 @@ SAMPLE_TOPIC_DEFS.forEach((t, topicIdx) => {
       },
       {
         kind: "check",
-        item_id: checkItems[0].id,
+        item_id: checkItems[0]!.id,
       },
       {
         kind: "try_it",
-        item_ids: [checkItems[1].id, checkItems[2].id],
+        item_ids: [checkItems[1]!.id, checkItems[2]!.id],
       },
       {
         kind: "summary",

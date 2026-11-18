@@ -162,7 +162,11 @@ export function createPreviewLearningApi(options: PreviewOptions = {}): Learning
     async getSky() {
       requireChild();
       const state = load();
-      const topics = SKY_TOPICS.map((t) => ({ ...t, level: LEVELS[state.levels[t.id] ?? 0]! }));
+      const topics = SKY_TOPICS.map((t) => ({
+        ...t,
+        level: LEVELS[state.levels[t.id] ?? 0]!,
+        has_lesson: Boolean(LESSONS[t.id]),
+      }));
       const practisable = topics.filter((t) => ITEMS.some((i) => i.topic_id === t.id));
       const next = [...practisable].sort(
         (a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level),

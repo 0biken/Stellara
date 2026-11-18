@@ -70,6 +70,30 @@ function LessonCheck({ api, item }: { api: LearningApi; item: ClientItem }) {
   );
 }
 
+function LessonTryIt({ api, items }: { api: LearningApi; items: ClientItem[] }) {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const current = items[activeIdx];
+  return (
+    <div className="flex flex-col gap-4">
+      {items.length > 1 && (
+        <div className="flex gap-2">
+          {items.map((_, i) => (
+            <Button
+              key={i}
+              variant={i === activeIdx ? "primary" : "quiet"}
+              size="child"
+              onClick={() => setActiveIdx(i)}
+            >
+              Question {i + 1}
+            </Button>
+          ))}
+        </div>
+      )}
+      {current && <LessonCheck key={current.id} api={api} item={current} />}
+    </div>
+  );
+}
+
 function Learn({ api }: { api: LearningApi }) {
   const topicId = useSearchParams().get("topic") ?? "";
   const router = useRouter();
@@ -111,11 +135,20 @@ function Learn({ api }: { api: LearningApi }) {
     );
   if (!lesson) return <Loading />;
 
-  const cards: LessonCardView[] = lesson.cards.map((card) =>
-    card.kind === "check"
-      ? { kind: "check", content: <LessonCheck key={card.item.id} api={api} item={card.item} /> }
-      : card,
-  );
+  const cards: LessonCardView[] = lesson.cards.map((card) => {
+    if (card.kind === "check") {
+      return { kind: "check", content: <LessonCheck key={card.item.id} api={api} item={card.item} /> };
+    }
+    if (card.kind === "try_it") {
+      return {
+        kind: "try_it",
+        content: (
+          <LessonTryIt key={card.items.map((i) => i.id).join("-")} api={api} items={card.items} />
+        ),
+      };
+    }
+    return card;
+  });
   return (
     <>
       <h1 className="m-0 font-heading text-[28px] leading-9 font-extrabold">{lesson.title}</h1>
