@@ -6,6 +6,7 @@ import type {
   LedgerRow,
   MasteryEventRecord,
   RuntimeStore,
+  SetKind,
   SetRecord,
 } from "../ports.js";
 import type { DraftLesson, PublishedItem, PublishedLesson } from "@stellara/content-schema/server";

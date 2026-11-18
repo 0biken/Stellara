@@ -1,7 +1,6 @@
 import { projectItemForClient, type ClientItem } from "@stellara/content-schema/client";
 import {
   RuntimeError,
-  type ChildContext,
   type OwnedSetResponse,
   type PlacementConfigResponse,
 } from "./contracts.js";
@@ -9,7 +8,7 @@ import type { RuntimeDeps } from "./ports.js";
 
 export const STRANDS_BY_YEAR: Record<
   "P4" | "P5" | "P6",
-  readonly { readonly id: string; readonly name: string }[]
+  { id: string; name: string }[]
 > = {
   P4: [
     { id: "p4-fractions-strand", name: "Fractions and Parts" },
@@ -27,14 +26,14 @@ export const STRANDS_BY_YEAR: Record<
 
 export async function getPlacementConfig(
   deps: RuntimeDeps,
-  ctx: ChildContext,
+  ctx: { child_id: string },
 ): Promise<PlacementConfigResponse> {
   const child = await deps.store.getChild(ctx.child_id);
   if (!child) throw new RuntimeError("CHILD_NOT_FOUND");
   if (child.status !== "active") throw new RuntimeError("CHILD_INACTIVE");
 
   const year = child.year ?? "P5";
-  const strands = STRANDS_BY_YEAR[year];
+  const strands = [...STRANDS_BY_YEAR[year]];
 
   const childSets = await deps.store.listChildSets(child.id, "placement");
   const completed = childSets.find((s) => s.finished_at !== null) ?? null;
@@ -53,7 +52,7 @@ export async function getPlacementConfig(
 
 export async function getOwnedSet(
   deps: RuntimeDeps,
-  ctx: ChildContext,
+  ctx: { child_id: string },
   setId: string,
 ): Promise<OwnedSetResponse> {
   const child = await deps.store.getChild(ctx.child_id);

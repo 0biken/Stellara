@@ -118,7 +118,7 @@ export interface LearningApi {
   startSet(request: { kind: SetKind; topic_ids: string[] }): Promise<StartedSet>;
   submit(request: { responses: SubmittedAnswer[]; device_clock: string }): Promise<SubmitOutcome>;
   /** Preview only: opens a sample child profile on this device. */
-  startPreviewChild?(): Promise<ChildProfile>;
+  startPreviewChild?(profile?: Partial<ChildProfile>): Promise<ChildProfile>;
 }
 
 export type LearningErrorCode =

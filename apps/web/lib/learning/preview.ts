@@ -60,7 +60,6 @@ interface PreviewState {
 
 const empty = (): PreviewState => ({
   placementDone: false,
-  completedPlacementSetId: undefined,
   placementBySetId: {},
   seen: {},
   evidence: {},
