@@ -215,3 +215,61 @@
     opacity: 0;
   }
 }
+
+/* Answer being checked: a dotted outline traces slowly round the tile. */
+.st-trace {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.st-trace rect {
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 1.5;
+  stroke-dasharray: 1.6 1.4;
+  animation: st-trace 2.4s linear infinite;
+}
+@keyframes st-trace {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+/* Set done: the topic's new star rises up through the old one, like a plant. */
+.st-grow {
+  animation: st-grow 600ms var(--ease-out) 200ms both;
+}
+@keyframes st-grow {
+  from {
+    clip-path: inset(100% 0 0 0);
+    transform: translateY(4%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+.st-grow-under {
+  animation: st-grow-under 300ms var(--ease-out) 700ms both;
+}
+@keyframes st-grow-under {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-trace rect,
+  .st-grow {
+    animation: none;
+  }
+  .st-grow-under {
+    animation: none;
+    opacity: 0;
+  }
+}

@@ -10,5 +10,6 @@ export * from "./feedback.js";
 export * from "./learning.js";
 export * from "./picture-key.js";
 export * from "./pictures.js";
+export * from "./practice.js";
 export * from "./theme.js";
 export * from "./theme-colors.js";

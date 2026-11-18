@@ -6,12 +6,13 @@ import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 
 /* ---------- Answer tile ---------- */
 
-export type AnswerState = "default" | "selected" | "correct" | "not-quite" | "disabled";
+export type AnswerState =
+  "default" | "selected" | "checking" | "correct" | "not-quite" | "disabled";
 
 export type AnswerTileProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> &
   (
     | {
-        state: "correct" | "not-quite";
+        state: "checking" | "correct" | "not-quite";
         stateLabel: string;
       }
     | { state?: "default" | "selected" | "disabled"; stateLabel?: string }
@@ -24,6 +25,7 @@ export type AnswerTileProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "chi
 const tileStates: Record<AnswerState, string> = {
   default: "border-line bg-surface",
   selected: "border-primary bg-primary-tint text-primary-ink",
+  checking: "relative border-transparent bg-primary-tint text-primary-ink",
   correct: "border-success bg-success-tint text-success-ink",
   "not-quite": "border-dashed border-primary bg-surface",
   disabled: "border-line bg-sunk text-muted",
@@ -37,12 +39,13 @@ export function AnswerTile({
   disabled,
   ...props
 }: AnswerTileProps) {
-  const locked = state === "correct" || state === "not-quite" || state === "disabled";
+  const locked =
+    state === "checking" || state === "correct" || state === "not-quite" || state === "disabled";
   return (
     <button
       {...props}
       type="button"
-      aria-pressed={state === "selected" || state === "correct" || state === "not-quite"}
+      aria-pressed={state !== "default" && state !== "disabled"}
       aria-disabled={locked || undefined}
       disabled={locked || disabled}
       data-state={state}
@@ -52,7 +55,17 @@ export function AnswerTile({
         className,
       )}
     >
+      {state === "checking" && (
+        <svg className="st-trace" aria-hidden="true">
+          <rect x="1" y="1" rx="15" pathLength="100" />
+        </svg>
+      )}
       <span className="flex-1">{children}</span>
+      {state === "checking" && (
+        <span className="inline-flex items-center gap-1 text-[15px] font-semibold">
+          {stateLabel}
+        </span>
+      )}
       {state === "correct" && (
         <span className="inline-flex items-center gap-1 text-[15px] font-semibold">
           <Icon name="check" size={18} />

@@ -17,6 +17,33 @@ pnpm functions:serve
 bash scripts/m2-smoke.sh
 ```
 
+## Integrated web check
+
+Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in ignored
+`apps/web/.env.local` to the local API URL and anon/publishable key. Start the web
+app with `pnpm --filter @stellara/web dev --port 3001`, then run:
+
+```sh
+node --env-file=apps/web/.env.local scripts/m2-web-smoke.mjs
+```
+
+The browser smoke test creates a disposable local parent account, completes consent
+and child creation, signs in with the picture key, rotates the child session, and
+answers the ten sample questions. It checks 90 Stardust, persisted Growing mastery,
+new consent for another child, and credential removal on logout. Install Playwright
+Chromium if needed (`pnpm exec playwright install chromium`). `WEB_BASE_URL` can
+override the web origin; this test accepts localhost services only. Parent authentication
+is bootstrapped through the local Auth API; delivery of Google/email sign-in is not tested.
+
+The current live bank supports practice only. Lesson and placement screens remain
+preview-only until their content and read contracts are available. Live incorrect
+answers show the worked explanation directly, matching the backend's single-response
+completion rule. Completed offline drafts retain pending answers, and submissions
+queue behind an active sync while preserving client IDs.
+
+Staging has not been provisioned. Staging deployment and verification remain pending;
+the local result is not a staging or production approval.
+
 `functions:bundle` builds the workspace runtime and bundles it, including Zod, into ignored `_shared/runtime.bundle.js`. Rebuild after changing runtime dependencies. The CLI supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and `SUPABASE_DB_URL` inside the function container. `STELLARA_JWT_SECRET` signs and verifies child tokens; `SUPABASE_JWT_SECRET` is its fallback. Never expose these secrets or the service-role key to the browser. Set `ENVIRONMENT=local` locally; missing/unknown environments fail closed for declaration consent.
 
 All endpoints use `POST /functions/v1/<name>`, JSON bodies, and an `apikey` header containing the local anon key. Parent endpoints require `Authorization: Bearer <parent access token>`. Learning endpoints require a child access token. Refresh requires the opaque refresh credential in the body; a parent token is not required. OPTIONS returns 204. Gateway JWT verification is disabled because each handler verifies its own caller, including the custom child role.

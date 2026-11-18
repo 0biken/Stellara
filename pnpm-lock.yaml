@@ -92,6 +92,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@stellara/content-schema':
+        specifier: workspace:*
+        version: link:../../packages/content-schema
       '@stellara/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
