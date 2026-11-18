@@ -8,7 +8,7 @@ import type {
   RuntimeStore,
   SetRecord,
 } from "../ports.js";
-import type { PublishedItem } from "@stellara/content-schema/server";
+import type { DraftLesson, PublishedItem, PublishedLesson } from "@stellara/content-schema/server";
 import type {
   MasteryState,
   ReviewDueTopic,
@@ -20,6 +20,7 @@ import type {
 interface Tables {
   children: Map<string, ChildRecord>;
   items: Map<string, PublishedItem>;
+  lessons: Map<string, PublishedLesson | DraftLesson>;
   strands: Map<string, string>;
   sets: Map<string, SetRecord>;
   attempts: AttemptRecord[];
@@ -38,6 +39,7 @@ interface Tables {
 const empty = (): Tables => ({
   children: new Map(),
   items: new Map(),
+  lessons: new Map(),
   strands: new Map(),
   sets: new Map(),
   attempts: [],
@@ -107,6 +109,18 @@ export class MemoryStore implements RuntimeStore {
   }
   async getItem(itemId: string, version: number) {
     return this.t.items.get(key(itemId, version)) ?? null;
+  }
+  async getPublishedLesson(topicId: string): Promise<PublishedLesson | null> {
+    for (const lesson of this.t.lessons.values()) {
+      if (lesson.topic_id === topicId && lesson.status === "published") {
+        return lesson as PublishedLesson;
+      }
+    }
+    return null;
+  }
+  async putLesson(lesson: PublishedLesson | DraftLesson): Promise<void> {
+    this.check("putLesson");
+    this.t.lessons.set(lesson.id, lesson);
   }
   async topicStrands(topicIds: readonly string[]) {
     return topicIds

@@ -1,4 +1,4 @@
-import type { PublishedItem } from "@stellara/content-schema/server";
+import type { DraftLesson, PublishedItem, PublishedLesson } from "@stellara/content-schema/server";
 import type {
   MasteryState,
   ReviewDueTopic,
@@ -147,6 +147,8 @@ export interface RuntimeStore {
   /** Current published version of every item in these topics. Includes keys: server only. */
   publishedItems(topicIds: readonly string[]): Promise<readonly PublishedItem[]>;
   getItem(itemId: string, version: number): Promise<PublishedItem | null>;
+  getPublishedLesson(topicId: string): Promise<PublishedLesson | null>;
+  putLesson(lesson: PublishedLesson | DraftLesson): Promise<void>;
   topicStrands(
     topicIds: readonly string[],
   ): Promise<readonly { topic_id: string; strand_id: string }[]>;

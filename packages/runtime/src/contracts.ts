@@ -38,6 +38,14 @@ export const responsesSubmitRequestSchema = z.object({
 });
 export type ResponsesSubmitRequest = z.input<typeof responsesSubmitRequestSchema>;
 
+export const lessonCheckRequestSchema = z.object({
+  lesson_id: uuidSchema,
+  item_id: uuidSchema,
+  item_version: z.number().int().positive(),
+  response: z.record(z.string(), z.unknown()),
+});
+export type LessonCheckRequest = z.infer<typeof lessonCheckRequestSchema>;
+
 export const masteryCodes = [
   "not_assessed",
   "foundation",
@@ -82,6 +90,8 @@ export const errorCodes = {
   SET_CLOSED: false,
   ITEM_NOT_IN_SET: false,
   ITEM_VERSION_MISMATCH: false,
+  LESSON_NOT_FOUND: false,
+  LESSON_ITEM_NOT_IN_LESSON: false,
 } as const satisfies Record<string, boolean>;
 export type ErrorCode = keyof typeof errorCodes;
 
@@ -97,6 +107,8 @@ const messages: Record<ErrorCode, string> = {
   SET_CLOSED: "This set is already finished.",
   ITEM_NOT_IN_SET: "This question is not part of the set.",
   ITEM_VERSION_MISMATCH: "This question has changed since the set started.",
+  LESSON_NOT_FOUND: "This lesson was not found or is not published yet.",
+  LESSON_ITEM_NOT_IN_LESSON: "This check question is not part of the lesson.",
 };
 
 export class RuntimeError extends Error {
