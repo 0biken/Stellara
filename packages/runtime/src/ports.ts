@@ -25,6 +25,10 @@ export type SetKind = "practice" | "review" | "topic_assessment" | "placement";
 
 export interface ChildRecord {
   readonly id: string;
+  readonly guardian_id?: string;
+  readonly first_name?: string;
+  readonly avatar_key?: string;
+  readonly pin_hash?: string;
   readonly timezone: string;
   /** Calendar day `YYYY-MM-DD`, or null when no exam date is known. */
   readonly exam_date: string | null;
@@ -33,6 +37,35 @@ export interface ChildRecord {
   readonly year?: "P4" | "P5" | "P6";
   /** Last activity instant, used by the retention purge plan. */
   readonly last_active_at: number | null;
+  readonly created_at?: number;
+  readonly consent_withdrawn_at?: number | null;
+  readonly revoked_before?: number | null;
+}
+
+export interface ConsentEvidenceRecord {
+  readonly id: string;
+  readonly guardian_id: string;
+  readonly child_id: string | null;
+  readonly notice_version: string;
+  readonly method: string;
+  readonly given_at: number;
+  readonly withdrawn_at: number | null;
+  readonly retain_until: number;
+  readonly detached?: boolean;
+}
+
+export interface DataRequestServerRecord {
+  readonly id: string;
+  readonly guardian_id: string;
+  readonly child_id: string;
+  readonly kind: "export" | "deletion";
+  readonly status: "pending" | "ready" | "completed" | "failed";
+  readonly idempotency_key: string;
+  readonly requested_at: number;
+  readonly due_at: number;
+  readonly completed_at: number | null;
+  readonly download_url?: string;
+  readonly download_expires_at?: number | null;
 }
 
 /** Identity resolved from a verified child JWT by the adapter. */
@@ -191,6 +224,19 @@ export interface RuntimeStore {
 
   recordKeyExposure?(childId: string, itemIds: readonly string[]): Promise<void>;
   isKeyExposed?(childId: string, itemId: string): Promise<boolean>;
+
+  updateChild?(child: ChildRecord): Promise<void>;
+  revokeChildAccess?(childId: string, at: number): Promise<void>;
+  isChildAccessRevoked?(childId: string, issuedAt: number): Promise<boolean>;
+  getActiveConsent?(guardianId: string, childId?: string): Promise<ConsentEvidenceRecord | null>;
+  putConsent?(consent: ConsentEvidenceRecord): Promise<void>;
+  listConsents?(): Promise<readonly ConsentEvidenceRecord[]>;
+  deleteConsent?(consentId: string): Promise<void>;
+
+  putDataRequest?(request: DataRequestServerRecord): Promise<void>;
+  getDataRequest?(requestId: string): Promise<DataRequestServerRecord | null>;
+  listDataRequests?(childId?: string): Promise<readonly DataRequestServerRecord[]>;
+  deleteChildLearningRecords?(childId: string): Promise<void>;
 }
 
 export interface PackSigningConfig {

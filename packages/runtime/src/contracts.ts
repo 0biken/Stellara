@@ -118,10 +118,23 @@ export const packBuildRequestSchema = z.object({
 });
 export type PackBuildRequest = z.infer<typeof packBuildRequestSchema>;
 
+export const updateChildProfileSchema = z.object({
+  first_name: z.string().trim().min(1).max(30).optional(),
+  avatar_key: z.string().min(1).max(40).optional(),
+  year: z.enum(["P4", "P5", "P6"]).optional(),
+  exam_date: z.string().nullable().optional(),
+  timezone: z.string().min(1).max(64).optional(),
+});
+export type UpdateChildProfileRequest = z.infer<typeof updateChildProfileSchema>;
+
 export const errorCodes = {
   INVALID_REQUEST: false,
   CHILD_NOT_FOUND: false,
   CHILD_INACTIVE: false,
+  FORBIDDEN: false,
+  CONSENT_REQUIRED: false,
+  DELETION_CONFIRMATION_MISMATCH: false,
+  DATA_REQUEST_NOT_FOUND: false,
   KIND_NOT_SUPPORTED: false,
   NO_ITEMS_AVAILABLE: false,
   NO_REVIEWS_DUE: false,
@@ -140,6 +153,10 @@ const messages: Record<ErrorCode, string> = {
   INVALID_REQUEST: "The request was not in the expected shape.",
   CHILD_NOT_FOUND: "This child profile was not found.",
   CHILD_INACTIVE: "This child profile is not active.",
+  FORBIDDEN: "You do not have permission to manage this child.",
+  CONSENT_REQUIRED: "Verified parent consent is required before continuing.",
+  DELETION_CONFIRMATION_MISMATCH: "Typed deletion confirmation did not match.",
+  DATA_REQUEST_NOT_FOUND: "Data rights request was not found.",
   KIND_NOT_SUPPORTED: "This kind of set starts somewhere else.",
   NO_ITEMS_AVAILABLE: "There are not enough questions ready for this yet.",
   NO_REVIEWS_DUE: "Nothing is due for review today.",
