@@ -1,3 +1,4 @@
 # Database tests
 
-Future pgTAP tests for RLS and database constraints belong here. These checks start when migrations exist; no placeholder passing database test is provided.
+Run `supabase test db` on the seeded local stack for the RLS and constraint checks.
+Run the HTTP integration test separately as described in the [staging runbook](../README.md).

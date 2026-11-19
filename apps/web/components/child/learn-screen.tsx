@@ -20,7 +20,15 @@ import { auntie } from "./use-child";
 import type { ClientItem } from "@stellara/content-schema/client";
 
 /** A lesson "check" card: unscored, with plain feedback and the explanation. */
-function LessonCheck({ api, item }: { api: LearningApi; item: ClientItem }) {
+function LessonCheck({
+  api,
+  item,
+  topicId,
+}: {
+  api: LearningApi;
+  item: ClientItem;
+  topicId: string;
+}) {
   const [selected, setSelected] = useState<ChildResponse | null>(null);
   const [phase, setPhase] = useState<QuestionPhase>("answer");
   const [explanation, setExplanation] = useState("");
@@ -28,7 +36,10 @@ function LessonCheck({ api, item }: { api: LearningApi; item: ClientItem }) {
     if (!selected) return;
     setPhase("checking");
     try {
-      const result = await api.checkLessonAnswer(item.id, selected);
+      const result = await api.checkLessonAnswer(item.id, selected, {
+        topicId,
+        version: item.version,
+      });
       setExplanation(result.explanation_html);
       setPhase(result.is_correct ? "correct" : "worked");
     } catch {
@@ -70,7 +81,15 @@ function LessonCheck({ api, item }: { api: LearningApi; item: ClientItem }) {
   );
 }
 
-function LessonTryIt({ api, items }: { api: LearningApi; items: ClientItem[] }) {
+function LessonTryIt({
+  api,
+  items,
+  topicId,
+}: {
+  api: LearningApi;
+  items: ClientItem[];
+  topicId: string;
+}) {
   const [activeIdx, setActiveIdx] = useState(0);
   const current = items[activeIdx];
   return (
@@ -89,7 +108,7 @@ function LessonTryIt({ api, items }: { api: LearningApi; items: ClientItem[] }) 
           ))}
         </div>
       )}
-      {current && <LessonCheck key={current.id} api={api} item={current} />}
+      {current && <LessonCheck key={current.id} api={api} item={current} topicId={topicId} />}
     </div>
   );
 }
@@ -137,13 +156,21 @@ function Learn({ api }: { api: LearningApi }) {
 
   const cards: LessonCardView[] = lesson.cards.map((card) => {
     if (card.kind === "check") {
-      return { kind: "check", content: <LessonCheck key={card.item.id} api={api} item={card.item} /> };
+      return {
+        kind: "check",
+        content: <LessonCheck key={card.item.id} api={api} item={card.item} topicId={topicId} />,
+      };
     }
     if (card.kind === "try_it") {
       return {
         kind: "try_it",
         content: (
-          <LessonTryIt key={card.items.map((i) => i.id).join("-")} api={api} items={card.items} />
+          <LessonTryIt
+            key={card.items.map((i) => i.id).join("-")}
+            api={api}
+            items={card.items}
+            topicId={topicId}
+          />
         ),
       };
     }

@@ -111,6 +111,7 @@ export interface LearningApi {
   checkLessonAnswer(
     itemId: string,
     response: ChildResponse,
+    context?: { topicId: string; version: number },
   ): Promise<{ is_correct: boolean; explanation_html: string }>;
   placementStrands(): Promise<{ id: string; name: string }[]>;
   placementConfig(): Promise<PlacementConfig>;

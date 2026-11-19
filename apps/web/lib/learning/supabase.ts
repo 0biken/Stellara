@@ -2,13 +2,13 @@ import { LearningError, type ChildProfile, type LearningApi, type SubmitOutcome 
 
 /**
  * Live adapter: calls the Edge Functions in docs/md/06 §2 with the child session
- * token from `child-session` (TASKLIST 2.5). The sky, lesson and strand reads
- * wait for their 2A views, so they report NOT_AVAILABLE until then.
+ * token from `child-session`.
  */
 export const CHILD_SESSION_KEY = "stellara.childSession";
 
 interface StoredChildSession {
   token: string;
+  expiresAt?: string;
   child: ChildProfile;
 }
 
@@ -19,7 +19,7 @@ export function createSupabaseLearningApi(options: {
   session?: () => StoredChildSession | null;
 }): LearningApi {
   const doFetch = options.fetch ?? ((...args: Parameters<typeof fetch>) => fetch(...args));
-  const session =
+  const readSession =
     options.session ??
     (() => {
       try {
@@ -29,6 +29,11 @@ export function createSupabaseLearningApi(options: {
         return null;
       }
     });
+  const session = () => {
+    const current = readSession();
+    if (current?.expiresAt && !(Date.parse(current.expiresAt) > Date.now())) return null;
+    return current;
+  };
 
   async function invoke<T>(name: string, body: unknown): Promise<T> {
     const current = session();
@@ -57,21 +62,25 @@ export function createSupabaseLearningApi(options: {
     return json as T;
   }
 
-  const notYet = async (): Promise<never> => {
-    throw new LearningError("NOT_AVAILABLE", false);
-  };
-
   return {
     mode: "supabase",
     async getChild() {
       return session()?.child ?? null;
     },
-    getSky: notYet,
-    getLesson: notYet,
-    checkLessonAnswer: notYet,
-    placementStrands: notYet,
-    placementConfig: notYet,
-    getOwnedSet: notYet,
+    getSky: () => invoke("child-sky", {}),
+    getLesson: (topicId) => invoke("lesson-get", { topic_id: topicId }),
+    checkLessonAnswer: (itemId, response, context) =>
+      invoke("lesson-check", {
+        item_id: itemId,
+        response,
+        item_version: context?.version,
+        topic_id: context?.topicId,
+      }),
+    async placementStrands() {
+      return (await this.placementConfig()).strands;
+    },
+    placementConfig: () => invoke("placement-config", {}),
+    getOwnedSet: (setId) => invoke("set-get", { set_id: setId }),
     startSet: (request) => invoke("set-start", { ...request, assignment_id: null }),
     submit: (request) => invoke<SubmitOutcome>("responses-submit", request),
   };

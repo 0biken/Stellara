@@ -18,3 +18,7 @@ test-results/
 playwright-report/
 .playwright-cli/
 apps/web/public/sw.js
+supabase/.temp/
+supabase/.branches/
+supabase/functions/_shared/backend.generated.js
+supabase/seed/content.generated.sql

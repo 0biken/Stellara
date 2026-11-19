@@ -15,6 +15,20 @@ import {
 
 /** Read by the child side (apps/web/lib/learning/supabase.ts). */
 export const childSessionKey = "stellara.childSession";
+const deviceKey = "stellara.deviceId";
+let fallbackDeviceId: string | undefined;
+
+function deviceId() {
+  const fallback = (fallbackDeviceId ??= crypto.randomUUID());
+  try {
+    const stored = window.localStorage.getItem(deviceKey);
+    if (stored && /^[a-f0-9-]{36}$/i.test(stored)) return stored;
+    window.localStorage.setItem(deviceKey, fallback);
+  } catch {
+    // Keep the same device ID for this page when browser storage is disabled.
+  }
+  return fallback;
+}
 
 interface ErrorBody {
   error?: { code?: string; attempts_left?: number; locked_until?: string };
@@ -58,6 +72,7 @@ export function createSupabaseFamilyApi(client: SupabaseClient): FamilyApi {
       const { data, error } = await client
         .from("consents")
         .select("id, notice_version, method, purposes, created_at")
+        .is("child_id", null)
         .is("withdrawn_at", null)
         .not("verified_at", "is", null)
         .order("created_at", { ascending: false })
@@ -93,7 +108,7 @@ export function createSupabaseFamilyApi(client: SupabaseClient): FamilyApi {
     async listChildren() {
       const { data, error } = await client
         .from("children")
-        .select("id, first_name, avatar_key, year, exam_date")
+        .select("id, first_name, avatar_key, year, exam_date, timezone, status")
         .order("created_at", { ascending: true });
       if (error) throw new FamilyError("NETWORK");
       return (data ?? []) as ChildSummary[];
@@ -118,9 +133,10 @@ export function createSupabaseFamilyApi(client: SupabaseClient): FamilyApi {
       };
     },
     async signInChild(child, pin): Promise<ChildSignInResult> {
-      const { data, error } = await client.functions.invoke<{ token: string }>("child-session", {
-        body: { child_id: child.id, pin, mode: "family" },
-      });
+      const { data, error } = await client.functions.invoke<{ token: string; expires_at: string }>(
+        "child-session",
+        { body: { child_id: child.id, pin, mode: "family", device_id: deviceId() } },
+      );
       if (error) {
         const details = await errorBody(error);
         if (!details) throw new FamilyError("NETWORK");
@@ -139,12 +155,14 @@ export function createSupabaseFamilyApi(client: SupabaseClient): FamilyApi {
         }
         throw familyError(code);
       }
+      if (!data?.token || !data.expires_at) throw new FamilyError("SERVER");
       try {
         window.sessionStorage.setItem(
           childSessionKey,
           JSON.stringify({
-            token: data?.token,
-            child: { id: child.id, first_name: child.first_name },
+            token: data.token,
+            expiresAt: data.expires_at,
+            child: { id: child.id, first_name: child.first_name, year: child.year },
           }),
         );
       } catch {
@@ -179,7 +197,9 @@ export function createSupabaseFamilyApi(client: SupabaseClient): FamilyApi {
     async listDataRequests(childId: string) {
       const { data, error } = await client
         .from("data_requests")
-        .select("id, child_id, kind, status, requested_at, due_at, download_url, download_expires_at")
+        .select(
+          "id, child_id, kind, status, requested_at, due_at, download_url, download_expires_at",
+        )
         .eq("child_id", childId)
         .order("requested_at", { ascending: false });
       if (error) throw new FamilyError("NETWORK");
