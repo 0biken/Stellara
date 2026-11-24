@@ -22,3 +22,4 @@ supabase/.temp/
 supabase/.branches/
 supabase/functions/_shared/backend.generated.js
 supabase/seed/content.generated.sql
+.local-proof/

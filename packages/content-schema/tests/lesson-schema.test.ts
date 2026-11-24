@@ -1,14 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  projectLessonForClient,
-  projectItemForClient,
-} from "../src/client.js";
-import {
-  publishedLessonSchema,
-  draftLessonSchema,
-  publishedItemSchema,
-} from "../src/server.js";
+import { projectLessonForClient, projectItemForClient } from "../src/client.js";
+import { publishedLessonSchema, draftLessonSchema, publishedItemSchema } from "../src/server.js";
 
 const sampleItemId1 = "10000000-0000-4000-8000-000000000001";
 const sampleItemId2 = "10000000-0000-4000-8000-000000000002";

@@ -9,6 +9,12 @@ describe("safeNext", () => {
     expect(safeNext("/family")).toBe("/family");
     expect(safeNext("/family/child/1?x=1")).toBe("/family/child/1");
   });
+  it("allows staff destinations without accepting lookalike or external routes", () => {
+    expect(safeNext("/admin/")).toBe("/admin/");
+    expect(safeNext("/admin/content/")).toBe("/admin/content/");
+    expect(safeNext("/administrator/")).toBe(defaultNext);
+    expect(safeNext("https://evil.example/admin/")).toBe(defaultNext);
+  });
 
   it.each([
     null,

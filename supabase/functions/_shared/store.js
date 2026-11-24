@@ -133,5 +133,11 @@ export function runtimeStore(sql) {
         ).length > 0
       );
     },
+    async recordKeyExposure(child, itemIds) {
+      for (const item of itemIds) {
+        await sql`insert into stellara_private.key_exposures (child_id,item_id)
+          values (${child},${item}) on conflict do nothing`;
+      }
+    },
   };
 }

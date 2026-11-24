@@ -64,6 +64,13 @@ test("a parent consents and unlocks real practice in the browser", async ({ page
     { url, key: process.env.STELLARA_TEST_PUBLISHABLE_KEY },
   );
 
+  const lessonResponse = page.waitForResponse((response) =>
+    response.url().endsWith("/functions/v1/lesson-get"),
+  );
+  await page.goto("/learn/?topic=" + sky.today.topic_id);
+  expect((await lessonResponse).ok()).toBeTruthy();
+  await expect(page.getByRole("heading", { name: /Lesson$/ })).toBeVisible();
+
   const startSet = page.waitForResponse((response) =>
     response.url().endsWith("/functions/v1/set-start"),
   );
@@ -79,4 +86,34 @@ test("a parent consents and unlocks real practice in the browser", async ({ page
   const saved = await submission;
   expect(saved.ok()).toBeTruthy();
   expect((await saved.json()).results).toHaveLength(1);
+  await page.reload();
+  const childSession = JSON.parse(
+    await page.evaluate(() => sessionStorage.getItem("stellara.childSession")),
+  );
+  const stored = await request.post(url + "/functions/v1/set-get", {
+    headers: {
+      apikey: process.env.STELLARA_TEST_PUBLISHABLE_KEY,
+      authorization: "Bearer " + childSession.token,
+    },
+    data: { set_id: set.set_id },
+  });
+  expect(stored.ok()).toBeTruthy();
+  expect((await stored.json()).items).toHaveLength(set.items.length);
+
+  const withdrawal = await request.post(url + "/functions/v1/consent-withdraw", {
+    headers: {
+      apikey: process.env.STELLARA_TEST_PUBLISHABLE_KEY,
+      authorization: "Bearer " + session.access_token,
+    },
+    data: { child_id: childSession.child.id },
+  });
+  expect(withdrawal.ok()).toBeTruthy();
+  const revoked = await request.post(url + "/functions/v1/child-sky", {
+    headers: {
+      apikey: process.env.STELLARA_TEST_PUBLISHABLE_KEY,
+      authorization: "Bearer " + childSession.token,
+    },
+    data: {},
+  });
+  expect(revoked.status()).toBe(401);
 });

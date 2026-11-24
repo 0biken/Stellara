@@ -1,4 +1,10 @@
-import { CacheFirst, NetworkOnly, Serwist, StaleWhileRevalidate, type PrecacheEntry } from "serwist";
+import {
+  CacheFirst,
+  NetworkOnly,
+  Serwist,
+  StaleWhileRevalidate,
+  type PrecacheEntry,
+} from "serwist";
 
 declare global {
   interface ServiceWorkerGlobalScope {
@@ -14,7 +20,17 @@ declare const self: ServiceWorkerGlobalScope &
     addEventListener(type: string, listener: (event: unknown) => void): void;
   };
 
-const SHELL_PATHS = new Set(["/", "/sky", "/sky/", "/learn", "/learn/", "/practice", "/practice/", "/placement", "/placement/"]);
+const SHELL_PATHS = new Set([
+  "/",
+  "/sky",
+  "/sky/",
+  "/learn",
+  "/learn/",
+  "/practice",
+  "/practice/",
+  "/placement",
+  "/placement/",
+]);
 
 const serwist = new Serwist({
   precacheEntries: self.__SW_MANIFEST ?? [],
@@ -41,8 +57,7 @@ const serwist = new Serwist({
       }),
     },
     {
-      matcher: ({ url, request }) =>
-        request.mode === "navigate" && SHELL_PATHS.has(url.pathname),
+      matcher: ({ url, request }) => request.mode === "navigate" && SHELL_PATHS.has(url.pathname),
       handler: new StaleWhileRevalidate({
         cacheName: "stellara-app-shell-v1",
       }),

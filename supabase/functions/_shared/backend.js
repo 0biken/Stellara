@@ -1,10 +1,11 @@
 import { createClient } from "npm:@supabase/supabase-js@2.119.0";
 import { argon2id, argon2Verify } from "npm:hash-wasm@4.12.0";
-import { jwtVerify, SignJWT } from "npm:jose@6.1.3";
+import { decodeJwt, jwtVerify, SignJWT } from "npm:jose@6.1.3";
 import postgres from "npm:postgres@3.4.8";
 
 import {
   answerKey,
+  buildPracticePack,
   getLesson,
   getOwnedSet,
   getPlacementConfig,
@@ -15,6 +16,7 @@ import {
   submitResponses,
 } from "../../../packages/runtime/src/index.ts";
 import { runtimeStore } from "./store.js";
+import { adminAction } from "./admin.js";
 
 const pictures = new Set(["sun", "moon", "leaf", "flower", "fish", "ball", "cup", "house", "kite"]);
 const levels = ["not_assessed", "foundation", "developing", "proficient", "advanced", "mastered"];
@@ -25,6 +27,7 @@ const issuer = "stellara-child";
 const audience = "stellara-learning";
 const maxBodyBytes = 65_536;
 const guardianRoutes = new Set([
+  "admin",
   "consent-start",
   "consent-confirm",
   "child-create",
@@ -33,6 +36,8 @@ const guardianRoutes = new Set([
   "child-status",
   "child-pin-reset",
   "consent-withdraw",
+  "data-request-export",
+  "data-request-delete",
 ]);
 
 function required(name) {
@@ -43,10 +48,13 @@ function required(name) {
 
 let connection;
 function database() {
-  const url =
-    Deno.env.get("STELLARA_ENV") === "local"
-      ? (Deno.env.get("STELLARA_RUNTIME_DB_URL") ?? required("SUPABASE_DB_URL"))
-      : required("STELLARA_RUNTIME_DB_URL");
+  let url = Deno.env.get("STELLARA_RUNTIME_DB_URL");
+  if (Deno.env.get("STELLARA_ENV") === "local" && !Deno.env.get("STELLARA_RUNTIME_DB_URL")) {
+    const local = new URL(required("SUPABASE_DB_URL"));
+    if (local.hostname.startsWith("supabase_db_")) local.hostname = "db.supabase.internal";
+    url = local.toString();
+  }
+  if (!url) throw new Error("Missing backend configuration");
   return (connection ??= postgres(url, {
     prepare: false,
     max: 2,
@@ -201,7 +209,7 @@ async function activeConsent(sql, guardian, child) {
   return (
     (
       await sql`select 1 from public.consents where guardian_id=${guardian} and child_id=${child}
-    and verified_at is not null and withdrawn_at is null`
+    and verified_at is not null and withdrawn_at is null and expires_at>now()`
     ).length > 0
   );
 }
@@ -258,7 +266,8 @@ async function guardianAction(sql, route, user, body) {
       throw invalid();
     const [receipt] = await sql`select purposes,verified_at from public.consents
       where id=${consent} and guardian_id=${guardian} and child_id is null and method=${declaration}
-      and notice_version=${notice} and verified_at is not null and withdrawn_at is null for update`;
+      and notice_version=${notice} and verified_at is not null and withdrawn_at is null
+      and expires_at>now() for update`;
     if (!receipt) throw consentRequired();
     const hashed = await hashPin(body.pin);
     const child = crypto.randomUUID();
@@ -273,6 +282,34 @@ async function guardianAction(sql, route, user, body) {
 
   const child = uuid(body.child_id);
   const current = await ownedChild(sql, guardian, child);
+  if (route === "data-request-export" || route === "data-request-delete") {
+    if (route === "data-request-delete" && body.confirmation !== `DELETE ${current.first_name}`)
+      throw invalid();
+    const kind = route === "data-request-export" ? "export" : "deletion";
+    // The owned child row lock serializes requests. Preserve expired-download
+    // history while freeing the open-request slot for a fresh export.
+    if (kind === "export") {
+      await sql`update public.data_requests set status='completed'
+        where guardian_id=${guardian} and child_id=${child} and kind='export' and status='ready'
+        and (download_expires_at is null or download_expires_at<=now())`;
+    }
+    const [existing] = await sql`select id,child_id,kind,status,requested_at,due_at,
+      download_url,download_expires_at from public.data_requests
+      where guardian_id=${guardian} and child_id=${child} and kind=${kind}
+      and status in ('pending','ready') order by requested_at desc limit 1`;
+    if (existing) return existing;
+    if (current.status === "deletion_pending") throw consentRequired();
+    const due = new Date(now + (kind === "export" ? 7 : 30) * 86_400_000).toISOString();
+    const [request] = await sql`insert into public.data_requests
+      (guardian_id,child_id,kind,status,due_at)
+      values (${guardian},${child},${kind},'pending',${due})
+      returning id,child_id,kind,status,requested_at,due_at,download_url,download_expires_at`;
+    if (kind === "deletion") {
+      await sql`update public.children set status='deletion_pending' where id=${child}`;
+      await revoke(sql, child);
+    }
+    return request;
+  }
   if (route === "child-session") {
     const device = uuid(body.device_id);
     if (body.mode !== "family") throw invalid();
@@ -391,6 +428,31 @@ async function childAction(sql, route, claims, body, now) {
     ids: { uuid: () => crypto.randomUUID() },
     rng: { next: () => crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296 },
   };
+
+  if (route === "pack-build") {
+    if (!(await rate(sql, route, child, 6, 3_600_000, now)))
+      return new ApiError(429, "RATE_LIMITED");
+    const result = await buildPracticePack(
+      {
+        ...deps,
+        packSigning: {
+          privateKeyPem: required("STELLARA_PACK_PRIVATE_KEY").replaceAll("\\n", "\n"),
+          publicKeyPem: required("STELLARA_PACK_PUBLIC_KEY").replaceAll("\\n", "\n"),
+        },
+      },
+      ctx,
+      body,
+    );
+    await sql`insert into stellara_private.practice_packs (id,child_id,expires_at,document)
+      values (${result.pack_id},${child},${new Date(result.manifest.expires_at).toISOString()},${JSON.stringify({ manifest: result.manifest, payload: result.payload })})`;
+    return { pack_id: result.pack_id, manifest: result.manifest };
+  }
+  if (route === "pack-get") {
+    const [pack] = await sql`select document from stellara_private.practice_packs
+      where id=${uuid(body.pack_id)} and child_id=${child} and expires_at>now()`;
+    if (!pack) throw new ApiError(404, "NOT_AVAILABLE");
+    return JSON.parse(pack.document);
+  }
 
   if (route === "set-start") {
     if (!(await rate(sql, route, child, 30, 3_600_000, now)))
@@ -540,8 +602,24 @@ export function handler(route) {
       const actor = guardianRoutes.has(route)
         ? await guardianUser(token)
         : await childClaims(token);
+      // getUser above validates this exact token with Auth before its AAL is read.
+      if (
+        route === "admin" &&
+        Deno.env.get("STELLARA_ENV") !== "local" &&
+        decodeJwt(token).aal !== "aal2"
+      )
+        throw new ApiError(403, "MFA_REQUIRED");
       const result = await database().begin(async (sql) => {
         await sql`set local role stellara_runtime`;
+        if (route === "admin") {
+          try {
+            return await adminAction(sql, actor, body);
+          } catch (error) {
+            if (error.message === "STAFF_FORBIDDEN") throw new ApiError(403, "FORBIDDEN");
+            if (error.message === "INVALID_REQUEST") throw invalid();
+            throw error;
+          }
+        }
         return guardianRoutes.has(route)
           ? guardianAction(sql, route, actor, body)
           : childAction(sql, route, actor, body, Date.now());

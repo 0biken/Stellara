@@ -27,7 +27,11 @@ export interface OutboxDrainResult {
 }
 
 export function computeBackoffMs(attempts: number, retryAfterSeconds?: number): number {
-  if (typeof retryAfterSeconds === "number" && Number.isFinite(retryAfterSeconds) && retryAfterSeconds >= 0) {
+  if (
+    typeof retryAfterSeconds === "number" &&
+    Number.isFinite(retryAfterSeconds) &&
+    retryAfterSeconds >= 0
+  ) {
     return Math.min(MAX_BACKOFF_MS, Math.round(retryAfterSeconds * 1000));
   }
   const exp = Math.min(MAX_BACKOFF_MS, 1000 * Math.pow(2, Math.max(0, attempts)));

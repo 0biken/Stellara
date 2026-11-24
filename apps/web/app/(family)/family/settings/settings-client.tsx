@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, Dialog, PictureKey, buttonClasses, pictureIds, type PictureId } from "@stellara/ui";
+import {
+  Button,
+  Dialog,
+  PictureKey,
+  buttonClasses,
+  pictureIds,
+  type PictureId,
+} from "@stellara/ui";
 import { useCallback, useEffect, useState } from "react";
 
 import { ConsentWithdrawDialog } from "../../../../components/family/consent-withdraw-dialog";
@@ -247,7 +254,10 @@ export function ParentSettingsClient() {
         </p>
       )}
       {errorMsg && (
-        <p role="alert" className="m-0 rounded-xl border border-danger bg-surface px-4 py-3 text-sm text-danger">
+        <p
+          role="alert"
+          className="m-0 rounded-xl border border-danger bg-surface px-4 py-3 text-sm text-danger"
+        >
           {errorMsg}
         </p>
       )}
@@ -382,7 +392,10 @@ export function ParentSettingsClient() {
             {requests.length > 0 && (
               <ul className="m-0 flex list-none flex-col gap-2 p-0 text-sm">
                 {requests.map((r) => (
-                  <li key={r.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line px-3 py-2">
+                  <li
+                    key={r.id}
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line px-3 py-2"
+                  >
                     <span>
                       <strong>{r.kind}</strong> — {r.status} (due {r.due_at.slice(0, 10)})
                     </span>

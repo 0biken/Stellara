@@ -3,7 +3,9 @@ import { z } from "zod";
 export const uuidSchema = z.uuid().transform((value) => value.toLowerCase());
 export const versionSchema = z.number().int().positive();
 export const curriculumEditionSchema = z.enum(["legacy", "revised_2025"]);
-export const itemPurposeSchema = z.enum(["practice", "lesson_check", "placement"]).default("practice");
+export const itemPurposeSchema = z
+  .enum(["practice", "lesson_check", "placement"])
+  .default("practice");
 export const itemTypeSchema = z.enum([
   "single_choice",
   "multi_choice",
@@ -98,8 +100,16 @@ export const clientStimulusSchema = z.object({
 });
 
 export const clientLessonCardSchema = z.discriminatedUnion("kind", [
-  z.object({ kind: z.literal("explain"), body: z.string().min(1), media: z.array(mediaSchema).optional() }),
-  z.object({ kind: z.literal("worked_example"), body: z.string().min(1), steps: z.array(z.string().min(1)).min(1) }),
+  z.object({
+    kind: z.literal("explain"),
+    body: z.string().min(1),
+    media: z.array(mediaSchema).optional(),
+  }),
+  z.object({
+    kind: z.literal("worked_example"),
+    body: z.string().min(1),
+    steps: z.array(z.string().min(1)).min(1),
+  }),
   z.object({ kind: z.literal("check"), item: clientItemSchema }),
   z.object({ kind: z.literal("try_it"), items: z.array(clientItemSchema).min(2).max(3) }),
   z.object({ kind: z.literal("summary"), body: z.string().min(1) }),
@@ -133,7 +143,11 @@ export function projectLessonForClient(
       title: z.string().trim().min(1).optional(),
       cards: z.array(
         z.discriminatedUnion("kind", [
-          z.object({ kind: z.literal("explain"), body: z.string().min(1), media: z.array(mediaSchema).optional() }),
+          z.object({
+            kind: z.literal("explain"),
+            body: z.string().min(1),
+            media: z.array(mediaSchema).optional(),
+          }),
           z.object({
             kind: z.literal("worked_example"),
             body: z.string().min(1),

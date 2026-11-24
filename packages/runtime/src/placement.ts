@@ -1,17 +1,10 @@
 import { projectItemForClient, type ClientItem } from "@stellara/content-schema/client";
 
-import {
-  RuntimeError,
-  type OwnedSetResponse,
-  type PlacementConfigResponse,
-} from "./contracts.js";
+import { RuntimeError, type OwnedSetResponse, type PlacementConfigResponse } from "./contracts.js";
 
 import type { RuntimeDeps } from "./ports.js";
 
-export const STRANDS_BY_YEAR: Record<
-  "P4" | "P5" | "P6",
-  { id: string; name: string }[]
-> = {
+export const STRANDS_BY_YEAR: Record<"P4" | "P5" | "P6", { id: string; name: string }[]> = {
   P4: [
     { id: "p4-fractions-strand", name: "Fractions and Parts" },
     { id: "p4-shapes-strand", name: "2D and 3D Shapes" },

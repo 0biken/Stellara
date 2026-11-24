@@ -1,7 +1,11 @@
 import "fake-indexeddb/auto";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { createOfflineDb, type DownloadedPackRecord, type StellaraOfflineDB } from "../lib/offline/db";
+import {
+  createOfflineDb,
+  type DownloadedPackRecord,
+  type StellaraOfflineDB,
+} from "../lib/offline/db";
 import { enqueueAnswer } from "../lib/offline/outbox";
 import {
   MAX_DEVICE_BYTES,

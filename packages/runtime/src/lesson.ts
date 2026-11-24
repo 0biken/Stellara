@@ -1,10 +1,6 @@
 import { projectLessonForClient, type ClientLesson } from "@stellara/content-schema/client";
 
-import {
-  lessonCheckRequestSchema,
-  parseRequest,
-  RuntimeError,
-} from "./contracts.js";
+import { lessonCheckRequestSchema, parseRequest, RuntimeError } from "./contracts.js";
 import { gradeResponse } from "./grade.js";
 import { loadActiveChild } from "./set-start.js";
 

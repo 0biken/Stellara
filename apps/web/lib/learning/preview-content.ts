@@ -450,7 +450,8 @@ const TEMPLATES: Record<string, SampleTopicGenerator> = {
       return [`${n / g}/${d / g}`, `${n}/${d + 2}`, `${n + 1}/${d}`, `${n}/${d * 2}`];
     },
     hint: () => "Multiply numerators together and denominators together, then simplify.",
-    explanation: () => "Multiply numerators and denominators and reduce by the greatest common divisor.",
+    explanation: () =>
+      "Multiply numerators and denominators and reduce by the greatest common divisor.",
   },
   "P6 Area": {
     stem: (i) => `Find the area of a rectangle with length ${i + 4} cm and width ${i + 2} cm.`,

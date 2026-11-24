@@ -56,7 +56,11 @@ describe("pack-build, budgets, Ed25519 manifest signing, and key exposure scorin
   });
 
   it("builds a pack with 30 practice items, 3 server-registered 10-question sets, signed URL, and Ed25519-signed manifest under 120 KB", async () => {
-    const result = await buildPracticePack(deps, { child_id: CHILD_ID }, { topic_id: P4_FRACTIONS });
+    const result = await buildPracticePack(
+      deps,
+      { child_id: CHILD_ID },
+      { topic_id: P4_FRACTIONS },
+    );
 
     expect(result.pack_id).toBeDefined();
     expect(result.set_ids).toHaveLength(3);
@@ -143,10 +147,14 @@ describe("pack-build, budgets, Ed25519 manifest signing, and key exposure scorin
       key_on_device: false, // Client tries to spoof!
     }));
 
-    await submitResponses(deps, { child_id: CHILD_ID }, {
-      responses,
-      device_clock: new Date(T0 + 15000).toISOString(),
-    });
+    await submitResponses(
+      deps,
+      { child_id: CHILD_ID },
+      {
+        responses,
+        device_clock: new Date(T0 + 15000).toISOString(),
+      },
+    );
 
     const attempts = await store.setAttempts(firstSetId);
     expect(attempts).toHaveLength(10);
@@ -158,11 +166,19 @@ describe("pack-build, budgets, Ed25519 manifest signing, and key exposure scorin
 
   it("rejects unknown child, inactive child, or topics with fewer than 30 practice items", async () => {
     await expect(
-      buildPracticePack(deps, { child_id: "00000000-0000-4000-8000-000000009999" }, { topic_id: P4_FRACTIONS }),
+      buildPracticePack(
+        deps,
+        { child_id: "00000000-0000-4000-8000-000000009999" },
+        { topic_id: P4_FRACTIONS },
+      ),
     ).rejects.toThrow(RuntimeError);
 
     await expect(
-      buildPracticePack(deps, { child_id: CHILD_ID }, { topic_id: "00000000-0000-4000-8000-000000000999" }),
+      buildPracticePack(
+        deps,
+        { child_id: CHILD_ID },
+        { topic_id: "00000000-0000-4000-8000-000000000999" },
+      ),
     ).rejects.toThrow(RuntimeError);
   });
 });

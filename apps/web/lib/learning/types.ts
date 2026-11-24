@@ -105,6 +105,7 @@ export interface SubmitOutcome {
 
 export interface LearningApi {
   readonly mode: "supabase" | "preview";
+  downloadPack?(topicId: string): Promise<string>;
   getChild(): Promise<ChildProfile | null>;
   getSky(): Promise<SkyData>;
   getLesson(topicId: string): Promise<LessonData>;

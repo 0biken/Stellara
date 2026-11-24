@@ -63,7 +63,10 @@ describe("placement item pool and purpose enforcement", () => {
         reviewer_id: REVIEWER,
         answer_verified_at: "2026-11-01T00:00:00Z",
         status: "published",
-        options: [{ id: "a", text: "A" }, { id: "b", text: "B" }],
+        options: [
+          { id: "a", text: "A" },
+          { id: "b", text: "B" },
+        ],
         answer: { option_id: "a" },
       });
       items.push({
@@ -85,16 +88,23 @@ describe("placement item pool and purpose enforcement", () => {
         reviewer_id: REVIEWER,
         answer_verified_at: "2026-11-01T00:00:00Z",
         status: "published",
-        options: [{ id: "a", text: "A" }, { id: "b", text: "B" }],
+        options: [
+          { id: "a", text: "A" },
+          { id: "b", text: "B" },
+        ],
         answer: { option_id: "a" },
       });
     }
     store.addItems(items);
 
-    const practiceSet = await startSet(deps, { child_id: CHILD_P4 }, {
-      kind: "practice",
-      topic_ids: [P4_FRACTIONS],
-    });
+    const practiceSet = await startSet(
+      deps,
+      { child_id: CHILD_P4 },
+      {
+        kind: "practice",
+        topic_ids: [P4_FRACTIONS],
+      },
+    );
 
     expect(practiceSet.items).toHaveLength(10);
     // Every chosen item must have purpose === "practice"
@@ -126,7 +136,10 @@ describe("placement item pool and purpose enforcement", () => {
         reviewer_id: REVIEWER,
         answer_verified_at: "2026-11-01T00:00:00Z",
         status: "published",
-        options: [{ id: "a", text: "A" }, { id: "b", text: "B" }],
+        options: [
+          { id: "a", text: "A" },
+          { id: "b", text: "B" },
+        ],
         answer: { option_id: "a" },
       });
       items.push({
@@ -148,16 +161,23 @@ describe("placement item pool and purpose enforcement", () => {
         reviewer_id: REVIEWER,
         answer_verified_at: "2026-11-01T00:00:00Z",
         status: "published",
-        options: [{ id: "a", text: "A" }, { id: "b", text: "B" }],
+        options: [
+          { id: "a", text: "A" },
+          { id: "b", text: "B" },
+        ],
         answer: { option_id: "a" },
       });
     }
     store.addItems(items);
 
-    const placementSet = await startSet(deps, { child_id: CHILD_P4 }, {
-      kind: "placement",
-      topic_ids: [], // server-selected for placement!
-    });
+    const placementSet = await startSet(
+      deps,
+      { child_id: CHILD_P4 },
+      {
+        kind: "placement",
+        topic_ids: [], // server-selected for placement!
+      },
+    );
 
     expect(placementSet.items).toHaveLength(20);
     const fractionItems = placementSet.items.filter((i) => i.topic_id === P4_FRACTIONS);
@@ -205,18 +225,26 @@ describe("placement item pool and purpose enforcement", () => {
     };
     store.addChild(childP6);
 
-    const setP5 = await startSet(deps, { child_id: childP5.id }, {
-      kind: "placement",
-      topic_ids: [],
-    });
+    const setP5 = await startSet(
+      deps,
+      { child_id: childP5.id },
+      {
+        kind: "placement",
+        topic_ids: [],
+      },
+    );
     expect(setP5.items).toHaveLength(20);
     expect(setP5.items.filter((i) => i.topic_id === P5_FRACTIONS)).toHaveLength(10);
     expect(setP5.items.filter((i) => i.topic_id === P5_ANGLES)).toHaveLength(10);
 
-    const setP6 = await startSet(deps, { child_id: childP6.id }, {
-      kind: "placement",
-      topic_ids: [],
-    });
+    const setP6 = await startSet(
+      deps,
+      { child_id: childP6.id },
+      {
+        kind: "placement",
+        topic_ids: [],
+      },
+    );
     expect(setP6.items).toHaveLength(20);
     expect(setP6.items.filter((i) => i.topic_id === P6_FRACTIONS)).toHaveLength(10);
     expect(setP6.items.filter((i) => i.topic_id === P6_AREA)).toHaveLength(10);

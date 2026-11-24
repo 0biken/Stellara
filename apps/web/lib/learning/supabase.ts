@@ -1,3 +1,7 @@
+import { StellaraOfflineDB } from "../offline/db";
+import { storeDownloadedPack } from "../offline/packs";
+import { verifyPack, type SignedPack } from "../offline/verify-pack";
+
 import { LearningError, type ChildProfile, type LearningApi, type SubmitOutcome } from "./types";
 
 /**
@@ -64,6 +68,22 @@ export function createSupabaseLearningApi(options: {
 
   return {
     mode: "supabase",
+    async downloadPack(topicId) {
+      const current = session();
+      if (!current) throw new LearningError("NO_CHILD_SESSION", false);
+      const trustedKey = (process.env.NEXT_PUBLIC_PACK_PUBLIC_KEY ?? "").replaceAll("\\n", "\n");
+      if (!trustedKey) throw new LearningError("NOT_AVAILABLE", false);
+      const built = await invoke<{ pack_id: string }>("pack-build", { topic_id: topicId });
+      const pack = await invoke<SignedPack>("pack-get", { pack_id: built.pack_id });
+      const verified = await verifyPack(pack, current.child.id, trustedKey);
+      const db = new StellaraOfflineDB();
+      try {
+        await storeDownloadedPack(db, verified);
+      } finally {
+        db.close();
+      }
+      return verified.id;
+    },
     async getChild() {
       return session()?.child ?? null;
     },

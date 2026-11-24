@@ -250,9 +250,7 @@ export function createPreviewLearningApi(options: PreviewOptions = {}): Learning
           set_id: setId,
           kind: set.kind,
           finished_at: set.finished_at ?? (state.placementDone ? now() : null),
-          completed: Boolean(
-            set.finished_at || (set.kind === "placement" && state.placementDone),
-          ),
+          completed: Boolean(set.finished_at || (set.kind === "placement" && state.placementDone)),
           total_items: items.length,
           items,
           placement,

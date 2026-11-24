@@ -66,3 +66,20 @@ test("production audit requires a build and rejects answer-bearing code canaries
     rmSync(root, { recursive: true, force: true });
   }
 });
+
+test("family and child modules cannot import staff content", () => {
+  const root = mkdtempSync(join(tmpdir(), "stellara-staff-boundary-"));
+  const write = (path, body) => {
+    mkdirSync(dirname(join(root, path)), { recursive: true });
+    writeFileSync(join(root, path), body);
+  };
+  try {
+    write("apps/web/lib/learning/example.ts", 'import "../admin/content-demo";');
+    assert.equal(checkBoundaries(root).length, 1);
+    write("apps/web/lib/learning/example.ts", "export const example = true;");
+    write("apps/web/app/(ops)/admin/page.tsx", 'import "../../../lib/admin/content-demo";');
+    assert.deepEqual(checkBoundaries(root), []);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});

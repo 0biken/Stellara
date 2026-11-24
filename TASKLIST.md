@@ -3,13 +3,34 @@
 Built on 12 Nov 2026 from `docs/md/00–15` and the knowledge graph in `graphify-out/` (407 nodes, 24 communities). Phase 0 refreshed the graph on 13 Nov to 581 nodes and 51 communities; foundation sources and document 17 are included in the subsequent refresh.
 "Done" means **M6, the beta gate is passed** (mid-May 2027). Phase 2 and 3 are listed at the end, but only as gated follow-ons.
 
-**Where things stand now (13 Nov 2026):** the pnpm/Turborepo monorepo, minimal Next.js 16 web shell, pure `v0.1.0` rules engine, validated content schemas and 74-topic curriculum draft exist. Local quality checks pass, including all 18 required rules fixtures and 99.73% rules branch coverage. Supabase folders reserve later work only; no cloud resources or database migrations are provisioned. Product sign-off, academic approval, official 2027 exam mapping, contributor signatures and supplier quotes remain pending. See [foundation gates](docs/md/17-foundations-and-human-gates.md).
+## Current status — 24 November 2026
 
-**Update (16 Nov 2026):** the design-system work in 2B is done ahead of schedule (2.9–2.12, most of 2.13): Sweet garden tokens, the `@stellara/ui` component library with Storybook, accessibility and visual tests, the theme bootstrap, ICU i18n with the copy lint, route-group shells, the public landing page, parent sign-in (Google or email link, in preview mode until Supabase exists) and a GitHub Pages deploy. These commits are on `stellara-landing` and not yet merged to `main`. **Scope change:** the teacher role and dashboard are dropped from the MVP; school admins own classes, join codes and class mode. Estimated progress: engineering toward the MVP about 15%, whole plan to M6 about 10%. Still at 0%: the Supabase backend (2A), learning runtime (2C), offline (2D), every portal screen, content authoring (2.33) and every legal/business gate in 1A.
+Engineering toward the MVP is approximately **50% complete**; overall readiness for a family beta is approximately **25–30%** when content, academic approval and release gates are included. These are scope estimates, not checkbox counts or acceptance results. M6 additionally requires evidence collected during the beta; it has not passed.
 
-**Pivot (17 Nov 2026): family-only, like a home tutor.** Stellara is sold directly to parents, like Duolingo or Khan Academy. Schools, classes, join codes, class mode, licences and the school pilot are removed (2.6 and 2.30 dropped; the pilot is now a family beta of 50–100 families). Auntie Stella is the adaptive tutor through the rules engine; AI helps the content team behind the scenes, and children do not chat with AI in the MVP. **M2 is now: parent sign-in → consent → child → one practice set.** With school onboarding gone the remaining MVP is about 10% smaller, so engineering toward the MVP is now about 17%.
+- **Implemented:** monorepo, learning rules, schemas, design system, landing page, family/child screens, local Supabase migrations and runtime adapters, consent/PIN management and response persistence.
+- **Partly implemented:** offline storage/outbox and signed packs; staff roles, MFA screens and operations; job/data-rights logic. End-to-end offline practice, database-backed workers and hosted acceptance remain open.
+- **Demo only:** staff content lists and record previews. Editors, independent review decisions, publication, import and curriculum screens are not implemented; the live content adapter explicitly reports unavailable.
+- **Still open:** timed practice-test endpoints/UI, parent reports, monthly in-app summaries, approved launch content, monitoring, device acceptance and human approval gates.
 
-Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
+**Current release scope:** family-only, free beta for 50–100 families, in-app summaries, Paystack disabled until commercial approval. Schools, classes, teacher dashboards and child AI chat are outside the MVP. External messaging and paid conversion targets must be revisited before a commercial release; they do not block this free beta merely because they appear in the original plan below.
+
+The [implementation record](docs/mvp-implementation.md) separates local evidence, demo behavior and pending hosted verification. Product sign-off, curriculum approval, official 2027 exam mapping, contributor agreements and authoring quotes remain unconfirmed in the repository. See [foundation gates](docs/md/17-foundations-and-human-gates.md). Original dates below remain planning targets, not a newly validated schedule.
+
+### Next tasks, in order
+
+- [x] Reconcile and independently review the staff/backend milestone; commit the checkpoint with verification evidence and remaining limits in [the implementation record](docs/mvp-implementation.md#reconciliation-review--24-november-2026).
+- [ ] Re-run the full web unit suite and default production build in a supported execution environment (2.35).
+- [ ] Prove the family learning journey in hosted staging, including persistence, isolation and consent revocation (M2).
+- [ ] Accept live staff MFA, assignment/deactivation and forbidden direct routes in browser tests.
+- [ ] Finish item/lesson editors, independent review and publishing, then connect the studio to live persistence (2.32).
+- [ ] Add curriculum coverage and validated bulk import; start authoring/review in parallel (2.33–2.34).
+- [ ] Connect offline practice and outbox replay; pass the interruption matrix (2.19–2.22).
+- [ ] Connect and operate database-backed jobs, private exports and restricted deletion (2.18, 2.28).
+- [ ] Build authoritative practice tests after academic blueprint approval (2.23–2.25).
+- [ ] Deliver parent reports and monthly in-app summaries (2.26–2.27).
+- [ ] Finish monitoring, cross-browser/device/accessibility acceptance and beta gates (2H, Phase 3).
+
+Legend: **[Owner]** · ⟶ depends on · 📄 spec reference. Checked tasks mean the stated implementation scope is complete; unchecked tasks can contain substantial partial work. Milestone criteria below are targets, not declarations that a gate passed.
 
 ---
 
@@ -28,13 +49,13 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 - [ ] **1.2 Appoint the DPO** (an external DPO is fine). **[Founder]** 📄 07 §1 (s.32)
 - [ ] **1.3 Order a trademark search for "Stellara"** (Q4). If it conflicts, the identity can carry on through Auntie Stella and the constellation. **[Founder → agent]** 📄 14 §4
 - [ ] **1.4 Confirm the 2027 NCEE details with NECO (Q1):** papers, item counts, durations, paper or CBT, and the date. Re-baseline the pilot dates if the date moves. **[Academic lead]** 📄 03 §1, 02 §5.1
-- [ ] **1.5 Set family price hypotheses and the free trial (Q2):** test 2–3 monthly or termly price points with beta families, and set the trial length. **[Founder]** 📄 13 §1
+- [ ] **1.5 Rebaseline commercial price hypotheses and trial terms (Q2)** before a paid release. The current family beta is free; the original 2–3 price-point and trial proposal is deferred commercial work. **[Founder]** 📄 13 §1
 - [ ] **1.6 Choose the parental verification method (Q3)** that satisfies NDPA s.31(2). With no school to vouch for parents, the candidates are a small refundable card check (Paystack), a verified phone plus a signed declaration, or a light ID check that keeps only the result. Development uses the placeholder `declaration_v0`, never in production. **[Lawyer]** 📄 07 §3
 - [ ] **1.7 Choose the Supabase region and transfer basis (Q5, ADR-007).** Measure latency from Lagos and Abuja in week 1 and record the result in the decision log. **[DPO + Eng]** 📄 04 §8
-- [ ] **1.8 Choose the messaging provider (Q6):** WhatsApp Business API plus SMS fallback. **[Eng]** 📄 04 §1
+- [ ] **1.8 Deferred: choose an external messaging provider (Q6)** for a later release. The current beta uses in-app summaries; the original WhatsApp Business API/SMS fallback proposal needs a provider and scope rebaseline before implementation. **[Eng]** 📄 04 §1
 - [ ] **1.9 Accept or reject the proposed ADRs:** ADR-004 (child JWT), ADR-005 (first-party analytics) and ADR-006 (KaTeX at publish). **[Eng]** 📄 04 §13
 - [ ] **1.10 Commission the final Auntie Stella illustration (Q7).** **[Design]**
-- ✅ M0: scope, prices and stack confirmed; lawyer and DPO engaged; trademark search ordered.
+- **M0 target:** scope, prices and stack confirmed; lawyer and DPO engaged; trademark search ordered. Human approvals remain open; commercial pricing requires a later rebaseline for the free beta.
 
 ### 1B. Rules frozen (M1 · 30 Nov)
 - [x] **1.11 Scaffold the monorepo:** pnpm and Turborepo, `apps/web`, `packages/{rules,ui,content-schema,i18n}`, and `supabase/{migrations,functions,seed,tests}`. ESLint, Prettier and TypeScript strict are configured. **[Eng]** 📄 04 §3, 09 §10
@@ -59,14 +80,14 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 ## Phase 2: Build the MVP (30 Nov 2026 – 29 Jan 2027)
 
 ### 2A. Platform: data, auth, consent, children (30 Nov – 28 Dec) ⟶ 1.6, 1.7, 1.11
-- [ ] **2.1 Write migrations for every table in 05 §2**, with `attempts` partitioned monthly. **[Eng]** 📄 05
-- [ ] **2.2 Add the rule-encoding constraints:** the children consent trigger, `attempts` UPDATE/DELETE revoked, the item publish trigger, and the stardust daily check. **[Eng]** 📄 05 §4
-- [ ] **2.3 Add RLS helpers and policies on every table.** Each policy gets a pgTAP allow test and a deny test. **[Eng]** 📄 05 §3, 10 §1
-- [ ] **2.4 Set up Supabase Auth:** phone OTP (WhatsApp, then SMS) and email magic link, with OTP limits (FAM-01). Staff accounts get MFA. **[Eng]**
-- [ ] **2.5 Build the functions `consent-start` and `consent-confirm`, `child-create`, `child-session`,** plus the picture PIN with argon2id hashing and lockout. **[Eng]** 📄 06, 04 §6
+- [ ] **2.1 Complete and accept the database schema.** Family/learning tables, monthly `attempts` partitions, staff access and private packs are implemented in `supabase/migrations/`. Full spec reconciliation and hosted migration acceptance remain. **[Eng]** 📄 05
+- [ ] **2.2 Accept the rule-encoding constraints.** Consent and item-publication triggers, append-only attempts and daily Stardust constraints exist in `supabase/migrations/20261119003949_family_learning.sql`; consent expiry is extended by the later data-request migration. Hosted acceptance remains. **[Eng]** 📄 05 §4
+- [ ] **2.3 Complete RLS coverage and hosted isolation acceptance.** Policies and runtime grants exist in `supabase/migrations/`; allow/deny assertions are in `supabase/tests/*.sql`. Confirm coverage against every required table and role. **[Eng]** 📄 05 §3, 10 §1
+- [ ] **2.4 Accept hosted Supabase Auth and staff MFA.** Google/email magic-link adapters exist in `apps/web/lib/auth/supabase.ts`; staff enrollment/challenge UI exists in `apps/web/components/admin/security-panel.tsx`, with hosted AAL2 enforcement in `supabase/functions/_shared/backend.js`. Provider configuration, limits and live browser acceptance remain; WhatsApp/SMS is deferred from the free beta. **[Eng]**
+- [ ] **2.5 Accept the implemented consent and child functions in hosted staging.** `supabase/functions/_shared/backend.js` implements consent start/confirm, child creation/session, argon2id picture PINs, lockout and revocation. Local declaration verification is development/staging only; the approved production verification method and hosted journey remain open. **[Eng]** 📄 06, 04 §6
 - ~~**2.6 Build school onboarding.**~~ **Dropped (17 Nov 2026):** Stellara is family-only.
-- [ ] **2.7 Set up rate limits** on `responses-submit`, `child-session` and OTP. **[Eng]** 📄 04 §11
-- [ ] **2.8 Write the seed data:** a demo family, synthetic children and one sample topic of published items. **[Eng]**
+- [ ] **2.7 Accept rate limits.** Database-backed PIN/device/guardian and learning endpoint limits exist in `supabase/functions/_shared/backend.js`. Auth-provider limits and hosted abuse/latency acceptance remain. **[Eng]** 📄 04 §11
+- [ ] **2.8 Accept synthetic seed coverage.** Local sample curriculum/content seeding and isolated family creation are documented in `supabase/seed/README.md` and exercised by `supabase/tests/live-family.test.mjs`. These fixtures are not approved launch content or a hosted demo-family acceptance result. **[Eng]**
 
 ### 2B. Design system and web shell (in parallel, from 30 Nov)
 - [x] **2.9 Set up `packages/ui` tokens** (light and dark) and wire them into Tailwind. `tokens.mjs` contrast runs in CI. **[Eng/Design]** 📄 08, 09 §8
@@ -77,21 +98,21 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 
 ### 2B+. Extra work completed (not in the original plan)
 - [x] **Public landing page** with the scroll-scrubbed "How a star grows" section and theme toggle. **[Eng/Design]**
-- [x] **Parent sign-in, connected through an auth adapter.** Google plus an email magic-link fallback (docs 01 FAM-01 and 04 §6 updated). Runs in a labelled preview mode until 2.4 provisions Supabase; set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` to switch on. `/family` is a guarded parent home with an empty "Add your child" state. **[Eng]**
+- [x] **Parent sign-in, connected through an auth adapter.** Google plus an email magic-link fallback (docs 01 FAM-01 and 04 §6 updated). `apps/web/lib/auth/` selects the live Supabase adapter when `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are configured; preview remains labelled. `/family` includes consent, child management and settings routes. Hosted acceptance remains under 2.4–2.5. **[Eng]**
 - [x] **GitHub Pages static-export deploy workflow** for the web app. **[Eng]**
 
 ### 2C. Learning runtime (7 Dec – 10 Jan) ⟶ 1.12, 2.1–2.5
-- [ ] **2.14 Build `set-start`** for practice, review, topic assessment and placement sets. Payloads carry no keys. **[Eng]** Core done (16 Nov): `startSet` in `packages/runtime`, pure and tested against an in-memory store. The Deno adapter is pending 2A.
-- [ ] **2.15 Build `responses-submit`:** batch processing that is idempotent on `client_id`, calls rules for scoring and mastery, and writes the ledger and activity days. Target p95 under 400 ms in Lagos. **[Eng]** 📄 04 §5 Core done (16 Nov): `submitResponses`, which is transactional, idempotent and covers mastery, reviews, Stardust and activity days. The Deno adapter and the Lagos latency check are pending 2A.
-- [ ] **2.16 Build the child screens:** the sky home (KID-02), lesson cards, practice with the "checking" state, hints, and "Not quite" (KID-03). **[Eng]** — UI done in preview mode (`apps/web/app/(child)/`, `components/child/`, `lib/learning/`); live once 2.5 child-session and the runtime adapters exist.
-- [ ] **2.17 Build the placement check flow** (optional, resumable, strand-level only). **[Eng]** 📄 02 §9 — UI done in preview mode (`apps/web/app/(child)/`, `components/child/`, `lib/learning/`); live once 2.5 child-session and the runtime adapters exist.
-- [ ] **2.18 Add the pg_cron jobs:** close the learning day, schedule due reviews, update item stats, and purge for retention. **[Eng]** 📄 04 §10 The job logic and the `CRON_JOBS` table are done (16 Nov). The pg_cron registration and purge execution are pending 2A migrations.
-- ✅ **M2, walking skeleton (18 Dec):** parent sign-in → consent → child → one practice set works end to end (locally first, then in staging).
+- [ ] **2.14 Accept `set-start` in hosted staging.** Practice, review, topic assessment and placement logic exists in `packages/runtime/src/set-start.ts`; `supabase/functions/_shared/backend.js` and `store.js` provide the transactional Postgres adapter and client-safe payloads. Hosted acceptance remains. **[Eng]**
+- [ ] **2.15 Accept `responses-submit` persistence and latency.** `packages/runtime/src/responses-submit.ts` and the shared backend/store adapter implement transactional batches, idempotency, mastery, reviews, Stardust and activity days. `supabase/tests/live-family.test.mjs` covers persistence and duplicate submissions locally; hosted acceptance and p95 under 400 ms in Lagos remain. **[Eng]** 📄 04 §5
+- [ ] **2.16 Accept the child learning journey.** Sky, lessons, practice feedback and hints exist in `apps/web/components/child/`, with preview and live adapters in `apps/web/lib/learning/`. Runtime endpoints are connected; hosted, device and interruption acceptance remain. **[Eng]**
+- [ ] **2.17 Accept optional, resumable strand-level placement.** `apps/web/components/child/placement-screen.tsx` and `packages/runtime/src/placement.ts` implement the flow; live adapter wiring exists in `apps/web/lib/learning/supabase.ts`. Hosted/resume acceptance remains. **[Eng]** 📄 02 §9
+- [ ] **2.18 Connect and operate the scheduled jobs.** Job logic, schedules and lock/checkpoint runner exist in `packages/runtime/src/jobs/`. Migrations schedule partition/session/pack cleanup; the Postgres adapter and scheduling for daily closure, due reviews, item statistics and retention remain. **[Eng]** 📄 04 §10
+- **M2 target, walking skeleton (18 Dec):** parent sign-in → consent → child → one practice set works end to end. Local journey evidence exists; hosted staging acceptance remains open.
 
 ### 2D. Offline packs and sync (28 Dec – 18 Jan) ⟶ 2.15
-- [ ] **2.19 Set up the Serwist service worker** to precache the shell and cache media at runtime. **[Eng]**
-- [ ] **2.20 Build the Dexie stores, partitioned per child, and the `lib/outbox`** (retry with backoff, clock offset, 72 h and 10 min clock-trust rule). **[Eng]** 📄 04 §7
-- [ ] **2.21 Build `pack-build` and `lib/packs`:** signature check, 25 MB cap, LRU eviction, and a pack budget of 120 KB or less. Mark responses `key_on_device`. **[Eng]**
+- [ ] **2.19 Connect and accept the Serwist service worker.** Cache policies, build script and registration helper exist in `apps/web/app/sw.ts`, `apps/web/scripts/build-sw.mjs` and `apps/web/lib/offline/sw-register.ts`; the web build generates `public/sw.js`. Application registration, precache population and offline shell acceptance remain. **[Eng]**
+- [ ] **2.20 Connect offline storage and replay to the learning UI.** Child-scoped Dexie stores, outbox leases/backoff and clock-trust helpers exist in `apps/web/lib/offline/{db,outbox,grants}.ts`; end-to-end offline practice/replay and interruption acceptance remain. **[Eng]** 📄 04 §7
+- [ ] **2.21 Complete signed-pack consumption.** Authenticated `pack-build`/`pack-get`, private signed-byte persistence and expiry cleanup exist under `supabase/functions/` and `supabase/migrations/`; `apps/web/lib/offline/{verify-pack,packs}.ts` provides pinned-key verification, 120 KB pack budgets, LRU eviction and the 25 MB device budget. The live learning adapter downloads/verifies/caches packs, and the backend records answer-key exposure before delivery. Offline practice UI and sync integration remain. **[Eng]**
 - [ ] **2.22 Pass every row of the interruption matrix in 10 §3.** **[QA]**
 
 ### 2E. Practice tests (4 Jan – 25 Jan) ⟶ 1.4
@@ -101,22 +122,22 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 
 ### 2F. Parents (11 Jan – 1 Feb)
 - [ ] **2.26 Build `report-weekly`** (Sunday 18:00) and the in-app report (FAM-04), with the Common Entrance coverage disclaimer. **[Eng]** 📄 02 §8
-- [ ] **2.27 Build `messages-dispatch`:** a monthly WhatsApp/SMS summary, quiet hours, and the note from Auntie Stella. **[Eng]**
-- [ ] **2.28 Build the data rights flow:** `data-export` (7 days), `data-delete` (30 days) and consent withdrawal in 2 taps (FAM-05/06). **[Eng]**
+- [ ] **2.27 Build monthly in-app summaries** with the note from Auntie Stella. WhatsApp/SMS dispatch is deferred from the current free-beta scope and needs a later commercial/provider rebaseline. **[Eng]**
+- [ ] **2.28 Complete data-rights fulfillment.** Parent settings and `data-request-export`/`data-request-delete` endpoints persist requests with 7/30-day deadlines; deletion requests revoke child sessions, and consent withdrawal is connected (`apps/web/app/(family)/family/settings/`, `supabase/functions/_shared/backend.js`). Core export/deletion logic exists in `packages/runtime/src/data-rights.ts`; private export delivery, restricted database-backed deletion workers and end-to-end acceptance remain. **[Eng]**
 - ~~**2.29 Build the teacher dashboard.**~~ **Dropped (16 Nov 2026):** there is no teacher role.
 - ~~**2.30 Build the school overview.**~~ **Dropped (17 Nov 2026):** Stellara is family-only.
-- [ ] **2.30a Build parent subscriptions:** a free trial, then Paystack monthly or termly billing, and the `subscriptions` table (05). **[Eng]** ⟶ 1.5
+- [ ] **2.30a Deferred commercial work: parent subscriptions and Paystack.** The `subscriptions` table exists in `supabase/migrations/20261119003949_family_learning.sql`; billing is not implemented or enabled. The beta is free; trial/pricing/paid-conversion targets need later approval and rebaseline before commercial implementation. **[Eng]** ⟶ 1.5
 - [ ] **2.31 Build Stardust, days in a row and clouds in the UI.** Use calm celebrations and no loss-framing copy (KID-06). **[Eng/Design]**
 
 ### 2G. Content studio and authoring (30 Nov – end Feb)
-- [ ] **2.32 Build the studio:** author, review and publish workflow, versioning, publish checks, KaTeX at publish, and a readability check (CON-01…03). **[Eng]** 📄 03 §6
+- [ ] **2.32 Complete the live content studio.** Staff roles, MFA enrollment/challenge screens and live team/support/audit operations exist in `apps/web/{components,lib}/admin/` and `supabase/functions/_shared/admin.js`; hosted authorization/MFA acceptance remains. Content library, review/publishing lists and record previews use synthetic demo data only; the live content adapter reports unavailable (`apps/web/lib/admin/content.ts`). Item/lesson editors, independent review decisions, publication/takedown, import, curriculum, versioning integration, KaTeX and readability checks remain (CON-01…03). **[Eng]** 📄 03 §6
 - [ ] **2.33 Author the item pool:** about 1,800–2,200 items, ~74 lessons, 5 placement checks and 3 test forms (from a reserved pool). Prioritise Maths and English in school-year order. AI may draft; a reviewer verifies every answer. **[Content team]**
 - [ ] **2.34 Run 10% second-review sampling,** keeping the error rate below 1%. **[Academic lead]**
-- ✅ **M3, content alpha (15 Jan):** at least 40% of the pool published and reviewed. M4 needs at least 70%.
+- **M3 target, content alpha (15 Jan):** at least 40% of the pool published and reviewed. M4 needs at least 70%; synthetic/demo content does not satisfy either gate.
 
 ### 2H. Quality, ops, analytics (continuous)
-- [ ] **2.35 Set up the CI pipeline:** lint → Vitest → pgTAP → Playwright → Lighthouse CI and bundle budgets → preview → staging → tagged production. **[Eng]** 📄 11 §2
-- [ ] **2.36 Cover the 10 key journeys in Playwright** on mobile Chromium and WebKit, in light and dark. **[QA]** 📄 10 §2
+- [ ] **2.35 Complete the release pipeline.** `.github/workflows/docs-check.yml` configures formatting, lint, typecheck, unit tests, tokens, build/client checks and UI browser/visual checks; `supabase-check.yml` configures local migrations/pgTAP and family HTTP/Chromium integration; `deploy-pages.yml` deploys a static preview. Lighthouse/release budgets, hosted staging promotion and tagged production gates remain. Workflow configuration is not evidence of a fresh green run. **[Eng]** 📄 11 §2
+- [ ] **2.36 Complete the 10 key browser journeys.** UI coverage exists under `packages/ui/`; live family coverage is in `supabase/browser/`. The separate demo-only staff journey in `apps/web/e2e/` passed Chromium and WebKit on 24 November, including light/dark accessibility and 390px overflow checks. Full mobile coverage, live MFA and role-route acceptance remain. **[QA]** 📄 10 §2
 - [ ] **2.37 Set up the device lab:** an entry Android Go phone, the reference phone, a tablet, an iOS 16 phone and a shared family PC. Test on entry devices from M2. **[QA]**
 - [ ] **2.38 Set up monitoring:** Sentry with PII scrubbing, an uptime monitor, latency and sync-backlog alerts, and cost alerts. **[Eng]** 📄 11 §5
 - [ ] **2.39 Add the first-party `events` catalogue** with hashed child IDs, plus the Metabase dashboards. **[Eng]** 📄 06 §7, 12 §4
@@ -127,17 +148,17 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 
 - [ ] **3.1 Get the DPIA signed.** It must cover scoring, the guardian view, gamification, analytics, hosting and transfer, and messaging. **[DPO]** 📄 07 §1
 - [ ] **3.2 Get a lawyer to approve** the consent notice, the non-affiliation line and all public wording. **[Lawyer]**
-- [ ] **3.3 Sign processor DPAs** (Supabase, Vercel, messaging, Sentry, Paystack). **[Legal]**
+- [ ] **3.3 Sign DPAs for the processors actually enabled for the beta** (including hosting and monitoring). Messaging and Paystack agreements belong to their later activation gates. No signatures are recorded here. **[Legal]**
 - [ ] **3.4 Finish the breach runbook** and set up the NDPC 72-hour notification path. **[DPO + Eng]** 📄 07 §7
-- [ ] **3.5 Register the SMS sender ID** at least 3 weeks before the pilot. **[Eng]** 📄 11 §7
+- [ ] **3.5 Deferred: register an SMS sender ID** at least 3 weeks before an externally messaged pilot. SMS is outside the current in-app-only beta scope. **[Eng]** 📄 11 §7
 - [ ] **3.6 Prepare family materials:** a one-page "How Stellara works" (local-language versions later), a consent explainer and a short demo video. **[Family success]** 📄 13 §2
 - [ ] **3.7 Run the release checklist:** TalkBack, light and dark by eye, tokens contrast, a manual offline run, a clean forbidden-phrase lint, and release notes. **[QA]** 📄 10 §6
-- ✅ **M4, beta-ready (29 Jan):** all MVP stories accepted, DPIA signed, budgets green, TalkBack passed, and at least 70% of the item pool published.
+- **M4 target, beta-ready (29 Jan):** all MVP stories accepted, DPIA signed, budgets green, TalkBack passed, and at least 70% of the item pool published. This gate has not passed.
 
 ## Phase 4: Family beta (1 Feb – ~3 May 2027)
 
 - [ ] **4.1 Recruit and onboard the first 20 families** through parent WhatsApp groups and referrals, with check-ins in weeks 2 and 6. **[Family success]** 📄 13 §2
-- ✅ **M5, beta live (1 Feb).**
+- **M5 target, beta live (1 Feb):** onboard families after M4 acceptance; not yet live.
 - [ ] **4.2 Grow to 50–100 families,** and track the weekly KPIs on the beta health dashboard. **[Founder]** 📄 12 §2
 - [ ] **4.3 Finish authoring the full pool before the NCEE.** **[Content]**
 - [ ] **4.4 Run the support SLAs and content error triage.** **[Ops]** 📄 13 §4
@@ -146,9 +167,9 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference · ✅ exit check
 
 ## Phase 5: Gate (mid-May 2027)
 
-- [ ] **5.1 Evaluate the beta gate.** All five must hold: weekly active children at 50% or more in 6 of 8 weeks; a gain on retention checks; at least 30% of families paying after the free trial; no open privacy incident with the DPIA current; and 100% of items with verified answers. **[Founder]** 📄 12 §3
+- [ ] **5.1 Evaluate the beta gate.** Original criteria: weekly active children at 50% or more in 6 of 8 weeks; a gain on retention checks; at least 30% of families paying after the free trial; no open privacy incident with the DPIA current; and 100% of items with verified answers. The paid-conversion criterion conflicts with the approved free-beta scope and requires a later explicit commercial rebaseline; no replacement criterion or gate approval is recorded here. **[Founder]** 📄 12 §3
 - [ ] **5.2 Optionally, with consent, collect NCEE outcomes** and publish the findings with the error band. **[Product]**
-- ✅ **M6, gate passed: done for the MVP.**
+- **M6 target, gate passed: done for the MVP.** Beta evidence and the scope/gate reconciliation above remain open; this gate has not passed.
 
 ## After the gate (only if M6 passes)
 - **Phase 2, Intermediate (2027/28 Terms 1–2):** P1–6 Maths and English, Basic Science, sibling plans, and Yoruba, Hausa and Igbo strings.

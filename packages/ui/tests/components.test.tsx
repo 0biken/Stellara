@@ -3,7 +3,16 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Button } from "../src/button.js";
 import { TextInput, Field } from "../src/forms.js";
-import { AnswerTile, ProgressBar, formatClock, HintCard, StarState, Sky, Timer, QuestionCard } from "../src/learning.js";
+import {
+  AnswerTile,
+  ProgressBar,
+  formatClock,
+  HintCard,
+  StarState,
+  Sky,
+  Timer,
+  QuestionCard,
+} from "../src/learning.js";
 import { PictureKey } from "../src/picture-key.js";
 import { pictureIds } from "../src/pictures.js";
 
@@ -11,13 +20,25 @@ import type { ComponentProps } from "react";
 afterEach(cleanup);
 describe("learning controls", () => {
   it("exposes caller supplied remaining time for a visual bar", () => {
-    render(<Timer remainingMs={300000} totalMs={2700000} mode="bar" label="Time left" valueText="5 minutes remaining" />);
+    render(
+      <Timer
+        remainingMs={300000}
+        totalMs={2700000}
+        mode="bar"
+        label="Time left"
+        valueText="5 minutes remaining"
+      />,
+    );
     expect(screen.getByRole("timer").textContent).toBe("5 minutes remaining");
   });
   it("supports a labelled stimulus and a question without stimulus", () => {
     const plain: ComponentProps<typeof QuestionCard> = { header: "Question", stem: "Count" };
     // @ts-expect-error A stimulus requires an explicit localized disclosure label.
-    const missingLabel: ComponentProps<typeof QuestionCard> = { header: "Question", stem: "Count", stimulus: "Sample" };
+    const missingLabel: ComponentProps<typeof QuestionCard> = {
+      header: "Question",
+      stem: "Count",
+      stimulus: "Sample",
+    };
     expect(missingLabel.stimulus).toBe("Sample");
     render(<QuestionCard {...plain} stimulus="Sample" stimulusLabel="Read the example" />);
     expect(screen.getByText("Read the example").tagName).toBe("SUMMARY");

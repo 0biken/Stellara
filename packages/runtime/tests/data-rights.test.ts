@@ -86,8 +86,16 @@ describe("data export and restricted deletion worker across mixed-child partitio
     });
 
     // Seed learning records for BOTH Child A and Child B in the same shared attempts/ledger arrays
-    const setA = await startSet(deps, { child_id: CHILD_A }, { kind: "practice", topic_ids: [P4_FRACTIONS] });
-    const setB = await startSet(deps, { child_id: CHILD_B }, { kind: "practice", topic_ids: [P4_FRACTIONS] });
+    const setA = await startSet(
+      deps,
+      { child_id: CHILD_A },
+      { kind: "practice", topic_ids: [P4_FRACTIONS] },
+    );
+    const setB = await startSet(
+      deps,
+      { child_id: CHILD_B },
+      { kind: "practice", topic_ids: [P4_FRACTIONS] },
+    );
 
     await submitResponses(
       deps,

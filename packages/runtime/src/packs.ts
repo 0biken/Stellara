@@ -95,7 +95,10 @@ async function signManifest(
       },
     };
   }
-  const generated = (await subtle.generateKey("Ed25519", true, ["sign", "verify"])) as CryptoKeyPair;
+  const generated = (await subtle.generateKey("Ed25519", true, [
+    "sign",
+    "verify",
+  ])) as CryptoKeyPair;
   const spki = await subtle.exportKey("spki", generated.publicKey);
   const pubB64 = bytesToBase64(new Uint8Array(spki));
   return {
@@ -122,7 +125,10 @@ export async function buildPracticePack(
   const rawPool = await deps.store.publishedItems([req.topic_id]);
   const pool = rawPool.filter((i) => !i.purpose || i.purpose === "practice");
   if (pool.length < PACK_TOTAL_ITEMS) {
-    throw new RuntimeError("NO_ITEMS_AVAILABLE", { required: PACK_TOTAL_ITEMS, found: pool.length });
+    throw new RuntimeError("NO_ITEMS_AVAILABLE", {
+      required: PACK_TOTAL_ITEMS,
+      found: pool.length,
+    });
   }
 
   const mastery = await deps.store.getMastery(child.id, req.topic_id);

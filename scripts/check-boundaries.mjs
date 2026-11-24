@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import ts from "typescript";
@@ -33,6 +33,17 @@ export function checkBoundaries(root) {
         specifier = node.arguments[0];
       if (specifier && ts.isStringLiteralLike(specifier)) {
         const target = specifier.text.replaceAll("\\", "/");
+        const source = file.replaceAll("\\", "/");
+        const resolvedTarget = (
+          target.startsWith(".") ? resolve(dirname(file), target) : target
+        ).replaceAll("\\", "/");
+        const staffTarget = /(?:^|\/)apps\/web\/(?:lib|components)\/admin(?:\/|$)/.test(
+          resolvedTarget,
+        );
+        const staffSource =
+          /\/apps\/web\/(?:(?:lib|components)\/admin\/|app\/\(ops\)\/|tests\/|e2e\/)/.test(source);
+        if (staffTarget && !staffSource)
+          errors.push(`${file}: staff-only module imported outside staff workspace ${target}`);
         if (
           /(?:@stellara\/(?:rules|runtime)(?:\/|$)|(?:^|\/)packages\/(?:rules|runtime)\/|@stellara\/content-schema\/server(?:\/|$)|(?:^|\/)content-schema\/(?:src|dist)\/server)/.test(
             target,

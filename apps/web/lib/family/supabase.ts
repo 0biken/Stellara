@@ -75,6 +75,7 @@ export function createSupabaseFamilyApi(client: SupabaseClient): FamilyApi {
         .is("child_id", null)
         .is("withdrawn_at", null)
         .not("verified_at", "is", null)
+        .gt("expires_at", new Date().toISOString())
         .order("created_at", { ascending: false })
         .limit(1)
         .maybeSingle();

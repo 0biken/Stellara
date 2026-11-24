@@ -1,11 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import {
-  findOverdueDataRequests,
-  generatePgCronSql,
-  summarizeJobRuns,
-} from "./ops-jobs.mjs";
+import { findOverdueDataRequests, generatePgCronSql, summarizeJobRuns } from "./ops-jobs.mjs";
 
 test("summarizeJobRuns reports last status and failure counts per scheduled job", () => {
   const runs = [

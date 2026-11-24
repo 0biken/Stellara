@@ -89,8 +89,7 @@ export type QuestionCardProps = {
   stem: ReactNode;
   children?: ReactNode;
 } & (
-  | { stimulus: ReactNode; stimulusLabel: string }
-  | { stimulus?: undefined; stimulusLabel?: string }
+  { stimulus: ReactNode; stimulusLabel: string } | { stimulus?: undefined; stimulusLabel?: string }
 );
 
 export function QuestionCard({

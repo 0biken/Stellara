@@ -58,8 +58,7 @@ export const SAMPLE_TOPIC_DEFS: SampleTopicDef[] = [
 const pad = (n: number, width: number) => n.toString(16).padStart(width, "0");
 const itemId = (topicIdx: number, typePrefix: string, itemIdx: number) =>
   `00000000-0000-4000-8000-${typePrefix}${pad(topicIdx, 2)}${pad(itemIdx, 6)}`;
-const lessonId = (topicIdx: number) =>
-  `00000000-0000-4000-8000-1e55${pad(topicIdx, 8)}`;
+const lessonId = (topicIdx: number) => `00000000-0000-4000-8000-1e55${pad(topicIdx, 8)}`;
 
 interface QuestionTemplate {
   stem: (i: number) => string;
@@ -71,15 +70,9 @@ interface QuestionTemplate {
 const TEMPLATES: Record<string, QuestionTemplate> = {
   "P4 Fractions": {
     stem: (i) => `What is ${i + 1}/8 + ${i + 2}/8?`,
-    options: (i) => [
-      `${2 * i + 3}/8`,
-      `${2 * i + 2}/8`,
-      `${2 * i + 4}/8`,
-      `${2 * i + 3}/16`,
-    ],
+    options: (i) => [`${2 * i + 3}/8`, `${2 * i + 2}/8`, `${2 * i + 4}/8`, `${2 * i + 3}/16`],
     hint: () => "When denominators are the same, add the numerators.",
-    explanation: (i) =>
-      `Add numerators ${i + 1} and ${i + 2} over denominator 8: ${2 * i + 3}/8.`,
+    explanation: (i) => `Add numerators ${i + 1} and ${i + 2} over denominator 8: ${2 * i + 3}/8.`,
   },
   "P4 Shapes": {
     stem: (i) => {
@@ -101,19 +94,13 @@ const TEMPLATES: Record<string, QuestionTemplate> = {
   },
   "P5 Fractions": {
     stem: (i) => `Convert the improper fraction ${(i + 2) * 3 + 1}/3 to a mixed number.`,
-    options: (i) => [
-      `${i + 2} 1/3`,
-      `${i + 2} 2/3`,
-      `${i + 1} 1/3`,
-      `${i + 3} 1/3`,
-    ],
+    options: (i) => [`${i + 2} 1/3`, `${i + 2} 2/3`, `${i + 1} 1/3`, `${i + 3} 1/3`],
     hint: () => "Divide the numerator by 3 to find whole number and remainder.",
     explanation: (i) =>
       `${(i + 2) * 3 + 1} divided by 3 is ${i + 2} with remainder 1, so ${i + 2} 1/3.`,
   },
   "P5 Angles": {
-    stem: (i) =>
-      `Two angles on a straight line are ${50 + (i % 8) * 5}° and x°. What is x?`,
+    stem: (i) => `Two angles on a straight line are ${50 + (i % 8) * 5}° and x°. What is x?`,
     options: (i) => {
       const angle = 50 + (i % 8) * 5;
       const x = 180 - angle;
@@ -137,23 +124,17 @@ const TEMPLATES: Record<string, QuestionTemplate> = {
       return [simp, `${num}/${den + 2}`, `${num + 1}/${den}`, `${num}/${den * 2}`];
     },
     hint: () => "Multiply numerators together, then denominators, then simplify.",
-    explanation: () => "Multiply numerators and denominators, then divide by the greatest common divisor.",
+    explanation: () =>
+      "Multiply numerators and denominators, then divide by the greatest common divisor.",
   },
   "P6 Area": {
-    stem: (i) =>
-      `Find the area of a rectangle with length ${i + 4} cm and width ${i + 2} cm.`,
+    stem: (i) => `Find the area of a rectangle with length ${i + 4} cm and width ${i + 2} cm.`,
     options: (i) => {
       const area = (i + 4) * (i + 2);
-      return [
-        `${area} cm²`,
-        `${area - 2} cm²`,
-        `${(i + 4 + i + 2) * 2} cm²`,
-        `${area + 4} cm²`,
-      ];
+      return [`${area} cm²`, `${area - 2} cm²`, `${(i + 4 + i + 2) * 2} cm²`, `${area + 4} cm²`];
     },
     hint: () => "Area of rectangle = length × width.",
-    explanation: (i) =>
-      `${i + 4} cm × ${i + 2} cm = ${(i + 4) * (i + 2)} cm².`,
+    explanation: (i) => `${i + 4} cm × ${i + 2} cm = ${(i + 4) * (i + 2)} cm².`,
   },
 };
 
@@ -212,13 +193,7 @@ SAMPLE_TOPIC_DEFS.forEach((t, topicIdx) => {
   // 30 practice items
   const practiceItems: PublishedItem[] = [];
   for (let i = 0; i < 30; i++) {
-    const item = buildSampleItem(
-      itemId(topicIdx, "0001", i + 1),
-      t.id,
-      "practice",
-      template,
-      i,
-    );
+    const item = buildSampleItem(itemId(topicIdx, "0001", i + 1), t.id, "practice", template, i);
     practiceItems.push(item);
     SAMPLE_PRACTICE_ITEMS.push(item);
   }

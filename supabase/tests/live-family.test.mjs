@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHash, verify } from "node:crypto";
+import { execFileSync } from "node:child_process";
 
 const url = process.env.STELLARA_TEST_URL;
 const publishable = process.env.STELLARA_TEST_PUBLISHABLE_KEY;
@@ -23,6 +24,28 @@ async function call(path, { body, token, key = publishable, status = 200 } = {})
 
 const edge = (route, token, body = {}, status = 200) =>
   call("/functions/v1/" + route, { token, body, status });
+
+function localSql(statement) {
+  const container = process.env.STELLARA_TEST_DB_CONTAINER ?? "supabase_db_stellara";
+  assert.match(container, /^supabase_db_stellara(?:_proof)?$/);
+  return execFileSync(
+    "docker",
+    [
+      "exec",
+      container,
+      "psql",
+      "-U",
+      "postgres",
+      "-d",
+      "postgres",
+      "-v",
+      "ON_ERROR_STOP=1",
+      "-c",
+      statement,
+    ],
+    { stdio: "pipe" },
+  );
+}
 
 async function session() {
   const email = `stellara-${randomUUID()}@example.test`;
@@ -61,6 +84,71 @@ const childBody = (consent_id) => ({
   pin,
 });
 
+test("staff endpoint rejects guardians and enforces private roles", async () => {
+  assert.match(url ?? "", /^http:\/\/(localhost|127\.0\.0\.1):/);
+  const owner = await session();
+  const writer = await session();
+  await edge("admin", owner.access_token, { action: "operations" }, 403);
+  const container = process.env.STELLARA_TEST_DB_CONTAINER ?? "supabase_db_stellara";
+  assert.match(container, /^supabase_db_stellara(?:_proof)?$/);
+  for (const user of [owner.user, writer.user]) assert.match(user.id, /^[a-f0-9-]{36}$/i);
+  execFileSync(
+    "docker",
+    [
+      "exec",
+      container,
+      "psql",
+      "-U",
+      "postgres",
+      "-d",
+      "postgres",
+      "-v",
+      "ON_ERROR_STOP=1",
+      "-c",
+      `insert into stellara_private.staff_members (user_id,role) values ('${owner.user.id}','super_admin'),('${writer.user.id}','author')`,
+    ],
+    { stdio: "pipe" },
+  );
+  assert.equal(
+    (await edge("admin", owner.access_token, { action: "session" })).role,
+    "super_admin",
+  );
+  await edge(
+    "admin",
+    writer.access_token,
+    { action: "support", child_id: randomUUID(), reason: "Support investigation" },
+    403,
+  );
+  await edge(
+    "admin",
+    owner.access_token,
+    { action: "staff-set", user_id: owner.user.id, role: "admin", active: false },
+    403,
+  );
+  await edge("admin", owner.access_token, {
+    action: "staff-set",
+    user_id: writer.user.id,
+    role: "admin",
+    active: true,
+  });
+  assert.ok(
+    Array.isArray((await edge("admin", writer.access_token, { action: "operations" })).requests),
+  );
+  await edge(
+    "admin",
+    writer.access_token,
+    { action: "support", child_id: randomUUID(), reason: "" },
+    400,
+  );
+  await edge("admin", owner.access_token, {
+    action: "staff-set",
+    user_id: writer.user.id,
+    role: "admin",
+    active: false,
+  });
+  await edge("admin", writer.access_token, { action: "operations" }, 403);
+});
+
 test("local Supabase persists an isolated family practice journey", async () => {
   assert.match(url ?? "", /^http:\/\/(localhost|127\.0\.0\.1):/);
   assert.ok(publishable && admin, "Local Supabase test credentials are required");
@@ -71,6 +159,34 @@ test("local Supabase persists an isolated family practice journey", async () => 
   await edge("consent-confirm", other, { consent_id: consent }, 403);
   await edge("consent-confirm", guardian, { consent_id: consent });
   const { child_id } = await edge("child-create", guardian, childBody(consent));
+  const exportRequest = await edge("data-request-export", guardian, { child_id });
+  assert.equal(exportRequest.kind, "export");
+  assert.equal(exportRequest.status, "pending");
+  assert.equal((await edge("data-request-export", guardian, { child_id })).id, exportRequest.id);
+  await edge("data-request-export", other, { child_id }, 404);
+
+  assert.match(exportRequest.id, /^[a-f0-9-]{36}$/i);
+  localSql(`update public.data_requests set status='completed' where id='${exportRequest.id}'`);
+  const freshExport = await edge("data-request-export", guardian, { child_id });
+  assert.notEqual(
+    freshExport.id,
+    exportRequest.id,
+    "completed exports do not block a fresh request",
+  );
+  assert.equal(freshExport.status, "pending");
+  assert.match(freshExport.id, /^[a-f0-9-]{36}$/i);
+  localSql(`update public.data_requests set status='ready', download_url='https://example.test/export',
+    download_expires_at=now()+interval '1 hour' where id='${freshExport.id}'`);
+  assert.equal((await edge("data-request-export", guardian, { child_id })).id, freshExport.id);
+  localSql(`update public.data_requests set download_expires_at=now()-interval '1 second'
+    where id='${freshExport.id}'`);
+  const renewedExport = await edge("data-request-export", guardian, { child_id });
+  assert.notEqual(
+    renewedExport.id,
+    freshExport.id,
+    "expired ready downloads can be requested again",
+  );
+  assert.equal(renewedExport.status, "pending");
 
   const rows = "/rest/v1/children?select=id,first_name";
   assert.deepEqual(await call(rows, { token: guardian }), [{ id: child_id, first_name: "Tolu" }]);
@@ -107,6 +223,25 @@ test("local Supabase persists an isolated family practice journey", async () => 
   const sky = await edge("child-sky", token);
   assert.ok(sky.first_visit && sky.today?.topic_id);
   const topic_id = sky.today.topic_id;
+  if (process.env.STELLARA_TEST_PACKS === "1") {
+    const built = await edge("pack-build", token, { topic_id });
+    const downloaded = await edge("pack-get", token, { pack_id: built.pack_id });
+    const { signature, ...manifest } = downloaded.manifest;
+    assert.equal(manifest.child_id, child_id);
+    assert.equal(
+      createHash("sha256").update(JSON.stringify(downloaded.payload)).digest("hex"),
+      manifest.sha256,
+    );
+    assert.ok(
+      verify(
+        null,
+        Buffer.from(JSON.stringify(manifest)),
+        manifest.public_key,
+        Buffer.from(signature, "base64"),
+      ),
+    );
+    await edge("pack-get", other, { pack_id: built.pack_id }, 401);
+  }
   const lesson = await edge("lesson-get", token, { topic_id });
   const check = lesson.cards.find((card) => card.kind === "check").item;
   assert.equal(Object.hasOwn(check, "answer"), false);
@@ -162,6 +297,21 @@ test("local Supabase persists an isolated family practice journey", async () => 
   assert.deepEqual(failures.map((value) => value.error.attempts_left).sort(), [1, 2, 3, 4]);
   await edge("child-session", guardian, { ...login, pin: ["sun", "sun", "sun", "sun"] }, 423);
   await edge("child-session", guardian, login, 423);
+  await edge("data-request-delete", guardian, { child_id, confirmation: "DELETE wrong" }, 400);
+  const deletion = await edge("data-request-delete", guardian, {
+    child_id,
+    confirmation: "DELETE Tolu",
+  });
+  assert.equal(deletion.kind, "deletion");
+  assert.equal(
+    (
+      await edge("data-request-delete", guardian, {
+        child_id,
+        confirmation: "DELETE Tolu",
+      })
+    ).id,
+    deletion.id,
+  );
   await edge("consent-withdraw", guardian, { child_id });
   await edge("child-sky", token, {}, 401);
 });

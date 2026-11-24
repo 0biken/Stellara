@@ -145,7 +145,13 @@ describe("retention purge execution and bounded batch data request processing", 
     });
 
     const expReq = await requestDataExport(deps, { guardian_id: "g1" }, "c-exp", "k1");
-    const delReq = await requestDataDeletion(deps, { guardian_id: "g1" }, "c-del", "DELETE Bola", "k2");
+    const delReq = await requestDataDeletion(
+      deps,
+      { guardian_id: "g1" },
+      "c-del",
+      "DELETE Bola",
+      "k2",
+    );
 
     // Batch size 1 processes one item, second run processes the remaining item
     const batch1 = await processPendingDataRequests(deps, { batchSize: 1 });

@@ -42,7 +42,9 @@ describe("multi-tab outbox queue with lock lease and exponential backoff", () =>
 
     const mockApi = {
       submit: vi.fn().mockResolvedValue({
-        results: [{ client_id: "c1", is_correct: true, scored: true, stardust: 10, explanation_html: "" }],
+        results: [
+          { client_id: "c1", is_correct: true, scored: true, stardust: 10, explanation_html: "" },
+        ],
         mastery_changes: [],
         stardust_today: 10,
         run_length: 1,

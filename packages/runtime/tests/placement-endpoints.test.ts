@@ -124,7 +124,10 @@ describe("placement configuration and owned-set read endpoints", () => {
         reviewer_id: REVIEWER,
         answer_verified_at: "2026-11-01T00:00:00Z",
         status: "published",
-        options: [{ id: "a", text: "A" }, { id: "b", text: "B" }],
+        options: [
+          { id: "a", text: "A" },
+          { id: "b", text: "B" },
+        ],
         answer: { option_id: "a" },
       });
       items.push({
@@ -146,16 +149,23 @@ describe("placement configuration and owned-set read endpoints", () => {
         reviewer_id: REVIEWER,
         answer_verified_at: "2026-11-01T00:00:00Z",
         status: "published",
-        options: [{ id: "a", text: "A" }, { id: "b", text: "B" }],
+        options: [
+          { id: "a", text: "A" },
+          { id: "b", text: "B" },
+        ],
         answer: { option_id: "a" },
       });
     }
     store.addItems(items);
 
-    const started = await startSet(deps, { child_id: CHILD_P4 }, {
-      kind: "placement",
-      topic_ids: [],
-    });
+    const started = await startSet(
+      deps,
+      { child_id: CHILD_P4 },
+      {
+        kind: "placement",
+        topic_ids: [],
+      },
+    );
 
     // Reopen incomplete set
     const openSet = await getOwnedSet(deps, { child_id: CHILD_P4 }, started.set_id);
@@ -176,10 +186,14 @@ describe("placement configuration and owned-set read endpoints", () => {
       key_on_device: false,
     }));
 
-    await submitResponses(deps, { child_id: CHILD_P4 }, {
-      responses,
-      device_clock: "2026-11-18T00:00:00.000Z",
-    });
+    await submitResponses(
+      deps,
+      { child_id: CHILD_P4 },
+      {
+        responses,
+        device_clock: "2026-11-18T00:00:00.000Z",
+      },
+    );
 
     // Now placement is completed
     const closedSet = await getOwnedSet(deps, { child_id: CHILD_P4 }, started.set_id);

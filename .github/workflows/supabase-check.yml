@@ -52,6 +52,12 @@ jobs:
           supabase start
           supabase db reset --local
           supabase test db
+      - name: Verify upgrade with existing data requests
+        env:
+          STELLARA_TEST_DB_CONTAINER: supabase_db_stellara
+        run: node --test supabase/tests/migrations.test.mjs
+      - name: Verify staff permission regressions
+        run: node --test supabase/tests/permissions.test.mjs
       - name: Verify the live family flow
         run: |
           eval "$(supabase status -o env)"

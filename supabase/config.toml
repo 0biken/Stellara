@@ -1,4 +1,10 @@
 project_id = "stellara"
+[functions.admin]
+verify_jwt = true
+[functions.pack-build]
+verify_jwt = false
+[functions.pack-get]
+verify_jwt = false
 [api]
 enabled = true
 schemas = ["public"]
@@ -39,6 +45,12 @@ verify_jwt = true
 verify_jwt = true
 
 [functions.consent-withdraw]
+verify_jwt = true
+
+[functions.data-request-export]
+verify_jwt = true
+
+[functions.data-request-delete]
 verify_jwt = true
 
 [functions.set-start]

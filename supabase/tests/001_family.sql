@@ -2,7 +2,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 grant usage on schema extensions to authenticated;
-select plan(23);
+select plan(24);
 
 select has_table('public', 'children', 'children exist');
 select has_table('public', 'consents', 'consents exist');
@@ -14,7 +14,7 @@ select ok(not has_table_privilege('service_role', 'stellara_private.attempts', '
 select ok(not has_table_privilege('anon', 'public.children', 'SELECT'), 'anonymous users cannot list children');
 select ok(not has_table_privilege('authenticated', 'public.children', 'INSERT'), 'children are created by the server');
 select ok((select relrowsecurity from pg_class where oid = 'public.children'::regclass), 'children have RLS');
-select ok(not has_table_privilege('stellara_runtime', 'public.data_requests', 'INSERT'), 'runtime cannot queue data-rights requests');
+select ok(has_table_privilege('stellara_runtime', 'public.data_requests', 'INSERT'), 'runtime can queue data-rights requests');
 select ok(not has_table_privilege('stellara_runtime', 'stellara_private.subscriptions', 'UPDATE'), 'runtime cannot change subscriptions');
 select ok(not has_table_privilege('stellara_runtime', 'stellara_private.item_answers', 'UPDATE'), 'runtime cannot change answer keys');
 select ok(not has_table_privilege('stellara_runtime', 'stellara_private.stardust_daily', 'UPDATE'), 'only the ledger trigger can change daily totals');
@@ -38,6 +38,14 @@ select throws_ok(
   '23514','CONSENT_REQUIRED','unverified consent cannot create a child'
 );
 update public.consents set verified_at=now() where id='fd000000-0000-4000-8000-000000000003';
+update public.consents set expires_at=now()-interval '1 second' where id='fd000000-0000-4000-8000-000000000003';
+select throws_ok(
+  $$insert into public.children (id,created_by,consent_id,first_name,year,avatar_key)
+    values ('fd000000-0000-4000-8000-000000000005','fd000000-0000-4000-8000-000000000001',
+    'fd000000-0000-4000-8000-000000000003','Tolu','P5','sun')$$,
+  '23514','CONSENT_REQUIRED','expired consent cannot create a child'
+);
+update public.consents set expires_at=now()+interval '1 hour' where id='fd000000-0000-4000-8000-000000000003';
 insert into public.children (id,created_by,consent_id,first_name,year,avatar_key)
 values ('fd000000-0000-4000-8000-000000000004','fd000000-0000-4000-8000-000000000001',
   'fd000000-0000-4000-8000-000000000003','Tolu','P5','sun');

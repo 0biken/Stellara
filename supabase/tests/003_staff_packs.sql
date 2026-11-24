@@ -1,0 +1,14 @@
+begin;
+create extension if not exists pgtap with schema extensions;
+set local search_path=public,extensions;
+select plan(8);
+select ok(not has_table_privilege('authenticated','stellara_private.staff_members','SELECT'),'guardians cannot list staff');
+select ok(not has_table_privilege('authenticated','stellara_private.staff_members','UPDATE'),'guardians cannot promote themselves');
+select ok(not has_table_privilege('anon','stellara_private.practice_packs','SELECT'),'anonymous clients cannot download keys');
+select ok(not has_table_privilege('authenticated','stellara_private.practice_packs','SELECT'),'parents cannot fetch child packs directly');
+select ok(not has_table_privilege('stellara_runtime','stellara_private.audit_log','DELETE'),'runtime cannot erase audit history');
+select ok(not has_table_privilege('stellara_runtime','stellara_private.practice_packs','UPDATE'),'packs are immutable to runtime');
+select ok((select relrowsecurity from pg_class where oid='stellara_private.staff_members'::regclass),'staff has RLS');
+select ok((select relrowsecurity from pg_class where oid='stellara_private.practice_packs'::regclass),'packs have RLS');
+select * from finish();
+rollback;
