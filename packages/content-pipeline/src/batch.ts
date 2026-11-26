@@ -6,6 +6,7 @@ import {
   type DraftItem,
   type DraftLesson,
 } from "@stellara/content-schema/server";
+import { z } from "zod";
 
 import type { TopicRef } from "./curriculum.js";
 import { PROMPT_VERSION, type ModelCard, type ModelDraft, type ModelItem } from "./schemas.js";
@@ -133,3 +134,24 @@ export function toDraftBatch(input: ToDraftBatchInput): DraftBatch {
     notes,
   };
 }
+
+const noteSchema = z.object({
+  key: z.string().min(1),
+  distractor_notes: z.array(z.object({ option_id: z.string(), why: z.string() })),
+  check_expression: z.string().nullable(),
+});
+/** Reads a batch.json written by this package. */
+export const draftBatchSchema = z.object({
+  batch_version: z.literal(1),
+  topic_code: z.string().min(1),
+  topic_id: z.string().min(1),
+  drafting: z.object({
+    model: z.string(),
+    prompt_version: z.string(),
+    drafted_at: z.string(),
+    brief_sha256: z.string(),
+  }),
+  items: z.array(draftItemSchema),
+  lesson: draftLessonSchema,
+  notes: z.record(z.string(), noteSchema),
+});

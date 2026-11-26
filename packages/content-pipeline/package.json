@@ -10,6 +10,7 @@
     "pipeline": "node dist/cli.js"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "1.14.0",
     "@stellara/content-schema": "workspace:*",
     "zod": "4.6.7"
   }
