@@ -45,7 +45,7 @@ export function checkBoundaries(root) {
         if (staffTarget && !staffSource)
           errors.push(`${file}: staff-only module imported outside staff workspace ${target}`);
         if (
-          /(?:@stellara\/(?:rules|runtime)(?:\/|$)|(?:^|\/)packages\/(?:rules|runtime)\/|@stellara\/content-schema\/server(?:\/|$)|(?:^|\/)content-schema\/(?:src|dist)\/server)/.test(
+          /(?:@stellara\/(?:rules|runtime|content-pipeline)(?:\/|$)|(?:^|\/)packages\/(?:rules|runtime|content-pipeline)\/|@stellara\/content-schema\/server(?:\/|$)|(?:^|\/)content-schema\/(?:src|dist)\/server)/.test(
             target,
           )
         )

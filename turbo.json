@@ -6,10 +6,27 @@
       "env": ["GITHUB_PAGES"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "out/**"]
     },
-    "typecheck": { "dependsOn": ["^build"], "outputs": [] },
-    "test": { "outputs": [] },
-    "@stellara/rules#test": { "outputs": ["coverage/**"] },
-    "stellara-docs-tools#build": { "cache": false, "outputs": [] },
-    "dev": { "cache": false, "persistent": true }
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test": {
+      "outputs": []
+    },
+    "@stellara/rules#test": {
+      "outputs": ["coverage/**"]
+    },
+    "stellara-docs-tools#build": {
+      "cache": false,
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "@stellara/content-pipeline#test": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    }
   }
 }

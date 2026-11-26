@@ -50,6 +50,17 @@ test("web import boundary rejects static, dynamic and relative server imports", 
   }
 });
 
+test("web import boundary rejects the content pipeline", () => {
+  const root = mkdtempSync(join(tmpdir(), "stellara-pipeline-boundary-"));
+  try {
+    mkdirSync(join(root, "apps/web/app"), { recursive: true });
+    writeFileSync(join(root, "apps/web/app/x.ts"), 'import "@stellara/content-pipeline";');
+    assert.equal(checkBoundaries(root).length, 1);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("production audit requires a build and rejects answer-bearing code canaries", () => {
   const root = mkdtempSync(join(tmpdir(), "stellara-bundle-"));
   try {
