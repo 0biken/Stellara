@@ -6,10 +6,15 @@ import { uuidSchema } from "@stellara/content-schema/client";
 import { checkBatch, type CheckReport } from "./checks.js";
 import { claudeDraftModel, draftTopic, type DraftModel } from "./drafter.js";
 import { otherStems, readBatch, writeJson } from "./files.js";
+import { reportPilot } from "./report.js";
+import { applyReviewInDir, writeReviewSheet } from "./review.js";
 
 export const USAGE = `Usage:
   draft --brief <brief.json> --author-id <uuid> [--out <dir>]
-  check <topicDir> [--out <dir>]`;
+  check <topicDir> [--out <dir>]
+  review-sheet <topicDir>
+  apply-review <topicDir>
+  report [<outRoot>]`;
 
 class UsageError extends Error {}
 
@@ -84,6 +89,29 @@ export async function main(argv: string[], deps: CliDeps = {}): Promise<number> 
         writeJson(resolve(path(dir), "check.json"), report);
         printReport(report);
         return report.ok ? 0 : 1;
+      }
+      case "review-sheet": {
+        const dir = positional[0];
+        if (!dir) throw new UsageError("review-sheet needs a topic folder");
+        writeReviewSheet(path(dir));
+        console.log(`Wrote review.md in ${path(dir)} (review.json is kept if it exists)`);
+        return 0;
+      }
+      case "apply-review": {
+        const dir = positional[0];
+        if (!dir) throw new UsageError("apply-review needs a topic folder");
+        const updated = applyReviewInDir(path(dir));
+        const count = (status: string) => updated.items.filter((i) => i.status === status).length;
+        console.log(
+          `${updated.topic_code}: ${count("approved")} approved, ${count("changes_requested")} changes requested`,
+        );
+        return 0;
+      }
+      case "report": {
+        const root = positional[0] ? path(positional[0]) : outRoot;
+        const summary = reportPilot(root);
+        console.table(summary);
+        return 0;
       }
       default:
         throw new UsageError(command ? `Unknown command: ${command}` : "No command given");

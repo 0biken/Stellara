@@ -8,8 +8,9 @@ import {
 } from "@stellara/content-schema/server";
 import { z } from "zod";
 
-import type { TopicRef } from "./curriculum.js";
 import { PROMPT_VERSION, type ModelCard, type ModelDraft, type ModelItem } from "./schemas.js";
+
+import type { TopicRef } from "./curriculum.js";
 
 export interface ItemNote {
   key: string;

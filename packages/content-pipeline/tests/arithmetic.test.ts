@@ -1,4 +1,3 @@
-import type { DraftItem } from "@stellara/content-schema/server";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -7,6 +6,8 @@ import {
   machineCheck,
   parseNumberText,
 } from "../src/arithmetic.js";
+
+import type { DraftItem } from "@stellara/content-schema/server";
 
 const base = {
   id: "90000000-0000-4000-8000-000000000001",

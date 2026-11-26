@@ -3,11 +3,12 @@ import {
   publishedLessonSchema,
   type DraftItem,
 } from "@stellara/content-schema/server";
-import type { z } from "zod";
 
 import { machineCheck, type MachineCheck } from "./arithmetic.js";
-import type { DraftBatch } from "./batch.js";
 import { MAX_SENTENCE_WORDS } from "./schemas.js";
+
+import type { DraftBatch } from "./batch.js";
+import type { z } from "zod";
 
 export interface ItemCheck {
   item_id: string;

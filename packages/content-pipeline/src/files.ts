@@ -1,9 +1,9 @@
 import { existsSync, readdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
-import type { z } from "zod";
-
 import { draftBatchSchema, type DraftBatch } from "./batch.js";
+
+import type { z } from "zod";
 
 export function readJson<T>(path: string, schema: z.ZodType<T>): T {
   return schema.parse(JSON.parse(readFileSync(path, "utf8")));

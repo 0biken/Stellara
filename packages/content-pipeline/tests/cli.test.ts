@@ -10,3 +10,9 @@ describe("cli", () => {
     expect(await main(["publish"])).toBe(2);
   });
 });
+
+describe("cli review commands", () => {
+  it("returns 2 when review-sheet has no folder", async () => {
+    expect(await main(["review-sheet"])).toBe(2);
+  });
+});

@@ -2,7 +2,6 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync, mkdirSync
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import type Anthropic from "@anthropic-ai/sdk";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { claudeDraftModel, DraftError, draftTopic, type DraftModel } from "../src/drafter.js";
@@ -10,6 +9,8 @@ import { buildPrompt } from "../src/prompt.js";
 
 import { brief, modelDraft } from "./fixtures.js";
 import { authorId } from "./helpers.js";
+
+import type Anthropic from "@anthropic-ai/sdk";
 
 let root: string;
 let briefPath: string;
