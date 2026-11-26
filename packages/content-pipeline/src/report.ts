@@ -1,8 +1,6 @@
-import { existsSync } from "node:fs";
 import { join } from "node:path";
 
-import { listBatchDirs, readBatch, readJson, writeJson } from "./files.js";
-import { reviewFileSchema, type ReviewFile } from "./review.js";
+import { listBatchDirs, readBatch, writeJson } from "./files.js";
 
 import type { DraftBatch } from "./batch.js";
 
@@ -13,8 +11,8 @@ export interface PilotSummary {
   changes_requested: number;
   rejected: number;
   undecided: number;
-  /** Approved items as a share of items with a decision. */
-  first_pass_approval_rate: number;
+  /** Approved items as a share of items with an applied decision. */
+  approval_rate: number;
   median_minutes_per_item: number | null;
   /** Item and lesson review minutes together. */
   total_review_minutes: number;
@@ -28,36 +26,38 @@ function median(values: number[]): number | null {
   return sorted.length % 2 ? sorted[mid]! : (sorted[mid - 1]! + sorted[mid]!) / 2;
 }
 
-export function summarisePilot(
-  entries: { batch: DraftBatch; review: ReviewFile | null }[],
-): PilotSummary {
+/** Reads applied state only (batch.json), never a review.json that apply-review refused. */
+export function summarisePilot(batches: DraftBatch[]): PilotSummary {
   let items = 0;
   let total = 0;
-  const counts = { approve: 0, changes_requested: 0, reject: 0 };
+  let approved = 0;
+  let changes = 0;
+  let rejected = 0;
   const minutes: number[] = [];
-  for (const { batch, review } of entries) {
+  for (const batch of batches) {
     items += batch.items.length;
-    const ids = new Set(batch.items.map((item) => item.id));
-    for (const entry of review?.decisions ?? []) {
-      if (!ids.has(entry.item_id.toLowerCase())) continue;
-      if (entry.decision) counts[entry.decision]++;
-      if (entry.minutes !== null) {
-        minutes.push(entry.minutes);
-        total += entry.minutes;
+    for (const item of batch.items) {
+      if (item.status === "approved") approved++;
+      else if (item.status === "changes_requested") changes++;
+      const review = batch.notes[item.id]?.review;
+      if (review?.decision === "reject" && item.status === "draft") rejected++;
+      if (review?.minutes !== null && review?.minutes !== undefined) {
+        minutes.push(review.minutes);
+        total += review.minutes;
       }
     }
-    total += review?.lesson.minutes ?? 0;
+    total += batch.lesson_review?.minutes ?? 0;
   }
-  const decided = counts.approve + counts.changes_requested + counts.reject;
+  const decided = approved + changes + rejected;
   const mid = median(minutes);
   return {
-    topics: entries.length,
+    topics: batches.length,
     items,
-    approved: counts.approve,
-    changes_requested: counts.changes_requested,
-    rejected: counts.reject,
+    approved,
+    changes_requested: changes,
+    rejected,
     undecided: items - decided,
-    first_pass_approval_rate: decided ? counts.approve / decided : 0,
+    approval_rate: decided ? approved / decided : 0,
     median_minutes_per_item: mid,
     total_review_minutes: total,
     projected_review_hours_2000_items: mid === null ? null : Math.round((mid * 2000) / 6) / 10,
@@ -65,14 +65,7 @@ export function summarisePilot(
 }
 
 export function reportPilot(outRoot: string): PilotSummary {
-  const entries = listBatchDirs(outRoot).map((dir) => {
-    const reviewPath = join(dir, "review.json");
-    return {
-      batch: readBatch(dir),
-      review: existsSync(reviewPath) ? readJson(reviewPath, reviewFileSchema) : null,
-    };
-  });
-  const summary = summarisePilot(entries);
+  const summary = summarisePilot(listBatchDirs(outRoot).map(readBatch));
   writeJson(join(outRoot, "pilot-summary.json"), summary);
   return summary;
 }

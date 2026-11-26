@@ -4,10 +4,10 @@ import {
   type DraftItem,
 } from "@stellara/content-schema/server";
 
-import { machineCheck, type MachineCheck } from "./arithmetic.js";
+import { machineCheck, parseNumberText, type MachineCheck } from "./arithmetic.js";
+import { itemContentHash, type DraftBatch } from "./batch.js";
 import { MAX_SENTENCE_WORDS } from "./schemas.js";
 
-import type { DraftBatch } from "./batch.js";
 import type { z } from "zod";
 
 export interface ItemCheck {
@@ -40,17 +40,18 @@ export const BANNED_TERMS = [
   "ai tutor",
 ];
 export const PROVENANCE_WARNING = "provenance pending counsel (G3)";
+export const CHANGED_SINCE_REVIEW = "Approved item changed since review; it needs reviewing again";
 
-// Fixed placeholders that let a draft be tested against the publication schema.
+// Only the fields review adds later are filled in, so a missing author or other field still fails.
 const PLACEHOLDER_REVIEW = {
   provenance: "original",
-  author_id: "00000000-0000-4000-8000-0000000000aa",
   reviewer_id: "00000000-0000-4000-8000-0000000000bb",
   answer_verified_at: "1970-01-01T00:00:00Z",
-  stimulus_id: null,
-  tags: [],
-  media: [],
-  exposure_count: 0,
+};
+
+const optionValue = (text: string) => {
+  const number = parseNumberText(text);
+  return number === null ? `text:${text.trim().toLowerCase().replace(/\s+/g, " ")}` : `n:${number}`;
 };
 
 const describeIssues = (error: z.ZodError) =>
@@ -94,6 +95,17 @@ function checkItem(batch: DraftBatch, item: DraftItem, seen: Map<string, string>
       if (option.id !== item.answer?.option_id && !noted.has(option.id))
         errors.push(`Wrong option ${option.id} needs a distractor note`);
   }
+  if (item.type === "single_choice" || item.type === "multi_choice" || item.type === "ordering") {
+    const seenValues = new Map<string, string>();
+    for (const option of item.options ?? []) {
+      const value = optionValue(option.text);
+      const other = seenValues.get(value);
+      if (other) errors.push(`Options ${other} and ${option.id} have the same value`);
+      else seenValues.set(value, option.id);
+    }
+  }
+  if (item.status === "approved" && note?.approved_hash !== itemContentHash(item))
+    errors.push(CHANGED_SINCE_REVIEW);
 
   const stemKey = normaliseStem(item.stem ?? "");
   const earlier = seen.get(stemKey);

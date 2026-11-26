@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 
 import {
   draftItemSchema,
@@ -12,10 +12,19 @@ import { PROMPT_VERSION, type ModelCard, type ModelDraft, type ModelItem } from 
 
 import type { TopicRef } from "./curriculum.js";
 
+export type ReviewDecision = "approve" | "changes_requested" | "reject";
+/** The last applied review decision and the minutes it took. */
+export interface AppliedReview {
+  decision: ReviewDecision | null;
+  minutes: number | null;
+}
 export interface ItemNote {
   key: string;
   distractor_notes: { option_id: string; why: string }[];
   check_expression: string | null;
+  /** Content hash recorded at approval; any later edit invalidates the approval. */
+  approved_hash?: string | undefined;
+  review?: AppliedReview | undefined;
 }
 export interface DraftBatch {
   batch_version: 1;
@@ -26,6 +35,28 @@ export interface DraftBatch {
   lesson: DraftLesson;
   /** Keyed by item UUID. */
   notes: Record<string, ItemNote>;
+  lesson_review?: AppliedReview | undefined;
+}
+
+const REVIEW_FIELDS = new Set(["status", "reviewer_id", "answer_verified_at"]);
+function stableStringify(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(",")}]`;
+  if (value && typeof value === "object")
+    return `{${Object.keys(value)
+      .sort()
+      .map(
+        (key) =>
+          `${JSON.stringify(key)}:${stableStringify((value as Record<string, unknown>)[key])}`,
+      )
+      .join(",")}}`;
+  return JSON.stringify(value);
+}
+/** Hash of everything a reviewer verified: all item fields except the review stamp. */
+export function itemContentHash(item: DraftItem): string {
+  const content = Object.fromEntries(
+    Object.entries(item).filter(([key, value]) => !REVIEW_FIELDS.has(key) && value !== undefined),
+  );
+  return createHash("sha256").update(stableStringify(content)).digest("hex");
 }
 
 export interface ToDraftBatchInput {
@@ -136,10 +167,14 @@ export function toDraftBatch(input: ToDraftBatchInput): DraftBatch {
   };
 }
 
+export const reviewDecision = z.enum(["approve", "changes_requested", "reject"]).nullable();
+export const reviewMinutes = z.number().nonnegative().nullable();
 const noteSchema = z.object({
   key: z.string().min(1),
   distractor_notes: z.array(z.object({ option_id: z.string(), why: z.string() })),
   check_expression: z.string().nullable(),
+  approved_hash: z.string().optional(),
+  review: z.object({ decision: reviewDecision, minutes: reviewMinutes }).optional(),
 });
 /** Reads a batch.json written by this package. */
 export const draftBatchSchema = z.object({
@@ -155,4 +190,5 @@ export const draftBatchSchema = z.object({
   items: z.array(draftItemSchema),
   lesson: draftLessonSchema,
   notes: z.record(z.string(), noteSchema),
+  lesson_review: z.object({ decision: reviewDecision, minutes: reviewMinutes }).optional(),
 });

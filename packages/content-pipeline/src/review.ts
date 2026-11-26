@@ -1,17 +1,19 @@
 import { existsSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 
 import { uuidSchema } from "@stellara/content-schema/client";
 import { z } from "zod";
 
-import { checkBatch, type CheckReport } from "./checks.js";
-import { readBatch, readJson, writeJson } from "./files.js";
+import {
+  itemContentHash,
+  reviewDecision as decision,
+  reviewMinutes as minutes,
+  type DraftBatch,
+} from "./batch.js";
+import { CHANGED_SINCE_REVIEW, checkBatch, type CheckReport } from "./checks.js";
+import { otherStems, readBatch, readJson, writeJson } from "./files.js";
 
-import type { DraftBatch } from "./batch.js";
 import type { DraftItem } from "@stellara/content-schema/server";
-
-const decision = z.enum(["approve", "changes_requested", "reject"]).nullable();
-const minutes = z.number().nonnegative().nullable();
 export const reviewFileSchema = z.object({
   reviewer_id: z.string(),
   decisions: z.array(
@@ -129,8 +131,25 @@ export function writeReviewSheet(dir: string): void {
   if (!existsSync(reviewPath)) writeJson(reviewPath, reviewTemplate(batch));
 }
 
-/** Returns an updated copy, or throws without changing anything. */
-export function applyReview(batch: DraftBatch, review: ReviewFile, now: Date): DraftBatch {
+/** Removes a previous approval stamp. */
+function withoutStamp(item: DraftItem): DraftItem {
+  const rest = { ...item };
+  delete rest.reviewer_id;
+  delete rest.answer_verified_at;
+  return rest;
+}
+
+/**
+ * Returns an updated copy, or throws without changing anything. Approval stamps the reviewer,
+ * the time and a content hash; any other decision on a stamped item removes the stamp.
+ * existingStems are stems from other topic folders, as used by `check`.
+ */
+export function applyReview(
+  batch: DraftBatch,
+  review: ReviewFile,
+  now: Date,
+  existingStems: string[] = [],
+): DraftBatch {
   const reviewer = uuidSchema.safeParse(review.reviewer_id);
   if (!reviewer.success) throw new Error("reviewer_id must be the reviewer's UUID");
   const reviewerId = reviewer.data;
@@ -138,33 +157,54 @@ export function applyReview(batch: DraftBatch, review: ReviewFile, now: Date): D
     throw new Error("The reviewer must not be the author of record");
 
   const byId = new Map(batch.items.map((item) => [item.id, item]));
-  const report = checkBatch(batch);
-  const failing = new Set(report.items.filter((item) => item.errors.length).map((i) => i.item_id));
+  const report = checkBatch(batch, existingStems);
+  // A stale approval is exactly what a fresh review fixes, so it does not block re-approval.
+  const failing = new Set(
+    report.items
+      .filter((item) => item.errors.some((message) => message !== CHANGED_SINCE_REVIEW))
+      .map((item) => item.item_id),
+  );
   const problems: string[] = [];
+  const seen = new Set<string>();
   for (const entry of review.decisions) {
     const id = entry.item_id.toLowerCase();
-    if (!byId.has(id)) problems.push(`Decision for an unknown item: ${entry.item_id}`);
+    const item = byId.get(id);
+    if (seen.has(id)) problems.push(`Item ${id} has a decision more than once`);
+    seen.add(id);
+    if (!item) problems.push(`Decision for an unknown item: ${entry.item_id}`);
     else if (entry.decision === "approve") {
+      if (!item.author_id) problems.push(`Cannot approve ${id}: it has no author of record`);
       if (!entry.answer_verified) problems.push(`Approval of ${id} needs answer_verified: true`);
       if (failing.has(id)) problems.push(`Cannot approve ${id}: it fails checks`);
     }
   }
   if (problems.length) throw new Error(problems.join("\n"));
 
+  const next = structuredClone(batch);
   const decisions = new Map(review.decisions.map((entry) => [entry.item_id.toLowerCase(), entry]));
-  const items = batch.items.map((item): DraftItem => {
+  next.items = next.items.map((item): DraftItem => {
     const entry = decisions.get(item.id);
-    if (entry?.decision === "approve")
-      return {
+    const note = next.notes[item.id];
+    if (note && entry) note.review = { decision: entry.decision, minutes: entry.minutes };
+    if (entry?.decision === "approve") {
+      const approved: DraftItem = {
         ...item,
         status: "approved",
         reviewer_id: reviewerId,
         answer_verified_at: now.toISOString(),
       };
-    if (entry?.decision === "changes_requested") return { ...item, status: "changes_requested" };
+      if (note) note.approved_hash = itemContentHash(approved);
+      return approved;
+    }
+    if (note) delete note.approved_hash;
+    if (entry?.decision === "changes_requested")
+      return { ...withoutStamp(item), status: "changes_requested" };
+    if (item.status === "approved" || item.status === "changes_requested")
+      return { ...withoutStamp(item), status: "draft" };
     return item;
   });
-  return { ...structuredClone(batch), items: structuredClone(items) };
+  next.lesson_review = { decision: review.lesson.decision, minutes: review.lesson.minutes };
+  return next;
 }
 
 export function applyReviewInDir(dir: string, now = new Date()): DraftBatch {
@@ -172,6 +212,7 @@ export function applyReviewInDir(dir: string, now = new Date()): DraftBatch {
     readBatch(dir),
     readJson(join(dir, "review.json"), reviewFileSchema),
     now,
+    otherStems(dirname(dir), dir),
   );
   writeJson(join(dir, "batch.json"), updated);
   return updated;

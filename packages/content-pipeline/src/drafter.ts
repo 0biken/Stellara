@@ -19,11 +19,14 @@ export class DraftError extends Error {
   override name = "DraftError";
 }
 
-/** Calls Claude with structured outputs; the server retries on another model after a refusal. */
+/**
+ * Calls Claude with structured outputs; the server retries on another model after a refusal.
+ * Uses create, not parse: parse throws its own JSON error before the stop reason can be read.
+ */
 export function claudeDraftModel(client?: Anthropic): DraftModel {
   return async ({ system, user }) => {
     const api = client ?? new Anthropic();
-    const response = await api.beta.messages.parse({
+    const response = await api.beta.messages.create({
       model: MODEL,
       max_tokens: 16000,
       betas: ["server-side-fallback-2026-07-01"],
@@ -38,11 +41,23 @@ export function claudeDraftModel(client?: Anthropic): DraftModel {
     }
     if (response.stop_reason === "max_tokens")
       throw new DraftError("Claude stopped with max_tokens before finishing the draft");
-    if (!response.parsed_output)
+    const text = response.content
+      .flatMap((block) => (block.type === "text" ? [block.text] : []))
+      .join("");
+    let json: unknown;
+    try {
+      json = JSON.parse(text);
+    } catch {
+      throw new DraftError(`Claude returned invalid JSON (stop reason ${response.stop_reason})`);
+    }
+    const parsed = modelDraftSchema.safeParse(json);
+    if (!parsed.success)
       throw new DraftError(
-        `Claude returned no parseable draft (stop reason ${response.stop_reason})`,
+        `Claude's draft does not match the schema (stop reason ${response.stop_reason}): ${parsed.error.issues
+          .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+          .join("; ")}`,
       );
-    return response.parsed_output;
+    return parsed.data;
   };
 }
 

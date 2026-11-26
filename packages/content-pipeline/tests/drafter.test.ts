@@ -2,6 +2,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync, mkdirSync
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
+import Anthropic from "@anthropic-ai/sdk";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { claudeDraftModel, DraftError, draftTopic, type DraftModel } from "../src/drafter.js";
@@ -9,8 +10,6 @@ import { buildPrompt } from "../src/prompt.js";
 
 import { brief, modelDraft } from "./fixtures.js";
 import { authorId } from "./helpers.js";
-
-import type Anthropic from "@anthropic-ai/sdk";
 
 let root: string;
 let briefPath: string;
@@ -78,30 +77,55 @@ describe("draftTopic", () => {
   });
 });
 
-describe("claudeDraftModel", () => {
-  const stub = (response: object) =>
-    ({ beta: { messages: { parse: async () => response } } }) as unknown as Anthropic;
-  it("claudeDraftModel throws DraftError on refusal and on max_tokens", async () => {
-    const prompt = { system: "s", user: "u" };
-    await expect(
-      claudeDraftModel(
-        stub({ stop_reason: "refusal", stop_details: { category: "cyber" }, parsed_output: null }),
-      )(prompt),
-    ).rejects.toThrow(/refusal.*cyber/);
-    await expect(
-      claudeDraftModel(stub({ stop_reason: "max_tokens", parsed_output: null }))(prompt),
-    ).rejects.toThrow(DraftError);
-    await expect(
-      claudeDraftModel(stub({ stop_reason: "end_turn", parsed_output: null }))(prompt),
-    ).rejects.toThrow(DraftError);
+describe("claudeDraftModel against the real SDK with a stub fetch", () => {
+  const client = (message: object) =>
+    new Anthropic({
+      apiKey: "test-key",
+      maxRetries: 0,
+      fetch: async () =>
+        new Response(
+          JSON.stringify({
+            id: "msg_test",
+            type: "message",
+            role: "assistant",
+            model: "claude-opus-5-5",
+            stop_sequence: null,
+            usage: { input_tokens: 1, output_tokens: 1 },
+            ...message,
+          }),
+          { status: 200, headers: { "content-type": "application/json" } },
+        ),
+    });
+  const prompt = { system: "s", user: "u" };
+  const text = (value: string) => [{ type: "text", text: value }];
+
+  it("throws DraftError naming max_tokens for truncated output", async () => {
+    const model = claudeDraftModel(
+      client({ stop_reason: "max_tokens", content: text('{"items": [') }),
+    );
+    await expect(model(prompt)).rejects.toThrow(DraftError);
+    await expect(model(prompt)).rejects.toThrow(/max_tokens/);
+  });
+  it("throws DraftError naming the refusal category", async () => {
+    const model = claudeDraftModel(
+      client({
+        stop_reason: "refusal",
+        stop_details: { type: "refusal", category: "cyber", explanation: null },
+        content: text("I cannot help with that."),
+      }),
+    );
+    await expect(model(prompt)).rejects.toThrow(/refusal.*cyber/);
+  });
+  it("throws DraftError for output that does not match the schema", async () => {
+    const model = claudeDraftModel(
+      client({ stop_reason: "end_turn", content: text('{"items": []}') }),
+    );
+    await expect(model(prompt)).rejects.toThrow(DraftError);
   });
   it("returns the parsed draft", async () => {
-    const draft = await claudeDraftModel(
-      stub({ stop_reason: "end_turn", parsed_output: modelDraft }),
-    )({
-      system: "s",
-      user: "u",
-    });
-    expect(draft.items).toHaveLength(4);
+    const model = claudeDraftModel(
+      client({ stop_reason: "end_turn", content: text(JSON.stringify(modelDraft)) }),
+    );
+    expect((await model(prompt)).items).toHaveLength(4);
   });
 });
