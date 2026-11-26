@@ -104,6 +104,33 @@ Other existing local stacks that already applied the earlier unreleased migratio
 need the same reviewed correction or a synthetic database rebuild. No hosted
 database was changed. Docker was returned to its original stopped state afterward.
 
+## Build verification — 25 November 2026
+
+The full workspace test command passed. The web package ran all 82 tests across
+17 files, with cached results for the other six package tasks. Turbopack still
+exited during CSS worker startup on Windows outside the sandbox. The production
+build now explicitly uses Webpack. Turbo receives `GITHUB_PAGES` as a build
+input and caches the resulting `out/` directory. The Pages export included the
+family and staff routes and used the `/Stellara` asset base path. The standard
+`pnpm build` and `pnpm check:client` also passed.
+
+GitHub reports only the `github-pages` environment for this repository. The
+latest Pages run built its artifact and returned HTTP 404 when creating the
+deployment. The dedicated staging project and frontend URL still need to be
+identified before hosted family and staff acceptance.
+
+## Question draft editor
+
+The demo content library now lets authors, content leads, and super admins
+create question drafts and reopen them in the same tab. Authors can edit their
+own drafts. The editor supports single choice, multiple choice, numeric,
+ordering, matching, and cloze questions. Each has a preview, hints,
+explanations, and basic metadata. Cloze uses numbered blanks in the preview.
+Incomplete drafts can be saved. The adapter checks answer references and
+rejects stale writes while the editor keeps the current text. Drafts reset on
+reload. Lesson editing and the live review and publication workflow are still
+open.
+
 ## Staff bootstrap
 
 Create the first staff account through Supabase Auth, then have a trusted database

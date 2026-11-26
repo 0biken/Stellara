@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import {
+  canWriteDrafts,
   getContentStudioApi,
   itemTypeLabels,
   itemTypes,
@@ -106,6 +107,14 @@ export function ContentLibrary({ queue }: { queue?: "reviews" | "publishing" }) 
               ? "Approved versions awaiting publication checks. Live publishing is not connected yet."
               : "Find questions and lessons across topics, versions and editorial stages."}
         </p>
+        {!queue && filters.kind === "item" && api.mode === "demo" && canWriteDrafts(session) && (
+          <Link
+            href="/admin/content/item/"
+            className="mt-4 inline-flex min-h-11 items-center rounded-lg border border-primary px-4 font-semibold text-primary"
+          >
+            New question
+          </Link>
+        )}
       </header>
       <div className="flex gap-2" aria-label="Content kind">
         {(["item", "lesson"] as const).map((kind) => (

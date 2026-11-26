@@ -4,34 +4,52 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { getContentStudioApi, type ContentSummary } from "../../lib/admin/content";
+import {
+  canWriteDrafts,
+  emptyItemDraft,
+  getContentStudioApi,
+  type ContentSummary,
+  type ItemDraft,
+} from "../../lib/admin/content";
 
 import { ContentBadge } from "./content-library";
+import { ItemEditor } from "./item-editor";
 import { useStaff } from "./staff-context";
 
 export function ContentDetail({ kind }: { kind: "item" | "lesson" }) {
-  const { api } = useStaff();
+  const { api, session } = useStaff();
+  const { role, userId } = session;
   const id = useSearchParams().get("id") ?? "";
-  const key = `${api.mode}:${kind}:${id}`;
+  const key = `${api.mode}:${role}:${userId}:${kind}:${id}`;
+  const newDraft = api.mode === "demo" && kind === "item" && !id && canWriteDrafts(session);
   const [loaded, setLoaded] = useState<{
     key: string;
     content: ContentSummary | null;
+    draft?: ItemDraft | null;
     message: string;
   } | null>(null);
   const content = loaded?.key === key ? loaded.content : null;
   const message = loaded?.key === key ? loaded.message : "Loading content…";
   useEffect(() => {
+    if (newDraft) return;
     let active = true;
     void getContentStudioApi(api.mode)
-      .then((studio) => studio.getVersion(id))
+      .then(async (studio) => {
+        const row = await studio.getVersion(id);
+        const draft =
+          row?.kind === "item" && kind === "item"
+            ? await studio.getItemDraft({ role, userId }, id)
+            : null;
+        return { row, draft };
+      })
       .then(
-        (row) => {
+        ({ row, draft }) => {
           if (!active) return;
           if (!row || row.kind !== kind) {
             setLoaded({ key, content: null, message: "This content could not be found." });
             return;
           }
-          setLoaded({ key, content: row, message: "" });
+          setLoaded({ key, content: row, draft, message: "" });
         },
         () => {
           if (active)
@@ -45,7 +63,9 @@ export function ContentDetail({ kind }: { kind: "item" | "lesson" }) {
     return () => {
       active = false;
     };
-  }, [api.mode, id, kind, key]);
+  }, [api.mode, id, kind, key, newDraft, role, userId]);
+  if (newDraft) return <ItemEditor key={key} initial={emptyItemDraft()} />;
+  if (loaded?.key === key && loaded.draft) return <ItemEditor key={key} initial={loaded.draft} />;
   return (
     <div className="flex max-w-3xl flex-col gap-6">
       <Link href="/admin/content/" className="text-sm text-primary underline">
@@ -75,8 +95,7 @@ export function ContentDetail({ kind }: { kind: "item" | "lesson" }) {
             ))}
           </dl>
           <p className="rounded-xl border border-line p-4 text-sm text-muted">
-            This is the content record preview. Editing and review decisions are the next
-            implementation milestone.
+            This record is available as a read-only preview.
           </p>
         </>
       )}

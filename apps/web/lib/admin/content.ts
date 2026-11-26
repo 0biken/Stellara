@@ -1,3 +1,5 @@
+import type { StaffSession } from "./types";
+
 export type EditorialStatus =
   "draft" | "in_review" | "changes_requested" | "approved" | "published" | "retired";
 export const statusLabels: Record<EditorialStatus, string> = {
@@ -69,6 +71,84 @@ export interface ContentPage {
   page: number;
   pages: number;
 }
+export type DraftActor = Pick<StaffSession, "role" | "userId">;
+export interface DraftOption {
+  id: string;
+  text: string;
+}
+export type StructuredQuestion =
+  | { type: "ordering"; options: DraftOption[]; answer: { option_ids: string[] } }
+  | {
+      type: "match";
+      left: DraftOption[];
+      right: DraftOption[];
+      answer: { pairs: { left_id: string; right_id: string }[] };
+    }
+  | {
+      type: "cloze";
+      slots: { id: string; options: DraftOption[] }[];
+      answer: { slots: { slot_id: string; option_id: string }[] };
+    };
+export type DraftQuestion =
+  | {
+      type: "single_choice" | "multi_choice";
+      options: DraftOption[];
+      correctIds: string[];
+    }
+  | { type: "numeric"; answer: string }
+  | StructuredQuestion;
+
+export interface ItemDraft {
+  id: string;
+  revision: number;
+  title: string;
+  stem: string;
+  hint: string;
+  explanation: string;
+  year: ContentSummary["year"];
+  subject: string;
+  topic: string;
+  purpose: ContentSummary["purpose"];
+  question: DraftQuestion;
+}
+
+export const canWriteDrafts = (actor: DraftActor) =>
+  actor.role === "author" || actor.role === "content_lead" || actor.role === "super_admin";
+
+export function emptyQuestion(type: DraftQuestion["type"]): DraftQuestion {
+  const options = () => [
+    { id: "a", text: "" },
+    { id: "b", text: "" },
+  ];
+  switch (type) {
+    case "numeric":
+      return { type, answer: "" };
+    case "ordering":
+      return { type, options: options(), answer: { option_ids: [] } };
+    case "match":
+      return { type, left: options(), right: options(), answer: { pairs: [] } };
+    case "cloze":
+      return { type, slots: [{ id: "blank", options: options() }], answer: { slots: [] } };
+    default:
+      return { type, options: options(), correctIds: [] };
+  }
+}
+
+export function emptyItemDraft(): ItemDraft {
+  return {
+    id: "",
+    revision: 0,
+    title: "",
+    stem: "",
+    hint: "",
+    explanation: "",
+    year: "P5",
+    subject: "",
+    topic: "",
+    purpose: "practice",
+    question: emptyQuestion("single_choice"),
+  };
+}
 export function readFilters(params: URLSearchParams): ContentFilters {
   const page = Number(params.get("page"));
   return {
@@ -121,16 +201,19 @@ export interface ContentStudioApi {
   readonly mode: "demo" | "unavailable";
   listContent(filters: ContentFilters, signal?: AbortSignal): Promise<ContentPage>;
   getVersion(id: string): Promise<ContentSummary | null>;
+  getItemDraft(actor: DraftActor, id: string): Promise<ItemDraft | null>;
+  saveItemDraft(actor: DraftActor, draft: ItemDraft): Promise<ItemDraft>;
 }
 export async function getContentStudioApi(mode: "live" | "demo"): Promise<ContentStudioApi> {
   if (mode === "demo") return (await import("./content-demo")).demoContentApi;
+  const unavailable = async (): Promise<never> => {
+    throw new Error("Content authoring is not connected to the live backend yet.");
+  };
   return {
     mode: "unavailable",
-    async listContent() {
-      throw new Error("Content authoring is not connected to the live backend yet.");
-    },
-    async getVersion() {
-      throw new Error("Content authoring is not connected to the live backend yet.");
-    },
+    listContent: unavailable,
+    getVersion: unavailable,
+    getItemDraft: unavailable,
+    saveItemDraft: unavailable,
   };
 }

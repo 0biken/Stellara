@@ -97,7 +97,11 @@ export function StaffWorkspace({
       setAccess({ status: "loading" });
       timer = setTimeout(refresh, 0);
     });
-    const focus = () => refresh();
+    // Demo membership is in memory and auth events already cover its sign-out.
+    // A focus change must not unmount an unsaved demo draft.
+    const focus = () => {
+      if (api.mode === "live") refresh();
+    };
     window.addEventListener("focus", focus);
     return () => {
       off();

@@ -9,7 +9,7 @@ Engineering toward the MVP is approximately **50% complete**; overall readiness 
 
 - **Implemented:** monorepo, learning rules, schemas, design system, landing page, family/child screens, local Supabase migrations and runtime adapters, consent/PIN management and response persistence.
 - **Partly implemented:** offline storage/outbox and signed packs; staff roles, MFA screens and operations; job/data-rights logic. End-to-end offline practice, database-backed workers and hosted acceptance remain open.
-- **Demo only:** staff content lists and record previews. Editors, independent review decisions, publication, import and curriculum screens are not implemented; the live content adapter explicitly reports unavailable.
+- **Demo only:** staff content lists, record previews, and draft editors for all six question formats. The live content adapter reports unavailable.
 - **Still open:** timed practice-test endpoints/UI, parent reports, monthly in-app summaries, approved launch content, monitoring, device acceptance and human approval gates.
 
 **Current release scope:** family-only, free beta for 50–100 families, in-app summaries, Paystack disabled until commercial approval. Schools, classes, teacher dashboards and child AI chat are outside the MVP. External messaging and paid conversion targets must be revisited before a commercial release; they do not block this free beta merely because they appear in the original plan below.
@@ -19,7 +19,7 @@ The [implementation record](docs/mvp-implementation.md) separates local evidence
 ### Next tasks, in order
 
 - [x] Reconcile and independently review the staff/backend milestone; commit the checkpoint with verification evidence and remaining limits in [the implementation record](docs/mvp-implementation.md#reconciliation-review--24-november-2026).
-- [ ] Re-run the full web unit suite and default production build in a supported execution environment (2.35).
+- [x] Verify the web unit suite and production build. All 82 web tests passed, and the Webpack build, Pages export and client bundle audit passed on 25 November (2.35).
 - [ ] Prove the family learning journey in hosted staging, including persistence, isolation and consent revocation (M2).
 - [ ] Accept live staff MFA, assignment/deactivation and forbidden direct routes in browser tests.
 - [ ] Finish item/lesson editors, independent review and publishing, then connect the studio to live persistence (2.32).
@@ -130,7 +130,7 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference. Checked tasks mean
 - [ ] **2.31 Build Stardust, days in a row and clouds in the UI.** Use calm celebrations and no loss-framing copy (KID-06). **[Eng/Design]**
 
 ### 2G. Content studio and authoring (30 Nov – end Feb)
-- [ ] **2.32 Complete the live content studio.** Staff roles, MFA enrollment/challenge screens and live team/support/audit operations exist in `apps/web/{components,lib}/admin/` and `supabase/functions/_shared/admin.js`; hosted authorization/MFA acceptance remains. Content library, review/publishing lists and record previews use synthetic demo data only; the live content adapter reports unavailable (`apps/web/lib/admin/content.ts`). Item/lesson editors, independent review decisions, publication/takedown, import, curriculum, versioning integration, KaTeX and readability checks remain (CON-01…03). **[Eng]** 📄 03 §6
+- [ ] **2.32 Complete the live content studio.** Staff roles, MFA enrollment/challenge screens and live team/support/audit operations exist in `apps/web/{components,lib}/admin/` and `supabase/functions/_shared/admin.js`. Hosted authorization/MFA acceptance remains. The demo supports creating, saving and previewing drafts for all six question formats. Lesson editing, independent review, live persistence, publication and takedown, import, curriculum, versioning integration, KaTeX and readability checks remain (CON-01…03). **[Eng]** 📄 03 §6
 - [ ] **2.33 Author the item pool:** about 1,800–2,200 items, ~74 lessons, 5 placement checks and 3 test forms (from a reserved pool). Prioritise Maths and English in school-year order. AI may draft; a reviewer verifies every answer. **[Content team]**
 - [ ] **2.34 Run 10% second-review sampling,** keeping the error rate below 1%. **[Academic lead]**
 - **M3 target, content alpha (15 Jan):** at least 40% of the pool published and reviewed. M4 needs at least 70%; synthetic/demo content does not satisfy either gate.
