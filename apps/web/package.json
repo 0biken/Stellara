@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
-    "build": "node scripts/build-sw.mjs && next build",
+    "build": "node scripts/build-sw.mjs && next build --webpack",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
