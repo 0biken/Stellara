@@ -131,7 +131,7 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference. Checked tasks mean
 
 ### 2G. Content studio and authoring (30 Nov – end Feb)
 - [ ] **2.32 Complete the live content studio.** Staff roles, MFA enrollment/challenge screens and live team/support/audit operations exist in `apps/web/{components,lib}/admin/` and `supabase/functions/_shared/admin.js`. Hosted authorization/MFA acceptance remains. The demo supports creating, saving and previewing drafts for all six question formats. Lesson editing, independent review, live persistence, publication and takedown, import, curriculum, versioning integration, KaTeX and readability checks remain (CON-01…03). **[Eng]** 📄 03 §6
-- [ ] **2.33 Author the item pool:** about 1,800–2,200 items, ~74 lessons, 5 placement checks and 3 test forms (from a reserved pool). Prioritise Maths and English in school-year order. AI may draft; a reviewer verifies every answer. **[Content team]**
+- [ ] **2.33 Author the item pool:** about 1,800–2,200 items, ~74 lessons, 5 placement checks and 3 test forms (from a reserved pool). Prioritise Maths and English in school-year order. AI may draft; a reviewer verifies every answer. **[Content team]** The pilot pipeline (`packages/content-pipeline`, 51 tests) drafts, checks and records review time for the first three Mathematics topics; the pilot itself has not run (needs briefs, an independent reviewer and API approval).
 - [ ] **2.34 Run 10% second-review sampling,** keeping the error rate below 1%. **[Academic lead]**
 - **M3 target, content alpha (15 Jan):** at least 40% of the pool published and reviewed. M4 needs at least 70%; synthetic/demo content does not satisfy either gate.
 

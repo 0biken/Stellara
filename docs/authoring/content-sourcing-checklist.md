@@ -43,6 +43,8 @@ Use the first three topics in the curriculum draft as a pilot for the author and
 
 For each topic, prepare the brief in Section C, one lesson of 3–6 cards and three original items covering easy, standard and hard. The independent reviewer checks the method, answers and distractors before the content team scales the batch. The practice-test blueprint can be approved separately once the 2027 specification is verified.
 
+Run the pilot with the [content pipeline runbook](../../packages/content-pipeline/README.md). It drafts, checks and records review decisions and minutes, and publishes nothing.
+
 ## B. Academic decisions (an academic lead answers these)
 
 | # | Decision | Default if nobody decides |
