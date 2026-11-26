@@ -1,6 +1,6 @@
 # Content sourcing checklist (Common Entrance MVP)
 
-Status: working list. Nothing here is gathered yet.
+Status: source links collected for initial Mathematics authoring. The 2027 exam specification and academic decisions are pending.
 
 This lists what a person needs to **find, obtain or decide** so Claude can draft
 lessons, items and explanations in the agreed schema
@@ -21,6 +21,27 @@ below). Mark every file with where it came from and whether we may reuse it.
 | A3 | **NERDC Basic Education Curriculum, Primary 4–6** (revised 2025 edition) for Mathematics, English Studies, Basic Science and Technology, Social and Citizenship Studies, CRS, IRS | What a P5–6 child is expected to know; maps our 74 topics to the curriculum | Note which edition each document is (`legacy` or `revised_2025`) |
 | A4 | **Official sample questions** published by NECO (if any) | Format reference only: how a question looks, number of options, instructions wording | **Do not send past papers to copy.** Format only |
 | A5 | **Answer-sheet / CBT screen format** | So practice tests feel like the real thing | Screenshot or description |
+
+### Source register · 26 November 2026
+
+| Checklist | Source and finding | Use in authoring |
+|---|---|---|
+| A1, A5, B8 | NECO's [2026 general information](https://neco.gov.ng/2026%20NCEE%20ADVERT%20AND%20POSTER%20-%20GENERAL%20INFO.pdf) confirms two papers with two parts each. The [2026 timetable](https://neco.gov.ng/2026%20NATIONAL%20COMMON%20ENTRANCE%20EXAMINATION%20TIMETABLE-1.pdf) schedules 130 minutes for Paper I and 80 minutes for Paper II, specifies OMR answer sheets and allows a simple calculator. | Prior-year format reference. The [NECO NCEE page](https://neco.gov.ng/exams/ncee) still points to 2026 materials. Keep task 1.4 open for the 2027 date, mode, counts, timing and calculator rules before loading the authoritative blueprint. |
+| A2, A4 | No public standalone NECO topic syllabus or NECO-hosted sample question set was verified. A third-party scan of [2022 Paper I](https://www.stcharlesedu.com/past-questions/ncee/free-national-common-entrance-examination-past-questions-and-answers.pdf) shows the printed format. | Use the scan to observe question layout and answer-sheet instructions. Reuse permission has not been established. |
+| A3 | NERDC lists Primary 5 and 6 on its [revised curriculum index](https://www.nerdc.gov.ng/content_manager/new_curriculum_home.html). The Primary 6 link returned 404 during verification. The [legacy Primary 4–6 Mathematics curriculum](https://www.nerdc.gov.ng/content_manager/primary/pri4-6_maths.pdf) is accessible. It covers Primary 4 place value on pages 1–3, Primary 5 whole numbers on page 22 and Primary 6 whole numbers on pages 44–46. | Use the legacy edition to prepare draft briefs. Leave the revised 2025 mapping pending until the detailed curriculum can be checked. |
+| A4 | Past-paper and practice archives cover selected years from 2000 onward. The [older compilation](https://www.acewithjosh.com/img/100_%20Guide%20to%20all%20common%20entrance%20examination.pdf) has a federal NCEE section with answers. [LASU-INFO](https://www.lasu-info.com/2018/01/ncee-past-questions-answers-download.html) links to papers and solution samples. [ALLCBTs](https://allcbts.com/past-question/ncee) lists subject papers and recent practice sets. | Reference for formats and skills only. Write original stems, options, explanations and passages. Use licensed material only when written reuse rights are on file. |
+
+### First Mathematics batch for task 2.33
+
+Use the first three topics in the curriculum draft as a pilot for the author and reviewer workflow.
+
+| Topic | Proposed scope for academic review |
+|---|---|
+| `mathematics.s1.t1` · Place value | Identify what a digit is worth, write whole numbers in expanded form and interpret zeros as placeholders. |
+| `mathematics.s1.t2` · Comparing and ordering whole numbers | Use place value to compare two whole numbers and arrange short lists in ascending or descending order. |
+| `mathematics.s1.t3` · Addition and subtraction | Add and subtract whole numbers with regrouping and choose the operation for a short, everyday word problem. |
+
+For each topic, prepare the brief in Section C, one lesson of 3–6 cards and three original items covering easy, standard and hard. The independent reviewer checks the method, answers and distractors before the content team scales the batch. The practice-test blueprint can be approved separately once the 2027 specification is verified.
 
 ## B. Academic decisions (an academic lead answers these)
 

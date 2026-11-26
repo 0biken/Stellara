@@ -6,10 +6,10 @@
 |---|---|---|
 | Client | **Next.js 16 (App Router), TypeScript, React**, installed as a **PWA** | Supported baseline selected 13 Nov 2026; Next.js 15 security support ends before the pilot finishes |
 | Offline | Service worker (Serwist), **IndexedDB via Dexie**, outbound sync queue | Interruptions and data costs are normal |
-| Backend | **Supabase**: Postgres 15+, Row Level Security, Auth, Storage, Edge Functions (Deno), pg_cron | Fast to start, Postgres underneath, RLS gives per-school isolation |
+| Backend | **Supabase**: Postgres 15+, Row Level Security, Auth, Storage, Edge Functions (Deno), pg_cron | Fast to start, Postgres underneath, RLS gives per-family isolation |
 | Rules engine | `packages/rules`: pure TypeScript, no I/O | Same code in Edge Functions, the content studio and tests |
 | Messaging | WhatsApp Business API through a Nigerian-friendly provider, SMS fallback (registered sender ID) | Parents live on WhatsApp |
-| Payments | School licences invoiced (Paystack invoices or bank transfer). Parent add-on later through Paystack | B2B first |
+| Payments | Parent subscriptions through Paystack, built after M2 | Direct to families |
 | Hosting | Web on Vercel (or Cloudflare Pages); Supabase Pro in the nearest available region | See §8 on data location |
 | Observability | Sentry (web and functions; PII scrubbing on), Supabase logs, uptime monitor | |
 | Analytics | First-party `events` table plus Metabase. No third-party trackers on logged-in screens | Privacy for children |
@@ -18,7 +18,7 @@
 
 ```mermaid
 flowchart LR
-  subgraph Device[Phone, tablet or school PC]
+  subgraph Device[Family phone or tablet]
     UI[Next.js PWA]
     SW[Service worker]
     IDB[(IndexedDB: packs, outbox, cache)]
@@ -44,7 +44,7 @@ flowchart LR
 ```
 stellara/
   apps/
-    web/                 Next.js app (child, parent, school, studio, ops route groups)
+    web/                 Next.js app (child, family, studio, ops route groups)
   packages/
     rules/               Mastery, scoring, Stardust, streak, report rules + fixtures
     ui/                  Design-system components and tokens (see 08)
@@ -53,7 +53,7 @@ stellara/
   supabase/
     migrations/          SQL migrations (only way to change schema)
     functions/           Edge Functions (Deno)
-    seed/                Seed data, fixtures, demo school
+    seed/                Seed data, fixtures, demo family
     tests/               pgTAP tests for RLS and constraints
   docs/                  This documentation
 ```
@@ -66,9 +66,8 @@ Foundation status: Node 22 and one root pnpm lockfile include the existing docs 
 
 | Route group | Users | Auth |
 |---|---|---|
-| `/(child)` | Children | Child session token issued to a signed-in parent device or a class device (§6) |
+| `/(child)` | Children | Child session token issued to a signed-in parent device (§6) |
 | `/(family)` | Parents | Supabase Auth (Google or email link) |
-| `/(school)` | School admins | Supabase Auth plus the `school_admin` role |
 | `/(studio)` | Authors and reviewers | Supabase Auth plus a content role; desktop only |
 | `/(ops)` | Stellara staff | Supabase Auth plus the `ops` role, IP allow-list, MFA |
 | `/basic/*` | Opera Mini and very old browsers | Server-rendered lessons and untimed practice only |
@@ -99,7 +98,6 @@ sequenceDiagram
 - **Adults** use Supabase Auth: Google sign-in, or an email magic link as the fallback. Phone OTP (WhatsApp first, then SMS) is a later option. Staff roles require MFA (TOTP). The web app is a static export, so sign-in runs in the browser with the PKCE flow and returns to `/auth/callback/`; until a Supabase project exists, a clearly labelled preview session stands in.
 - **Children have no Supabase Auth user.** A child acts through a **child session**:
   - **Family device:** the parent is signed in. The child picks their profile and enters a 4-picture PIN. The Edge Function `child-session` returns a short-lived JWT (2 h, refreshable on the device for 30 days) with claims `{ role: 'child', child_id, guardian_id }`.
-  - **School device:** the school admin starts "class mode" with a class code. The child picks their name and enters their picture PIN. The JWT has `{ role: 'child', child_id, class_id, school_id, mode: 'class' }` and expires at the end of the school day.
 - PINs are stored as salted hashes (argon2id) in `child_pins`. Five wrong attempts lock the profile for 5 minutes.
 - Shared phones: each child profile has its own IndexedDB partition, keyed by `child_id`.
 
@@ -130,7 +128,6 @@ Full contracts are in [06 API and events](06-api-and-events.md).
 |---|---|
 | `consent-start`, `consent-confirm` | Record parental consent with verification |
 | `child-create`, `child-session` | Create a child profile (after consent) and issue child JWTs |
-| `class-join` | Link a child to a class with a class code |
 | `set-start` | Assemble a practice or review set or topic assessment (no keys) |
 | `responses-submit` | Batch responses → score → update mastery, Stardust and days |
 | `test-start`, `test-resume`, `test-finish` | Practice-test sessions with the server timer |
@@ -138,7 +135,7 @@ Full contracts are in [06 API and events](06-api-and-events.md).
 | `report-weekly` | Scheduled: build parent reports and queue messages |
 | `messages-dispatch` | Send WhatsApp or SMS through the provider, respecting quiet hours |
 | `data-export`, `data-delete` | Fulfil data rights requests |
-| `paystack-webhook` | Payment events (Phase 2 parent add-on; school invoices) |
+| `paystack-webhook` | Parent subscription payment events (after M2) |
 | `content-publish` | Validate and publish items and lessons; render maths |
 
 ## 10. Scheduled jobs (pg_cron)
@@ -163,9 +160,9 @@ Full contracts are in [06 API and events](06-api-and-events.md).
 
 | Metric | Pilot (Jan–Apr 2027) | Year 1 |
 |---|---|---|
-| Schools | 5–10 | 50–100 |
-| Active pupils | 1,000–2,000 | 15,000–30,000 |
-| Responses per day (peak) | ~60,000 | ~1,000,000 |
+| Families | 50–100 | 5,000–10,000 |
+| Active children | 75–150 | 7,500–15,000 |
+| Responses per day (peak) | ~5,000 | ~500,000 |
 
 A Supabase Pro instance with suitable compute handles the pilot comfortably. `attempts` is partitioned by month from day one.
 

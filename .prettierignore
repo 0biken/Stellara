@@ -6,6 +6,7 @@ dist/
 coverage/
 graphify-out/
 .superpowers/
+.claude/worktrees/
 docs/
 brand-kit/
 TASKLIST.md

@@ -89,7 +89,7 @@ Secrets live only in GitHub Actions environments and Supabase function secrets (
 
 ### Rotation checklist
 
-- [ ] Schedule it outside school hours (after 16:00 Lagos).
+- [ ] Schedule it outside peak learning hours (after 21:00 Lagos).
 - [ ] List every secret above that exists today; note which ones don't exist yet.
 - [ ] Rotate each one using the table. Revoke the old value only after a successful deploy and a smoke test.
 - [ ] Smoke test: sign in as a parent on staging, open `/family/`, check that the functions health check is green.

@@ -9,7 +9,7 @@ Strings live in `packages/i18n` (ICU MessageFormat). Email templates are in `doc
 1. **Kind and true.** We never shame, nag or exaggerate. We never hide a problem either: "Not quite" is kind *and* honest.
 2. **Specific beats general.** "9 of the last 10 right" beats "Great progress!". Praise names what went right.
 3. **One idea per line.** Children read one short idea at a time. Parents get the fact first and the detail second.
-4. **Same thing, same name.** A feature keeps one name everywhere: app, WhatsApp, email, school letters. A button called "Start today's set" leads to a screen titled "Today's set".
+4. **Same thing, same name.** A feature keeps one name everywhere: app, WhatsApp and email. A button called "Start today's set" leads to a screen titled "Today's set".
 5. **Sweet in moments, plain in facts.** Garden and sky words belong to celebrations, Auntie Stella, and the names of things. Settings, consent, money, errors and data use plain words.
 6. **Nothing to lose.** Progress only grows. We never say lose, break, miss, fail, behind or last chance.
 
@@ -19,7 +19,6 @@ Strings live in `packages/i18n` (ICU MessageFormat). Email templates are in `doc
 |---|---|---|---|
 | **Auntie Stella** | Children | A patient auntie at the kitchen table | Ages 4–7: ≤ 8 words a line, read aloud. Ages 8–12: ≤ 15 words. One exclamation mark per screen at most. "My dear" no more than once a session |
 | **Stellara** | Parents and guardians | A trusted class teacher writing a note home | Evidence first. Full sentences. No exclamation marks, no emoji in the app. Uses the child's first name, never "your child" when the name is known |
-| **Stellara for schools** | School admins, heads, proprietors | A capable colleague | Short, factual, numbers first. No sweetness beyond the brand names |
 
 ### 2.1 Tone dial
 
@@ -41,7 +40,7 @@ At sign-up we ask **"What should we call you?"** with an example ("Mummy Tolu", 
 
 Use these words exactly. The QA lint ([10 §4](10-qa-and-testing.md#4-content-and-copy-checks)) checks the "Never" column.
 
-| Thing | Children see | Parents and schools see | Never |
+| Thing | Children see | Parents see | Never |
 |---|---|---|---|
 | The child's progress map | **Your sky** | Tolu's sky | Dashboard, skill tree, map |
 | A topic | A star | Topic | Skill node, unit |
@@ -56,7 +55,6 @@ Use these words exactly. The QA lint ([10 §4](10-qa-and-testing.md#4-content-an
 | Parent's weekly summary | n/a | **Weekly report** | Scorecard, results |
 | Short message in the report | n/a | **A note from Auntie Stella** | AI summary, insight |
 | Child sign-in | **Your picture key** | Picture key | PIN (to children), password |
-| School's join code | n/a | School code | Access token, licence key |
 | Light theme | n/a | **Daytime** | Light mode |
 | Dark theme | n/a | **Starlight** | Dark mode, night mode |
 | Follow the device | n/a | **Match my phone** | System, auto |
@@ -74,7 +72,6 @@ The two themes are named for the sky the whole product is built on. Parents choo
 - On compact toggles (the brand kit, the docs) the labels are **Auto · Daytime · Starlight**.
 - The setting is stored on this device only. The confirmation reads: "Saved on this phone. Other phones keep their own setting."
 - Children have no switch. When the device moves to dark, the child's app simply becomes Starlight. Auntie Stella may say once, the first time: "The stars are out. Let's learn by starlight."
-- School admins see the same three options in *Account → How Stellara looks*.
 
 ## 5. Mechanics
 
@@ -122,6 +119,14 @@ The two themes are named for the sky the whole product is built on. Parents choo
 | Practice test, 5 minutes left | "5 minutes left. Take your time with the last few." |
 | Practice test submit | "Hand in your test?" · "You have 3 unanswered questions." · Buttons: "Hand in" / "Keep going" |
 | Practice test result | "You answered 31 of 40 correctly." Then by strand. Never a grade, never "pass" |
+| Checking an answer | Tile and button: "Checking" |
+| Answer saved offline | "Saved. We'll check it when the internet is back." |
+| Set finished with answers still on the phone | "Some answers are saved on this phone. We'll check them when the internet is back." |
+| Star grew (not yet sprouted) | "Your Fractions star is growing." |
+| Lesson not ready | "This star opens soon. Try another star in your sky." |
+| Placement card | Title: "Find your starting stars" · Body: "20 short questions. There are no marks. It helps us choose where you start." · Buttons: "Start" (or "Carry on") / "Maybe later" |
+| Placement header | "Finding your stars · 6 of 20" |
+| Placement results | Title: "Here's where to start" · Body: "These are early signs, not marks. Your sky will show what to practise first." · Labels: "Looks secure so far" · "Check this" · "Not yet measured enough" |
 | Empty sky (new child) | "Your sky is waiting. Start today's set to light your first star." |
 
 ### 6.2 Parents
@@ -133,7 +138,7 @@ The two themes are named for the sky the whole product is built on. Parents choo
 | Code entry | "Enter the 6-digit code we sent to 0803 *** 4421." · Link: "Send a new code" (enabled after 30 seconds: "Send a new code in 0:24") |
 | What should we call you | Label: "What should we call you?" · Help: "For example: Mummy Tolu, Mrs Adeyemi, Funmi." |
 | Consent | Title: "Before Tolu starts" · Body: plain list of what we collect and why (see [07](07-privacy-security-compliance.md)) · Toggles named by purpose · Button: "I agree and give consent" · Under it: "You can change this at any time in Settings." |
-| Add a child | "Child's first name" · "Class" · "School code (from Tolu's school)" · Button: "Add Tolu" → "Tolu has been added." |
+| Add a child | "Child's first name" · "School year" · "Goal" (for example Common Entrance, with its date) · Button: "Add Tolu" → "Tolu has been added." |
 | Picture key set-up | "Choose 4 pictures for Tolu. Tolu will tap them to sign in, so no password to remember." |
 | Weekly report ready (in app) | Card: "Tolu's weekly report is ready" · Detail: "Mon 6 – Sun 12 Jan" · Button: "Read report" |
 | Report headings | "This week" · "Something to celebrate" · "What to practise next" · "Common Entrance coverage" · "A note from Auntie Stella" |
@@ -142,15 +147,6 @@ The two themes are named for the sky the whole product is built on. Parents choo
 | Rest mode | Title: "Rest mode" · "Pause days in a row for up to 14 days, for holidays or illness. You can use it twice a term." · Button: "Start rest mode" → "Rest mode is on until Sun 26 Jan." |
 | Withdraw consent | Title: "Withdraw consent" · Body: "Stellara will stop using Tolu's data straight away and delete it within 30 days. Tolu won't be able to sign in." · Button: "Withdraw consent" → "Consent withdrawn. We've stopped using Tolu's data." |
 | Delete account | Typed confirmation: "Type DELETE to confirm." · Button: "Delete account" |
-
-### 6.3 School admins
-
-| Moment | Copy |
-|---|---|
-| Class home | "Primary 5 Gold · 28 pupils · 21 practised this week" |
-| Pupil not practising | "Kemi hasn't practised for 7 days." (fact, no judgement) |
-| Empty class | "No pupils yet. Share the school code with parents, or add pupils from a list." |
-| Licences | "212 of 250 licences in use." |
 
 ## 7. Errors
 
@@ -161,8 +157,6 @@ The two themes are named for the sky the whole product is built on. Parents choo
 | Wrong OTP | "That code doesn't match. Check the latest message and try again." |
 | Expired OTP | "That code has expired. We've sent you a new one." |
 | Too many attempts | "Too many tries. For your security, wait 30 minutes and try again." |
-| Invalid school code | "We can't find that school code. Check it with Tolu's school; it has 6 letters and numbers." |
-| School out of licences | Parent: "Tolu's school has no places left right now. We've let the school know." · School: "A parent couldn't join: all 250 licences are in use." |
 | Network | "Can't connect right now. Your work is saved on this phone." |
 | Server error | "Something went wrong on our side. Please try again in a few minutes." (one apology, in this case only) |
 | Pack too large for storage | "There isn't enough space on this phone for the offline pack. Free up about 5 MB and try again." |
@@ -183,7 +177,6 @@ Variables ending in `_phrase` are pluralised with ICU before sending ("1 day" / 
 | `wa_star_sprouted` | "Hello {{parent_name}}. Tolu has mastered {{topic}} 🌱 {{evidence}}. See Tolu's sky: {{link}}" (only if the parent chose "Tell me when a topic is mastered") |
 | `wa_monthly` | "Hello {{parent_name}}. Tolu's month on Stellara: {{active_days_phrase}}, {{mastered_phrase}}, working on {{in_progress_phrase}}. Full report: {{link}}" |
 | `wa_rest_day` | Never sent. A resting cloud is not news. |
-| `wa_consent_needed` | "Hello {{parent_name}}. {{school}} has invited Tolu to Stellara. Tolu can start once you give consent: {{link}}" |
 
 ### 8.2 SMS (fallback)
 
@@ -198,7 +191,7 @@ Push is off by default for parents; WhatsApp is the main channel. When on, push 
 
 ## 9. Email
 
-Email is for parents who sign up with an email address, for school admins, and for anything legal (receipts of consent, data exports, deletion). Templates: `docs/emails/` (HTML and plain text, built by `docs/tools/emails.mjs`). **[Open the email gallery](../emails/index.html)** to see every template in Daytime and Starlight.
+Email is for parents who sign up with an email address and for anything legal (receipts of consent, data exports, deletion). Templates: `docs/emails/` (HTML and plain text, built by `docs/tools/emails.mjs`). **[Open the email gallery](../emails/index.html)** to see every template in Daytime and Starlight.
 
 ### 9.1 Rules for every email
 
@@ -214,11 +207,10 @@ Email is for parents who sign up with an email address, for school admins, and f
 
 | File | Sent when | Subject | Preheader | Button |
 |---|---|---|---|---|
-| `sign-in` | Parent or school admin asks for a link | Your Stellara sign-in link | The link works once and expires in 15 minutes. | Sign in to Stellara |
+| `sign-in` | Parent asks for a link | Your Stellara sign-in link | The link works once and expires in 15 minutes. | Sign in to Stellara |
 | `consent-confirmed` | Consent given | You've given consent for Tolu | Here's what you agreed to, and how to change it. | View consent settings |
 | `weekly-report` | Sunday 18:00 | Tolu's week: 5 days, 1 new star (pluralised) | Fractions sprouted. Next: 10 minutes on Ratios. | Read Tolu's report |
 | `star-sprouted` | Topic mastered, if chosen | Tolu has mastered Fractions | 9 of the last 10 right, including a check 2 weeks later. | See Tolu's sky |
-| `school-term-summary` | End of term, to admins | Greenfield School's term on Stellara | 212 pupils practised; 1,348 topics mastered. | Open the school summary |
 | `data-export-ready` | Parent asks for a copy of data | Your copy of Tolu's data is ready | The download link works for 7 days. | Download Tolu's data |
 | `account-deleted` | Deletion finished | Tolu's Stellara account has been deleted | We've removed Tolu's data. Here's what we keep and why. | (no button) |
 | `security-notice` | A personal-data breach that affects the family | Important: a security issue with your account | What happened, what it means for you, and what we're doing. | Read the full notice |

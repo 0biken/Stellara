@@ -60,7 +60,7 @@ main{padding:28px 0 80px;min-width:0}
   <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
   <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
 </svg>
-<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html" aria-current="page">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a><a href="18-ui-foundations.html">18 UI foundations</a></aside><main><h1 id="04--technical-architecture">04 · Technical architecture</h1>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html" aria-current="page">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-family-launch-and-operations.html">13 Family launch and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a><a href="18-ui-foundations.html">18 UI foundations</a></aside><main><h1 id="04--technical-architecture">04 · Technical architecture</h1>
 <h2 id="1-summary">1. Summary</h2>
 <div class="table-wrap"><table><thead><tr>
 <th>Layer</th>
@@ -80,7 +80,7 @@ main{padding:28px 0 80px;min-width:0}
 <tr>
 <td>Backend</td>
 <td><strong>Supabase</strong>: Postgres 15+, Row Level Security, Auth, Storage, Edge Functions (Deno), pg_cron</td>
-<td>Fast to start, Postgres underneath, RLS gives per-school isolation</td>
+<td>Fast to start, Postgres underneath, RLS gives per-family isolation</td>
 </tr>
 <tr>
 <td>Rules engine</td>
@@ -94,8 +94,8 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 <tr>
 <td>Payments</td>
-<td>School licences invoiced (Paystack invoices or bank transfer). Parent add-on later through Paystack</td>
-<td>B2B first</td>
+<td>Parent subscriptions through Paystack, built after M2</td>
+<td>Direct to families</td>
 </tr>
 <tr>
 <td>Hosting</td>
@@ -115,7 +115,7 @@ main{padding:28px 0 80px;min-width:0}
 </tbody></table></div>
 <h2 id="2-system-diagram">2. System diagram</h2>
 <pre class="mermaid">flowchart LR
-  subgraph Device[Phone, tablet or school PC]
+  subgraph Device[Family phone or tablet]
     UI[Next.js PWA]
     SW[Service worker]
     IDB[(IndexedDB: packs, outbox, cache)]
@@ -137,7 +137,7 @@ main{padding:28px 0 80px;min-width:0}
 <h2 id="3-repository-layout">3. Repository layout</h2>
 <pre class="code"><code>stellara/
   apps/
-    web/                 Next.js app (child, parent, school, studio, ops route groups)
+    web/                 Next.js app (child, family, studio, ops route groups)
   packages/
     rules/               Mastery, scoring, Stardust, streak, report rules + fixtures
     ui/                  Design-system components and tokens (see 08)
@@ -146,7 +146,7 @@ main{padding:28px 0 80px;min-width:0}
   supabase/
     migrations/          SQL migrations (only way to change schema)
     functions/           Edge Functions (Deno)
-    seed/                Seed data, fixtures, demo school
+    seed/                Seed data, fixtures, demo family
     tests/               pgTAP tests for RLS and constraints
   docs/                  This documentation</code></pre>
 <p>Tooling: pnpm workspaces and Turborepo, ESLint, Prettier, Vitest, Playwright, pgTAP, Lighthouse CI.</p>
@@ -160,17 +160,12 @@ main{padding:28px 0 80px;min-width:0}
 </thead><tbody><tr>
 <td><code>/(child)</code></td>
 <td>Children</td>
-<td>Child session token issued to a signed-in parent device or a class device (§6)</td>
+<td>Child session token issued to a signed-in parent device (§6)</td>
 </tr>
 <tr>
 <td><code>/(family)</code></td>
 <td>Parents</td>
 <td>Supabase Auth (Google or email link)</td>
-</tr>
-<tr>
-<td><code>/(school)</code></td>
-<td>School admins</td>
-<td>Supabase Auth plus the <code>school_admin</code> role</td>
 </tr>
 <tr>
 <td><code>/(studio)</code></td>
@@ -211,7 +206,6 @@ main{padding:28px 0 80px;min-width:0}
 <li><strong>Adults</strong> use Supabase Auth: Google sign-in, or an email magic link as the fallback. Phone OTP (WhatsApp first, then SMS) is a later option. Staff roles require MFA (TOTP). The web app is a static export, so sign-in runs in the browser with the PKCE flow and returns to <code>/auth/callback/</code>; until a Supabase project exists, a clearly labelled preview session stands in.</li>
 <li><strong>Children have no Supabase Auth user.</strong> A child acts through a <strong>child session</strong>:<ul>
 <li><strong>Family device:</strong> the parent is signed in. The child picks their profile and enters a 4-picture PIN. The Edge Function <code>child-session</code> returns a short-lived JWT (2 h, refreshable on the device for 30 days) with claims <code>{ role: &#39;child&#39;, child_id, guardian_id }</code>.</li>
-<li><strong>School device:</strong> the school admin starts &quot;class mode&quot; with a class code. The child picks their name and enters their picture PIN. The JWT has <code>{ role: &#39;child&#39;, child_id, class_id, school_id, mode: &#39;class&#39; }</code> and expires at the end of the school day.</li>
 </ul>
 </li>
 <li>PINs are stored as salted hashes (argon2id) in <code>child_pins</code>. Five wrong attempts lock the profile for 5 minutes.</li>
@@ -276,10 +270,6 @@ main{padding:28px 0 80px;min-width:0}
 <td>Create a child profile (after consent) and issue child JWTs</td>
 </tr>
 <tr>
-<td><code>class-join</code></td>
-<td>Link a child to a class with a class code</td>
-</tr>
-<tr>
 <td><code>set-start</code></td>
 <td>Assemble a practice or review set or topic assessment (no keys)</td>
 </tr>
@@ -309,7 +299,7 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 <tr>
 <td><code>paystack-webhook</code></td>
-<td>Payment events (Phase 2 parent add-on; school invoices)</td>
+<td>Parent subscription payment events (after M2)</td>
 </tr>
 <tr>
 <td><code>content-publish</code></td>
@@ -360,19 +350,19 @@ main{padding:28px 0 80px;min-width:0}
 <th>Year 1</th>
 </tr>
 </thead><tbody><tr>
-<td>Schools</td>
-<td>5–10</td>
+<td>Families</td>
 <td>50–100</td>
+<td>5,000–10,000</td>
 </tr>
 <tr>
-<td>Active pupils</td>
-<td>1,000–2,000</td>
-<td>15,000–30,000</td>
+<td>Active children</td>
+<td>75–150</td>
+<td>7,500–15,000</td>
 </tr>
 <tr>
 <td>Responses per day (peak)</td>
-<td>~60,000</td>
-<td>~1,000,000</td>
+<td>~5,000</td>
+<td>~500,000</td>
 </tr>
 </tbody></table></div>
 <p>A Supabase Pro instance with suitable compute handles the pilot comfortably. <code>attempts</code> is partitioned by month from day one.</p>

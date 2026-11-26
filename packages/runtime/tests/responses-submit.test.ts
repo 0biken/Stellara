@@ -140,6 +140,12 @@ describe("submitResponses", () => {
       ),
     );
     expect(r2.results.map((r) => r.is_correct)).toEqual([true, true, false, false]);
+    expect(r2.results.map((r) => r.hint_html)).toEqual([
+      undefined,
+      undefined,
+      "Think about a.",
+      "Think about a.",
+    ]);
     expect(r2.mastery_changes).toEqual([
       { topic_id: TOPIC_B, from: "developing", to: "proficient" },
     ]);

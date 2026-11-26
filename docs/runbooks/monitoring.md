@@ -15,7 +15,7 @@ Status key: **Live** = in the code now. **Ready** = configuration written below,
   - Names, answers, emails, phone numbers, PINs and join codes: any key containing words such as `name`, `email`, `phone`, `answer`, `response`, `choice`, `pin`, `code`, `token`, `note`, `child` or `user` becomes `[Filtered]` at any depth. Free text (messages, exception values, breadcrumb messages) has emails, phone-like numbers, UUIDs and quoted strings replaced.
   - Behaviour: no session replay, no tracing, no click or console breadcrumbs (selectors and logs can contain names). Only navigation and fetch breadcrumbs, with scrubbed URLs.
   - Stack frames: no local variables, no source context lines.
-- **Alert routing.** Every event has a `surface` tag (`child`, `family`, `school`, `studio`, `ops`, `basic`, `auth`, `public`) taken from the first path segment. The path itself is not sent.
+- **Alert routing.** Every event has a `surface` tag (`child`, `family`, `studio`, `ops`, `basic`, `auth`, `public`) taken from the first path segment; `/admin` counts as `ops`. The path itself is not sent.
 - **Tests:** `apps/web/tests/monitoring.test.ts` proves the scrubbing and the no-DSN no-op.
 
 ### Turning it on
@@ -71,7 +71,7 @@ When the function exists:
 
 ## 4. Sync backlog (waits for 2B)
 
-**Alert:** p95 of `events.sync_completed.max_delay_s` > **6 h** on a school day (Monday to Friday, 07:00–17:00 Lagos) → Slack, then on-call if it lasts 2 hours. Build it on the first-party `events` table (TASKLIST 2.39) as a scheduled query, like §3.
+**Alert:** p95 of `events.sync_completed.max_delay_s` > **6 h** during learning hours (every day, 07:00–21:00 Lagos; families practise after school and at weekends) → Slack, then on-call if it lasts 2 hours. Build it on the first-party `events` table (TASKLIST 2.39) as a scheduled query, like §3.
 
 ## 5. Messaging (waits for 2F)
 

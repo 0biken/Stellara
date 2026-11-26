@@ -203,8 +203,8 @@ export function scrubEvent(event: ErrorEvent): ErrorEvent {
   return scrubbed;
 }
 
-const CHILD_SEGMENTS = new Set(["child", "sky", "learn", "practice", "test", "pin"]);
-const SURFACES = new Set(["family", "school", "studio", "ops", "basic"]);
+const CHILD_SEGMENTS = new Set(["child", "sky", "learn", "practice", "placement", "test", "pin"]);
+const SURFACES = new Set(["family", "studio", "ops", "basic"]);
 
 /**
  * Names the product surface for alert routing ("new issue in child runtime →
@@ -216,6 +216,7 @@ export function surfaceFromPath(pathname: string, basePath = ""): string {
   const first = local.split("/").find(Boolean) ?? "";
   if (CHILD_SEGMENTS.has(first)) return "child";
   if (SURFACES.has(first)) return first;
+  if (first === "admin") return "ops";
   if (first === "sign-in" || first === "auth") return "auth";
   return "public";
 }

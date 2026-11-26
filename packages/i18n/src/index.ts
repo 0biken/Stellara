@@ -19,6 +19,16 @@ export interface MessageArguments {
   "money.amount": { amount: number };
   "pictureKey.progress": { count: number };
   "family.signedInAs": { name: string };
+  "child.greetingFirst": { name: string };
+  "child.greetingReturning": { name: string };
+  "star.label": { topic: string; state: string };
+  "todaySet.detail": { count: number; minutes: number };
+  "practice.header": { topic: string; current: number; total: number };
+  "practice.inARow": { count: number };
+  "setDone.summary": { correct: number; total: number; stardust: number };
+  "setDone.sprouted": { topic: string };
+  "setDone.grew": { topic: string };
+  "placement.header": { current: number; total: number };
 }
 export type MessageValues<K extends MessageKey> = K extends keyof MessageArguments
   ? MessageArguments[K]

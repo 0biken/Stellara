@@ -60,7 +60,7 @@ main{padding:28px 0 80px;min-width:0}
   <ellipse cx="41.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/><ellipse cx="58.5" cy="58" rx="2.5" ry="3.1" fill="#3A2430"/>
   <path d="M44.5 65 Q50 70 55.5 65" stroke="#3A2430" stroke-width="2.6" fill="none" stroke-linecap="round"/>
 </svg>
-<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html" aria-current="page">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-school-rollout-and-operations.html">13 School rollout and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a><a href="18-ui-foundations.html">18 UI foundations</a></aside><main><h1 id="10--qa-and-testing">10 · QA and testing</h1>
+<span class="wordmark">stellara</span><small>docs</small></div><div class="theme" role="group" aria-label="Appearance"><button type="button" data-set="auto" title="Match my phone">Auto</button><button type="button" data-set="light">Daytime</button><button type="button" data-set="dark">Starlight</button></div></div><a href="00-index.html">00 Stellara for Kids: build documentation</a><a href="01-product-requirements.html">01 Product requirements</a><a href="02-learning-rules.html">02 Learning rules</a><a href="03-curriculum-and-content.html">03 Curriculum and content</a><a href="04-technical-architecture.html">04 Technical architecture</a><a href="05-data-model.html">05 Data model</a><a href="06-api-and-events.html">06 API and events</a><a href="07-privacy-security-compliance.html">07 Privacy, security and compliance</a><a href="08-design-system.html">08 Design system</a><a href="09-frontend-guidelines.html">09 Frontend guidelines</a><a href="10-qa-and-testing.html" aria-current="page">10 QA and testing</a><a href="11-devops-and-environments.html">11 DevOps and environments</a><a href="12-analytics-and-metrics.html">12 Analytics and metrics</a><a href="13-family-launch-and-operations.html">13 Family launch and operations</a><a href="14-roadmap-and-release-plan.html">14 Roadmap and release plan</a><a href="15-glossary.html">15 Glossary</a><a href="16-ux-writing.html">16 UX writing</a><a href="17-foundations-and-human-gates.html">17 Foundations and human gates</a><a href="18-ui-foundations.html">18 UI foundations</a></aside><main><h1 id="10--qa-and-testing">10 · QA and testing</h1>
 <h2 id="1-test-pyramid">1. Test pyramid</h2>
 <div class="table-wrap"><table><thead><tr>
 <th>Layer</th>
@@ -106,21 +106,21 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 <tr>
 <td>Manual</td>
-<td>Device lab, TalkBack, school walkthrough</td>
+<td>Device lab, TalkBack, family walkthrough</td>
 <td>Release checklist (§6)</td>
 <td>Signed off</td>
 </tr>
 </tbody></table></div>
 <h2 id="2-key-journeys-playwright">2. Key journeys (Playwright)</h2>
 <ol>
-<li>School admin creates a class → gets a join code.</li>
-<li>A parent signs up with an OTP → consents → creates a child with the join code.</li>
+<li>A parent signs up (Google or email link) → confirms 18+ → lands on the family home.</li>
+<li>The parent consents → creates a child with a first name, school year, goal and picture key.</li>
 <li>The child sets a PIN → does the placement check → sees the sky.</li>
 <li>The child takes a lesson → practice set → mastery changes appear.</li>
 <li>The child downloads a pack → goes offline → answers 10 items → comes back online → sync → the day is credited.</li>
 <li>The child starts a practice test → loses connection for 3 minutes → keeps answering → reconnects → finishes; the score is correct.</li>
 <li>The child closes the app mid-test twice → resumes → the third resume is refused and the test is finalised.</li>
-<li>School admin starts class mode → the child signs in with the class code and picture PIN → finishes a set.</li>
+<li>Two children on one family phone → each signs in with their own picture key → neither sees the other&#39;s sky.</li>
 <li>Weekly report generation → the parent opens the report → no forbidden phrases (§4).</li>
 <li>The parent requests export and deletion → requests are fulfilled within the SLA in staging.</li>
 </ol>
@@ -185,8 +185,8 @@ main{padding:28px 0 80px;min-width:0}
 <td>Reference device</td>
 </tr>
 <tr>
-<td>Samsung tablet (school use)</td>
-<td>Class mode</td>
+<td>Samsung tablet (shared at home)</td>
+<td>Two child profiles on one device</td>
 </tr>
 <tr>
 <td>Older iPhone (iOS 16)</td>
@@ -194,7 +194,7 @@ main{padding:28px 0 80px;min-width:0}
 </tr>
 <tr>
 <td>Shared Windows PC with Chrome</td>
-<td>School computer labs</td>
+<td>Family computer</td>
 </tr>
 </tbody></table></div>
 <h2 id="6-release-checklist">6. Release checklist</h2>
@@ -208,7 +208,7 @@ main{padding:28px 0 80px;min-width:0}
 <li><input disabled="" type="checkbox"> Manual offline run on the entry device</li>
 <li><input disabled="" type="checkbox"> Forbidden-phrase lint clean</li>
 <li><input disabled="" type="checkbox"> Privacy review if new data or a new processor is involved</li>
-<li><input disabled="" type="checkbox"> Release notes for schools (plain language)</li>
+<li><input disabled="" type="checkbox"> Release notes for parents (plain language)</li>
 </ul>
 </main></div>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>

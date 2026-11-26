@@ -15,9 +15,10 @@ The implemented UI package, controlled component conventions, local font subsets
 ```
 apps/web/
   app/
-    (child)/sky/  (child)/learn/[topic]/  (child)/practice/[set]/  (child)/test/[set]/
-    (family)/…   (school)/…   (studio)/…   (ops)/…   basic/…
+    (child)/sky/  (child)/learn/?topic=  (child)/practice/?topic=  (child)/placement/  (child)/test/?set=
+    (family)/…   (studio)/…   (ops)/…   basic/…
   components/      app-specific composites (screens built from packages/ui)
+  lib/learning/    learning API adapter: Edge Functions when Supabase is set, otherwise a labelled preview
   lib/
     outbox/        queue, retry with backoff, idempotency, clock offset
     packs/         download, verify signature, evict
@@ -25,6 +26,8 @@ apps/web/
     api/           typed Edge Function client
   sw/              service worker (precache shell, runtime cache for media)
 ```
+
+Child routes take their topic or set as a query string, not a path segment. The web app is a static export (GitHub Pages), which cannot pre-render one page per topic or set.
 
 ## 3. Rules for the child runtime
 
@@ -61,7 +64,7 @@ Enforced in CI with Lighthouse CI and a bundle-size check. A failing budget fail
 | Chrome Android 100+, Samsung Internet 20+ | Full |
 | Opera (full mode), Firefox Android | Full |
 | Safari iOS 16+ | Full (PWA install guidance shown) |
-| Desktop Chrome, Edge, Firefox, Safari (last 2) | Full (school, studio) |
+| Desktop Chrome, Edge, Firefox, Safari (last 2) | Full (parents, studio) |
 | Opera Mini (Extreme) | `/basic` mode: server-rendered lessons and untimed practice; no practice tests |
 
 Measure the Opera Mini share in the pilot before investing further.
@@ -104,6 +107,6 @@ Measure the Opera Mini share in the pilot before investing further.
 - ESLint (Next, TypeScript, jsx-a11y), Prettier, import order.
 - Components: props typed, no default exports in packages, stories required.
 - Commit style: Conventional Commits. PRs need one review plus green CI.
-- Feature flags (table `feature_flags`, cached) for anything not ready for every school.
+- Feature flags (table `feature_flags`, cached) for anything not ready for every family.
 
 Historical baseline: the earlier draft specified Next.js 15 App Router. It was superseded by Next.js 16 on 13 November 2026 because Next.js 15 security support ends on 31 January 2027, before the pilot finishes. This note records the migration decision, not a second supported application stack.

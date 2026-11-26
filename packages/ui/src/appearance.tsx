@@ -26,7 +26,7 @@ export interface AppearanceLabels {
 
 type ThemeStorage = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 export interface AppearanceProps {
-  audience: "parent" | "school";
+  audience: "parent";
   labels: AppearanceLabels;
   /** Optional device storage adapter. null means storage is unavailable. */
   storage?: ThemeStorage | null;

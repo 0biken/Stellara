@@ -10,12 +10,7 @@ erDiagram
   CHILDREN ||--o{ GUARDIANSHIPS : "has"
   CHILDREN ||--|{ CONSENTS : "requires"
   PROFILES ||--o{ CONSENTS : "gives"
-  SCHOOLS ||--o{ SCHOOL_MEMBERS : "employs"
-  PROFILES ||--o{ SCHOOL_MEMBERS : "works as"
-  SCHOOLS ||--o{ CLASSES : "has"
-  CLASSES ||--o{ ENROLMENTS : "contains"
-  CHILDREN ||--o{ ENROLMENTS : "joins"
-  SCHOOLS ||--o{ LICENCES : "buys"
+  PROFILES ||--o{ SUBSCRIPTIONS : "pays for"
   CURRICULUM_NODES ||--o{ CURRICULUM_NODES : "parent of"
   CURRICULUM_NODES ||--o{ ITEMS : "tests"
   ITEMS ||--o{ ITEM_VERSIONS : "versions"
@@ -41,17 +36,13 @@ erDiagram
 | `guardianships` | `guardian_id`, `child_id`, `relationship`, `is_primary` | The primary guardian can manage consent |
 | `consents` | `id`, `child_id` (nullable until the child is created), `guardian_id`, `notice_version`, `purposes` (jsonb), `method`, `verified_at`, `withdrawn_at`, `evidence_ref` | Append-only; withdrawal is a new state, not a delete |
 | `child_pins` | `child_id`, `pin_hash`, `failed_count`, `locked_until` | Service role only |
-| `devices` | `id`, `guardian_id` or `class_id`, `label`, `last_seen_at` | For session management and the "sign out everywhere" option |
+| `devices` | `id`, `guardian_id`, `label`, `last_seen_at` | For session management and the "sign out everywhere" option |
 
-### Schools
+### Billing (after M2)
 
 | Table | Key columns | Notes |
 |---|---|---|
-| `schools` | `id`, `name`, `state`, `lga`, `dpa_accepted_at`, `term_dates` (jsonb) | DPA = data processing agreement |
-| `school_members` | `school_id`, `profile_id`, `role` (`school_admin`) | |
-| `classes` | `id`, `school_id`, `name`, `level` (`P1`…`P6`, `KG1`…), `pathway_id`, `join_code`, `join_code_expires_at` | |
-| `enrolments` | `class_id`, `child_id`, `enrolled_at`, `left_at` | |
-| `licences` | `id`, `school_id`, `seats`, `starts_on`, `ends_on`, `invoice_ref` | |
+| `subscriptions` | `id`, `guardian_id`, `plan`, `status` (`trial` · `active` · `lapsed` · `cancelled`), `trial_ends_at`, `current_period_end`, `paystack_ref` | One per family. Schools, classes and licences were removed on 17 Nov 2026 |
 
 ### Curriculum and content
 
@@ -88,22 +79,22 @@ erDiagram
 | `messages` | `id`, `guardian_id`, `channel`, `template`, `payload`, `status`, `sent_at` | Quiet hours 20:00–07:00 |
 | `data_requests` | `id`, `guardian_id`, `child_id`, `kind` (`export` · `delete`), `status`, `due_by` | |
 | `audit_log` | `id`, `actor_id`, `actor_role`, `action`, `entity`, `entity_id`, `diff`, `ip_hash`, `created_at` | Append-only |
-| `events` | `id`, `name`, `actor_kind`, `child_id_hash`, `school_id`, `props`, `created_at` | Analytics; see [12](12-analytics-and-metrics.md) |
+| `events` | `id`, `name`, `actor_kind`, `child_id_hash`, `props`, `created_at` | Analytics; see [12](12-analytics-and-metrics.md) |
 | `outages` | `id`, `starts_at`, `ends_at`, `excuse_day` | Drives streak excuses |
 
 ## 3. Row Level Security
 
-Helper functions (security definer, stable): `auth_role()`, `my_child_ids()`, `my_class_ids()`, `my_school_ids()`, `is_school_admin(school_id)`.
+Helper functions (security definer, stable): `auth_role()`, `my_child_ids()`.
 
-| Table | Child (JWT `role=child`) | Guardian | School admin | Content roles | Ops |
-|---|---|---|---|---|---|
-| `children` | own row | rows in `my_child_ids()` | children in own school (view) | — | via audited function |
-| `consents` | — | own | read status only (view) | — | read |
-| `attempts` | insert via function only; read own | read own children (summary view) | aggregate views | — | read |
-| `mastery_states` | own | own children | school (aggregate) | — | read |
-| `item_versions` (published) | read | read | read | full | read |
-| `item_answers` | **none** | none | none | read/write | none |
-| `audit_log` | none | none | none | none | read |
+| Table | Child (JWT `role=child`) | Guardian | Content roles | Ops |
+|---|---|---|---|---|
+| `children` | own row | rows in `my_child_ids()` | — | via audited function |
+| `consents` | — | own | — | read |
+| `attempts` | insert via function only; read own | read own children (summary view) | — | read |
+| `mastery_states` | own | own children | — | read |
+| `item_versions` (published) | read | read | full | read |
+| `item_answers` | **none** | none | read/write | none |
+| `audit_log` | none | none | none | read |
 
 Every policy has a pgTAP test proving both allow and deny cases ([10](10-qa-and-testing.md)).
 

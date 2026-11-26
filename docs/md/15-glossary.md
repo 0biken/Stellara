@@ -4,7 +4,6 @@
 |---|---|
 | **Auntie Stella** | The tutor's name and voice for children. Appears in hints, notes and the parent report |
 | **Blueprint** | Configuration describing a practice test: papers, item counts, duration, rules |
-| **Class mode** | A session started by the school admin on a school device where children sign in with a class code and picture PIN |
 | **Constellation / sky** | The child's visual map of topics; each topic is a star whose shape shows its mastery level (a mastered star grows a sprout) |
 | **Star sprout** | The Stellara logo: a honey star with a small face and two matcha leaves. Also the mastered state of a topic star |
 | **Daytime** | The light theme: cream and honey |
@@ -14,7 +13,7 @@
 | **Coverage** | Share of a paper's topics at `developing` or above. Never a predicted score |
 | **Creche / KG** | Early-years settings (roughly ages 2–5); Phase 3 |
 | **Days in a row** | Count of consecutive qualifying learning days |
-| **DPA** | Data processing agreement (with schools and vendors) |
+| **DPA** | Data processing agreement (with vendors) |
 | **DPIA** | Data protection impact assessment, required before the pilot |
 | **DPO** | Data Protection Officer |
 | **ECCDE** | Early Childhood Care, Development and Education |

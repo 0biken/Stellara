@@ -106,8 +106,8 @@ const T = [
 
   { id: "consent-confirmed", subject: "You've given consent for {{child_name}}", preheader: "Here's what you agreed to, and how to change it.",
     reason: "You're getting this because you gave consent for {{child_name}} to use Stellara. We send it so you have a record.",
-    body: () => h("You've given consent for {{child_name}}") + p("Thank you, {{parent_name}}. {{child_name}} can now start learning with Stellara. Here is a record of what you agreed to on {{consent_date}}.") + section("What you agreed to") + list(["<strong>Core learning:</strong> {{child_name}}'s answers and progress are used to choose practice and show you how they're doing.", "<strong>Sharing with {{school_name}}:</strong> the school sees {{child_name}}'s progress for their class.", "<strong>Progress messages:</strong> {{progress_messages}}", "<strong>Product research:</strong> {{product_research}}"]) + section("Changing your mind") + p("You can change any of these, download a copy of {{child_name}}'s data, or withdraw consent at any time in Settings. If you withdraw, we stop using {{child_name}}'s data straight away and delete it within 30 days.") + btn("View consent settings", "{{consent_url}}"),
-    text: "Thank you, {{parent_name}}. {{child_name}} can now start learning with Stellara.\n\nWhat you agreed to on {{consent_date}}:\n- Core learning: answers and progress are used to choose practice and show you how {{child_name}} is doing.\n- Sharing with {{school_name}}: the school sees progress for {{child_name}}'s class.\n- Progress messages: {{progress_messages}}\n- Product research: {{product_research}}\n\nYou can change any of these, download a copy of the data, or withdraw consent at any time in Settings. If you withdraw, we stop using the data straight away and delete it within 30 days.\n\nView consent settings: {{consent_url}}" },
+    body: () => h("You've given consent for {{child_name}}") + p("Thank you, {{parent_name}}. {{child_name}} can now start learning with Stellara. Here is a record of what you agreed to on {{consent_date}}.") + section("What you agreed to") + list(["<strong>Core learning:</strong> {{child_name}}'s answers and progress are used to choose practice and show you how they're doing.", "<strong>Progress messages:</strong> {{progress_messages}}", "<strong>Product research:</strong> {{product_research}}"]) + section("Changing your mind") + p("You can change any of these, download a copy of {{child_name}}'s data, or withdraw consent at any time in Settings. If you withdraw, we stop using {{child_name}}'s data straight away and delete it within 30 days.") + btn("View consent settings", "{{consent_url}}"),
+    text: "Thank you, {{parent_name}}. {{child_name}} can now start learning with Stellara.\n\nWhat you agreed to on {{consent_date}}:\n- Core learning: answers and progress are used to choose practice and show you how {{child_name}} is doing.\n- Progress messages: {{progress_messages}}\n- Product research: {{product_research}}\n\nYou can change any of these, download a copy of the data, or withdraw consent at any time in Settings. If you withdraw, we stop using the data straight away and delete it within 30 days.\n\nView consent settings: {{consent_url}}" },
 
   { id: "weekly-report", subject: "{{child_name}}'s week: {{days_phrase}}, {{stars_phrase}}", preheader: "{{celebrate_topic}} sprouted. Next: 10 minutes on {{next_topic}}.", exam: true,
     reason: "You're getting this weekly report because you're {{child_name}}'s parent or guardian on Stellara.",
@@ -118,11 +118,6 @@ const T = [
     reason: "You're getting this because you asked to hear when {{child_name}} masters a topic.",
     body: (av) => h("{{child_name}} has mastered {{topic}}") + p("{{child_name}}'s {{topic}} star has sprouted. {{evidence}}") + p("It's the {{ordinal}} topic {{child_name}} has mastered this term. A word of praise at dinner tonight goes a long way.", true) + note("{{stella_note}}", av) + btn("See {{child_name}}'s sky", "{{sky_url}}"),
     text: "{{child_name}} has mastered {{topic}}. {{evidence}}\n\nIt's the {{ordinal}} topic {{child_name}} has mastered this term.\n\nA note from Auntie Stella: {{stella_note}}\n\nSee {{child_name}}'s sky: {{sky_url}}" },
-
-  { id: "school-term-summary", subject: "{{school_name}}'s term on Stellara", preheader: "{{pupils_active}} pupils practised; {{topics_mastered}} topics mastered.", exam: true,
-    reason: "You're getting this because you're an administrator for {{school_name}} on Stellara.",
-    body: () => h("{{school_name}}'s term") + p("Hello {{admin_name}}. Here's a summary of {{term_name}}.") + stats([["{{pupils_active}}", "pupils practised"], ["{{topics_mastered}}", "topics mastered"], ["{{active_days}}", "average active days"]]) + section("By class") + rows([["Primary 5 Gold", "92% practised · 31 topics each"], ["Primary 5 Blue", "88% practised · 27 topics each"], ["Primary 6 Gold", "95% practised · 40 topics each"]]) + section("Licences") + p("{{licences_used}} of {{licences_total}} licences in use. Renewal date: {{renewal_date}}.") + btn("Open the school summary", "{{summary_url}}"),
-    text: "Hello {{admin_name}}. {{school_name}}'s {{term_name}} on Stellara:\n{{pupils_active}} pupils practised · {{topics_mastered}} topics mastered · {{active_days}} average active days\n\nLicences: {{licences_used}} of {{licences_total}} in use. Renewal date: {{renewal_date}}.\n\nOpen the school summary: {{summary_url}}" },
 
   { id: "data-export-ready", subject: "Your copy of {{child_name}}'s data is ready", preheader: "The download link works for 7 days.",
     reason: "You're getting this because you asked for a copy of {{child_name}}'s data on {{request_date}}.",
@@ -146,13 +141,12 @@ const SAMPLE = {
   cov_maths: "64%", cov_english: "48%", cov_quant: "55%", cov_verbal: "31%",
   stella_note: "Tolu worked hard on Fractions and it shows. Ten minutes on Ratios on Tuesday and Thursday will help the next star grow.",
   topic: "Fractions", evidence: "9 of the last 10 right, including a check 2 weeks later.", ordinal: "7th",
-  consent_date: "Thu 9 Jan", school_name: "Greenfield School", progress_messages: "Yes, a weekly report by email and a monthly summary on WhatsApp.", product_research: "No.",
-  admin_name: "Mr Adewale", term_name: "First term 2026/27", pupils_active: "212", topics_mastered: "1,348", active_days: "41", licences_used: "212", licences_total: "250", renewal_date: "Mon 1 Sep",
+  consent_date: "Thu 9 Jan", progress_messages: "Yes, a weekly report by email and a monthly summary on WhatsApp.", product_research: "No.",
   request_date: "Mon 13 Jan",
   what_happened: "On Tue 14 Jan a staff account was used by someone outside Stellara for 40 minutes before we stopped it.", data_involved: "Tolu's first name, class and topic progress. No phone numbers, passwords or payment details were involved.",
   actions_taken: "We closed the account, reset all staff sign-ins, and reported the issue to the Nigeria Data Protection Commission within 72 hours.", parent_actions: "You don't need to do anything. Be careful of messages that claim to be from Stellara and ask for a code: we never ask for one.",
   dpo_name: "Ada Nwosu", dpo_phone: "0700 000 0000",
-  postal_address: "12 Example Street, Lagos", settings_url: "#", report_url: "#", sky_url: "#", signin_url: "#", consent_url: "#", invite_url: "#", summary_url: "#", download_url: "#", notice_url: "#",
+  postal_address: "12 Example Street, Lagos", settings_url: "#", report_url: "#", sky_url: "#", signin_url: "#", consent_url: "#", invite_url: "#", download_url: "#", notice_url: "#",
 };
 const fill = (s, data) => s.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in data ? data[k] : m));
 

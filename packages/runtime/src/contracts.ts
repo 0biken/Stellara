@@ -38,6 +38,49 @@ export const responsesSubmitRequestSchema = z.object({
 });
 export type ResponsesSubmitRequest = z.input<typeof responsesSubmitRequestSchema>;
 
+export const lessonCheckRequestSchema = z.object({
+  lesson_id: uuidSchema,
+  item_id: uuidSchema,
+  item_version: z.number().int().positive(),
+  response: z.record(z.string(), z.unknown()),
+});
+export type LessonCheckRequest = z.infer<typeof lessonCheckRequestSchema>;
+
+export const placementConfigResponseSchema = z.object({
+  year: z.enum(["P4", "P5", "P6"]),
+  strands: z.array(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+    }),
+  ),
+  total_questions: z.number().int().positive(),
+  available: z.boolean(),
+  completed: z.boolean(),
+  completed_set_id: z.string().optional(),
+  active_set_id: z.string().optional(),
+});
+export type PlacementConfigResponse = z.infer<typeof placementConfigResponseSchema>;
+
+export const ownedSetResponseSchema = z.object({
+  set_id: z.string(),
+  child_id: z.string(),
+  kind: z.enum(["practice", "review", "topic_assessment", "placement"]),
+  finished_at: z.number().nullable(),
+  completed: z.boolean(),
+  total_items: z.number().int().nonnegative(),
+  items: z.array(clientItemSchema),
+  placement: z
+    .array(
+      z.object({
+        strand_id: z.string(),
+        label: z.enum(["looks_secure_so_far", "check_this", "not_yet_measured_enough"]),
+      }),
+    )
+    .nullable(),
+});
+export type OwnedSetResponse = z.infer<typeof ownedSetResponseSchema>;
+
 export const masteryCodes = [
   "not_assessed",
   "foundation",
@@ -53,6 +96,8 @@ export interface SubmitResult {
   readonly is_correct: boolean;
   readonly scored: boolean;
   readonly explanation_html: string;
+  /** Present only when the answer was not correct and the item has a hint ("Not quite" flow). */
+  readonly hint_html?: string;
   readonly stardust: number;
 }
 export interface ResponsesSubmitResponse {
@@ -68,10 +113,28 @@ export interface ResponsesSubmitResponse {
   readonly placement?: readonly { readonly strand_id: string; readonly label: string }[];
 }
 
+export const packBuildRequestSchema = z.object({
+  topic_id: uuidSchema,
+});
+export type PackBuildRequest = z.infer<typeof packBuildRequestSchema>;
+
+export const updateChildProfileSchema = z.object({
+  first_name: z.string().trim().min(1).max(30).optional(),
+  avatar_key: z.string().min(1).max(40).optional(),
+  year: z.enum(["P4", "P5", "P6"]).optional(),
+  exam_date: z.string().nullable().optional(),
+  timezone: z.string().min(1).max(64).optional(),
+});
+export type UpdateChildProfileRequest = z.infer<typeof updateChildProfileSchema>;
+
 export const errorCodes = {
   INVALID_REQUEST: false,
   CHILD_NOT_FOUND: false,
   CHILD_INACTIVE: false,
+  FORBIDDEN: false,
+  CONSENT_REQUIRED: false,
+  DELETION_CONFIRMATION_MISMATCH: false,
+  DATA_REQUEST_NOT_FOUND: false,
   KIND_NOT_SUPPORTED: false,
   NO_ITEMS_AVAILABLE: false,
   NO_REVIEWS_DUE: false,
@@ -80,6 +143,9 @@ export const errorCodes = {
   SET_CLOSED: false,
   ITEM_NOT_IN_SET: false,
   ITEM_VERSION_MISMATCH: false,
+  LESSON_NOT_FOUND: false,
+  LESSON_ITEM_NOT_IN_LESSON: false,
+  PACK_BUDGET_EXCEEDED: false,
 } as const satisfies Record<string, boolean>;
 export type ErrorCode = keyof typeof errorCodes;
 
@@ -87,6 +153,10 @@ const messages: Record<ErrorCode, string> = {
   INVALID_REQUEST: "The request was not in the expected shape.",
   CHILD_NOT_FOUND: "This child profile was not found.",
   CHILD_INACTIVE: "This child profile is not active.",
+  FORBIDDEN: "You do not have permission to manage this child.",
+  CONSENT_REQUIRED: "Verified parent consent is required before continuing.",
+  DELETION_CONFIRMATION_MISMATCH: "Typed deletion confirmation did not match.",
+  DATA_REQUEST_NOT_FOUND: "Data rights request was not found.",
   KIND_NOT_SUPPORTED: "This kind of set starts somewhere else.",
   NO_ITEMS_AVAILABLE: "There are not enough questions ready for this yet.",
   NO_REVIEWS_DUE: "Nothing is due for review today.",
@@ -95,6 +165,9 @@ const messages: Record<ErrorCode, string> = {
   SET_CLOSED: "This set is already finished.",
   ITEM_NOT_IN_SET: "This question is not part of the set.",
   ITEM_VERSION_MISMATCH: "This question has changed since the set started.",
+  LESSON_NOT_FOUND: "This lesson was not found or is not published yet.",
+  LESSON_ITEM_NOT_IN_LESSON: "This check question is not part of the lesson.",
+  PACK_BUDGET_EXCEEDED: "This practice pack exceeds the 120 KB download budget.",
 };
 
 export class RuntimeError extends Error {

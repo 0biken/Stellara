@@ -20,11 +20,12 @@ pnpm check:client
 pnpm dev
 ```
 
-The workspace includes `apps/web`, `packages/{rules,ui,content-schema,i18n}` and
+The workspace includes `apps/web`, `packages/{rules,runtime,ui,content-schema,i18n}` and
 the existing docs tools. Library builds produce ESM and declarations. Rules are
 pure and versioned `v0.1.0`; they receive explicit state, IDs and time. The web
 shell imports catalogue strings and shared tokens, never the rules engine or
-answer-bearing content schemas. Supabase directories reserve later work only.
+answer-bearing content schemas. The [Supabase runbook](supabase/README.md) covers
+local and hosted staging for the synthetic family learning flow.
 
 Rules tests run all 18 required JSON fixtures, seeded properties and branch
 coverage (minimum 90% across every rules source module). The schema package

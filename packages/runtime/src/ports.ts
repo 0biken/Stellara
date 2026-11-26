@@ -1,4 +1,4 @@
-import type { PublishedItem } from "@stellara/content-schema/server";
+import type { DraftLesson, PublishedItem, PublishedLesson } from "@stellara/content-schema/server";
 import type {
   MasteryState,
   ReviewDueTopic,
@@ -25,13 +25,58 @@ export type SetKind = "practice" | "review" | "topic_assessment" | "placement";
 
 export interface ChildRecord {
   readonly id: string;
+  readonly guardian_id?: string;
+  readonly first_name?: string;
+  readonly avatar_key?: string;
+  readonly pin_hash?: string;
   readonly timezone: string;
   /** Calendar day `YYYY-MM-DD`, or null when no exam date is known. */
   readonly exam_date: string | null;
   readonly status: "active" | "paused" | "deletion_pending";
   readonly term_id: string;
+  readonly year?: "P4" | "P5" | "P6";
   /** Last activity instant, used by the retention purge plan. */
   readonly last_active_at: number | null;
+  readonly created_at?: number;
+  readonly consent_withdrawn_at?: number | null;
+  readonly revoked_before?: number | null;
+}
+
+export interface ConsentEvidenceRecord {
+  readonly id: string;
+  readonly guardian_id: string;
+  readonly child_id: string | null;
+  readonly notice_version: string;
+  readonly method: string;
+  readonly given_at: number;
+  readonly withdrawn_at: number | null;
+  readonly retain_until: number;
+  readonly detached?: boolean;
+}
+
+export interface DataRequestServerRecord {
+  readonly id: string;
+  readonly guardian_id: string;
+  readonly child_id: string;
+  readonly kind: "export" | "deletion";
+  readonly status: "pending" | "ready" | "completed" | "failed";
+  readonly idempotency_key: string;
+  readonly requested_at: number;
+  readonly due_at: number;
+  readonly completed_at: number | null;
+  readonly download_url?: string;
+  readonly download_expires_at?: number | null;
+}
+
+export interface JobRunRecord {
+  readonly id: string;
+  readonly job_name: string;
+  readonly status: "running" | "completed" | "failed" | "skipped_locked";
+  readonly started_at: number;
+  readonly finished_at: number | null;
+  readonly processed: number;
+  readonly checkpoint: string | null;
+  readonly error?: string;
 }
 
 /** Identity resolved from a verified child JWT by the adapter. */
@@ -45,6 +90,7 @@ export interface SetItemRef {
   readonly item_id: string;
   readonly version: number;
   readonly topic_id: string;
+  readonly purpose?: "practice" | "lesson_check" | "placement";
 }
 
 export interface PlacementStrandResult {
@@ -147,6 +193,8 @@ export interface RuntimeStore {
   /** Current published version of every item in these topics. Includes keys: server only. */
   publishedItems(topicIds: readonly string[]): Promise<readonly PublishedItem[]>;
   getItem(itemId: string, version: number): Promise<PublishedItem | null>;
+  getPublishedLesson(topicId: string): Promise<PublishedLesson | null>;
+  putLesson(lesson: PublishedLesson | DraftLesson): Promise<void>;
   topicStrands(
     topicIds: readonly string[],
   ): Promise<readonly { topic_id: string; strand_id: string }[]>;
@@ -154,6 +202,7 @@ export interface RuntimeStore {
   insertSet(set: SetRecord): Promise<void>;
   getSet(setId: string): Promise<SetRecord | null>;
   updateSet(set: SetRecord): Promise<void>;
+  listChildSets(childId: string, kind?: SetKind): Promise<readonly SetRecord[]>;
 
   findAttempts(clientIds: readonly string[]): Promise<readonly AttemptRecord[]>;
   setAttempts(setId: string): Promise<readonly AttemptRecord[]>;
@@ -183,6 +232,37 @@ export interface RuntimeStore {
 
   getItemStats(itemId: string): Promise<ItemStats | null>;
   putItemStats(stats: ItemStats): Promise<void>;
+
+  recordKeyExposure(childId: string, itemIds: readonly string[]): Promise<void>;
+  isKeyExposed(childId: string, itemId: string): Promise<boolean>;
+
+  updateChild(child: ChildRecord): Promise<void>;
+  revokeChildAccess(childId: string, at: number): Promise<void>;
+  isChildAccessRevoked(childId: string, issuedAt: number): Promise<boolean>;
+  getActiveConsent(guardianId: string, childId?: string): Promise<ConsentEvidenceRecord | null>;
+  putConsent(consent: ConsentEvidenceRecord): Promise<void>;
+  listConsents(): Promise<readonly ConsentEvidenceRecord[]>;
+  deleteConsent(consentId: string): Promise<void>;
+
+  putDataRequest(request: DataRequestServerRecord): Promise<void>;
+  getDataRequest(requestId: string): Promise<DataRequestServerRecord | null>;
+  listDataRequests(childId?: string): Promise<readonly DataRequestServerRecord[]>;
+  collectChildExportData(childId: string): Promise<Record<string, unknown>>;
+  deleteChildLearningRecords(childId: string): Promise<void>;
+
+  tryAcquireJobLock(jobName: string, holderId: string): Promise<boolean>;
+  releaseJobLock(jobName: string, holderId: string): Promise<void>;
+  putJobRun(run: JobRunRecord): Promise<void>;
+  listJobRuns(jobName?: string): Promise<readonly JobRunRecord[]>;
+}
+
+export interface PackSigningConfig {
+  readonly privateKeyPem: string;
+  readonly publicKeyPem: string;
+}
+
+export interface PackStoragePort {
+  putPack(packId: string, bytes: Uint8Array): Promise<string>;
 }
 
 export interface RuntimeDeps {
@@ -190,4 +270,6 @@ export interface RuntimeDeps {
   readonly clock: Clock;
   readonly ids: Ids;
   readonly rng: Rng;
+  readonly packSigning?: PackSigningConfig;
+  readonly packStorage?: PackStoragePort;
 }

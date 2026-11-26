@@ -1,0 +1,75 @@
+project_id = "stellara"
+[functions.admin]
+verify_jwt = true
+[functions.pack-build]
+verify_jwt = false
+[functions.pack-get]
+verify_jwt = false
+[api]
+enabled = true
+schemas = ["public"]
+[db]
+major_version = 17
+[db.seed]
+enabled = true
+sql_paths = ["./seed/content.generated.sql"]
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/callback/"]
+[auth.rate_limit]
+email_sent = 5
+[edge_runtime]
+enabled = true
+policy = "per_worker"
+
+[functions.consent-start]
+verify_jwt = true
+
+[functions.consent-confirm]
+verify_jwt = true
+
+[functions.child-create]
+verify_jwt = true
+
+[functions.child-session]
+verify_jwt = true
+
+[functions.child-update]
+verify_jwt = true
+
+[functions.child-status]
+verify_jwt = true
+
+[functions.child-pin-reset]
+verify_jwt = true
+
+[functions.consent-withdraw]
+verify_jwt = true
+
+[functions.data-request-export]
+verify_jwt = true
+
+[functions.data-request-delete]
+verify_jwt = true
+
+[functions.set-start]
+verify_jwt = false
+
+[functions.responses-submit]
+verify_jwt = false
+
+[functions.child-sky]
+verify_jwt = false
+
+[functions.lesson-get]
+verify_jwt = false
+
+[functions.lesson-check]
+verify_jwt = false
+
+[functions.placement-config]
+verify_jwt = false
+
+[functions.set-get]
+verify_jwt = false

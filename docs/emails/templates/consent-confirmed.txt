@@ -4,7 +4,6 @@ Thank you, {{parent_name}}. {{child_name}} can now start learning with Stellara.
 
 What you agreed to on {{consent_date}}:
 - Core learning: answers and progress are used to choose practice and show you how {{child_name}} is doing.
-- Sharing with {{school_name}}: the school sees progress for {{child_name}}'s class.
 - Progress messages: {{progress_messages}}
 - Product research: {{product_research}}
 

@@ -135,7 +135,8 @@ describe("surfaceFromPath", () => {
     ["/sky/", "child"],
     ["/Stellara/practice/fractions/", "child"],
     ["/family/", "family"],
-    ["/school/classes/", "school"],
+    ["/placement/", "child"],
+    ["/admin/content/", "ops"],
     ["/sign-in/", "auth"],
     ["/", "public"],
   ])("maps %s to %s", (path, surface) => {

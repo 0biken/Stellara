@@ -68,8 +68,9 @@ jobs:
 
   pgtap:
     name: Database migrations and pgTAP (waits for 2A)
-    # Disabled until Phase 2A adds supabase/migrations and supabase/tests.
-    # Enable by deleting this `if:` once `supabase test db` has tests to run.
+    # Disabled: supabase-check.yml already runs the local migrations, pgTAP and
+    # family integration tests on every relevant change. Enable this (or make the
+    # deploy jobs depend on that workflow) when hosted promotion goes live.
     if: false
     needs: quality
     runs-on: ubuntu-latest

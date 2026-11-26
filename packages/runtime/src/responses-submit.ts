@@ -96,6 +96,15 @@ export async function submitResponses(
       items.set(itemKey(item.id, item.version), item);
     }
 
+    const exposedItemIds = new Set<string>();
+    if (store.isKeyExposed) {
+      for (const item of items.values()) {
+        if (await store.isKeyExposed(child.id, item.id)) {
+          exposedItemIds.add(item.id);
+        }
+      }
+    }
+
     // 2. Credit time, mark, and build rule inputs (chronological).
     const prepared: Prepared[] = [...fresh.values()]
       .map((r): Prepared => {
@@ -107,6 +116,7 @@ export async function submitResponses(
           child.timezone,
         );
         const graded = gradeResponse(answerKey(item), r.response);
+        const keyOnDevice = r.key_on_device || exposedItemIds.has(item.id);
         return {
           request: r,
           set,
@@ -126,8 +136,8 @@ export async function submitResponses(
             quick: isQuick(item),
             hintShown: r.hint_shown,
             explanationShown: false,
-            keyOnDevice: r.key_on_device,
-            offline: r.key_on_device,
+            keyOnDevice,
+            offline: keyOnDevice,
             grownup: ctx.grownup === true,
           },
         };
@@ -181,7 +191,7 @@ export async function submitResponses(
       received_at: now,
       answered_at: p.scoring.answeredAt,
       learning_day: p.scoring.learningDay,
-      key_on_device: p.request.key_on_device,
+      key_on_device: p.scoring.keyOnDevice,
       rules_version,
     }));
     await store.insertAttempts(attempts);
@@ -426,6 +436,7 @@ export async function submitResponses(
         is_correct: stored.is_correct,
         scored: stored.scored,
         explanation_html: item?.explanation ?? "",
+        ...(!stored.is_correct && item?.hint ? { hint_html: item.hint } : {}),
         stardust: existing.has(r.client_id)
           ? (replayStardust.get(r.client_id) ?? 0)
           : (awarded.get(r.client_id) ?? 0),

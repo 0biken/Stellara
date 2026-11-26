@@ -10,18 +10,18 @@
 | Components | Storybook + axe + visual snapshots | Every state in [08 §6](08-design-system.md#6-components) | No axe violations |
 | End to end | Playwright (mobile viewport, throttled) | Key journeys (§2) | All pass on Chromium mobile and WebKit |
 | Performance | Lighthouse CI + bundle check | Budgets in [09 §4](09-frontend-guidelines.md#4-performance-budgets) | Within budget |
-| Manual | Device lab, TalkBack, school walkthrough | Release checklist (§6) | Signed off |
+| Manual | Device lab, TalkBack, family walkthrough | Release checklist (§6) | Signed off |
 
 ## 2. Key journeys (Playwright)
 
-1. School admin creates a class → gets a join code.
-2. A parent signs up with an OTP → consents → creates a child with the join code.
+1. A parent signs up (Google or email link) → confirms 18+ → lands on the family home.
+2. The parent consents → creates a child with a first name, school year, goal and picture key.
 3. The child sets a PIN → does the placement check → sees the sky.
 4. The child takes a lesson → practice set → mastery changes appear.
 5. The child downloads a pack → goes offline → answers 10 items → comes back online → sync → the day is credited.
 6. The child starts a practice test → loses connection for 3 minutes → keeps answering → reconnects → finishes; the score is correct.
 7. The child closes the app mid-test twice → resumes → the third resume is refused and the test is finalised.
-8. School admin starts class mode → the child signs in with the class code and picture PIN → finishes a set.
+8. Two children on one family phone → each signs in with their own picture key → neither sees the other's sky.
 9. Weekly report generation → the parent opens the report → no forbidden phrases (§4).
 10. The parent requests export and deletion → requests are fulfilled within the SLA in staging.
 
@@ -53,9 +53,9 @@
 |---|---|
 | Entry Android Go phone (2 GB RAM) | Worst realistic case |
 | Mid-range Android (₦100k–150k, 3–4 GB) | Reference device |
-| Samsung tablet (school use) | Class mode |
+| Samsung tablet (shared at home) | Two child profiles on one device |
 | Older iPhone (iOS 16) | Parents on iOS |
-| Shared Windows PC with Chrome | School computer labs |
+| Shared Windows PC with Chrome | Family computer |
 
 ## 6. Release checklist
 
@@ -68,4 +68,4 @@
 - [ ] Manual offline run on the entry device
 - [ ] Forbidden-phrase lint clean
 - [ ] Privacy review if new data or a new processor is involved
-- [ ] Release notes for schools (plain language)
+- [ ] Release notes for parents (plain language)

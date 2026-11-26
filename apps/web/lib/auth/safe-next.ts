@@ -1,6 +1,6 @@
 export const defaultNext = "/family/";
 
-const allowedPrefixes = ["/family"];
+const allowedPrefixes = ["/family", "/admin"];
 
 /**
  * Only same-origin portal paths may be used after sign-in, so the `next`

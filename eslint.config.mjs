@@ -12,6 +12,7 @@ export default [
       "**/coverage/**",
       "**/.next/**",
       "apps/web/out/**",
+      "apps/web/public/sw.js",
       "**/.turbo/**",
       "**/storybook-static/**",
       "**/test-results/**",

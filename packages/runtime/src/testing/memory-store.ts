@@ -2,13 +2,17 @@ import type {
   ActivityDay,
   AttemptRecord,
   ChildRecord,
+  ConsentEvidenceRecord,
+  DataRequestServerRecord,
   ItemStats,
+  JobRunRecord,
   LedgerRow,
   MasteryEventRecord,
   RuntimeStore,
+  SetKind,
   SetRecord,
 } from "../ports.js";
-import type { PublishedItem } from "@stellara/content-schema/server";
+import type { DraftLesson, PublishedItem, PublishedLesson } from "@stellara/content-schema/server";
 import type {
   MasteryState,
   ReviewDueTopic,
@@ -20,6 +24,7 @@ import type {
 interface Tables {
   children: Map<string, ChildRecord>;
   items: Map<string, PublishedItem>;
+  lessons: Map<string, PublishedLesson | DraftLesson>;
   strands: Map<string, string>;
   sets: Map<string, SetRecord>;
   attempts: AttemptRecord[];
@@ -33,11 +38,18 @@ interface Tables {
   dueQueue: Map<string, readonly ReviewDueTopic[]>;
   outages: StreakOutage[];
   itemStats: Map<string, ItemStats>;
+  exposedKeys: Set<string>;
+  consents: Map<string, ConsentEvidenceRecord>;
+  revokedAt: Map<string, number>;
+  dataRequests: Map<string, DataRequestServerRecord>;
+  jobLocks: Map<string, string>;
+  jobRuns: JobRunRecord[];
 }
 
 const empty = (): Tables => ({
   children: new Map(),
   items: new Map(),
+  lessons: new Map(),
   strands: new Map(),
   sets: new Map(),
   attempts: [],
@@ -51,6 +63,12 @@ const empty = (): Tables => ({
   dueQueue: new Map(),
   outages: [],
   itemStats: new Map(),
+  exposedKeys: new Set(),
+  consents: new Map(),
+  revokedAt: new Map(),
+  dataRequests: new Map(),
+  jobLocks: new Map(),
+  jobRuns: [],
 });
 
 const key = (...parts: (string | number)[]) => parts.join("|");
@@ -108,6 +126,18 @@ export class MemoryStore implements RuntimeStore {
   async getItem(itemId: string, version: number) {
     return this.t.items.get(key(itemId, version)) ?? null;
   }
+  async getPublishedLesson(topicId: string): Promise<PublishedLesson | null> {
+    for (const lesson of this.t.lessons.values()) {
+      if (lesson.topic_id === topicId && lesson.status === "published") {
+        return lesson as PublishedLesson;
+      }
+    }
+    return null;
+  }
+  async putLesson(lesson: PublishedLesson | DraftLesson): Promise<void> {
+    this.check("putLesson");
+    this.t.lessons.set(lesson.id, lesson);
+  }
   async topicStrands(topicIds: readonly string[]) {
     return topicIds
       .filter((t) => this.t.strands.has(t))
@@ -123,6 +153,10 @@ export class MemoryStore implements RuntimeStore {
   }
   async updateSet(set: SetRecord) {
     this.t.sets.set(set.id, set);
+  }
+  async listChildSets(childId: string, kind?: SetKind) {
+    const sets = [...this.t.sets.values()].filter((s) => s.child_id === childId);
+    return kind ? sets.filter((s) => s.kind === kind) : sets;
   }
 
   async findAttempts(clientIds: readonly string[]) {
@@ -199,5 +233,132 @@ export class MemoryStore implements RuntimeStore {
   }
   async putItemStats(stats: ItemStats) {
     this.t.itemStats.set(stats.item_id, stats);
+  }
+  async recordKeyExposure(childId: string, itemIds: readonly string[]) {
+    for (const itemId of itemIds) {
+      this.t.exposedKeys.add(key(childId, itemId));
+    }
+  }
+  async isKeyExposed(childId: string, itemId: string) {
+    return this.t.exposedKeys.has(key(childId, itemId));
+  }
+  async updateChild(child: ChildRecord) {
+    this.t.children.set(child.id, child);
+  }
+  async revokeChildAccess(childId: string, at: number) {
+    const prev = this.t.revokedAt.get(childId) ?? 0;
+    this.t.revokedAt.set(childId, Math.max(prev, at));
+    const child = this.t.children.get(childId);
+    if (child) {
+      this.t.children.set(childId, { ...child, revoked_before: Math.max(prev, at) });
+    }
+  }
+  async isChildAccessRevoked(childId: string, issuedAt: number) {
+    const revokedBefore = this.t.revokedAt.get(childId);
+    if (revokedBefore !== undefined && issuedAt < revokedBefore) return true;
+    const child = this.t.children.get(childId);
+    if (!child || child.status !== "active" || child.consent_withdrawn_at) return true;
+    return false;
+  }
+  async getActiveConsent(guardianId: string, childId?: string) {
+    const matching = [...this.t.consents.values()]
+      .filter(
+        (c) =>
+          c.guardian_id === guardianId &&
+          c.withdrawn_at === null &&
+          (childId === undefined || c.child_id === childId || c.child_id === null),
+      )
+      .sort((a, b) => b.given_at - a.given_at);
+    return matching[0] ?? null;
+  }
+  async putConsent(consent: ConsentEvidenceRecord) {
+    this.t.consents.set(consent.id, consent);
+  }
+  async listConsents() {
+    return [...this.t.consents.values()];
+  }
+  async deleteConsent(consentId: string) {
+    this.t.consents.delete(consentId);
+  }
+  async putDataRequest(request: DataRequestServerRecord) {
+    this.t.dataRequests.set(request.id, request);
+  }
+  async getDataRequest(requestId: string) {
+    return this.t.dataRequests.get(requestId) ?? null;
+  }
+  async listDataRequests(childId?: string) {
+    const all = [...this.t.dataRequests.values()];
+    return childId ? all.filter((r) => r.child_id === childId) : all;
+  }
+  async collectChildExportData(childId: string) {
+    const child = this.t.children.get(childId);
+    const safeProfile = child
+      ? {
+          id: child.id,
+          first_name: child.first_name,
+          avatar_key: child.avatar_key,
+          year: child.year,
+          exam_date: child.exam_date,
+          timezone: child.timezone,
+          status: child.status,
+          last_active_at: child.last_active_at,
+        }
+      : null;
+    const sets = [...this.t.sets.values()].filter((s) => s.child_id === childId);
+    const attempts = this.t.attempts.filter((a) => a.child_id === childId);
+    const mastery = [...this.t.mastery.entries()]
+      .filter(([k]) => k.startsWith(`${childId}|`))
+      .map(([, v]) => v);
+    const stardust = this.t.stardust.get(childId) ?? null;
+    const ledger = this.t.ledger.filter((l) => l.child_id === childId);
+    return {
+      profile: safeProfile,
+      sets,
+      attempts,
+      mastery,
+      stardust,
+      ledger,
+    };
+  }
+  async deleteChildLearningRecords(childId: string) {
+    // Restricted deletion across shared partitions/tables: deletes only this child's rows.
+    this.t.attempts = this.t.attempts.filter((a) => a.child_id !== childId);
+    for (const k of [...this.t.mastery.keys()]) {
+      if (k.startsWith(`${childId}|`)) this.t.mastery.delete(k);
+    }
+    this.t.masteryEvents = this.t.masteryEvents.filter((e) => e.child_id !== childId);
+    this.t.stardust.delete(childId);
+    this.t.ledger = this.t.ledger.filter((l) => l.child_id !== childId);
+    for (const [id, s] of [...this.t.sets.entries()]) {
+      if (s.child_id === childId) this.t.sets.delete(id);
+    }
+    for (const k of [...this.t.activity.keys()]) {
+      if (k.startsWith(`${childId}|`)) this.t.activity.delete(k);
+    }
+    this.t.streaks.delete(childId);
+    this.t.reviews.delete(childId);
+    this.t.dueQueue.delete(childId);
+    for (const k of [...this.t.exposedKeys.values()]) {
+      if (k.startsWith(`${childId}|`)) this.t.exposedKeys.delete(k);
+    }
+    this.t.children.delete(childId);
+  }
+  async tryAcquireJobLock(jobName: string, holderId: string) {
+    if (this.t.jobLocks.has(jobName)) return false;
+    this.t.jobLocks.set(jobName, holderId);
+    return true;
+  }
+  async releaseJobLock(jobName: string, holderId: string) {
+    if (this.t.jobLocks.get(jobName) === holderId) {
+      this.t.jobLocks.delete(jobName);
+    }
+  }
+  async putJobRun(run: JobRunRecord) {
+    const idx = this.t.jobRuns.findIndex((r) => r.id === run.id);
+    if (idx >= 0) this.t.jobRuns[idx] = run;
+    else this.t.jobRuns.push(run);
+  }
+  async listJobRuns(jobName?: string) {
+    return jobName ? this.t.jobRuns.filter((r) => r.job_name === jobName) : [...this.t.jobRuns];
   }
 }

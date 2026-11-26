@@ -22,6 +22,7 @@
     "report:assets": "node scripts/report-assets.mjs",
     "check:client": "node scripts/check-client.mjs",
     "check:budgets": "node scripts/check-budgets.mjs",
+    "supabase:prepare": "turbo run build --filter=@stellara/runtime && node apps/web/scripts/build-supabase.mjs",
     "docs:generate": "node scripts/generate-tokens.mjs && node scripts/generate-fonts.mjs && pnpm --filter stellara-docs-tools generate",
     "docs:check": "node docs/tools/check-generated.mjs"
   },
