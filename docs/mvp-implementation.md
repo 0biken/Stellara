@@ -16,7 +16,7 @@ practice-test blueprints require academic approval of the official 2027 format.
   verification and budget tests pass. Offline practice UI and sync integration remain.
 - Jobs: Postgres adapter, daily closure, due reviews, stats and retention.
 - Practice tests: authoritative timer, pause evidence, resumes and finalization.
-- Parent reports and monthly summaries: built locally; scheduling, database/HTTP tests and hosted acceptance remain.
+- Parent reports and monthly summaries: built and scheduled on staging; database/HTTP tests and hosted acceptance remain.
 - Data request fulfillment with private exports and restricted deletion worker.
 - Paystack remains disabled and unimplemented for the free beta; commercial
   pricing, billing and paid-conversion targets require later approval and rebaseline.
@@ -134,7 +134,7 @@ open.
 ## Parent reports — 27 November 2026
 
 Weekly reports (FAM-04) and monthly in-app summaries are built end to end in
-code. Nothing has run against a database yet.
+code. At this checkpoint nothing had run against a database.
 
 - Rules: `buildWeeklyReport` was already in `packages/rules`. Added `monthWindow`,
   `buildMonthlySummary` and `longestPractisedRun`. A single practised day is not a
@@ -161,9 +161,10 @@ lint (no errors), formatting, copy lint, Webpack build and client audit passed.
 The screen was checked in the browser in preview mode: weekly and monthly views,
 dark and light, 390px without overflow, no console errors.
 
-Remaining: register the two jobs in pg_cron (pg_net plus a Vault secret), add
-pgTAP and live HTTP tests for the migration and routes, and accept the flow in
-hosted staging. Coverage stays empty until the 2027 blueprints are approved.
+Remaining: add pgTAP and live HTTP tests for the migration and routes, and accept
+the flow in hosted staging. The migration and both job schedules are now on
+staging (see the deployment record below). Coverage stays empty until the 2027
+blueprints are approved.
 
 ## Staff bootstrap
 
@@ -196,37 +197,75 @@ for the isolated stack's synthetic staff bootstrap. Regular CI defaults to
 ## Hosted staging deployment — 27 November 2026
 
 Target: the dedicated staging project `oshcdrfwkekbcgsffxho`
-(`https://oshcdrfwkekbcgsffxho.supabase.co`). Inspected before any change:
-PostgreSQL 17.12, no application tables, migrations or Edge Functions;
-`pgcrypto`, `uuid-ossp`, `pg_stat_statements` and Vault installed, `pg_cron` and
-`pg_net` not yet enabled.
+(`https://oshcdrfwkekbcgsffxho.supabase.co`), West US (Oregon), PostgreSQL 17.12.
+It had no application tables, migrations or Edge Functions before this work.
 
-Status: **not yet deployed**. No database, function or secret change has been made.
-The seed (386 KB) and function bundle (862 KB) are too large to send through the
-MCP tools, so deployment uses the Supabase CLI, which needs an operator sign-in.
+Deployed with `supabase/scripts/deploy-staging.mjs` (Supabase CLI 2.95.0):
 
-Prepared:
+- All seven migrations, with versions matching the filenames and no SQL changes
+  during rollout. `pg_cron` 1.6.4 and `pg_net` 0.20.4 are enabled.
+- The synthetic seed only: 6 topics, 258 items with versions and answers, 6
+  lessons and 30 lesson cards. No Auth users or children exist.
+- All 24 Edge Functions, active, with `verify_jwt` as set in `config.toml` (13 on,
+  11 off).
+- The `stellara_login` database role: it may `SET ROLE stellara_runtime` and does
+  not inherit it. Functions connect through the transaction pooler with TLS.
+- Function secrets: `STELLARA_ENV=staging`, `STELLARA_WEB_ORIGINS`
+  (`http://localhost:3000`), `STELLARA_STAGING_TEST_EMAILS` (one approved test
+  account), `STELLARA_RUNTIME_DB_URL`, the PIN pepper, child JWT secret, job
+  secret and pack key pair. Vault holds `stellara_project_url` and
+  `stellara_job_secret`.
+- Cron jobs, all active: attempt partitions (`15 1 * * *`), expired sessions
+  (`25 1 * * *`), expired packs (`35 1 * * *`), weekly reports (`0 17 * * 0`) and
+  monthly reports (`0 17 1 * *`), all UTC.
 
-- `20261127100000_report_job_schedules.sql`: `pg_net` and the two report jobs,
-  reading the project URL and job secret from Vault. Not yet run on any database.
-- `supabase/scripts/deploy-staging.mjs`: migrations and synthetic seed, the
-  `stellara_login` runtime login, Vault secrets, function secrets and all
-  functions. Not yet run. Secrets are generated into the git-ignored
-  `supabase/.env.staging.local`.
-- `apps/web/.env.local` (git-ignored): staging URL and publishable key. The app
-  reaches live mode, but its calls fail until deployment completes.
+Checks run:
 
-To deploy:
+- Row-level security is on for every table in `public` and `stellara_private`.
+- The weekly job command, run once by hand, returned HTTP 200 with
+  `{"processed":0,"created":0}`. This covers Vault, `pg_net`, the job secret and
+  the runtime database connection. The monthly job has not been run.
+- `child-create`, `set-start` and `report-weekly` answered the local-origin
+  preflight with 204 and refused missing and invalid tokens with 401. `set-start`
+  refused a foreign origin with 403.
+- Not checked: sign-in, consent, any family or practice flow, pack signing, the
+  web app against staging, pgTAP and the live HTTP tests.
+
+Advisors (no errors):
+
+- Security, warning: `pg_net` is registered in the `public` schema. Its functions
+  live in the `net` schema.
+- Security, warning (2): `public.rls_auto_enable()` is `SECURITY DEFINER` and
+  executable by `anon` and `authenticated`. It is not from this repository; it
+  backs the project's `ensure_rls` event trigger.
+- Security, info (13): row-level security with no policy on private tables that
+  the runtime code does not query directly (attempt partitions and unused
+  features). Access stays denied.
+- Performance, info: 26 foreign keys without a covering index and 13 unused
+  indexes, on a database with no family data.
+
+Secrets: the generated values are in the git-ignored
+`supabase/.env.staging.local` on the deploying machine. Back it up privately and
+keep it with the script on any other machine: a run without it generates new
+values, which invalidates stored child PINs, child sessions and signed packs.
+
+Re-running (written to be repeatable with that file present, though a second run
+has not been tried; `--test-emails` replaces the list):
 
 ```powershell
-npx --yes supabase@2.95.0 login
-node supabase/scripts/deploy-staging.mjs --test-emails=<verified test accounts>
+node supabase/scripts/deploy-staging.mjs
 ```
 
 Dashboard work: enable the Google provider (and add Supabase's callback URL in
 Google Cloud); set the site URL to `http://localhost:3000` and allow
 `http://localhost:3000/auth/callback/`; confirm email sign-in and review Auth
-email and rate limits. Pack download in the web app also needs
-`NEXT_PUBLIC_PACK_PUBLIC_KEY`, copied from the public key in the secrets file.
-A hosted web origin, once chosen, goes in `STELLARA_WEB_ORIGINS` and the
-redirect list.
+email and rate limits. `apps/web/.env.local` (git-ignored) holds the staging URL
+and publishable key. Pack download in the web app also needs
+`NEXT_PUBLIC_PACK_PUBLIC_KEY`, copied from the public key in the secrets file. A
+hosted web origin, once chosen, goes in `STELLARA_WEB_ORIGINS` and the redirect
+list.
+
+Before disabling the legacy API keys: guardian routes read
+`SUPABASE_PUBLISHABLE_KEY` and fall back to `SUPABASE_ANON_KEY`. The project
+provides only the latter and the plural `SUPABASE_PUBLISHABLE_KEYS`, so they
+currently depend on the legacy key.
