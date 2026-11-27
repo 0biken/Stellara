@@ -9,4 +9,5 @@ export * from "./lesson.js";
 export * from "./packs.js";
 export * from "./placement.js";
 export * from "./jobs/index.js";
+export * from "./reports.js";
 export { seededRng } from "./util.js";

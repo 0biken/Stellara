@@ -9,6 +9,7 @@ export const CRON_JOBS = [
   { name: "schedule-due-reviews", lagos: "Daily 03:15", cron_utc: "15 2 * * *" },
   { name: "process-data-requests", lagos: "Every 5 minutes", cron_utc: "*/5 * * * *" },
   { name: "report-weekly", lagos: "Sunday 18:00", cron_utc: "0 17 * * 0" },
+  { name: "report-monthly", lagos: "1st of the month 18:00", cron_utc: "0 17 1 * *" },
   { name: "finalise-practice-tests", lagos: "Every 5 minutes", cron_utc: "*/5 * * * *" },
 ] as const;
 export type CronJobName = (typeof CRON_JOBS)[number]["name"];

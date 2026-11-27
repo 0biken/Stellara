@@ -16,7 +16,7 @@ practice-test blueprints require academic approval of the official 2027 format.
   verification and budget tests pass. Offline practice UI and sync integration remain.
 - Jobs: Postgres adapter, daily closure, due reviews, stats and retention.
 - Practice tests: authoritative timer, pause evidence, resumes and finalization.
-- Parent reports and monthly in-app summaries.
+- Parent reports and monthly summaries: built locally; scheduling, database/HTTP tests and hosted acceptance remain.
 - Data request fulfillment with private exports and restricted deletion worker.
 - Paystack remains disabled and unimplemented for the free beta; commercial
   pricing, billing and paid-conversion targets require later approval and rebaseline.
@@ -130,6 +130,40 @@ Incomplete drafts can be saved. The adapter checks answer references and
 rejects stale writes while the editor keeps the current text. Drafts reset on
 reload. Lesson editing and the live review and publication workflow are still
 open.
+
+## Parent reports — 27 November 2026
+
+Weekly reports (FAM-04) and monthly in-app summaries are built end to end in
+code. Nothing has run against a database yet.
+
+- Rules: `buildWeeklyReport` was already in `packages/rules`. Added `monthWindow`,
+  `buildMonthlySummary` and `longestPractisedRun`. A single practised day is not a
+  run, so the celebration falls back to "practised on N days".
+- Runtime: `reportWeekly` and `reportMonthly` in `packages/runtime/src/reports.ts`
+  build one report per active child and period. They skip children added after the
+  period and keep an existing report when re-run. "Assigned" topics are the child's
+  school-year topics, since there are no classes. Active days this term come from
+  the streak state.
+- Database: `20261127090000_parent_reports.sql` adds `kind`, timestamp periods and
+  a unique `(child_id, kind, period_end)`. It also grants the runtime role read
+  access to approved blueprints. Reports are included in data exports and removed by
+  the restricted deletion worker.
+- Functions: `reports-list` and `report-open` serve only the primary guardian of a
+  child with active consent. `report-weekly` and `report-monthly` accept only
+  `STELLARA_JOB_SECRET` (32+ characters) as the bearer token.
+- Web: `/family/reports/?id=<child>` with a link from the family page. Every
+  sentence comes from an `en-NG` template chosen by the rule output. A test checks
+  that no sentence contains predicted scores, readiness, rankings or comparisons.
+  Preview mode shows labelled example reports.
+
+Evidence: 78 rules, 75 runtime and 95 web tests passed; workspace typecheck,
+lint (no errors), formatting, copy lint, Webpack build and client audit passed.
+The screen was checked in the browser in preview mode: weekly and monthly views,
+dark and light, 390px without overflow, no console errors.
+
+Remaining: register the two jobs in pg_cron (pg_net plus a Vault secret), add
+pgTAP and live HTTP tests for the migration and routes, and accept the flow in
+hosted staging. Coverage stays empty until the 2027 blueprints are approved.
 
 ## Staff bootstrap
 

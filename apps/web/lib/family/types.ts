@@ -70,6 +70,60 @@ export interface NewChild {
   pin: PictureId[];
 }
 
+/**
+ * Parent reports (FAM-04) as stored by the runtime report jobs
+ * (packages/runtime/src/reports.ts). Every sentence is chosen from these
+ * rule outputs; the app never writes free text into a report.
+ */
+export type ReportCelebration =
+  | { key: "topic_gain"; values: { topicId: string; gain: number } }
+  | { key: "longest_run"; values: { days: number } }
+  | { key: "practised_days"; values: { days: number } }
+  | { key: "no_practice"; values: { suggestedMinutes: 10 } };
+
+export interface WeeklyReportBody {
+  stats: { mastered: number; inProgress: number; activeDaysTerm: number };
+  celebrate: ReportCelebration;
+  next: string[];
+  coverage: {
+    paper: string;
+    practised: number;
+    total: number;
+    share: number;
+    label: "syllabus_practised_not_predicted_score";
+  }[];
+  note: {
+    key: "celebrate_and_review" | "celebrate_and_practise" | "gentle_ten_minutes";
+    values: { topicIds: string[] };
+  };
+}
+
+export interface MonthlySummaryBody {
+  stats: { activeDays: number; mastered: number; inProgress: number };
+  newlyMastered: string[];
+  workingOn: string[];
+  note: {
+    key: "month_mastered" | "month_practised" | "month_quiet";
+    values: { topicIds: string[] };
+  };
+}
+
+export type ReportPayload =
+  | { kind: "weekly"; report: WeeklyReportBody; topics: Record<string, string> }
+  | { kind: "monthly"; month: string; summary: MonthlySummaryBody; topics: Record<string, string> };
+
+export interface ParentReport {
+  id: string;
+  child_id: string;
+  kind: "weekly" | "monthly";
+  /** UTC epoch milliseconds; the period is `[period_start, period_end)`. */
+  period_start: number;
+  period_end: number;
+  payload: ReportPayload;
+  template_version: string;
+  opened_at: number | null;
+}
+
 export type FamilyErrorCode = "CONSENT_REQUIRED" | "PIN_INVALID" | "NETWORK" | "SERVER";
 
 export class FamilyError extends Error {
@@ -98,6 +152,9 @@ export interface FamilyApi {
   requestDataExport?(childId: string): Promise<DataRequestRecord>;
   requestDataDeletion?(childId: string, confirmationText: string): Promise<DataRequestRecord>;
   listDataRequests?(childId: string): Promise<DataRequestRecord[]>;
+  /** Newest first, weekly reports and monthly summaries together. */
+  listReports?(childId: string): Promise<ParentReport[]>;
+  markReportOpened?(childId: string, reportId: string): Promise<void>;
 }
 
 export type ChildSignInResult =

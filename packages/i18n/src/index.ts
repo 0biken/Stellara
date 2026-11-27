@@ -29,6 +29,25 @@ export interface MessageArguments {
   "setDone.sprouted": { topic: string };
   "setDone.grew": { topic: string };
   "placement.header": { current: number; total: number };
+  "report.pageTitle": { name: string };
+  "report.period": { start: string; end: string };
+  "report.statMastered": { count: number };
+  "report.statInProgress": { count: number };
+  "report.statActiveTerm": { count: number };
+  "report.statActiveMonth": { count: number };
+  "report.celebrateGain": { topic: string; gain: number };
+  "report.celebrateRun": { name: string; days: number };
+  "report.celebrateDays": { name: string; days: number };
+  "report.nextEmpty": { name: string };
+  "report.coverageRow": { paper: string; practised: number; total: number };
+  "report.noteReview": { name: string; topics: string };
+  "report.notePractise": { name: string; topics: string };
+  "report.notePractiseAny": { name: string };
+  "report.monthMastered": { name: string; topics: string };
+  "report.monthPractised": { name: string; days: number; topics: string };
+  "report.monthPractisedAny": { name: string; days: number };
+  "report.empty": { name: string };
+  "report.read": { name: string };
 }
 export type MessageValues<K extends MessageKey> = K extends keyof MessageArguments
   ? MessageArguments[K]

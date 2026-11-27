@@ -10,12 +10,14 @@ import {
   getOwnedSet,
   getPlacementConfig,
   gradeResponse,
+  reportMonthly,
+  reportWeekly,
   RuntimeError,
   setStartRequestSchema,
   startSet,
   submitResponses,
 } from "../../../packages/runtime/src/index.ts";
-import { runtimeStore } from "./store.js";
+import { reportStore, runtimeStore } from "./store.js";
 import { adminAction } from "./admin.js";
 
 const pictures = new Set(["sun", "moon", "leaf", "flower", "fish", "ball", "cup", "house", "kite"]);
@@ -38,7 +40,11 @@ const guardianRoutes = new Set([
   "consent-withdraw",
   "data-request-export",
   "data-request-delete",
+  "reports-list",
+  "report-open",
 ]);
+/** Scheduled routes. pg_cron calls them with `STELLARA_JOB_SECRET` as the bearer token. */
+const jobRoutes = new Set(["report-weekly", "report-monthly"]);
 
 function required(name) {
   const value = Deno.env.get(name);
@@ -375,6 +381,15 @@ async function guardianAction(sql, route, user, body) {
   }
   if (current.status === "deletion_pending" || !(await activeConsent(sql, guardian, child)))
     throw consentRequired();
+  if (route === "reports-list") {
+    // Weekly reports and monthly summaries, newest first (FAM-04).
+    return { reports: await reportStore(sql).listChildReports(child, 12) };
+  }
+  if (route === "report-open") {
+    const opened = await reportStore(sql).markReportOpened(child, uuid(body.report_id));
+    if (!opened) throw new ApiError(404, "REPORT_NOT_FOUND");
+    return { id: opened.id, opened_at: opened.opened_at };
+  }
   if (route === "child-update") {
     const profile = profileInput(body, current);
     const [updated] =
@@ -577,6 +592,27 @@ async function requestBody(request) {
   }
 }
 
+function jobAuthorized(token) {
+  const expected = new TextEncoder().encode(required("STELLARA_JOB_SECRET"));
+  const given = new TextEncoder().encode(token);
+  if (expected.length < 32 || given.length !== expected.length) return false;
+  let diff = 0;
+  for (let i = 0; i < expected.length; i++) diff |= expected[i] ^ given[i];
+  return diff === 0;
+}
+
+async function jobAction(sql, route) {
+  const reports = reportStore(sql);
+  const deps = {
+    store: { ...runtimeStore(sql), listActiveChildren: reports.listActiveChildren },
+    reports,
+    clock: { now: () => Date.now() },
+    ids: { uuid: () => crypto.randomUUID() },
+    rng: { next: () => crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296 },
+  };
+  return route === "report-weekly" ? reportWeekly(deps) : reportMonthly(deps);
+}
+
 export function handler(route) {
   return async (request) => {
     const origin = request.headers.get("origin");
@@ -599,6 +635,14 @@ export function handler(route) {
       const token = /^Bearer ([^\s]+)$/i.exec(request.headers.get("authorization") ?? "")?.[1];
       if (!token) throw unauthorized();
       const body = await requestBody(request);
+      if (jobRoutes.has(route)) {
+        if (!jobAuthorized(token)) throw unauthorized();
+        const result = await database().begin(async (sql) => {
+          await sql`set local role stellara_runtime`;
+          return jobAction(sql, route);
+        });
+        return json(result);
+      }
       const actor = guardianRoutes.has(route)
         ? await guardianUser(token)
         : await childClaims(token);

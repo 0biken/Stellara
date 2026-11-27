@@ -11,7 +11,8 @@ Engineering toward the MVP is approximately **55% complete**; overall readiness 
 - **Partly implemented:** offline storage/outbox and signed packs; staff roles, MFA screens and operations; job/data-rights logic. End-to-end offline practice, database-backed workers and hosted acceptance remain open.
 - **Demo only:** staff content lists, record previews, and draft editors for all six question formats. The live content adapter reports unavailable.
 - **Tooling ready, not yet run:** the staff content pipeline (`packages/content-pipeline`, 62 tests) drafts, checks and records independent review for the first Mathematics pilot. No briefs, drafts or reviewed items exist yet.
-- **Still open:** timed practice-test endpoints/UI, parent reports, monthly in-app summaries, approved launch content, monitoring, device acceptance and human approval gates.
+- **Built, not yet live:** weekly parent reports and monthly in-app summaries (rules, runtime jobs, migration, Edge Functions and the `/family/reports/` screen). Scheduling and hosted acceptance remain.
+- **Still open:** timed practice-test endpoints/UI, approved launch content, monitoring, device acceptance and human approval gates.
 
 **Current release scope:** family-only, free beta for 50–100 families, in-app summaries, Paystack disabled until commercial approval. Schools, classes, teacher dashboards and child AI chat are outside the MVP. External messaging and paid conversion targets must be revisited before a commercial release; they do not block this free beta merely because they appear in the original plan below.
 
@@ -28,7 +29,7 @@ The [implementation record](docs/mvp-implementation.md) separates local evidence
 - [ ] Connect offline practice and outbox replay; pass the interruption matrix (2.19–2.22).
 - [ ] Connect and operate database-backed jobs, private exports and restricted deletion (2.18, 2.28).
 - [ ] Build authoritative practice tests after academic blueprint approval (2.23–2.25).
-- [ ] Deliver parent reports and monthly in-app summaries (2.26–2.27).
+- [ ] Schedule the report jobs and accept parent reports and monthly summaries in hosted staging (2.26–2.27).
 - [ ] Finish monitoring, cross-browser/device/accessibility acceptance and beta gates (2H, Phase 3).
 
 Legend: **[Owner]** · ⟶ depends on · 📄 spec reference. Checked tasks mean the stated implementation scope is complete; unchecked tasks can contain substantial partial work. Milestone criteria below are targets, not declarations that a gate passed.
@@ -122,8 +123,8 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference. Checked tasks mean
 - [ ] **2.25 Build the test UI:** an offset-synced timer, free navigation, and flags. It must handle 100 items on a 3 GB device without a tab reload. **[Eng]**
 
 ### 2F. Parents (11 Jan – 1 Feb)
-- [ ] **2.26 Build `report-weekly`** (Sunday 18:00) and the in-app report (FAM-04), with the Common Entrance coverage disclaimer. **[Eng]** 📄 02 §8
-- [ ] **2.27 Build monthly in-app summaries** with the note from Auntie Stella. WhatsApp/SMS dispatch is deferred from the current free-beta scope and needs a later commercial/provider rebaseline. **[Eng]**
+- [ ] **2.26 Build `report-weekly`** (Sunday 18:00) and the in-app report (FAM-04), with the Common Entrance coverage disclaimer. **[Eng]** 📄 02 §8 Built: `reportWeekly` in `packages/runtime/src/reports.ts` applies the 02 §8 rules; `supabase/migrations/20261127090000_parent_reports.sql` adds one report per child and period; `reports-list`/`report-open` serve the primary guardian; `/family/reports/` renders every sentence from catalogue templates and records `opened_at`. Coverage stays empty until blueprints are approved (2.23). Remaining: pg_cron/pg_net scheduling of `report-weekly` with `STELLARA_JOB_SECRET`, pgTAP/HTTP coverage for the new routes, and hosted acceptance.
+- [ ] **2.27 Build monthly in-app summaries** with the note from Auntie Stella. WhatsApp/SMS dispatch is deferred from the current free-beta scope and needs a later commercial/provider rebaseline. **[Eng]** Built: `reportMonthly` (1st of the month, 18:00 Lagos) and the same screen. Remaining: scheduling and hosted acceptance, as in 2.26.
 - [ ] **2.28 Complete data-rights fulfillment.** Parent settings and `data-request-export`/`data-request-delete` endpoints persist requests with 7/30-day deadlines; deletion requests revoke child sessions, and consent withdrawal is connected (`apps/web/app/(family)/family/settings/`, `supabase/functions/_shared/backend.js`). Core export/deletion logic exists in `packages/runtime/src/data-rights.ts`; private export delivery, restricted database-backed deletion workers and end-to-end acceptance remain. **[Eng]**
 - ~~**2.29 Build the teacher dashboard.**~~ **Dropped (16 Nov 2026):** there is no teacher role.
 - ~~**2.30 Build the school overview.**~~ **Dropped (17 Nov 2026):** Stellara is family-only.

@@ -73,3 +73,16 @@ verify_jwt = false
 
 [functions.set-get]
 verify_jwt = false
+
+[functions.reports-list]
+verify_jwt = true
+
+[functions.report-open]
+verify_jwt = true
+
+# Scheduled: the bearer token is STELLARA_JOB_SECRET, not a Supabase JWT.
+[functions.report-weekly]
+verify_jwt = false
+
+[functions.report-monthly]
+verify_jwt = false

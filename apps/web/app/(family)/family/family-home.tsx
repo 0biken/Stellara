@@ -1,6 +1,6 @@
 "use client";
 
-import { getCatalogue } from "@stellara/i18n";
+import { formatMessage, getCatalogue } from "@stellara/i18n";
 import { Button, ProfilePicker, buttonClasses } from "@stellara/ui";
 import { useEffect, useState } from "react";
 
@@ -97,6 +97,17 @@ export function FamilyHome() {
           href: `${basePath}/family/child/?id=${encodeURIComponent(child.id)}`,
         }))}
       />
+      <div className="flex flex-wrap gap-3">
+        {state.children.map((child) => (
+          <a
+            key={child.id}
+            href={`${basePath}/family/reports/?id=${encodeURIComponent(child.id)}`}
+            className={buttonClasses("quiet", "adult")}
+          >
+            {formatMessage("report.read", { name: child.first_name })}
+          </a>
+        ))}
+      </div>
       <div className="flex flex-wrap gap-3">
         <a href={`${basePath}${addHref}`} className={buttonClasses("quiet", "adult")}>
           {copy["family.addAnother"]}

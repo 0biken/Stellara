@@ -13,6 +13,92 @@ export function reportWindow(at: number): { start: number; end: number } {
   }
   return { start: end - 7 * 86400000, end };
 }
+/**
+ * The most recently completed calendar month in Lagos time (UTC+1, no DST):
+ * inclusive start, exclusive end, and its `YYYY-MM` label.
+ */
+export function monthWindow(at: number): { start: number; end: number; month: string } {
+  if (!Number.isFinite(at)) throw new RangeError("Invalid timestamp");
+  const lagos = new Date(at + 3600000);
+  const year = lagos.getUTCFullYear();
+  const month = lagos.getUTCMonth();
+  const end = Date.UTC(year, month, 1) - 3600000;
+  const start = Date.UTC(year, month - 1, 1) - 3600000;
+  const label = new Date(start + 3600000).toISOString().slice(0, 7);
+  return { start, end, month: label };
+}
+export interface MonthlyTopic {
+  readonly id: string;
+  readonly level: number;
+  /** True when the topic reached `mastered` during the month. */
+  readonly masteredInMonth: boolean;
+}
+export interface MonthlyInput {
+  readonly topics: readonly MonthlyTopic[];
+  /** Learning days in the month with qualifying practice. */
+  readonly activeDays: number;
+}
+export interface MonthlyOutput {
+  readonly stats: {
+    readonly activeDays: number;
+    readonly mastered: number;
+    readonly inProgress: number;
+  };
+  /** Topics that reached `mastered` this month, by id. */
+  readonly newlyMastered: readonly string[];
+  /** Up to 2 in-progress topics, closest to mastered first. */
+  readonly workingOn: readonly string[];
+  readonly note: {
+    readonly key: "month_mastered" | "month_practised" | "month_quiet";
+    readonly values: { readonly topicIds: readonly string[] };
+  };
+}
+/** Monthly in-app summary (01 §11): same vocabulary and limits as the weekly report. */
+export function buildMonthlySummary(input: MonthlyInput): MonthlyOutput {
+  const unique = [...new Map(input.topics.map((t) => [t.id, t])).values()];
+  const newlyMastered = unique
+    .filter((t) => t.masteredInMonth && t.level === 5)
+    .sort(byId)
+    .map((t) => t.id);
+  const progressing = unique.filter((t) => t.level >= 2 && t.level <= 4);
+  const workingOn = [...progressing]
+    .sort((a, b) => b.level - a.level || byId(a, b))
+    .slice(0, 2)
+    .map((t) => t.id);
+  const key =
+    newlyMastered.length > 0
+      ? "month_mastered"
+      : input.activeDays > 0
+        ? "month_practised"
+        : "month_quiet";
+  return {
+    stats: {
+      activeDays: input.activeDays,
+      mastered: unique.filter((t) => t.level === 5).length,
+      inProgress: progressing.length,
+    },
+    newlyMastered,
+    workingOn,
+    note: { key, values: { topicIds: key === "month_mastered" ? newlyMastered : workingOn } },
+  };
+}
+/**
+ * Longest run of consecutive practised learning days inside one report period.
+ * A single day is not a run, so it returns 0 below two days and the weekly
+ * report falls back to "practised on N days".
+ */
+export function longestPractisedRun(days: readonly string[]): number {
+  const sorted = [...new Set(days)].sort();
+  let best = 0;
+  let run = 0;
+  let previous: string | null = null;
+  for (const day of sorted) {
+    run = previous !== null && addCalendarDays(previous, 1) === day ? run + 1 : 1;
+    best = Math.max(best, run);
+    previous = day;
+  }
+  return best >= 2 ? best : 0;
+}
 export interface ReportTopic {
   readonly id: string;
   readonly level: number;
@@ -55,7 +141,8 @@ export interface ReportOutput {
     readonly values: { readonly topicIds: readonly string[] };
   };
 }
-const byId = (a: ReportTopic, b: ReportTopic) => Number(a.id > b.id) - Number(a.id < b.id);
+const byId = (a: { readonly id: string }, b: { readonly id: string }) =>
+  Number(a.id > b.id) - Number(a.id < b.id);
 export function buildWeeklyReport(input: ReportInput): ReportOutput {
   const unique = [...new Map(input.topics.map((t) => [t.id, t])).values()];
   const gain = unique

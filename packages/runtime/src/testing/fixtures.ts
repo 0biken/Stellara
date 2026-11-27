@@ -92,3 +92,9 @@ export function memoryDeps(at: number, seed = 7) {
   const deps: RuntimeDeps = { store, clock, ids: sequentialIds(), rng: seededRng(seed) };
   return { store, clock, deps };
 }
+
+/** `memoryDeps` plus the report port, backed by the same in-memory store. */
+export function memoryReportDeps(at: number, seed = 7) {
+  const made = memoryDeps(at, seed);
+  return { ...made, deps: { ...made.deps, reports: made.store } };
+}

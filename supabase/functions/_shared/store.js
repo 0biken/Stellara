@@ -141,3 +141,89 @@ export function runtimeStore(sql) {
     },
   };
 }
+
+const ms = (value) => (value === null || value === undefined ? null : +new Date(value));
+const reportRow = (row) => ({
+  id: row.id,
+  child_id: row.child_id,
+  kind: row.kind,
+  period_start: ms(row.period_start),
+  period_end: ms(row.period_end),
+  payload: row.payload,
+  template_version: row.template_version,
+  created_at: ms(row.created_at),
+  opened_at: ms(row.opened_at),
+});
+
+/** Postgres `ReportStore` (packages/runtime/src/reports.ts). Runs as `stellara_runtime`. */
+export function reportStore(sql) {
+  return {
+    async listActiveChildren() {
+      return sql`select id,created_by as guardian_id,first_name,timezone,exam_date::text,status,
+        term_id,year,extract(epoch from last_active_at)*1000 as last_active_at,
+        extract(epoch from created_at)*1000 as created_at
+        from public.children where status='active' order by id`;
+    },
+    async listMasteryLevels(child) {
+      return sql`select topic_id,(document->>'level')::int as level
+        from stellara_private.mastery_states where child_id=${child}`;
+    },
+    async masteryEventsBetween(child, start, end) {
+      return (
+        await sql`select document from stellara_private.mastery_events where child_id=${child}
+        and (document->>'created_at')::bigint >= ${start} and (document->>'created_at')::bigint < ${end}`
+      ).map((row) => row.document);
+    },
+    async scoredDaysBetween(child, start, end) {
+      // attempts is partitioned by received_at; answers can arrive up to a week late offline.
+      const from = new Date(start).toISOString();
+      const to = new Date(end + 8 * 86_400_000).toISOString();
+      return (
+        await sql`select distinct document->>'learning_day' as day from stellara_private.attempts
+        where child_id=${child} and received_at >= ${from} and received_at < ${to}
+        and (document->>'scored')::boolean
+        and (document->>'answered_at')::bigint >= ${start} and (document->>'answered_at')::bigint < ${end}
+        order by 1`
+      ).map((row) => row.day);
+    },
+    async pathwayTopicIds(year) {
+      return (
+        await sql`select id from stellara_private.curriculum_nodes
+        where kind='topic' and year=${year} order by sort,id`
+      ).map((row) => row.id);
+    },
+    async topicTitles(ids) {
+      return sql`select id,title from stellara_private.curriculum_nodes
+        where id=any(${sql.array(ids, 2950)}::uuid[])`;
+    },
+    async reportBlueprints() {
+      // Only blueprints an academic lead approved; none until the 2027 format is verified.
+      return (
+        await sql`select document from stellara_private.test_blueprints
+        where document->>'status'='approved' order by document->>'paper'`
+      ).map((row) => ({ paper: row.document.paper, topicIds: row.document.topic_ids ?? [] }));
+    },
+    async findReport(child, kind, periodEnd) {
+      const [row] = await sql`select * from stellara_private.reports where child_id=${child}
+        and kind=${kind} and period_end=${new Date(periodEnd).toISOString()}`;
+      return row ? reportRow(row) : null;
+    },
+    insertReport: (report) => sql`insert into stellara_private.reports
+      (id,child_id,kind,period_start,period_end,payload,template_version,created_at)
+      values (${report.id},${report.child_id},${report.kind},${new Date(report.period_start).toISOString()},
+      ${new Date(report.period_end).toISOString()},${sql.json(report.payload)},${report.template_version},
+      ${new Date(report.created_at).toISOString()})`,
+    async listChildReports(child, limit) {
+      return (
+        await sql`select * from stellara_private.reports where child_id=${child}
+        order by period_end desc,kind limit ${limit}`
+      ).map(reportRow);
+    },
+    async markReportOpened(child, id) {
+      const [row] =
+        await sql`update stellara_private.reports set opened_at=coalesce(opened_at,now())
+        where id=${id} and child_id=${child} returning *`;
+      return row ? reportRow(row) : null;
+    },
+  };
+}

@@ -10,6 +10,7 @@ import {
   type DataRequestRecord,
   type FamilyApi,
   type FamilyErrorCode,
+  type ParentReport,
   type UpdateChildInput,
 } from "./types";
 
@@ -194,6 +195,15 @@ export function createSupabaseFamilyApi(client: SupabaseClient): FamilyApi {
         child_id: childId,
         confirmation: confirmationText,
       });
+    },
+    async listReports(childId: string) {
+      const result = await invoke<{ reports: ParentReport[] }>("reports-list", {
+        child_id: childId,
+      });
+      return result.reports ?? [];
+    },
+    async markReportOpened(childId: string, reportId: string) {
+      await invoke("report-open", { child_id: childId, report_id: reportId });
     },
     async listDataRequests(childId: string) {
       const { data, error } = await client

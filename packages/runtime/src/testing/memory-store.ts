@@ -12,6 +12,7 @@ import type {
   SetKind,
   SetRecord,
 } from "../ports.js";
+import type { ReportBlueprint, ReportKind, ReportRecord, ReportStore } from "../reports.js";
 import type { DraftLesson, PublishedItem, PublishedLesson } from "@stellara/content-schema/server";
 import type {
   MasteryState,
@@ -44,6 +45,10 @@ interface Tables {
   dataRequests: Map<string, DataRequestServerRecord>;
   jobLocks: Map<string, string>;
   jobRuns: JobRunRecord[];
+  reports: ReportRecord[];
+  pathways: Map<string, readonly string[]>;
+  titles: Map<string, string>;
+  blueprints: ReportBlueprint[];
 }
 
 const empty = (): Tables => ({
@@ -69,6 +74,10 @@ const empty = (): Tables => ({
   dataRequests: new Map(),
   jobLocks: new Map(),
   jobRuns: [],
+  reports: [],
+  pathways: new Map(),
+  titles: new Map(),
+  blueprints: [],
 });
 
 const key = (...parts: (string | number)[]) => parts.join("|");
@@ -77,12 +86,12 @@ const key = (...parts: (string | number)[]) => parts.join("|");
  * Reference `RuntimeStore` for tests and local demos. `transaction` snapshots every
  * table and restores it if the callback throws, matching a database rollback.
  */
-export class MemoryStore implements RuntimeStore {
+export class MemoryStore implements RuntimeStore, ReportStore {
   t: Tables = empty();
   /** Test hook: throw inside a write to prove rollback. */
-  failOn: keyof RuntimeStore | null = null;
+  failOn: keyof RuntimeStore | keyof ReportStore | null = null;
 
-  private check(op: keyof RuntimeStore) {
+  private check(op: keyof RuntimeStore | keyof ReportStore) {
     if (this.failOn === op) throw new Error(`Injected failure in ${op}`);
   }
 
@@ -98,6 +107,15 @@ export class MemoryStore implements RuntimeStore {
   }
   addOutage(outage: StreakOutage) {
     this.t.outages.push(outage);
+  }
+  addPathway(year: string, topicIds: readonly string[]) {
+    this.t.pathways.set(year, topicIds);
+  }
+  addTopicTitle(topicId: string, title: string) {
+    this.t.titles.set(topicId, title);
+  }
+  addBlueprint(blueprint: ReportBlueprint) {
+    this.t.blueprints.push(blueprint);
   }
 
   async transaction<T>(fn: () => Promise<T>): Promise<T> {
@@ -318,6 +336,7 @@ export class MemoryStore implements RuntimeStore {
       mastery,
       stardust,
       ledger,
+      reports: this.t.reports.filter((r) => r.child_id === childId),
     };
   }
   async deleteChildLearningRecords(childId: string) {
@@ -338,6 +357,7 @@ export class MemoryStore implements RuntimeStore {
     this.t.streaks.delete(childId);
     this.t.reviews.delete(childId);
     this.t.dueQueue.delete(childId);
+    this.t.reports = this.t.reports.filter((r) => r.child_id !== childId);
     for (const k of [...this.t.exposedKeys.values()]) {
       if (k.startsWith(`${childId}|`)) this.t.exposedKeys.delete(k);
     }
@@ -360,5 +380,58 @@ export class MemoryStore implements RuntimeStore {
   }
   async listJobRuns(jobName?: string) {
     return jobName ? this.t.jobRuns.filter((r) => r.job_name === jobName) : [...this.t.jobRuns];
+  }
+
+  // ReportStore.
+  async listMasteryLevels(childId: string) {
+    const prefix = key(childId, "");
+    return [...this.t.mastery]
+      .filter(([k]) => k.startsWith(prefix))
+      .map(([, state]) => ({ topic_id: state.topicId, level: state.level }));
+  }
+  async masteryEventsBetween(childId: string, start: number, end: number) {
+    return this.t.masteryEvents.filter(
+      (e) => e.child_id === childId && e.created_at >= start && e.created_at < end,
+    );
+  }
+  async scoredDaysBetween(childId: string, start: number, end: number) {
+    const days = this.t.attempts
+      .filter(
+        (a) => a.child_id === childId && a.scored && a.answered_at >= start && a.answered_at < end,
+      )
+      .map((a) => a.learning_day);
+    return [...new Set(days)].sort();
+  }
+  async pathwayTopicIds(year: string) {
+    return this.t.pathways.get(year) ?? [];
+  }
+  async topicTitles(topicIds: readonly string[]) {
+    return topicIds.flatMap((id) => {
+      const title = this.t.titles.get(id);
+      return title === undefined ? [] : [{ id, title }];
+    });
+  }
+  async reportBlueprints() {
+    return [...this.t.blueprints];
+  }
+  async findReport(childId: string, kind: ReportKind, periodEnd: number) {
+    return (
+      this.t.reports.find(
+        (r) => r.child_id === childId && r.kind === kind && r.period_end === periodEnd,
+      ) ?? null
+    );
+  }
+  async insertReport(report: ReportRecord) {
+    this.check("insertReport");
+    if (
+      this.t.reports.some(
+        (r) =>
+          r.child_id === report.child_id &&
+          r.kind === report.kind &&
+          r.period_end === report.period_end,
+      )
+    )
+      throw new Error("reports (child_id, kind, period_end) must be unique");
+    this.t.reports.push(report);
   }
 }
