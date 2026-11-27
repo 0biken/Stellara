@@ -286,3 +286,28 @@ Before disabling the legacy API keys: guardian routes read
 `SUPABASE_PUBLISHABLE_KEY` and fall back to `SUPABASE_ANON_KEY`. The project
 provides only the latter and the plural `SUPABASE_PUBLISHABLE_KEYS`, so they
 currently depend on the legacy key.
+
+## Web hosting — 27 November 2026
+
+The web app is published on Vercel at `https://stellara-umber-two.vercel.app`
+(project `stellara`, scope `karma-groupss-projects`) in **preview mode**: no
+Supabase connection, accounts or emails. The address is public. It is not
+connected to the production backend, whose allowed origins are unchanged.
+
+Redeploy from a machine signed in with `vercel login`:
+
+```powershell
+node apps/web/scripts/deploy-vercel.mjs
+```
+
+The script builds the static export with empty Supabase values, runs the client
+audit, refuses a build containing a Supabase project address, and uploads only
+the built files. It also adds the prefetch file names that a Windows build of
+Next.js gets wrong. Deploys are manual and publish the local working tree; no
+Git integration is configured.
+
+Checked: the main routes return 200 without a Vercel sign-in, signed-out family
+pages lead to the sign-in screen marked as preview, and the corrected prefetch
+files return 200. Sign-in, child flows and other browsers were not exercised on
+the hosted site. The GitHub Pages workflow still runs on pushes to
+`stellara-landing`; the three runs inspected had failed.
