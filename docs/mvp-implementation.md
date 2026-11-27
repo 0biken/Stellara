@@ -16,7 +16,7 @@ practice-test blueprints require academic approval of the official 2027 format.
   verification and budget tests pass. Offline practice UI and sync integration remain.
 - Jobs: Postgres adapter, daily closure, due reviews, stats and retention.
 - Practice tests: authoritative timer, pause evidence, resumes and finalization.
-- Parent reports and monthly summaries: built and scheduled on staging; database/HTTP tests and hosted acceptance remain.
+- Parent reports and monthly summaries: built and scheduled on the hosted project; database/HTTP tests and hosted acceptance remain.
 - Data request fulfillment with private exports and restricted deletion worker.
 - Paystack remains disabled and unimplemented for the free beta; commercial
   pricing, billing and paid-conversion targets require later approval and rebaseline.
@@ -162,9 +162,9 @@ The screen was checked in the browser in preview mode: weekly and monthly views,
 dark and light, 390px without overflow, no console errors.
 
 Remaining: add pgTAP and live HTTP tests for the migration and routes, and accept
-the flow in hosted staging. The migration and both job schedules are now on
-staging (see the deployment record below). Coverage stays empty until the 2027
-blueprints are approved.
+the flow in hosted staging. The migration and both job schedules are now on the
+hosted project (see the deployment record below). Coverage stays empty until the
+2027 blueprints are approved.
 
 ## Staff bootstrap
 
@@ -194,13 +194,26 @@ The local HTTP suite optionally exercises signing and persistence with
 for the isolated stack's synthetic staff bootstrap. Regular CI defaults to
 `supabase_db_stellara`. Pack test keys belong only in ignored local config.
 
-## Hosted staging deployment — 27 November 2026
+## Hosted deployment — 27 November 2026
 
-Target: the dedicated staging project `oshcdrfwkekbcgsffxho`
-(`https://oshcdrfwkekbcgsffxho.supabase.co`), West US (Oregon), PostgreSQL 17.12.
-It had no application tables, migrations or Edge Functions before this work.
+Target: `oshcdrfwkekbcgsffxho` (`https://oshcdrfwkekbcgsffxho.supabase.co`), West
+US (Oregon), PostgreSQL 17.12. It had no application tables, migrations or Edge
+Functions before this work.
 
-Deployed with `supabase/scripts/deploy-staging.mjs` (Supabase CLI 2.95.0):
+**The project is production.** It was deployed in staging mode on the
+understanding that it was separate from production, then switched to
+`STELLARA_ENV=production` the same day at the user's direction. The stored value
+was confirmed by its digest. In this mode `consent-start`, `consent-confirm` and
+`child-create` refuse every account with `VERIFICATION_UNAVAILABLE`, so no family
+can add a child until an approved guardian verification method is built. This
+refusal follows from the code and was not exercised with a signed-in account.
+
+Not ready for families: the content is the synthetic sample set, only
+`http://localhost:3000` is an allowed origin, and no end-to-end journey has run.
+M2 acceptance needs a separate staging project or the local stack. Do not run the
+live test suites or create test families here.
+
+Initial deployment, in staging mode (Supabase CLI 2.95.0):
 
 - All seven migrations, with versions matching the filenames and no SQL changes
   during rollout. `pg_cron` 1.6.4 and `pg_net` 0.20.4 are enabled.
@@ -219,7 +232,7 @@ Deployed with `supabase/scripts/deploy-staging.mjs` (Supabase CLI 2.95.0):
   (`25 1 * * *`), expired packs (`35 1 * * *`), weekly reports (`0 17 * * 0`) and
   monthly reports (`0 17 1 * *`), all UTC.
 
-Checks run:
+Checks run during the initial deployment:
 
 - Row-level security is on for every table in `public` and `stellara_private`.
 - The weekly job command, run once by hand, returned HTTP 200 with
@@ -249,18 +262,22 @@ Secrets: the generated values are in the git-ignored
 keep it with the script on any other machine: a run without it generates new
 values, which invalidates stored child PINs, child sessions and signed packs.
 
-Re-running (written to be repeatable with that file present, though a second run
-has not been tried; `--test-emails` replaces the list):
+Redeploying: `supabase/scripts/deploy-hosted.mjs` now sets production mode, never
+loads the sample seed and sets no test emails. It applies pending migrations
+without asking, so review `supabase db push --dry-run` first. This version has not
+been run. `STELLARA_STAGING_TEST_EMAILS` remains stored on the project and has no
+effect in production mode. The sample content is still loaded.
 
 ```powershell
-node supabase/scripts/deploy-staging.mjs
+node supabase/scripts/deploy-hosted.mjs
 ```
 
 Dashboard work: enable the Google provider (and add Supabase's callback URL in
 Google Cloud); set the site URL to `http://localhost:3000` and allow
 `http://localhost:3000/auth/callback/`; confirm email sign-in and review Auth
-email and rate limits. `apps/web/.env.local` (git-ignored) holds the staging URL
-and publishable key. Pack download in the web app also needs
+email and rate limits. `apps/web/.env.local` (git-ignored) holds this project's
+URL and publishable key, so a local dev server on that machine talks to
+production. Pack download in the web app also needs
 `NEXT_PUBLIC_PACK_PUBLIC_KEY`, copied from the public key in the secrets file. A
 hosted web origin, once chosen, goes in `STELLARA_WEB_ORIGINS` and the redirect
 list.

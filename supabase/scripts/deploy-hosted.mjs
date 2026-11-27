@@ -1,12 +1,13 @@
-// Deploys the backend to the dedicated staging project. Safe to re-run.
+// Deploys the backend to the hosted project in production mode: no sample content,
+// and consent stays closed. Applies any pending migrations without asking.
 // Needs `npx supabase@2.95.0 login` first. Never prints secret values.
-// Usage: node supabase/scripts/deploy-staging.mjs [--test-emails=a@x,b@y]
+// Usage: node supabase/scripts/deploy-hosted.mjs
 import { execSync } from "node:child_process";
 import { createHash, createHmac, generateKeyPairSync, pbkdf2Sync, randomBytes } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-const ref = "oshcdrfwkekbcgsffxho"; // staging only
+const ref = "oshcdrfwkekbcgsffxho"; // the only project this script touches
 process.chdir(fileURLToPath(new URL("../../", import.meta.url)));
 
 // Commands are fixed strings with relative paths.
@@ -15,7 +16,8 @@ const cli = (args, stdio) => run(`npx --yes supabase@2.95.0 ${args}`, stdio);
 
 cli("db query --help"); // fail before changing anything if this command is missing
 
-// 1. Secrets, generated once and kept in a git-ignored file.
+// 1. Secrets, generated once and kept in a git-ignored file. The file keeps its
+// first name: losing track of it would generate new secrets.
 const file = "supabase/.env.staging.local";
 const saved = existsSync(file)
   ? Object.fromEntries(
@@ -32,17 +34,15 @@ const keys = generateKeyPairSync("ed25519", {
 });
 // The backend turns the literal \n sequences back into newlines.
 const oneLine = (pem) => pem.trim().replaceAll("\n", "\\n");
-const emails = process.argv.find((a) => a.startsWith("--test-emails="))?.slice(14);
 const dbPassword = saved.STELLARA_DB_LOGIN_PASSWORD ?? random();
 const env = {
-  STELLARA_ENV: "staging",
+  STELLARA_ENV: "production",
   STELLARA_WEB_ORIGINS: saved.STELLARA_WEB_ORIGINS ?? "http://localhost:3000",
   STELLARA_PIN_PEPPER: saved.STELLARA_PIN_PEPPER ?? random(),
   STELLARA_CHILD_JWT_SECRET: saved.STELLARA_CHILD_JWT_SECRET ?? random(),
   STELLARA_JOB_SECRET: saved.STELLARA_JOB_SECRET ?? random(),
   STELLARA_PACK_PRIVATE_KEY: saved.STELLARA_PACK_PRIVATE_KEY ?? oneLine(keys.privateKey),
   STELLARA_PACK_PUBLIC_KEY: saved.STELLARA_PACK_PUBLIC_KEY ?? oneLine(keys.publicKey),
-  STELLARA_STAGING_TEST_EMAILS: emails ?? saved.STELLARA_STAGING_TEST_EMAILS ?? "",
   STELLARA_DB_LOGIN_PASSWORD: dbPassword, // local record only; also inside the URL below
 };
 const save = (path, entries) =>
@@ -56,10 +56,10 @@ const save = (path, entries) =>
   );
 save(file, env); // saved before any remote change, so a failed run keeps the same values
 
-// 2. Link, migrate and seed.
+// 2. Link and migrate. The sample seed is never loaded here.
 run("pnpm supabase:prepare");
 cli(`link --project-ref ${ref}`);
-cli("db push --linked --include-seed --yes");
+cli("db push --linked --yes");
 
 // 3. Runtime login (only its SCRAM verifier is sent) and Vault secrets.
 const salt = randomBytes(16);
@@ -112,6 +112,4 @@ try {
   writeFileSync(upload, "");
 }
 cli(`functions deploy --project-ref ${ref} --use-api`);
-console.log("Staging deployment finished.");
-if (!env.STELLARA_STAGING_TEST_EMAILS)
-  console.log("Consent stays closed until you re-run with --test-emails=<verified test accounts>.");
+console.log("Production deployment finished. Consent stays closed in this mode.");

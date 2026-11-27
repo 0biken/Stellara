@@ -22,6 +22,10 @@ from the local stack. Run it with `node --test supabase/tests/live-family.test.m
 
 ## Hosted staging rollout
 
+`oshcdrfwkekbcgsffxho` is the **production** project. Do not apply these staging
+steps, the sample seed or test accounts to it. No separate staging project is
+recorded. See the [deployment record](../docs/mvp-implementation.md).
+
 1. Verify that the project reference belongs to dedicated staging. Enable Google OAuth
    and outbound email. Allow the staging web app's exact `/auth/callback/` URL
    and configure the provider callback on the Google side.
