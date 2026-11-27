@@ -13,13 +13,17 @@ Real children's data never leaves production. Staging uses generated data only.
 
 ## 2. CI/CD (GitHub Actions)
 
-The current foundation workflow runs on pushes and pull requests with Node 22,
-one root pnpm lockfile and frozen installation. It enforces formatting, lint and
-import boundaries, strict typechecks, rules/schema/docs tests, rules branch
-coverage of at least 90%, a production web build, a client-bundle canary audit and
-generated-output freshness. There is no deployment, database provisioning or
-production-data access in this workflow. The diagram below describes later gates
-once their respective application and database features exist.
+The pipeline is `.github/workflows/ci.yml`. It runs on pushes, pull requests,
+`v*` tags and a weekly schedule, with Node 22, one root pnpm lockfile and frozen
+installation. Today it enforces lint and import boundaries, copy and font checks,
+strict typechecks, Vitest (rules branch coverage of at least 90%), `pnpm audit`
+at high severity, the Storybook accessibility and visual specs, a static-export
+production build with its hashed CSP, a client-bundle canary audit, bundle
+budgets (`apps/web/budgets.json`) and Lighthouse CI. `docs-check.yml` enforces
+formatting and generated-output freshness. The pgTAP, preview, staging and
+production jobs are in the workflow but disabled until the Phase 2A migrations,
+functions and hosting exist. Nothing in CI reads production data. Monitoring
+and security runbooks are in `docs/runbooks/`.
 
 Weekly-report adapters must use consecutive Sunday 18:00 Lagos snapshot periods,
 matching the pure rules package, rather than a Monday-to-Monday period that has

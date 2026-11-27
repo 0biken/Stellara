@@ -11,9 +11,12 @@ const dark = { ...THEMES.dark, ...SUPPORTING.dark };
 
 // Theme-independent tokens from 08 §4–5.
 const shared = {
-  "font-display": '"Nunito Variable", "Nunito", "Inter Variable", "Inter", system-ui, sans-serif',
+  // "* Fallback" faces are metric-matched to the webfonts (scripts/generate-fonts.mjs).
+  // Nunito's sits after Inter so Inter still supplies the glyphs Nunito lacks (ƙ, Ƙ).
+  "font-display":
+    '"Nunito Variable", "Nunito", "Inter Variable", "Inter", "Nunito Fallback", system-ui, sans-serif',
   "font-body":
-    '"Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+    '"Inter Variable", "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
   "radius-sm": "10px",
   "radius-md": "16px",
   "radius-lg": "24px",

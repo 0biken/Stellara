@@ -17,6 +17,7 @@ storybook-static/
 test-results/
 playwright-report/
 .playwright-cli/
+.lighthouseci/
 apps/web/public/sw.js
 supabase/.temp/
 supabase/.branches/

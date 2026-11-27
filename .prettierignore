@@ -17,3 +17,6 @@ packages/ui/src/fonts.css
 storybook-static/
 test-results/
 playwright-report/
+# Design deliverable kept as authored.
+Stellara screens and landing pages.html
+.lighthouseci/

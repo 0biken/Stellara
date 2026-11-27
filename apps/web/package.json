@@ -6,11 +6,12 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
-    "build": "node scripts/build-sw.mjs && next build --webpack",
+    "build": "node scripts/build-sw.mjs && next build --webpack && node scripts/apply-csp.mjs out && node scripts/fix-segment-prefetch.mjs out",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
   "dependencies": {
+    "@sentry/browser": "11.11.0",
     "@serwist/window": "9.0.15",
     "@stellara/content-schema": "workspace:*",
     "@stellara/i18n": "workspace:*",

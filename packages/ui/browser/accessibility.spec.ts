@@ -153,15 +153,18 @@ test("landing page theme toggle switches to Daytime light mode and sign-in enfor
 
   await page.getByRole("link", { name: "Sign in" }).click();
   await expect(page).toHaveURL("http://localhost:3000/sign-in");
-  await expect(page.getByRole("heading", { level: 1, name: "Sign in with Google" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Sign in" })).toBeVisible();
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze();
   expect(results.violations).toEqual([]);
 
+  // Both routes refuse until the 18+ box is ticked.
   await page.getByRole("button", { name: "Continue with Google" }).click();
   await expect(page.getByRole("alert").filter({ hasText: "over 18 years old" })).toBeVisible();
   await page.getByRole("checkbox").check();
-  await page.getByRole("button", { name: "Continue with Google" }).click();
-  await expect(page.getByRole("status")).toBeVisible();
+  // Preview mode: the email link route reports "sent" without sending anything.
+  await page.getByLabel("Email address").fill("parent@example.com");
+  await page.getByRole("button", { name: "Send me a sign-in link" }).click();
+  await expect(page.getByRole("status").filter({ hasText: "Check your email" })).toBeVisible();
 });
