@@ -192,3 +192,41 @@ The local HTTP suite optionally exercises signing and persistence with
 `STELLARA_TEST_PACKS=1`. Set `STELLARA_TEST_DB_CONTAINER=supabase_db_stellara_proof`
 for the isolated stack's synthetic staff bootstrap. Regular CI defaults to
 `supabase_db_stellara`. Pack test keys belong only in ignored local config.
+
+## Hosted staging deployment — 27 November 2026
+
+Target: the dedicated staging project `oshcdrfwkekbcgsffxho`
+(`https://oshcdrfwkekbcgsffxho.supabase.co`). Inspected before any change:
+PostgreSQL 17.12, no application tables, migrations or Edge Functions;
+`pgcrypto`, `uuid-ossp`, `pg_stat_statements` and Vault installed, `pg_cron` and
+`pg_net` not yet enabled.
+
+Status: **not yet deployed**. No database, function or secret change has been made.
+The seed (386 KB) and function bundle (862 KB) are too large to send through the
+MCP tools, so deployment uses the Supabase CLI, which needs an operator sign-in.
+
+Prepared:
+
+- `20261127100000_report_job_schedules.sql`: `pg_net` and the two report jobs,
+  reading the project URL and job secret from Vault. Not yet run on any database.
+- `supabase/scripts/deploy-staging.mjs`: migrations and synthetic seed, the
+  `stellara_login` runtime login, Vault secrets, function secrets and all
+  functions. Not yet run. Secrets are generated into the git-ignored
+  `supabase/.env.staging.local`.
+- `apps/web/.env.local` (git-ignored): staging URL and publishable key. The app
+  reaches live mode, but its calls fail until deployment completes.
+
+To deploy:
+
+```powershell
+npx --yes supabase@2.95.0 login
+node supabase/scripts/deploy-staging.mjs --test-emails=<verified test accounts>
+```
+
+Dashboard work: enable the Google provider (and add Supabase's callback URL in
+Google Cloud); set the site URL to `http://localhost:3000` and allow
+`http://localhost:3000/auth/callback/`; confirm email sign-in and review Auth
+email and rate limits. Pack download in the web app also needs
+`NEXT_PUBLIC_PACK_PUBLIC_KEY`, copied from the public key in the secrets file.
+A hosted web origin, once chosen, goes in `STELLARA_WEB_ORIGINS` and the
+redirect list.
