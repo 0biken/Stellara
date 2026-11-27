@@ -3,13 +3,14 @@
 Built on 12 Nov 2026 from `docs/md/00–15` and the knowledge graph in `graphify-out/` (407 nodes, 24 communities). Phase 0 refreshed the graph on 13 Nov to 581 nodes and 51 communities; foundation sources and document 17 are included in the subsequent refresh.
 "Done" means **M6, the beta gate is passed** (mid-May 2027). Phase 2 and 3 are listed at the end, but only as gated follow-ons.
 
-## Current status — 24 November 2026
+## Current status — 27 November 2026
 
-Engineering toward the MVP is approximately **50% complete**; overall readiness for a family beta is approximately **25–30%** when content, academic approval and release gates are included. These are scope estimates, not checkbox counts or acceptance results. M6 additionally requires evidence collected during the beta; it has not passed.
+Engineering toward the MVP is approximately **55% complete**; overall readiness for a family beta is approximately **25–30%** when content, academic approval and release gates are included. These are scope estimates, not checkbox counts or acceptance results. M6 additionally requires evidence collected during the beta; it has not passed.
 
 - **Implemented:** monorepo, learning rules, schemas, design system, landing page, family/child screens, local Supabase migrations and runtime adapters, consent/PIN management and response persistence.
 - **Partly implemented:** offline storage/outbox and signed packs; staff roles, MFA screens and operations; job/data-rights logic. End-to-end offline practice, database-backed workers and hosted acceptance remain open.
 - **Demo only:** staff content lists, record previews, and draft editors for all six question formats. The live content adapter reports unavailable.
+- **Tooling ready, not yet run:** the staff content pipeline (`packages/content-pipeline`, 62 tests) drafts, checks and records independent review for the first Mathematics pilot. No briefs, drafts or reviewed items exist yet.
 - **Still open:** timed practice-test endpoints/UI, parent reports, monthly in-app summaries, approved launch content, monitoring, device acceptance and human approval gates.
 
 **Current release scope:** family-only, free beta for 50–100 families, in-app summaries, Paystack disabled until commercial approval. Schools, classes, teacher dashboards and child AI chat are outside the MVP. External messaging and paid conversion targets must be revisited before a commercial release; they do not block this free beta merely because they appear in the original plan below.
@@ -131,7 +132,7 @@ Legend: **[Owner]** · ⟶ depends on · 📄 spec reference. Checked tasks mean
 
 ### 2G. Content studio and authoring (30 Nov – end Feb)
 - [ ] **2.32 Complete the live content studio.** Staff roles, MFA enrollment/challenge screens and live team/support/audit operations exist in `apps/web/{components,lib}/admin/` and `supabase/functions/_shared/admin.js`. Hosted authorization/MFA acceptance remains. The demo supports creating, saving and previewing drafts for all six question formats. Lesson editing, independent review, live persistence, publication and takedown, import, curriculum, versioning integration, KaTeX and readability checks remain (CON-01…03). **[Eng]** 📄 03 §6
-- [ ] **2.33 Author the item pool:** about 1,800–2,200 items, ~74 lessons, 5 placement checks and 3 test forms (from a reserved pool). Prioritise Maths and English in school-year order. AI may draft; a reviewer verifies every answer. **[Content team]** The pilot pipeline (`packages/content-pipeline`, 51 tests) drafts, checks and records review time for the first three Mathematics topics; the pilot itself has not run (needs briefs, an independent reviewer and API approval).
+- [ ] **2.33 Author the item pool:** about 1,800–2,200 items, ~74 lessons, 5 placement checks and 3 test forms (from a reserved pool). Prioritise Maths and English in school-year order. AI may draft; a reviewer verifies every answer. **[Content team]** The pilot pipeline (`packages/content-pipeline`, 62 tests) drafts, checks and records review time for the first three Mathematics topics; the pilot itself has not run (needs briefs, an independent reviewer and API approval).
 - [ ] **2.34 Run 10% second-review sampling,** keeping the error rate below 1%. **[Academic lead]**
 - **M3 target, content alpha (15 Jan):** at least 40% of the pool published and reviewed. M4 needs at least 70%; synthetic/demo content does not satisfy either gate.
 
